@@ -65,6 +65,19 @@ namespace DI
                       "~/Content/assets/global/css/plugins-md.min.css",
                       "~/Content/assets/pages/css/error.min.css"));
 
+            bundles.Add(new StyleBundle("~/Content/cssFirstTimelogin").Include(
+                      "~/Content/assets/global/plugins/font-awesome/css/font-awesome.min.css",
+                      "~/Content/assets/global/plugins/simple-line-icons/simple-line-icons.min.css",
+                      "~/Content/assets/global/plugins/bootstrap/css/bootstrap.min.css",
+                      "~/Content/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css",
+                      "~/Content/assets/global/css/components-md.min.css",
+                      "~/Content/assets/global/css/plugins-md.min.css",
+                      "~/Content/assets/pages/css/lock-2.min.css"));
+
+
+
+
+
             bundles.Add(new ScriptBundle("~/bundles/bootstrapMain").Include(
                       "~/Scripts/jquery-{version}.js",
                       "~/Content/plugins/jquery-1.11.0.min.js",
@@ -109,6 +122,18 @@ namespace DI
                       "~/Content/assets/global/plugins/jquery.blockui.min.js",
                       "~/Content/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js",
                       "~/Content/assets/global/scripts/app.min.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/bootstrapFirstTimelogin").Include(
+                      "~/Scripts/jquery-{version}.js",
+                      "~/Content/assets/global/plugins/jquery.min.js",
+                      "~/Content/assets/global/plugins/bootstrap/js/bootstrap.min.js",
+                      "~/Content/assets/global/plugins/js.cookie.min.js",
+                      "~/Content/assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js",
+                      "~/Content/assets/global/plugins/jquery.blockui.min.js",
+                      "~/Content/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js",
+                      "~/Content/assets/global/plugins/backstretch/jquery.backstretch.min.js",
+                      "~/Content/assets/global/scripts/app.min.js",
+                      "~/Content/assets/pages/scripts/lock-2.min.js"));
 
             BundleTable.EnableOptimizations = false;
 

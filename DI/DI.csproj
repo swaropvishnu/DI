@@ -5936,7 +5936,6 @@
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="DAL\CommonDA.cs" />
-    <Compile Include="Extensions\AutoPopulateSourceCodeAttribute.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\ExampleConfigurator.cs" />
     <Compile Include="Extensions\HtmlHelpersExtensions.cs" />
@@ -5967,6 +5966,8 @@
     <Content Include="Views\Dashboard\Index.cshtml" />
     <Content Include="scripts\jquery-3.2.1.slim.min.map" />
     <Content Include="scripts\jquery-3.2.1.min.map" />
+    <Content Include="Views\Login\FirstTimeLogin.cshtml" />
+    <Content Include="Views\Login\ChangePassword.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

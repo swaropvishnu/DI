@@ -13,10 +13,10 @@ namespace DI.Controllers
     public class DashboardController : Controller
     {
         // GET: Dashboard
-        public ActionResult Index()
+        public ActionResult Index(int? height, int? width)
         {
-            //this.ViewData["height"] = height ?? 0;
-            //this.ViewData["width"] = width ?? 0;
+            this.ViewData["height"] = height ?? 0;
+            this.ViewData["width"] = width ?? 0;
             return View();
         }
     }

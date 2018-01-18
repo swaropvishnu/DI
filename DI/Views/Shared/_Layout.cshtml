@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Jmelosegui.Mvc.GoogleMap
+<!DOCTYPE html>
 
 <html lang="en">
 
@@ -81,7 +82,7 @@
             <div class="page-top">
                 <!-- BEGIN HEADER SEARCH BOX -->
                 <!-- DOC: Apply "search-form-expanded" right after the "search-form" class to have half expanded search box -->
-                <form class="search-form search-form-expanded" action="page_general_search_3.html" method="GET">
+                @*<form class="search-form search-form-expanded" action="page_general_search_3.html" method="GET">
                     <div class="input-group">
                         <input type="text" class="form-control" placeholder="Search..." name="query">
                         <span class="input-group-btn">
@@ -90,7 +91,7 @@
                             </a>
                         </span>
                     </div>
-                </form>
+                </form>*@
                 <!-- END HEADER SEARCH BOX -->
                 <!-- BEGIN TOP NAVIGATION MENU -->
                 <div class="top-menu">
@@ -228,7 +229,7 @@
                                         <li>
                                             <a href="#">
                                                 <span class="photo">
-                                                    <img src="../assets/layouts/layout3/img/avatar2.jpg" class="img-circle" alt="">
+                                                    <img src="~/Content/assets/layouts/layout3/img/avatar2.jpg" class="img-circle" alt="">
                                                 </span>
                                                 <span class="subject">
                                                     <span class="from"> Lisa Wong </span>
@@ -240,7 +241,7 @@
                                         <li>
                                             <a href="#">
                                                 <span class="photo">
-                                                    <img src="../assets/layouts/layout3/img/avatar3.jpg" class="img-circle" alt="">
+                                                    <img src="~/Content/assets/layouts/layout3/img/avatar3.jpg" class="img-circle" alt="">
                                                 </span>
                                                 <span class="subject">
                                                     <span class="from"> Richard Doe </span>
@@ -252,7 +253,7 @@
                                         <li>
                                             <a href="#">
                                                 <span class="photo">
-                                                    <img src="../assets/layouts/layout3/img/avatar1.jpg" class="img-circle" alt="">
+                                                    <img src="~/Content/assets/layouts/layout3/img/avatar1.jpg" class="img-circle" alt="">
                                                 </span>
                                                 <span class="subject">
                                                     <span class="from"> Bob Nilson </span>
@@ -264,7 +265,7 @@
                                         <li>
                                             <a href="#">
                                                 <span class="photo">
-                                                    <img src="../assets/layouts/layout3/img/avatar2.jpg" class="img-circle" alt="">
+                                                    <img src="~/Content/assets/layouts/layout3/img/avatar2.jpg" class="img-circle" alt="">
                                                 </span>
                                                 <span class="subject">
                                                     <span class="from"> Lisa Wong </span>
@@ -276,7 +277,7 @@
                                         <li>
                                             <a href="#">
                                                 <span class="photo">
-                                                    <img src="../assets/layouts/layout3/img/avatar3.jpg" class="img-circle" alt="">
+                                                    <img src="~/Content/assets/layouts/layout3/img/avatar3.jpg" class="img-circle" alt="">
                                                 </span>
                                                 <span class="subject">
                                                     <span class="from"> Richard Doe </span>
@@ -407,7 +408,7 @@
                         <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
                         <li class="dropdown dropdown-user">
                             <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-                                <img alt="" class="img-circle" src="../assets/layouts/layout2/img/avatar3_small.jpg" />
+                                <img alt="" class="img-circle" src="~/Content/assets/layouts/layout2/img/avatar3_small.jpg" />
                                 <span class="username username-hide-on-mobile"> @UserSession.LoggedInUserName.ToString() </span>
                                 <i class="fa fa-angle-down"></i>
                             </a>
@@ -512,376 +513,9 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="nav-item  ">
-                        <a href="javascript:;" class="nav-link nav-toggle">
-                            <i class="icon-diamond"></i>
-                            <span class="title">UI Features</span>
-                            <span class="arrow"></span>
-                        </a>
-                        <ul class="sub-menu">
-                            <li class="nav-item  ">
-                                <a href="ui_colors.html" class="nav-link ">
-                                    <span class="title">Color Library</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="ui_metronic_grid.html" class="nav-link ">
-                                    <span class="title">Metronic Grid System</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="ui_general.html" class="nav-link ">
-                                    <span class="title">General Components</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="ui_buttons.html" class="nav-link ">
-                                    <span class="title">Buttons</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="ui_buttons_spinner.html" class="nav-link ">
-                                    <span class="title">Spinner Buttons</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="ui_confirmations.html" class="nav-link ">
-                                    <span class="title">Popover Confirmations</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="ui_sweetalert.html" class="nav-link ">
-                                    <span class="title">Bootstrap Sweet Alerts</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="ui_icons.html" class="nav-link ">
-                                    <span class="title">Font Icons</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="ui_socicons.html" class="nav-link ">
-                                    <span class="title">Social Icons</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="ui_typography.html" class="nav-link ">
-                                    <span class="title">Typography</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="ui_tabs_accordions_navs.html" class="nav-link ">
-                                    <span class="title">Tabs, Accordions & Navs</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="ui_timeline.html" class="nav-link ">
-                                    <span class="title">Timeline 1</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="ui_timeline_2.html" class="nav-link ">
-                                    <span class="title">Timeline 2</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="ui_timeline_horizontal.html" class="nav-link ">
-                                    <span class="title">Horizontal Timeline</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="ui_tree.html" class="nav-link ">
-                                    <span class="title">Tree View</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="javascript:;" class="nav-link nav-toggle">
-                                    <span class="title">Page Progress Bar</span>
-                                    <span class="arrow"></span>
-                                </a>
-                                <ul class="sub-menu">
-                                    <li class="nav-item ">
-                                        <a href="ui_page_progress_style_1.html" class="nav-link "> Flash </a>
-                                    </li>
-                                    <li class="nav-item ">
-                                        <a href="ui_page_progress_style_2.html" class="nav-link "> Big Counter </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="ui_blockui.html" class="nav-link ">
-                                    <span class="title">Block UI</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="ui_bootstrap_growl.html" class="nav-link ">
-                                    <span class="title">Bootstrap Growl Notifications</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="ui_notific8.html" class="nav-link ">
-                                    <span class="title">Notific8 Notifications</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="ui_toastr.html" class="nav-link ">
-                                    <span class="title">Toastr Notifications</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="ui_bootbox.html" class="nav-link ">
-                                    <span class="title">Bootbox Dialogs</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="ui_alerts_api.html" class="nav-link ">
-                                    <span class="title">Metronic Alerts API</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="ui_session_timeout.html" class="nav-link ">
-                                    <span class="title">Session Timeout</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="ui_idle_timeout.html" class="nav-link ">
-                                    <span class="title">User Idle Timeout</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="ui_modals.html" class="nav-link ">
-                                    <span class="title">Modals</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="ui_extended_modals.html" class="nav-link ">
-                                    <span class="title">Extended Modals</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="ui_tiles.html" class="nav-link ">
-                                    <span class="title">Tiles</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="ui_datepaginator.html" class="nav-link ">
-                                    <span class="title">Date Paginator</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="ui_nestable.html" class="nav-link ">
-                                    <span class="title">Nestable List</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-item  ">
-                        <a href="javascript:;" class="nav-link nav-toggle">
-                            <i class="icon-puzzle"></i>
-                            <span class="title">Components</span>
-                            <span class="arrow"></span>
-                        </a>
-                        <ul class="sub-menu">
-                            <li class="nav-item  ">
-                                <a href="components_date_time_pickers.html" class="nav-link ">
-                                    <span class="title">Date & Time Pickers</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="components_color_pickers.html" class="nav-link ">
-                                    <span class="title">Color Pickers</span>
-                                    <span class="badge badge-danger">2</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="components_select2.html" class="nav-link ">
-                                    <span class="title">Select2 Dropdowns</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="components_bootstrap_multiselect_dropdown.html" class="nav-link ">
-                                    <span class="title">Bootstrap Multiselect Dropdowns</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="components_bootstrap_select.html" class="nav-link ">
-                                    <span class="title">Bootstrap Select</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="components_multi_select.html" class="nav-link ">
-                                    <span class="title">Bootstrap Multiple Select</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="components_bootstrap_select_splitter.html" class="nav-link ">
-                                    <span class="title">Select Splitter</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="components_clipboard.html" class="nav-link ">
-                                    <span class="title">Clipboard</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="components_typeahead.html" class="nav-link ">
-                                    <span class="title">Typeahead Autocomplete</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="components_bootstrap_tagsinput.html" class="nav-link ">
-                                    <span class="title">Bootstrap Tagsinput</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="components_bootstrap_switch.html" class="nav-link ">
-                                    <span class="title">Bootstrap Switch</span>
-                                    <span class="badge badge-success">6</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="components_bootstrap_maxlength.html" class="nav-link ">
-                                    <span class="title">Bootstrap Maxlength</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="components_bootstrap_fileinput.html" class="nav-link ">
-                                    <span class="title">Bootstrap File Input</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="components_bootstrap_touchspin.html" class="nav-link ">
-                                    <span class="title">Bootstrap Touchspin</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="components_form_tools.html" class="nav-link ">
-                                    <span class="title">Form Widgets & Tools</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="components_context_menu.html" class="nav-link ">
-                                    <span class="title">Context Menu</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="components_editors.html" class="nav-link ">
-                                    <span class="title">Markdown & WYSIWYG Editors</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="components_code_editors.html" class="nav-link ">
-                                    <span class="title">Code Editors</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="components_ion_sliders.html" class="nav-link ">
-                                    <span class="title">Ion Range Sliders</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="components_noui_sliders.html" class="nav-link ">
-                                    <span class="title">NoUI Range Sliders</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="components_knob_dials.html" class="nav-link ">
-                                    <span class="title">Knob Circle Dials</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-item  ">
-                        <a href="javascript:;" class="nav-link nav-toggle">
-                            <i class="icon-settings"></i>
-                            <span class="title">Form Stuff</span>
-                            <span class="arrow"></span>
-                        </a>
-                        <ul class="sub-menu">
-                            <li class="nav-item  ">
-                                <a href="form_controls.html" class="nav-link ">
-                                    <span class="title">
-                                        Bootstrap Form
-                                        <br>Controls
-                                    </span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="form_controls_md.html" class="nav-link ">
-                                    <span class="title">
-                                        Material Design
-                                        <br>Form Controls
-                                    </span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="form_validation.html" class="nav-link ">
-                                    <span class="title">Form Validation</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="form_validation_states_md.html" class="nav-link ">
-                                    <span class="title">
-                                        Material Design
-                                        <br>Form Validation States
-                                    </span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="form_validation_md.html" class="nav-link ">
-                                    <span class="title">
-                                        Material Design
-                                        <br>Form Validation
-                                    </span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="form_layouts.html" class="nav-link ">
-                                    <span class="title">Form Layouts</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="form_repeater.html" class="nav-link ">
-                                    <span class="title">Form Repeater</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="form_input_mask.html" class="nav-link ">
-                                    <span class="title">Form Input Mask</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="form_editable.html" class="nav-link ">
-                                    <span class="title">Form X-editable</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="form_wizard.html" class="nav-link ">
-                                    <span class="title">Form Wizard</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="form_icheck.html" class="nav-link ">
-                                    <span class="title">iCheck Controls</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="form_image_crop.html" class="nav-link ">
-                                    <span class="title">Image Cropping</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="form_fileupload.html" class="nav-link ">
-                                    <span class="title">Multiple File Upload</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="form_dropzone.html" class="nav-link ">
-                                    <span class="title">Dropzone File Upload</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
+                    
+                   
+                    
                     <li class="nav-item  ">
                         <a href="javascript:;" class="nav-link nav-toggle">
                             <i class="icon-bulb"></i>
@@ -975,41 +609,8 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="nav-item  ">
-                        <a href="?p=" class="nav-link nav-toggle">
-                            <i class="icon-wallet"></i>
-                            <span class="title">Portlets</span>
-                            <span class="arrow"></span>
-                        </a>
-                        <ul class="sub-menu">
-                            <li class="nav-item  ">
-                                <a href="portlet_boxed.html" class="nav-link ">
-                                    <span class="title">Boxed Portlets</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="portlet_light.html" class="nav-link ">
-                                    <span class="title">Light Portlets</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="portlet_solid.html" class="nav-link ">
-                                    <span class="title">Solid Portlets</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="portlet_ajax.html" class="nav-link ">
-                                    <span class="title">Ajax Portlets</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="portlet_draggable.html" class="nav-link ">
-                                    <span class="title">Draggable Portlets</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-item  ">
+                    
+                    <li class="nav-item">
                         <a href="javascript:;" class="nav-link nav-toggle">
                             <i class="icon-bar-chart"></i>
                             <span class="title">Charts</span>
@@ -1084,484 +685,8 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="nav-item  active open">
-                        <a href="javascript:;" class="nav-link nav-toggle">
-                            <i class="icon-layers"></i>
-                            <span class="title">Page Layouts</span>
-                            <span class="selected"></span>
-                            <span class="arrow open"></span>
-                        </a>
-                        <ul class="sub-menu">
-                            <li class="nav-item  active open">
-                                <a href="layout_blank_page.html" class="nav-link ">
-                                    <span class="title">Blank Page</span>
-                                    <span class="selected"></span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="layout_ajax_page.html" class="nav-link ">
-                                    <span class="title">Ajax Content Layout</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="layout_language_bar.html" class="nav-link ">
-                                    <span class="title">Header Language Bar</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="layout_footer_fixed.html" class="nav-link ">
-                                    <span class="title">Fixed Footer</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="layout_boxed_page.html" class="nav-link ">
-                                    <span class="title">Boxed Page</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-item  ">
-                        <a href="javascript:;" class="nav-link nav-toggle">
-                            <i class="icon-feed"></i>
-                            <span class="title">Sidebar Layouts</span>
-                            <span class="arrow"></span>
-                        </a>
-                        <ul class="sub-menu">
-                            <li class="nav-item  ">
-                                <a href="layout_sidebar_menu_accordion.html" class="nav-link ">
-                                    <span class="title">Sidebar Accordion Menu</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="layout_sidebar_menu_compact.html" class="nav-link ">
-                                    <span class="title">Sidebar Compact Menu</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="layout_sidebar_reversed.html" class="nav-link ">
-                                    <span class="title">Reversed Sidebar Page</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="layout_sidebar_fixed.html" class="nav-link ">
-                                    <span class="title">Fixed Sidebar Layout</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="layout_sidebar_closed.html" class="nav-link ">
-                                    <span class="title">Closed Sidebar Layout</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-item  ">
-                        <a href="javascript:;" class="nav-link nav-toggle">
-                            <i class=" icon-wrench"></i>
-                            <span class="title">Custom Layouts</span>
-                            <span class="arrow"></span>
-                        </a>
-                        <ul class="sub-menu">
-                            <li class="nav-item  ">
-                                <a href="layout_disabled_menu.html" class="nav-link ">
-                                    <span class="title">Disabled Menu Links</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="layout_full_height_portlet.html" class="nav-link ">
-                                    <span class="title">Full Height Portlet</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="layout_full_height_content.html" class="nav-link ">
-                                    <span class="title">Full Height Content</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-item  ">
-                        <a href="javascript:;" class="nav-link nav-toggle">
-                            <i class="icon-basket"></i>
-                            <span class="title">eCommerce</span>
-                            <span class="arrow"></span>
-                        </a>
-                        <ul class="sub-menu">
-                            <li class="nav-item  ">
-                                <a href="ecommerce_index.html" class="nav-link ">
-                                    <i class="icon-home"></i>
-                                    <span class="title">Dashboard</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="ecommerce_orders.html" class="nav-link ">
-                                    <i class="icon-basket"></i>
-                                    <span class="title">Orders</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="ecommerce_orders_view.html" class="nav-link ">
-                                    <i class="icon-tag"></i>
-                                    <span class="title">Order View</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="ecommerce_products.html" class="nav-link ">
-                                    <i class="icon-graph"></i>
-                                    <span class="title">Products</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="ecommerce_products_edit.html" class="nav-link ">
-                                    <i class="icon-graph"></i>
-                                    <span class="title">Product Edit</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-item  ">
-                        <a href="javascript:;" class="nav-link nav-toggle">
-                            <i class="icon-docs"></i>
-                            <span class="title">Apps</span>
-                            <span class="arrow"></span>
-                        </a>
-                        <ul class="sub-menu">
-                            <li class="nav-item  ">
-                                <a href="app_todo.html" class="nav-link ">
-                                    <i class="icon-clock"></i>
-                                    <span class="title">Todo 1</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="app_todo_2.html" class="nav-link ">
-                                    <i class="icon-check"></i>
-                                    <span class="title">Todo 2</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="app_inbox.html" class="nav-link ">
-                                    <i class="icon-envelope"></i>
-                                    <span class="title">Inbox</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="app_calendar.html" class="nav-link ">
-                                    <i class="icon-calendar"></i>
-                                    <span class="title">Calendar</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="app_ticket.html" class="nav-link ">
-                                    <i class="icon-notebook"></i>
-                                    <span class="title">Support</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-item  ">
-                        <a href="javascript:;" class="nav-link nav-toggle">
-                            <i class="icon-user"></i>
-                            <span class="title">User</span>
-                            <span class="arrow"></span>
-                        </a>
-                        <ul class="sub-menu">
-                            <li class="nav-item  ">
-                                <a href="page_user_profile_1.html" class="nav-link ">
-                                    <i class="icon-user"></i>
-                                    <span class="title">Profile 1</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="page_user_profile_1_account.html" class="nav-link ">
-                                    <i class="icon-user-female"></i>
-                                    <span class="title">Profile 1 Account</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="page_user_profile_1_help.html" class="nav-link ">
-                                    <i class="icon-user-following"></i>
-                                    <span class="title">Profile 1 Help</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="page_user_profile_2.html" class="nav-link ">
-                                    <i class="icon-users"></i>
-                                    <span class="title">Profile 2</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="javascript:;" class="nav-link nav-toggle">
-                                    <i class="icon-notebook"></i>
-                                    <span class="title">Login</span>
-                                    <span class="arrow"></span>
-                                </a>
-                                <ul class="sub-menu">
-                                    <li class="nav-item ">
-                                        <a href="page_user_login_1.html" class="nav-link " target="_blank"> Login Page 1 </a>
-                                    </li>
-                                    <li class="nav-item ">
-                                        <a href="page_user_login_2.html" class="nav-link " target="_blank"> Login Page 2 </a>
-                                    </li>
-                                    <li class="nav-item ">
-                                        <a href="page_user_login_3.html" class="nav-link " target="_blank"> Login Page 3 </a>
-                                    </li>
-                                    <li class="nav-item ">
-                                        <a href="page_user_login_4.html" class="nav-link " target="_blank"> Login Page 4 </a>
-                                    </li>
-                                    <li class="nav-item ">
-                                        <a href="page_user_login_5.html" class="nav-link " target="_blank"> Login Page 5 </a>
-                                    </li>
-                                    <li class="nav-item ">
-                                        <a href="page_user_login_6.html" class="nav-link " target="_blank"> Login Page 6 </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="page_user_lock_1.html" class="nav-link " target="_blank">
-                                    <i class="icon-lock"></i>
-                                    <span class="title">Lock Screen 1</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="page_user_lock_2.html" class="nav-link " target="_blank">
-                                    <i class="icon-lock-open"></i>
-                                    <span class="title">Lock Screen 2</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-item  ">
-                        <a href="javascript:;" class="nav-link nav-toggle">
-                            <i class="icon-social-dribbble"></i>
-                            <span class="title">General</span>
-                            <span class="arrow"></span>
-                        </a>
-                        <ul class="sub-menu">
-                            <li class="nav-item  ">
-                                <a href="page_general_about.html" class="nav-link ">
-                                    <i class="icon-info"></i>
-                                    <span class="title">About</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="page_general_contact.html" class="nav-link ">
-                                    <i class="icon-call-end"></i>
-                                    <span class="title">Contact</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="javascript:;" class="nav-link nav-toggle">
-                                    <i class="icon-notebook"></i>
-                                    <span class="title">Portfolio</span>
-                                    <span class="arrow"></span>
-                                </a>
-                                <ul class="sub-menu">
-                                    <li class="nav-item ">
-                                        <a href="page_general_portfolio_1.html" class="nav-link "> Portfolio 1 </a>
-                                    </li>
-                                    <li class="nav-item ">
-                                        <a href="page_general_portfolio_2.html" class="nav-link "> Portfolio 2 </a>
-                                    </li>
-                                    <li class="nav-item ">
-                                        <a href="page_general_portfolio_3.html" class="nav-link "> Portfolio 3 </a>
-                                    </li>
-                                    <li class="nav-item ">
-                                        <a href="page_general_portfolio_4.html" class="nav-link "> Portfolio 4 </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="javascript:;" class="nav-link nav-toggle">
-                                    <i class="icon-magnifier"></i>
-                                    <span class="title">Search</span>
-                                    <span class="arrow"></span>
-                                </a>
-                                <ul class="sub-menu">
-                                    <li class="nav-item ">
-                                        <a href="page_general_search.html" class="nav-link "> Search 1 </a>
-                                    </li>
-                                    <li class="nav-item ">
-                                        <a href="page_general_search_2.html" class="nav-link "> Search 2 </a>
-                                    </li>
-                                    <li class="nav-item ">
-                                        <a href="page_general_search_3.html" class="nav-link "> Search 3 </a>
-                                    </li>
-                                    <li class="nav-item ">
-                                        <a href="page_general_search_4.html" class="nav-link "> Search 4 </a>
-                                    </li>
-                                    <li class="nav-item ">
-                                        <a href="page_general_search_5.html" class="nav-link "> Search 5 </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="page_general_pricing.html" class="nav-link ">
-                                    <i class="icon-tag"></i>
-                                    <span class="title">Pricing</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="page_general_faq.html" class="nav-link ">
-                                    <i class="icon-wrench"></i>
-                                    <span class="title">FAQ</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="page_general_blog.html" class="nav-link ">
-                                    <i class="icon-pencil"></i>
-                                    <span class="title">Blog</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="page_general_blog_post.html" class="nav-link ">
-                                    <i class="icon-note"></i>
-                                    <span class="title">Blog Post</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="page_general_invoice.html" class="nav-link ">
-                                    <i class="icon-envelope"></i>
-                                    <span class="title">Invoice</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="page_general_invoice_2.html" class="nav-link ">
-                                    <i class="icon-envelope"></i>
-                                    <span class="title">Invoice 2</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-item  ">
-                        <a href="javascript:;" class="nav-link nav-toggle">
-                            <i class="icon-settings"></i>
-                            <span class="title">System</span>
-                            <span class="arrow"></span>
-                        </a>
-                        <ul class="sub-menu">
-                            <li class="nav-item  ">
-                                <a href="page_cookie_consent_1.html" class="nav-link ">
-                                    <span class="title">Cookie Consent 1</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="page_cookie_consent_2.html" class="nav-link ">
-                                    <span class="title">Cookie Consent 2</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="page_system_coming_soon.html" class="nav-link " target="_blank">
-                                    <span class="title">Coming Soon</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="page_system_404_1.html" class="nav-link ">
-                                    <span class="title">404 Page 1</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="page_system_404_2.html" class="nav-link " target="_blank">
-                                    <span class="title">404 Page 2</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="page_system_404_3.html" class="nav-link " target="_blank">
-                                    <span class="title">404 Page 3</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="page_system_500_1.html" class="nav-link ">
-                                    <span class="title">500 Page 1</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="page_system_500_2.html" class="nav-link " target="_blank">
-                                    <span class="title">500 Page 2</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a href="javascript:;" class="nav-link nav-toggle">
-                            <i class="icon-folder"></i>
-                            <span class="title">Multi Level Menu</span>
-                            <span class="arrow "></span>
-                        </a>
-                        <ul class="sub-menu">
-                            <li class="nav-item">
-                                <a href="javascript:;" class="nav-link nav-toggle">
-                                    <i class="icon-settings"></i> Item 1
-                                    <span class="arrow"></span>
-                                </a>
-                                <ul class="sub-menu">
-                                    <li class="nav-item">
-                                        <a href="?p=dashboard-2" target="_blank" class="nav-link">
-                                            <i class="icon-user"></i> Arrow Toggle
-                                            <span class="arrow nav-toggle"></span>
-                                        </a>
-                                        <ul class="sub-menu">
-                                            <li class="nav-item">
-                                                <a href="#" class="nav-link">
-                                                    <i class="icon-power"></i> Sample Link 1
-                                                </a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a href="#" class="nav-link">
-                                                    <i class="icon-paper-plane"></i> Sample Link 1
-                                                </a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a href="#" class="nav-link">
-                                                    <i class="icon-star"></i> Sample Link 1
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link">
-                                            <i class="icon-camera"></i> Sample Link 1
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link">
-                                            <i class="icon-link"></i> Sample Link 2
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link">
-                                            <i class="icon-pointer"></i> Sample Link 3
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="nav-item">
-                                <a href="?p=dashboard-2" target="_blank" class="nav-link">
-                                    <i class="icon-globe"></i> Arrow Toggle
-                                    <span class="arrow nav-toggle"></span>
-                                </a>
-                                <ul class="sub-menu">
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link">
-                                            <i class="icon-tag"></i> Sample Link 1
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link">
-                                            <i class="icon-pencil"></i> Sample Link 1
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link">
-                                            <i class="icon-graph"></i> Sample Link 1
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="icon-bar-chart"></i> Item 3
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
+                    
+                    
                 </ul>
                 <!-- END SIDEBAR MENU -->
             </div>
@@ -1574,7 +699,7 @@
             <div class="page-content">
                 <!-- BEGIN PAGE HEADER-->
                 <!-- BEGIN THEME PANEL -->
-                <div class="theme-panel">
+                @*<div class="theme-panel">
                     <div class="toggler tooltips" data-container="body" data-placement="left" data-html="true" data-original-title="Click to open advance theme customizer panel">
                         <i class="icon-settings"></i>
                     </div>
@@ -1649,12 +774,9 @@
                             </select>
                         </div>
                     </div>
-                </div>
+                </div>*@
                 <!-- END THEME PANEL -->
-                <h1 class="page-title">
-                    Blank Page Layout
-                    <small>blank page layout</small>
-                </h1>
+                
                 <div class="page-bar">
                     <ul class="page-breadcrumb">
                         <li>
@@ -1670,7 +792,7 @@
                             <span>Page Layouts</span>
                         </li>
                     </ul>
-                    <div class="page-toolbar">
+                    @*<div class="page-toolbar">
                         <div class="btn-group pull-right">
                             <button type="button" class="btn btn-fit-height grey-salt dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000" data-close-others="true">
                                 Actions
@@ -1700,7 +822,7 @@
                                 </li>
                             </ul>
                         </div>
-                    </div>
+                    </div>*@
                 </div>
                 <!-- END PAGE HEADER-->
                 <div class="note note-info">
@@ -1769,14 +891,14 @@
                                     <div class="media-status">
                                         <span class="badge badge-success">8</span>
                                     </div>
-                                    <img class="media-object" src="../assets/layouts/layout/img/avatar3.jpg" alt="...">
+                                    <img class="media-object" src="~/Content/assets/layouts/layout/img/avatar3.jpg" alt="...">
                                     <div class="media-body">
                                         <h4 class="media-heading">Bob Nilson</h4>
                                         <div class="media-heading-sub"> Project Manager </div>
                                     </div>
                                 </li>
                                 <li class="media">
-                                    <img class="media-object" src="../assets/layouts/layout/img/avatar1.jpg" alt="...">
+                                    <img class="media-object" src="~/Content/assets/layouts/layout/img/avatar1.jpg" alt="...">
                                     <div class="media-body">
                                         <h4 class="media-heading">Nick Larson</h4>
                                         <div class="media-heading-sub"> Art Director </div>
@@ -1786,14 +908,14 @@
                                     <div class="media-status">
                                         <span class="badge badge-danger">3</span>
                                     </div>
-                                    <img class="media-object" src="../assets/layouts/layout/img/avatar4.jpg" alt="...">
+                                    <img class="media-object" src="~/Content/assets/layouts/layout/img/avatar4.jpg" alt="...">
                                     <div class="media-body">
                                         <h4 class="media-heading">Deon Hubert</h4>
                                         <div class="media-heading-sub"> CTO </div>
                                     </div>
                                 </li>
                                 <li class="media">
-                                    <img class="media-object" src="../assets/layouts/layout/img/avatar2.jpg" alt="...">
+                                    <img class="media-object" src="~/Content/assets/layouts/layout/img/avatar2.jpg" alt="...">
                                     <div class="media-body">
                                         <h4 class="media-heading">Ella Wong</h4>
                                         <div class="media-heading-sub"> CEO </div>
@@ -1806,7 +928,7 @@
                                     <div class="media-status">
                                         <span class="badge badge-warning">2</span>
                                     </div>
-                                    <img class="media-object" src="../assets/layouts/layout/img/avatar6.jpg" alt="...">
+                                    <img class="media-object" src="~/Content/assets/layouts/layout/img/avatar6.jpg" alt="...">
                                     <div class="media-body">
                                         <h4 class="media-heading">Lara Kunis</h4>
                                         <div class="media-heading-sub"> CEO, Loop Inc </div>
@@ -1817,7 +939,7 @@
                                     <div class="media-status">
                                         <span class="label label-sm label-success">new</span>
                                     </div>
-                                    <img class="media-object" src="../assets/layouts/layout/img/avatar7.jpg" alt="...">
+                                    <img class="media-object" src="~/Content/assets/layouts/layout/img/avatar7.jpg" alt="...">
                                     <div class="media-body">
                                         <h4 class="media-heading">Ernie Kyllonen</h4>
                                         <div class="media-heading-sub">
@@ -1827,7 +949,7 @@
                                     </div>
                                 </li>
                                 <li class="media">
-                                    <img class="media-object" src="../assets/layouts/layout/img/avatar8.jpg" alt="...">
+                                    <img class="media-object" src="~/Content/assets/layouts/layout/img/avatar8.jpg" alt="...">
                                     <div class="media-body">
                                         <h4 class="media-heading">Lisa Stone</h4>
                                         <div class="media-heading-sub"> CTO, Keort Inc </div>
@@ -1838,14 +960,14 @@
                                     <div class="media-status">
                                         <span class="badge badge-success">7</span>
                                     </div>
-                                    <img class="media-object" src="../assets/layouts/layout/img/avatar9.jpg" alt="...">
+                                    <img class="media-object" src="~/Content/assets/layouts/layout/img/avatar9.jpg" alt="...">
                                     <div class="media-body">
                                         <h4 class="media-heading">Deon Portalatin</h4>
                                         <div class="media-heading-sub"> CFO, H&D LTD </div>
                                     </div>
                                 </li>
                                 <li class="media">
-                                    <img class="media-object" src="../assets/layouts/layout/img/avatar10.jpg" alt="...">
+                                    <img class="media-object" src="~/Content/assets/layouts/layout/img/avatar10.jpg" alt="...">
                                     <div class="media-body">
                                         <h4 class="media-heading">Irina Savikova</h4>
                                         <div class="media-heading-sub"> CEO, Tizda Motors Inc </div>
@@ -1855,7 +977,7 @@
                                     <div class="media-status">
                                         <span class="badge badge-danger">4</span>
                                     </div>
-                                    <img class="media-object" src="../assets/layouts/layout/img/avatar11.jpg" alt="...">
+                                    <img class="media-object" src="~/Content/assets/layouts/layout/img/avatar11.jpg" alt="...">
                                     <div class="media-body">
                                         <h4 class="media-heading">Maria Gomez</h4>
                                         <div class="media-heading-sub"> Manager, Infomatic Inc </div>
@@ -1873,7 +995,7 @@
                                 </div>
                                 <div class="page-quick-sidebar-chat-user-messages">
                                     <div class="post out">
-                                        <img class="avatar" alt="" src="../assets/layouts/layout/img/avatar3.jpg" />
+                                        <img class="avatar" alt="" src="~/Content/assets/layouts/layout/img/avatar3.jpg" />
                                         <div class="message">
                                             <span class="arrow"></span>
                                             <a href="javascript:;" class="name">Bob Nilson</a>
@@ -1882,7 +1004,7 @@
                                         </div>
                                     </div>
                                     <div class="post in">
-                                        <img class="avatar" alt="" src="../assets/layouts/layout/img/avatar2.jpg" />
+                                        <img class="avatar" alt="" src="~/Content/assets/layouts/layout/img/avatar2.jpg" />
                                         <div class="message">
                                             <span class="arrow"></span>
                                             <a href="javascript:;" class="name">Ella Wong</a>
@@ -1891,7 +1013,7 @@
                                         </div>
                                     </div>
                                     <div class="post out">
-                                        <img class="avatar" alt="" src="../assets/layouts/layout/img/avatar3.jpg" />
+                                        <img class="avatar" alt="" src="~/Content/assets/layouts/layout/img/avatar3.jpg" />
                                         <div class="message">
                                             <span class="arrow"></span>
                                             <a href="javascript:;" class="name">Bob Nilson</a>
@@ -1900,7 +1022,7 @@
                                         </div>
                                     </div>
                                     <div class="post in">
-                                        <img class="avatar" alt="" src="../assets/layouts/layout/img/avatar2.jpg" />
+                                        <img class="avatar" alt="" src="~/Content/assets/layouts/layout/img/avatar2.jpg" />
                                         <div class="message">
                                             <span class="arrow"></span>
                                             <a href="javascript:;" class="name">Ella Wong</a>
@@ -1909,7 +1031,7 @@
                                         </div>
                                     </div>
                                     <div class="post out">
-                                        <img class="avatar" alt="" src="../assets/layouts/layout/img/avatar3.jpg" />
+                                        <img class="avatar" alt="" src="~/Content/assets/layouts/layout/img/avatar3.jpg" />
                                         <div class="message">
                                             <span class="arrow"></span>
                                             <a href="javascript:;" class="name">Bob Nilson</a>
@@ -1918,7 +1040,7 @@
                                         </div>
                                     </div>
                                     <div class="post in">
-                                        <img class="avatar" alt="" src="../assets/layouts/layout/img/avatar2.jpg" />
+                                        <img class="avatar" alt="" src="~/Content/assets/layouts/layout/img/avatar2.jpg" />
                                         <div class="message">
                                             <span class="arrow"></span>
                                             <a href="javascript:;" class="name">Ella Wong</a>
@@ -1927,7 +1049,7 @@
                                         </div>
                                     </div>
                                     <div class="post out">
-                                        <img class="avatar" alt="" src="../assets/layouts/layout/img/avatar3.jpg" />
+                                        <img class="avatar" alt="" src="~/Content/assets/layouts/layout/img/avatar3.jpg" />
                                         <div class="message">
                                             <span class="arrow"></span>
                                             <a href="javascript:;" class="name">Bob Nilson</a>
@@ -1936,7 +1058,7 @@
                                         </div>
                                     </div>
                                     <div class="post in">
-                                        <img class="avatar" alt="" src="../assets/layouts/layout/img/avatar2.jpg" />
+                                        <img class="avatar" alt="" src="~/Content/assets/layouts/layout/img/avatar2.jpg" />
                                         <div class="message">
                                             <span class="arrow"></span>
                                             <a href="javascript:;" class="name">Ella Wong</a>
@@ -1945,7 +1067,7 @@
                                         </div>
                                     </div>
                                     <div class="post out">
-                                        <img class="avatar" alt="" src="../assets/layouts/layout/img/avatar3.jpg" />
+                                        <img class="avatar" alt="" src="~/Content/assets/layouts/layout/img/avatar3.jpg" />
                                         <div class="message">
                                             <span class="arrow"></span>
                                             <a href="javascript:;" class="name">Bob Nilson</a>
@@ -2361,7 +1483,13 @@
 
 
         @Scripts.Render("~/bundles/bootstrapBlank")
-        @(Html.GoogleMap().ScriptRegistrar())
+        
+    
+    @(Html.GoogleMap().ScriptRegistrar())
+    
+
+    @RenderSection("scripts", required: false)
+        
 
 </body>
 </html>

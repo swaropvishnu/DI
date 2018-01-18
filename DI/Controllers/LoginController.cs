@@ -4,6 +4,7 @@ using DI.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Security.Principal;
@@ -13,6 +14,8 @@ using System.Web.Security;
 
 namespace DI.Controllers
 {
+    
+   
     public class LoginController : Controller
     {
         // GET: Login
@@ -147,7 +150,65 @@ namespace DI.Controllers
             return View();
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult FirstTimeLogin(LoginModal IstTimeLogin)
+        {
+            DataSet ds = new DataSet();
+            ds = UserDtl.VerifyUser(UserSession.LoggedInUserName.ToString());
+            //btnlogin.Attributes.Add("onclick", "return HashPwdwithSalt('" + salt.ToString() + "');");
+            if (ds != null)
+            {
+                if (ds.Tables[0].Rows.Count > 0 && ds.Tables[0].Rows.Count == 1)
+                {
+                    string psw = ds.Tables[0].Rows[0]["Password"].ToString();
+                    string lpsw = ds.Tables[0].Rows[0]["OldPassWord"].ToString();
 
+                    string type_pwd_salt = FormsAuthentication.HashPasswordForStoringInConfigFile(IstTimeLogin.NewPassword.ToString(), "md5");
+
+                    string hashed_pwd = IstTimeLogin.OldPassword;
+                    string hashed_newpwd = type_pwd_salt;
+
+
+                    if ((lpsw.ToLower().Equals(hashed_newpwd.ToLower())) == true)
+                    {
+                        ViewBag.ErrMessage = "Your new password should not match with last old password ?";
+                        return RedirectToAction("Login", "FirstTimeLogin");
+                    }
+
+                    if ((psw.ToLower().Equals(hashed_newpwd.ToLower())) == false)
+                    {
+                        if (psw.ToLower().Equals(hashed_pwd.ToLower()))
+                        {
+
+                            string hashed_pwdNew = type_pwd_salt;
+                            string res = UserDtl.Userpasswordchange(UserSession.LoggedInUserName, hashed_pwdNew.ToLower(), hashed_pwd.ToLower());
+                            //ScriptManager.RegisterStartupScript(this, this.GetType(), "redirect", "alert('" + res + "'); window.location='/EPDS2017/logout.aspx';", true);
+                            return RedirectToAction("Login", "Login");
+                        }
+                        else
+                        {
+                            ViewBag.ErrMessage = "Your old Password is not correct ?";
+                            return RedirectToAction("Login", "FirstTimeLogin");
+                        }
+                    }
+                    else
+                    {
+                        ViewBag.ErrMessage = "Your new Password mathced with old password Please change new password. ?";
+                        return RedirectToAction("Login", "FirstTimeLogin");
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("Login", "FirstTimeLogin");
+                }
+            }
+            else
+            {
+                ViewBag.ErrMessage = "Invalid Username or Password.";
+                return RedirectToAction("Login", "Login");
+            }
+        }
 
         //POST: Logout
         [HttpPost]
@@ -178,5 +239,71 @@ namespace DI.Controllers
             }
         }
 
+        [SessionExpireFilterAttribute]
+        public ActionResult ChangePassword()
+        {
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [SessionExpireFilterAttribute]
+        public ActionResult ChangePassword(LoginModal ChangePwd)
+        {
+            DataSet ds = new DataSet();
+            ds = UserDtl.VerifyUser(UserSession.LoggedInUserName.ToString());
+            //btnlogin.Attributes.Add("onclick", "return HashPwdwithSalt('" + salt.ToString() + "');");
+            if (ds != null)
+            {
+                if (ds.Tables[0].Rows.Count > 0 && ds.Tables[0].Rows.Count == 1)
+                {
+                    string psw = ds.Tables[0].Rows[0]["Password"].ToString();
+                    string lpsw = ds.Tables[0].Rows[0]["OldPassWord"].ToString();
+
+                    string pwd_salt = FormsAuthentication.HashPasswordForStoringInConfigFile(ChangePwd.OldPassword_CHG.ToString(), "md5");
+                    string type_pwd_salt = FormsAuthentication.HashPasswordForStoringInConfigFile(ChangePwd.NewPassword_CHG.ToString(), "md5");
+
+                    string hashed_pwd = pwd_salt;
+                    string hashed_newpwd = type_pwd_salt;
+
+
+                    if ((lpsw.ToLower().Equals(hashed_newpwd.ToLower())) == true)
+                    {
+                        ViewBag.ErrMessage = "Your new password should not match with last old password ?";
+                        return RedirectToAction("Index", "Default");
+                    }
+
+                    if ((psw.ToLower().Equals(hashed_newpwd.ToLower())) == false)
+                    {
+                        if (psw.ToLower().Equals(hashed_pwd.ToLower()))
+                        {
+
+                            string hashed_pwdNew = type_pwd_salt;
+                            string res = UserDtl.Userpasswordchange(UserSession.LoggedInUserName, hashed_pwdNew.ToLower(), hashed_pwd.ToLower());
+                            //ScriptManager.RegisterStartupScript(this, this.GetType(), "redirect", "alert('" + res + "'); window.location='/EPDS2017/logout.aspx';", true);
+                            return RedirectToAction("Index", "Default");
+                        }
+                        else
+                        {
+                            ViewBag.ErrMessage = "Your old Password is not correct ?";
+                            return RedirectToAction("Index", "Default");
+                        }
+                    }
+                    else
+                    {
+                        ViewBag.ErrMessage = "Your new Password mathced with old password Please change new password. ?";
+                        return RedirectToAction("Index", "Default");
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Default");
+                }
+            }
+            else
+            {
+                ViewBag.ErrMessage = "Invalid Username or Password.";
+                return RedirectToAction("FirstTimeLogin", "Login");
+            }
+        }
     }
 }

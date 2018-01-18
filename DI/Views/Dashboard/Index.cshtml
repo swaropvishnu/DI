@@ -1,19 +1,19 @@
 ﻿@using Jmelosegui.Mvc.GoogleMap
-@model dynamic 
-@*@model DI.Models.DashboardModal*@
+@model DI.Models.DashboardModal
 
 
 @{
     ViewBag.Title = "Index";
+    
 }
 
-@*<h2>Index</h2>*@
 
 <div style="height: 500px; border: solid 1px #cccccc">
     @(Html.GoogleMap()
           .Name("map")
-          .Width(500)
-          .Height(500)
+          .Width((int)ViewData["width"])
+          .Height((int)ViewData["height"])
+          .ApiKey("AIzaSyBOYfwN5dgGQislPPsZMYcEt2EE98N5O4A"))
 </div>
 
 <pre class="prettyprint">
@@ -34,4 +34,8 @@
 <pre class="prettyprint">
     @@using Jmelosegui.Mvc.GoogleMap
         </pre>
+
+
+
+
 
