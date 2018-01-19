@@ -68,7 +68,7 @@ namespace DI.DAL
         //        ////cmd.Parameters.AddWithValue("@freeze_status", SqlDbType.Int).Value = objCommonda.freezestat;
         //        //cmd.Parameters.AddWithValue("@ipaddress", SqlDbType.VarChar).Value = objCommonda.IPAddress;
         //        ////cmd.Parameters.AddWithValue("@entrystamp", SqlDbType.NVarChar).Value = objCommonda.TimeStamp;
-        //        ///*********** salman 06-10-2016 ************/
+       
         //        //cmd.Parameters.AddWithValue("@driver", SqlDbType.Int).Value = objCommonda.Driver;
         //        //cmd.Parameters.AddWithValue("@maternityleave", SqlDbType.Int).Value = objCommonda.MaternityLeave;
         //        //cmd.Parameters.AddWithValue("@handicaped", SqlDbType.Int).Value = objCommonda.Handicaped;
