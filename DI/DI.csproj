@@ -156,6 +156,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\XSLTFile.xslt" />
     <Content Include="Content\assets\apps\css\inbox.css" />
     <Content Include="Content\assets\apps\css\inbox.min.css" />
     <Content Include="Content\assets\apps\css\ticket.css" />
@@ -5528,6 +5529,11 @@
     <Content Include="Content\plugins\simple-line-icons\simple-line-icons.min.css" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\style.css" />
+    <Content Include="Content\tpl\footer.html" />
+    <Content Include="Content\tpl\header.html" />
+    <Content Include="Content\tpl\quick-sidebar.html" />
+    <Content Include="Content\tpl\sidebar.html" />
+    <Content Include="Content\tpl\theme-panel.html" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="scripts\ai.0.22.9-build00167.js" />

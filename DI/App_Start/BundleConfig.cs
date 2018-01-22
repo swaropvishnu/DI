@@ -135,6 +135,22 @@ namespace DI
                       "~/Content/assets/global/scripts/app.min.js",
                       "~/Content/assets/pages/scripts/lock-2.min.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/bootstrapAngular").Include(
+                      "~/Content/assets/global/plugins/angularjs/angular.min.js",
+                      "~/Content/assets/global/plugins/angularjs/angular-sanitize.min.js",
+                      "~/Content/assets/global/plugins/angularjs/angular-touch.min.js",
+                      "~/Content/assets/global/plugins/angularjs/plugins/angular-ui-router.min.js",
+                      "~/Content/assets/global/plugins/angularjs/plugins/ocLazyLoad.min.js",
+                      "~/Content/assets/global/plugins/angularjs/plugins/ui-bootstrap-tpls.min.js"));
+
+
+            bundles.Add(new ScriptBundle("~/bundles/bootstrapAngularM").Include(
+                      "~/Content/assets/global/scripts/app.min.js" ,
+                      "~/Content/assets/layouts/layout2/scripts/layout.min.js" ,
+                      "~/Content/assets/layouts/global/scripts/quick-sidebar.min.js",
+                      "~/Content/assets/layouts/global/scripts/quick-nav.min.js",
+                      "~/Content/assets/layouts/layout2/scripts/demo.min.js"));
+
             BundleTable.EnableOptimizations = false;
 
         }
