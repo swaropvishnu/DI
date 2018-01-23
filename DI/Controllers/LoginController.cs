@@ -306,6 +306,7 @@ namespace DI.Controllers
             }
         }
 
+        [SessionExpireFilterAttribute]
         public ActionResult ProfileUpdate()
         {
             return View();
