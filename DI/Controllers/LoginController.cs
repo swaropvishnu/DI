@@ -305,5 +305,11 @@ namespace DI.Controllers
                 return RedirectToAction("FirstTimeLogin", "Login");
             }
         }
+
+        [SessionExpireFilterAttribute]
+        public ActionResult ProfileUpdate()
+        {
+            return View();
+        }
     }
 }

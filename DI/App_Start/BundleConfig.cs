@@ -100,7 +100,7 @@ namespace DI
                       "~/Content/assets/pages/scripts/login-5.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrapBlank").Include(
-                      "~/Scripts/jquery-{version}.js",
+                      //"~/Scripts/jquery-{version}.js",
                       "~/Content/assets/global/plugins/jquery.min.js",
                       "~/Content/assets/global/plugins/bootstrap/js/bootstrap.min.js",
                       "~/Content/assets/global/plugins/js.cookie.min.js",
@@ -111,7 +111,8 @@ namespace DI
                       "~/Content/assets/layouts/layout2/scripts/layout.min.js",
                       "~/Content/assets/layouts/layout2/scripts/demo.min.js",
                       "~/Content/assets/layouts/global/scripts/quick-sidebar.min.js",
-                      "~/Content/assets/layouts/global/scripts/quick-nav.min.js"));
+                      "~/Content/assets/layouts/global/scripts/quick-nav.min.js",
+                      "~/Content/assets/pages/scripts/form-input-mask.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrapError").Include(
                       "~/Scripts/jquery-{version}.js",
@@ -150,6 +151,8 @@ namespace DI
                       "~/Content/assets/layouts/global/scripts/quick-sidebar.min.js",
                       "~/Content/assets/layouts/global/scripts/quick-nav.min.js",
                       "~/Content/assets/layouts/layout2/scripts/demo.min.js"));
+
+                
 
             BundleTable.EnableOptimizations = false;
 

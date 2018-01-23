@@ -1,0 +1,187 @@
+﻿@model DI.Models.FormModal
+
+@using (Html.BeginForm())
+{
+    <div class="portlet box green ">
+        <div class="portlet-title" >
+            <div class="caption">
+                <i class="fa fa-user"></i><b>औद्योगिक आस्थानों में उपलब्ध भूखंडो एवं शेडों के आवंटन हेतु प्रार्थना-पत्र</b>
+            </div>
+            <div class="tools">
+                <a href="" class="collapse" data-original-title="" title=""> </a>
+                <a href="#portlet-config" data-toggle="modal" class="config" data-original-title="" title=""> </a>
+                <a href="" class="reload" data-original-title="" title=""> </a>
+                <a href="" class="remove" data-original-title="" title=""> </a>
+            </div>
+        </div>
+        <div class="portlet-body form">
+            <form role="form">
+                <div class="form-body" style="background-color:#fff8dc4a">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label"><b>प्रार्थी का नाम</b></label>
+                                <input type="text" class="form-control" placeholder="प्रार्थी का नाम">
+
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label"><b>प्रार्थी का पता </b></label>
+                                <input type="text" class="form-control" placeholder="प्रार्थी का पता">
+
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label"><b>औद्योगिक इकाई का नाम </b></label>
+                                <input type="text" class="form-control" placeholder="औद्योगिक इकाई का नाम">
+
+                            </div>
+                        </div>
+                    </div>
+
+                   
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label"><b>प्रार्थना-पत्र शुल्क</b></label>
+                                    <input type="text" class="form-control" placeholder="प्रार्थना-पत्र शुल्क">
+                                  
+                                    @*<div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-money"></i>
+                                        </span>
+                                        <input type="text" class="form-control" placeholder="प्रार्थना-पत्र शुल्क">
+                                    </div>*@
+
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label"><b>शुल्क जमा करने की दिनांक</b></label>
+                                    <div class="col-md-4">
+                                        <input class="form-control" id="mask_date2" type="text">
+                                        <span class="help-block"> multi-char placeholder </span>
+                                    </div>
+                                    @*<div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </span>
+                                        <input type="text" class="form-control" placeholder="प्रार्थना-पत्र शुल्क जमा करने की दिनांक">
+                                    </div>*@
+                                   
+
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label"><b>शुल्क जमा किये जाने का विवरण</b></label>
+                                    <input type="text" class="form-control" placeholder="प्रार्थना-पत्र शुल्क जमा किये जाने का विवरण">
+
+                                    @*<div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-info"></i>
+                                        </span>
+                                        <input type="text" class="form-control" placeholder="प्रार्थना-पत्र शुल्क जमा किये जाने का विवरण">
+                                    </div>*@
+                                </div>
+                            </div>
+                        </div>
+
+             
+
+
+                    @*<div class="form-group">
+                        <label class="control-label"><b>प्रार्थना-पत्र शुल्क जमा किये जाने का विवरण</b></label>
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="fa fa-envelope"></i>
+                            </span>
+                            <input type="text" class="form-control" placeholder="प्रार्थना-पत्र शुल्क जमा किये जाने का विवरण">
+                        </div>
+                    </div>*@
+
+                    <div class="form-group">
+                        @*<label class="control-label">यदि प्रस्तावित रूप से पंजीकृत है</label>*@
+                        <div class="md-checkbox">
+                            <input type="checkbox" id="checkbox1_1" class="md-check" />
+                            <label for="checkbox1_1">
+                                <span class="inc"></span>
+                                <span class="check"></span>
+                                <span class="box"></span><b>यदि प्रस्तावित रूप से पंजीकृत है</b>
+                            </label>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label"><b>पंजीकरण संख्या</b></label>
+                                    <input type="text" class="form-control" placeholder="पंजीकरण संख्या">
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label"><b>पंजीकरण दिनांक</b></label>
+                                    <input type="text" class="form-control" placeholder="dd/mm/yyyy">
+                                </div>
+                            </div>
+                            <!--/span-->
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label"><b>सामग्री जिसका उत्पादन किया जायेगा</b></label>
+                        <div class="input-icon">
+                            @*<i class="fa fa-bell-o"></i>*@
+                            <input type="text" class="form-control" placeholder="सामग्री का नाम">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label"><b>प्रोजेक्ट रिपोर्ट व्यावहारिक है या नहीं</b></label>
+                        <div class="radio-list" style="margin-left:20px">
+                            <label class="radio-inline">
+                                <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">हाँ
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2" checked="">नहीं
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label"><b>क्या विदेशी सहायता से इकाई स्थापित की जाएगी ?</b></label>
+                        <div class="radio-list" style="margin-left:20px">
+                            <label class="radio-inline">
+                                <input type="radio" name="optionsRadios" id="foreginRadios1" value="option1">हाँ
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="optionsRadios" id="foreginRadios2" value="option2" checked="">नहीं
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label"><b>वित्तीय सहायता का श्रोत</b></label>
+                                <input type="text" class="form-control" placeholder="वित्तीय सहायता का श्रोत">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label"><b>कच्चे माल का श्रोत</b></label>
+                                <input type="text" class="form-control" placeholder="कच्चे माल का श्रोत">
+                            </div>
+                            </div>
+                        </div>
+
+                    </div>
+                <div class="form-actions">
+                    <button type="button" class="btn default">Cancel</button>
+                    <button type="submit" class="btn red">Submit</button>
+                </div>
+            </form>
+                 </div>
+            
+        </div>
+    
+}
+        

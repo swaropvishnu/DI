@@ -5940,6 +5940,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="BLL\CommonBL.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
+    <Compile Include="Controllers\FormController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\SidemenuController.cs" />
     <Compile Include="DAL\CommonDA.cs" />
@@ -5953,6 +5954,7 @@
     </Compile>
     <Compile Include="Helper\CustomErrorHandler.cs" />
     <Compile Include="Models\DashboardModal.cs" />
+    <Compile Include="Models\FormModal.cs" />
     <Compile Include="Models\LoginModal.cs" />
     <Compile Include="Models\UserAuthorization.cs" />
     <Compile Include="Models\UserManager.cs" />
@@ -5975,6 +5977,8 @@
     <Content Include="scripts\jquery-3.2.1.min.map" />
     <Content Include="Views\Login\FirstTimeLogin.cshtml" />
     <Content Include="Views\Login\ChangePassword.cshtml" />
+    <Content Include="Views\Form\EntryForm.cshtml" />
+    <Content Include="Views\Login\ProfileUpdate.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

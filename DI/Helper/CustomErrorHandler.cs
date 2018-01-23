@@ -14,7 +14,7 @@ namespace DI.Helper
         {
             base.OnException(filterContext);
             Exception ex = default(Exception);
-
+            
             //ex = GetLastError().InnerException;
             //CMODataEntryBLL.InsertErrLog(HttpContext.Current.Request.Url.ToString(), ex.ToString());
 
