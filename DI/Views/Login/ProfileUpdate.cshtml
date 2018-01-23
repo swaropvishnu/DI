@@ -1,0 +1,115 @@
+﻿
+@{
+    ViewBag.Title = "ProfileUpdate";
+}
+
+
+    <!-- BEGIN SAMPLE FORM PORTLET-->
+    <div class="portlet light ">
+        <div class="portlet-title">
+            <div class="caption font-green">
+                <i class="icon-pin font-green"></i>
+                <span class="caption-subject bold uppercase"> User Profile Updation </span>
+            </div>
+            <div class="actions">
+                <div class="btn-group">
+                    <a class="btn btn-sm default dropdown-toggle" href="javascript:;" data-toggle="dropdown">
+                        Settings
+                        <i class="fa fa-angle-down"></i>
+                    </a>
+                    <ul class="dropdown-menu pull-right">
+                        <li>
+                            <a href="javascript:;">
+                                <i class="fa fa-pencil"></i> Edit
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">
+                                <i class="fa fa-trash-o"></i> Delete
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">
+                                <i class="fa fa-ban"></i> Ban
+                            </a>
+                        </li>
+                        <li class="divider"> </li>
+                        <li>
+                            <a href="javascript:;"> Make admin </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="portlet-body form">
+            @using (Html.BeginForm("ChangePassword", "Login",
+                                                //new { ReturnUrl = ViewBag.ReturnUrl },
+                                                FormMethod.Post, new { @class = "" }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="form-body">
+                    
+                    
+                    <div class="col-md-4 ">
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                            <input type="text" class="form-control input-lg" id="form_control_1">
+                            <label for="form_control_1">Name</label>
+                        </div>
+                        </div>
+                    <div class="col-md-4 ">
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                            <input type="text" class="form-control input-lg" id="form_control_1">
+                            <label for="form_control_1">Name (Hindi)</label>
+                        </div>
+                        </div> 
+
+                    <div class="col-md-4 ">
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                            <input type="text" class="form-control input-lg" id="form_control_1">
+                            <label for="form_control_1">Mobile No.</label>
+                        </div>
+                    </div> 
+
+                    <div class="col-md-4 ">
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                            @*<select class="form-control edited input-lg" id="form_control_1">
+                                <option value=""></option>
+                                <option value="1" selected>Option 1</option>
+                                <option value="2">Option 2</option>
+                                <option value="3">Option 3</option>
+                                <option value="4">Option 4</option>
+                            </select>
+                            <label for="form_control_1">Dropdown sample</label>*@
+                            <input type="text" class="form-control input-lg" id="form_control_1">
+                            <label for="form_control_1">Designation</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4 ">
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                            <input type="text" class="form-control input-lg" id="form_control_1">
+                            <label for="form_control_1">Official eMail</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 ">
+                        <div class="form-group form-md-line-input form-md-floating-label has-info">
+                            <input type="text" class="form-control input-lg" id="form_control_1">
+                            <label for="form_control_1">Address</label>
+                        </div>
+                    </div>  
+
+
+
+
+
+                        <div class="form-actions noborder">
+                            <button type="button" class="btn blue">Submit</button>
+                            <button type="button" class="btn default">Cancel</button>
+                        </div>
+                    </div> 
+            }
+        </div>
+    </div>
+    <!-- END SAMPLE FORM PORTLET-->
+    <!-- BEGIN SAMPLE FORM PORTLET-->
+

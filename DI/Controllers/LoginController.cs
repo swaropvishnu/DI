@@ -305,5 +305,10 @@ namespace DI.Controllers
                 return RedirectToAction("FirstTimeLogin", "Login");
             }
         }
+
+        public ActionResult ProfileUpdate()
+        {
+            return View();
+        }
     }
 }

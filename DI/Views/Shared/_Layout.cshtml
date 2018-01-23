@@ -43,7 +43,7 @@
                     <div class="btn-group">
                         <button type="button" class="btn btn-circle btn-outline red dropdown-toggle" data-toggle="dropdown">
                             <i class="fa fa-plus"></i>&nbsp;
-                            <span class="hidden-sm hidden-xs">New&nbsp;</span>&nbsp;
+                            <span class="hidden-sm hidden-xs">Important Links&nbsp;</span>&nbsp;
                             <i class="fa fa-angle-down"></i>
                         </button>
                         <ul class="dropdown-menu" role="menu">
@@ -472,11 +472,11 @@
         <!-- BEGIN CONTAINER -->
         <div class="page-container">
             <!-- BEGIN SIDEBAR -->
-            @*<div class="page-sidebar-wrapper">*@
+            <div class="page-sidebar-wrapper">
                 <!-- END SIDEBAR -->
                 <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
                 <!-- DOC: Change data-auto-speed="200" to adjust the sub menu slide up/down speed -->
-                @*<div class="page-sidebar navbar-collapse collapse">*@
+                <div class="page-sidebar navbar-collapse collapse">
                     <!-- BEGIN SIDEBAR MENU -->
                     <!-- DOC: Apply "page-sidebar-menu-light" class right after "page-sidebar-menu" to enable light sidebar menu style(without borders) -->
                     <!-- DOC: Apply "page-sidebar-menu-hover-submenu" class right after "page-sidebar-menu" to enable hoverable(hover vs accordion) sub menu mode -->
@@ -484,7 +484,7 @@
                     <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
                     <!-- DOC: Set data-keep-expand="true" to keep the submenues expanded -->
                     <!-- DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed -->
-                    @*<ul class="page-sidebar-menu  page-header-fixed page-sidebar-menu-hover-submenu " data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
+                    <ul class="page-sidebar-menu  page-header-fixed page-sidebar-menu-hover-submenu " data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
                             <li class="nav-item start ">
                                 <a href="javascript:;" class="nav-link nav-toggle">
                                     <i class="icon-home"></i>
@@ -688,14 +688,14 @@
                             </li>
 
 
-                        </ul>*@
+                        </ul>
 
                     @*<div data-ng-include="'../Content/tpl/sidebar.html'" data-ng-controller="SidebarController" class="page-sidebar-wrapper"> </div>*@
 
 
                     <!-- END SIDEBAR MENU -->
-                @*</div>*@
-            @{ Html.RenderAction("Index", "SideMenu"); }
+                </div>
+            @*@{ Html.RenderAction("Index", "SideMenu"); }*@
 
 
 
@@ -848,7 +848,7 @@
             </a>
             <div class="page-quick-sidebar-wrapper" data-close-on-body-click="false">
                 <div class="page-quick-sidebar">
-                    <ul class="nav nav-tabs">
+                    @*<ul class="nav nav-tabs">
                         <li class="active">
                             <a href="javascript:;" data-target="#quick_sidebar_tab_1" data-toggle="tab">
                                 Users
@@ -890,111 +890,10 @@
                                 </li>
                             </ul>
                         </li>
-                    </ul>
+                    </ul>*@
                     <div class="tab-content">
                         <div class="tab-pane active page-quick-sidebar-chat" id="quick_sidebar_tab_1">
-                            <div class="page-quick-sidebar-chat-users" data-rail-color="#ddd" data-wrapper-class="page-quick-sidebar-list">
-                                <h3 class="list-heading">Staff</h3>
-                                <ul class="media-list list-items">
-                                    <li class="media">
-                                        <div class="media-status">
-                                            <span class="badge badge-success">8</span>
-                                        </div>
-                                        <img class="media-object" src="~/Content/assets/layouts/layout/img/avatar3.jpg" alt="...">
-                                        <div class="media-body">
-                                            <h4 class="media-heading">Bob Nilson</h4>
-                                            <div class="media-heading-sub"> Project Manager </div>
-                                        </div>
-                                    </li>
-                                    <li class="media">
-                                        <img class="media-object" src="~/Content/assets/layouts/layout/img/avatar1.jpg" alt="...">
-                                        <div class="media-body">
-                                            <h4 class="media-heading">Nick Larson</h4>
-                                            <div class="media-heading-sub"> Art Director </div>
-                                        </div>
-                                    </li>
-                                    <li class="media">
-                                        <div class="media-status">
-                                            <span class="badge badge-danger">3</span>
-                                        </div>
-                                        <img class="media-object" src="~/Content/assets/layouts/layout/img/avatar4.jpg" alt="...">
-                                        <div class="media-body">
-                                            <h4 class="media-heading">Deon Hubert</h4>
-                                            <div class="media-heading-sub"> CTO </div>
-                                        </div>
-                                    </li>
-                                    <li class="media">
-                                        <img class="media-object" src="~/Content/assets/layouts/layout/img/avatar2.jpg" alt="...">
-                                        <div class="media-body">
-                                            <h4 class="media-heading">Ella Wong</h4>
-                                            <div class="media-heading-sub"> CEO </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                                <h3 class="list-heading">Customers</h3>
-                                <ul class="media-list list-items">
-                                    <li class="media">
-                                        <div class="media-status">
-                                            <span class="badge badge-warning">2</span>
-                                        </div>
-                                        <img class="media-object" src="~/Content/assets/layouts/layout/img/avatar6.jpg" alt="...">
-                                        <div class="media-body">
-                                            <h4 class="media-heading">Lara Kunis</h4>
-                                            <div class="media-heading-sub"> CEO, Loop Inc </div>
-                                            <div class="media-heading-small"> Last seen 03:10 AM </div>
-                                        </div>
-                                    </li>
-                                    <li class="media">
-                                        <div class="media-status">
-                                            <span class="label label-sm label-success">new</span>
-                                        </div>
-                                        <img class="media-object" src="~/Content/assets/layouts/layout/img/avatar7.jpg" alt="...">
-                                        <div class="media-body">
-                                            <h4 class="media-heading">Ernie Kyllonen</h4>
-                                            <div class="media-heading-sub">
-                                                Project Manager,
-                                                <br> SmartBizz PTL
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="media">
-                                        <img class="media-object" src="~/Content/assets/layouts/layout/img/avatar8.jpg" alt="...">
-                                        <div class="media-body">
-                                            <h4 class="media-heading">Lisa Stone</h4>
-                                            <div class="media-heading-sub"> CTO, Keort Inc </div>
-                                            <div class="media-heading-small"> Last seen 13:10 PM </div>
-                                        </div>
-                                    </li>
-                                    <li class="media">
-                                        <div class="media-status">
-                                            <span class="badge badge-success">7</span>
-                                        </div>
-                                        <img class="media-object" src="~/Content/assets/layouts/layout/img/avatar9.jpg" alt="...">
-                                        <div class="media-body">
-                                            <h4 class="media-heading">Deon Portalatin</h4>
-                                            <div class="media-heading-sub"> CFO, H&D LTD </div>
-                                        </div>
-                                    </li>
-                                    <li class="media">
-                                        <img class="media-object" src="~/Content/assets/layouts/layout/img/avatar10.jpg" alt="...">
-                                        <div class="media-body">
-                                            <h4 class="media-heading">Irina Savikova</h4>
-                                            <div class="media-heading-sub"> CEO, Tizda Motors Inc </div>
-                                        </div>
-                                    </li>
-                                    <li class="media">
-                                        <div class="media-status">
-                                            <span class="badge badge-danger">4</span>
-                                        </div>
-                                        <img class="media-object" src="~/Content/assets/layouts/layout/img/avatar11.jpg" alt="...">
-                                        <div class="media-body">
-                                            <h4 class="media-heading">Maria Gomez</h4>
-                                            <div class="media-heading-sub"> Manager, Infomatic Inc </div>
-                                            <div class="media-heading-small"> Last seen 03:10 AM </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
+                            @* side menu bar removed *@
                             <div class="page-quick-sidebar-item">
                                 <div class="page-quick-sidebar-chat-user">
                                     <div class="page-quick-sidebar-nav">
@@ -1357,7 +1256,7 @@
                                         </div>
                                     </li>
                                     <li>
-                                        <a href="javascript:;">
+                                        <a href="#">
                                             <div class="col1">
                                                 <div class="cont">
                                                     <div class="cont-col1">
@@ -1492,8 +1391,7 @@
 
 
             @Scripts.Render("~/bundles/bootstrapBlank")
-            @Scripts.Render("~/bundles/bootstrapAngular")
-            @Scripts.Render("~/bundles/bootstrapAngularM")
+            
             
 
             @(Html.GoogleMap().ScriptRegistrar())
