@@ -83,5 +83,13 @@ namespace DI.Models
             get;
             set;
         }
+
+
+        
+        public string SideMenuDiv
+        {
+            get;
+            set;
+        }
     }
 }

@@ -5941,6 +5941,7 @@
     <Compile Include="BLL\CommonBL.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\SidemenuController.cs" />
     <Compile Include="DAL\CommonDA.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\ExampleConfigurator.cs" />
@@ -5985,6 +5986,7 @@
     <Folder Include="Content\assets\apps\img\" />
     <Folder Include="Content\assets\global\plugins\angularjs\plugins\angular-file-upload\uploads\" />
     <Folder Include="Views\Default\" />
+    <Folder Include="Views\Sidemenu\" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
