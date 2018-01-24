@@ -8,6 +8,7 @@ using System.Web;
 using DI.BLL;
 using DI.Models;
 
+
 namespace DI.DAL
 {
     public class CommonDA
@@ -17,6 +18,84 @@ namespace DI.DAL
         DataTable dt;
 
         SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["constr"].ToString());
+
+        internal FormModal GetUserDetail(FormModal objUserData)
+        {
+            FormModal fm = new FormModal();
+            try
+            {
+                con.Open();
+                cmd = new SqlCommand("proc_GetUserMaster", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@UID", SqlDbType.Int).Value = objUserData.UserId;
+                adap = new SqlDataAdapter(cmd);
+                dt = new DataTable();
+                adap.Fill(dt);
+                cmd.Dispose();
+                if (dt!=null && dt.Rows.Count>0)
+                {
+                    for (int i = 0; i < dt.Rows.Count; i++)
+                    {
+                        fm.UserId = objUserData.UserId;
+                        fm.UserName = dt.Rows[i]["Name"].ToString();
+                        fm.UserMobile = dt.Rows[i]["MobileNo"].ToString();
+                        fm.UserNameHindi = dt.Rows[i]["NameHindi"].ToString();
+                        fm.UserEmail = dt.Rows[i]["EmailId"].ToString();
+                        fm.UserAddress = dt.Rows[i]["Office_Add"].ToString();
+                        fm.UserImage = (Byte[])dt.Rows[i]["PhotoContent"]; 
+                    }
+                   
+
+                }
+                return fm;
+
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+
+                con.Close();
+                con.Dispose();
+            }
+        }
+
+      internal  String UpdateUserDetail(FormModal objUserData)
+        {
+            string result = "";
+            try
+            {
+                con.Open();
+                cmd = new SqlCommand("proc_UpdateUserProfile", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@UID", SqlDbType.Int).Value = objUserData.UserId;
+                cmd.Parameters.AddWithValue("@UserName", SqlDbType.VarChar).Value = objUserData.UserName;
+                cmd.Parameters.AddWithValue("@UserHindiName", SqlDbType.NVarChar).Value = objUserData.UserNameHindi;
+                cmd.Parameters.AddWithValue("@UserMobile", SqlDbType.VarChar).Value = objUserData.UserMobile;
+                cmd.Parameters.AddWithValue("@UserEmail", SqlDbType.VarChar).Value = objUserData.UserEmail;
+                cmd.Parameters.AddWithValue("@UserAddress", SqlDbType.VarChar).Value = objUserData.UserAddress;
+                cmd.Parameters.AddWithValue("@UserProfileImage", SqlDbType.VarBinary).Value = objUserData.UserImage;
+                cmd.ExecuteNonQuery();
+                result = "Success";
+
+            }
+            catch
+            {
+                result = "Failed";
+                throw;
+               
+            }
+            finally
+            {
+
+                con.Close();
+                con.Dispose();
+            }
+
+            return result;
+        }
 
         //public long InsertOfficeDetailsDA(DDbind objCommonda)
         //{
@@ -68,7 +147,7 @@ namespace DI.DAL
         //        ////cmd.Parameters.AddWithValue("@freeze_status", SqlDbType.Int).Value = objCommonda.freezestat;
         //        //cmd.Parameters.AddWithValue("@ipaddress", SqlDbType.VarChar).Value = objCommonda.IPAddress;
         //        ////cmd.Parameters.AddWithValue("@entrystamp", SqlDbType.NVarChar).Value = objCommonda.TimeStamp;
-       
+
         //        //cmd.Parameters.AddWithValue("@driver", SqlDbType.Int).Value = objCommonda.Driver;
         //        //cmd.Parameters.AddWithValue("@maternityleave", SqlDbType.Int).Value = objCommonda.MaternityLeave;
         //        //cmd.Parameters.AddWithValue("@handicaped", SqlDbType.Int).Value = objCommonda.Handicaped;

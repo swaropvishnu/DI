@@ -21,5 +21,16 @@ namespace DI.BLL
         //        throw;
         //    }
         //}
+        internal static FormModal GetUserDetail(FormModal objUserData)
+        {
+            CommonDA CommonDA = new CommonDA();
+            return CommonDA.GetUserDetail(objUserData);
+        }
+
+       public static String UpdateUserDetail(FormModal objUserData)
+        {
+            CommonDA CommonDA = new CommonDA();
+            return CommonDA.UpdateUserDetail(objUserData);
+        }
     }
 }
