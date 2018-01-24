@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DI.Controllers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Principal;
@@ -59,7 +60,26 @@ namespace DI
                 }
                 else
                 {
-                    httpContext.Response.Redirect("~/Error");
+                    //Code that runs when an unhandled error occurs
+                    //Exception ex = default(Exception);
+
+                    //ex = Server.GetLastError().InnerException;
+                    //if (ex != null)
+                    //{
+                        string ex = httpContext.Error.Message ;
+                        CMODataEntryBLL.InsertErrLog(Request.Url.ToString(), ex);                        
+                    //}
+                    Response.Clear();
+                    Server.ClearError();
+
+                    var routeData = new RouteData();
+                    routeData.Values["controller"] = "Login";
+                    routeData.Values["action"] = "Error";
+                    Response.StatusCode = 500;
+
+                    IController controller = new LoginController();
+                    var rc = new RequestContext(new HttpContextWrapper(Context), routeData);
+                    controller.Execute(rc);
                 }
             }
         }

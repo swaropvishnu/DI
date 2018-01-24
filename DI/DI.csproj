@@ -156,7 +156,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\XSLTFile.xslt" />
     <Content Include="Content\assets\apps\css\inbox.css" />
     <Content Include="Content\assets\apps\css\inbox.min.css" />
     <Content Include="Content\assets\apps\css\ticket.css" />
@@ -5910,6 +5909,7 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <None Include="Properties\PublishProfiles\DI.pubxml" />
     <None Include="scripts\jquery-3.2.1.intellisense.js" />
     <Content Include="scripts\bootstrap.js" />
     <Content Include="scripts\bootstrap.min.js" />
@@ -5942,7 +5942,6 @@
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\FormController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
-    <Compile Include="Controllers\SidemenuController.cs" />
     <Compile Include="DAL\CommonDA.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\ExampleConfigurator.cs" />
@@ -5953,6 +5952,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helper\CustomErrorHandler.cs" />
+    <Compile Include="Models\CaptchaImageResult.cs" />
     <Compile Include="Models\DashboardModal.cs" />
     <Compile Include="Models\FormModal.cs" />
     <Compile Include="Models\LoginModal.cs" />
@@ -5990,7 +5990,6 @@
     <Folder Include="Content\assets\apps\img\" />
     <Folder Include="Content\assets\global\plugins\angularjs\plugins\angular-file-upload\uploads\" />
     <Folder Include="Views\Default\" />
-    <Folder Include="Views\Sidemenu\" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

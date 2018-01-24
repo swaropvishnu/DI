@@ -84,7 +84,24 @@ namespace DI
                       "~/Content/plugins/bootstrap/js/bootstrap.min.js",
                       "~/Content/plugins/jquery.youtube.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/bootstrapLog").Include(
+            bundles.Add(new ScriptBundle("~/bundles/bootstrapLog1").Include(
+                      "~/Scripts/jquery-{version}.js",
+                      "~/Content/assets/global/plugins/jquery.min.js",
+                      "~/Content/assets/global/plugins/bootstrap/js/bootstrap.min.js",
+                      "~/Content/assets/global/plugins/js.cookie.min.js",
+                      "~/Content/assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js",
+                      "~/Content/assets/global/plugins/jquery.blockui.min.js",
+                      "~/Content/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/bootstrapLog2").Include(                      
+                      "~/Content/assets/global/plugins/jquery-validation/js/jquery.validate.min.js",
+                      "~/Content/assets/global/plugins/jquery-validation/js/additional-methods.min.js",
+                      "~/Content/assets/global/plugins/select2/js/select2.full.min.js",
+                      "~/Content/assets/global/plugins/backstretch/jquery.backstretch.min.js",
+                      "~/Content/assets/global/scripts/app.min.js",
+                      "~/Content/assets/pages/scripts/login-5.min.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/bootstrapBlank").Include(
                       "~/Scripts/jquery-{version}.js",
                       "~/Content/assets/global/plugins/jquery.min.js",
                       "~/Content/assets/global/plugins/bootstrap/js/bootstrap.min.js",
@@ -92,21 +109,8 @@ namespace DI
                       "~/Content/assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js",
                       "~/Content/assets/global/plugins/jquery.blockui.min.js",
                       "~/Content/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js",
-                      "~/Content/assets/global/plugins/jquery-validation/js/jquery.validate.min.js",
-                      "~/Content/assets/global/plugins/jquery-validation/js/additional-methods.min.js",
-                      "~/Content/assets/global/plugins/select2/js/select2.full.min.js",
-                      "~/Content/assets/global/plugins/backstretch/jquery.backstretch.min.js",
-                      "~/Content/assets/global/scripts/app.min.js", 
-                      "~/Content/assets/pages/scripts/login-5.min.js"));
-
-            bundles.Add(new ScriptBundle("~/bundles/bootstrapBlank").Include(
-                      //"~/Scripts/jquery-{version}.js",
-                      "~/Content/assets/global/plugins/jquery.min.js",
-                      "~/Content/assets/global/plugins/bootstrap/js/bootstrap.min.js",
-                      "~/Content/assets/global/plugins/js.cookie.min.js",
-                      "~/Content/assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js",
-                      "~/Content/assets/global/plugins/jquery.blockui.min.js",
-                      "~/Content/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js",
+                      "~/Content/assets/global/plugins/jquery-inputmask/jquery.inputmask.bundle.min.js",
+                      "~/Content/assets/global/plugins/jquery.input-ip-address-control-1.0.min.js",
                       "~/Content/assets/global/scripts/app.min.js",
                       "~/Content/assets/layouts/layout2/scripts/layout.min.js",
                       "~/Content/assets/layouts/layout2/scripts/demo.min.js",

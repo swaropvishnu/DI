@@ -1,6 +1,7 @@
 ﻿using CaptchaMvc.HtmlHelpers;
 using DI.Filters;
 using DI.Models;
+using MVCCaptchaDemo.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -11,6 +12,7 @@ using System.Security.Principal;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+
 
 namespace DI.Controllers
 {
@@ -38,7 +40,8 @@ namespace DI.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Login(LoginModal Model)
         {
-            if (this.IsCaptchaValid("Captcha is not valid"))
+            //if (this.IsCaptchaValid("Captcha is not valid"))
+            if (Model.CaptchaText == HttpContext.Session["captchastring"].ToString())
             {
                 string salt = CreateSalt(5);
                 string usrname = Model.UserName;
@@ -85,7 +88,10 @@ namespace DI.Controllers
             }
         }
 
-
+        public CaptchaImageResult ShowCaptchaImage()
+        {
+            return new CaptchaImageResult();
+        }
 
         /// <summary>
         /// 
@@ -311,5 +317,12 @@ namespace DI.Controllers
         {
             return View();
         }
+
+
+        public ActionResult Error()
+
+        {
+            return View();
+        }        
     }
 }

@@ -86,7 +86,7 @@ namespace DI.Models
 
 
         
-        public string SideMenuDiv
+        public string CaptchaText
         {
             get;
             set;
