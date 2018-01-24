@@ -1,4 +1,5 @@
 ﻿using CaptchaMvc.HtmlHelpers;
+using DI.BLL;
 using DI.Filters;
 using DI.Models;
 using System;
@@ -309,7 +310,43 @@ namespace DI.Controllers
         [SessionExpireFilterAttribute]
         public ActionResult ProfileUpdate()
         {
-            return View();
+            
+            FormModal objUserData = new FormModal();
+            objUserData.UserId =UserSession.LoggedInUserId.ToString();
+            
+            objUserData = CommonBL.GetUserDetail(objUserData);
+            ViewBag.Base64String = "data:image/png;base64," + Convert.ToBase64String(objUserData.UserImage, 0);
+            return View(objUserData);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [SessionExpireFilterAttribute]
+        public ActionResult ProfileUpdate(FormModal objUserData, HttpPostedFileBase pimg)
+        {
+            Byte[] img = null;
+            if (pimg != null && pimg.ContentLength > 0)
+            {   /*****IMG-DB-CODE******/
+                int FileSize = pimg.ContentLength;
+                img = new Byte[FileSize];
+                pimg.InputStream.Read(img, 0, FileSize);
+                objUserData.UserImage = img;
+            }
+            objUserData.UserId = UserSession.LoggedInUserId.ToString();
+
+           string A = CommonBL.UpdateUserDetail(objUserData);
+            ViewBag.Base64String = "data:image/png;base64," + Convert.ToBase64String(objUserData.UserImage, 0);
+            if (A=="Success")
+            {
+                ViewBag.AlertUpdate = "Update SuccessFully..";
+            }
+            else
+            {
+                ViewBag.AlertUpdate = "Failed To Update Profile..";
+            }
+
+            
+            return View(objUserData);
         }
     }
 }
