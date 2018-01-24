@@ -317,7 +317,7 @@ namespace DI.Controllers
         public ActionResult ProfileUpdate()
         {
             
-            FormModal objUserData = new FormModal();
+            LoginModal objUserData = new LoginModal();
             objUserData.UserId =UserSession.LoggedInUserId.ToString();
             
             objUserData = CommonBL.GetUserDetail(objUserData);
@@ -328,7 +328,7 @@ namespace DI.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [SessionExpireFilterAttribute]
-        public ActionResult ProfileUpdate(FormModal objUserData, HttpPostedFileBase pimg)
+        public ActionResult ProfileUpdate(LoginModal objUserData, HttpPostedFileBase pimg)
         {
             Byte[] img = null;
             if (pimg != null && pimg.ContentLength > 0)

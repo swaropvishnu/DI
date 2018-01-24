@@ -19,9 +19,9 @@ namespace DI.DAL
 
         SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["constr"].ToString());
 
-        internal FormModal GetUserDetail(FormModal objUserData)
+        internal LoginModal GetUserDetail(LoginModal objUserData)
         {
-            FormModal fm = new FormModal();
+            LoginModal fm = new LoginModal();
             try
             {
                 con.Open();
@@ -62,7 +62,7 @@ namespace DI.DAL
             }
         }
 
-      internal  String UpdateUserDetail(FormModal objUserData)
+      internal  String UpdateUserDetail(LoginModal objUserData)
         {
             string result = "";
             try

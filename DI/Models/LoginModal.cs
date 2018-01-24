@@ -91,5 +91,18 @@ namespace DI.Models
             get;
             set;
         }
+
+
+
+        public string UserId { get; set; }
+        //[Required]
+        //public string UserName { get; set; }
+        [Required]
+        public string UserNameHindi { get; set; }
+        [Required]
+        public string UserMobile { get; set; }
+        public string UserEmail { get; set; }
+        public string UserAddress { get; set; }
+        public byte[] UserImage { get; set; }
     }
 }
