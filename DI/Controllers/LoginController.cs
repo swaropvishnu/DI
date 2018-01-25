@@ -276,7 +276,7 @@ namespace DI.Controllers
                     if ((lpsw.ToLower().Equals(hashed_newpwd.ToLower())) == true)
                     {
                         ViewBag.ErrMessage = "Your new password should not match with last old password ?";
-                        return RedirectToAction("Index", "Default");
+                        //return RedirectToAction("Index", "Default");
                     }
 
                     if ((psw.ToLower().Equals(hashed_newpwd.ToLower())) == false)
@@ -287,30 +287,33 @@ namespace DI.Controllers
                             string hashed_pwdNew = type_pwd_salt;
                             string res = UserDtl.Userpasswordchange(UserSession.LoggedInUserName, hashed_pwdNew.ToLower(), hashed_pwd.ToLower());
                             //ScriptManager.RegisterStartupScript(this, this.GetType(), "redirect", "alert('" + res + "'); window.location='/EPDS2017/logout.aspx';", true);
-                            return RedirectToAction("Index", "Default");
+                            //return RedirectToAction("ChangePassword", "Login");
+                            ViewBag.ErrMessage = "Your Password Changed Successfully...";
                         }
                         else
                         {
                             ViewBag.ErrMessage = "Your old Password is not correct ?";
-                            return RedirectToAction("Index", "Default");
+                            //return RedirectToAction("Index", "Default");
                         }
                     }
                     else
                     {
                         ViewBag.ErrMessage = "Your new Password mathced with old password Please change new password. ?";
-                        return RedirectToAction("Index", "Default");
+                        //return RedirectToAction("Index", "Default");
                     }
                 }
                 else
                 {
-                    return RedirectToAction("Index", "Default");
+                    //return RedirectToAction("Index", "Default");
                 }
             }
             else
             {
                 ViewBag.ErrMessage = "Invalid Username or Password.";
-                return RedirectToAction("FirstTimeLogin", "Login");
+                //return RedirectToAction("FirstTimeLogin", "Login");
             }
+
+            return View();
         }
 
         [SessionExpireFilterAttribute]
