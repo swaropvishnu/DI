@@ -257,6 +257,18 @@ namespace DI.Models
             }
         }
 
+        //profilepic
+        public static string ProfilePhoto
+        {
+            get
+            {
+                return LoggedInUser.profilephoto;
+            }
+            set
+            {
+                LoggedInUser.profilephoto = value;
+            }
+        }
 
 
     }

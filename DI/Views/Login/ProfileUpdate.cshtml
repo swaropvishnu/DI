@@ -81,7 +81,7 @@
 
                                 <div class="col-md-4 ">
                                     <div class="form-group form-md-line-input form-md-floating-label has-info">
-                                        @Html.TextBoxFor(m => m.UserMobile, new { @class = "form-control input-lg", @id = "txtmobile" })
+                                        @Html.TextBoxFor(m => m.UserMobile, new { @class = "form-control input-lg", @id = "mask_phone" })
                                         <label for="form_control_1">Mobile No.</label>
                                         @*@Html.LabelFor(m => m.UserMobile, "", new { @id = "txtusermobile", @class = "form-control" })*@
                                     </div>
@@ -189,7 +189,7 @@
   
         var txtname = $('#txtname').val();
         var txtnamehindi = $('#txtnamehindi').val();
-        var txtmobile = $('#txtmobile').val();
+        var txtmobile = $('#mask_phone').val();
         var txtemail = $('#txtemail').val();
         var txtaddress = $('#txtaddress').val();
 
