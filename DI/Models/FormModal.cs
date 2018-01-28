@@ -21,16 +21,17 @@ namespace DI.Models
         public string ApplicantName { get; set; }
         public string ApplicantAddress { get; set; }
         public string IndrustryName { get; set; }
-        public string ApplicationFee { get; set; }
+        public Decimal ApplicationFee { get; set; }
         public string ApplicationFeedetails { get; set; }
-        public string RegistraionNo { get; set; }
-        public string RegistrationDate { get; set; }
-        public string Product { get; set; }
+        public bool IsPreRegistered { get; set; }
+        public Int64 OldRegistraionNo { get; set; }
+        public DateTime OldRegistrationDate { get; set; }
+        public string ProductName { get; set; }
         public string FiananceDetails { get; set; }
         public string RowMeterialSource { get; set; }
-      
-
-
+        public string PracticalProjectReport { get; set; }
+        public string HelpFromForegin { get; set; }
+        public string Mode { get; set; }
     }
     
 }

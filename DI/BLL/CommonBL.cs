@@ -23,14 +23,41 @@ namespace DI.BLL
         //}
         internal static LoginModal GetUserDetail(LoginModal objUserData)
         {
-            CommonDA CommonDA = new CommonDA();
-            return CommonDA.GetUserDetail(objUserData);
+            try
+            {
+                CommonDA CommonDA = new CommonDA();
+                return CommonDA.GetUserDetail(objUserData);
+            }
+            catch
+            {
+                throw;
+            }
         }
 
        public static String UpdateUserDetail(LoginModal objUserData)
         {
-            CommonDA CommonDA = new CommonDA();
-            return CommonDA.UpdateUserDetail(objUserData);
+            try
+            {
+                CommonDA CommonDA = new CommonDA();
+                return CommonDA.UpdateUserDetail(objUserData);
+            }
+            catch
+            {
+                throw;
+            }
         }
+
+       internal static string InsertUpdateApplicationFormDetail(FormModal Objform)
+       {
+           try
+           {
+               CommonDA CommonDA = new CommonDA();
+               return CommonDA.InsertUpdateApplicationFormDetail(Objform);
+           }
+           catch
+           {
+               throw;
+           }
+       }
     }
 }

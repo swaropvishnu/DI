@@ -180,5 +180,48 @@ namespace DI.DAL
         //        //ObjBO = null;
         //    }
         //}
+
+      internal  string InsertUpdateApplicationFormDetail(FormModal Objform)
+      {
+          string result = "";
+          try
+          {
+              con.Open();
+              cmd = new SqlCommand("Proc_InsertUpdateApplicationFormDetail", con);
+              cmd.CommandType = CommandType.StoredProcedure;
+              cmd.Parameters.AddWithValue("@UserId", SqlDbType.BigInt).Value = Objform.UserId;
+              cmd.Parameters.AddWithValue("@ApplicantName", SqlDbType.NVarChar).Value = Objform.ApplicantName;
+              cmd.Parameters.AddWithValue("@ApplicantAddress", SqlDbType.NVarChar).Value = Objform.ApplicantAddress;
+              cmd.Parameters.AddWithValue("@IndrustryName", SqlDbType.NVarChar).Value = Objform.IndrustryName;
+              cmd.Parameters.AddWithValue("@ApplicationFee", SqlDbType.Decimal).Value = Objform.ApplicationFee;
+              cmd.Parameters.AddWithValue("@ApplicationFeedetails", SqlDbType.NVarChar).Value = Objform.ApplicationFeedetails;
+              cmd.Parameters.AddWithValue("@IsPreRegistered", SqlDbType.Bit).Value = Objform.IsPreRegistered;
+              cmd.Parameters.AddWithValue("@OldRegistraionNo", SqlDbType.BigInt).Value = Objform.OldRegistraionNo;
+              cmd.Parameters.AddWithValue("@OldRegistrationDate", SqlDbType.DateTime).Value = Objform.OldRegistrationDate;
+              cmd.Parameters.AddWithValue("@ProductName", SqlDbType.NVarChar).Value = Objform.ProductName;
+              cmd.Parameters.AddWithValue("@FiananceDetails", SqlDbType.NVarChar).Value = Objform.FiananceDetails;
+              cmd.Parameters.AddWithValue("@RowMeterialSource", SqlDbType.NVarChar).Value = Objform.RowMeterialSource;
+              cmd.Parameters.AddWithValue("@PracticalProjectReport", SqlDbType.VarChar).Value = Objform.PracticalProjectReport;
+              cmd.Parameters.AddWithValue("@HelpFromForegin", SqlDbType.NVarChar).Value = Objform.HelpFromForegin;
+              cmd.Parameters.AddWithValue("@Mode", SqlDbType.VarChar).Value = Objform.Mode;
+              cmd.ExecuteNonQuery();
+              result = "Success";
+
+          }
+          catch
+          {
+              result = "Failed";
+              throw;
+
+          }
+          finally
+          {
+
+              con.Close();
+              con.Dispose();
+          }
+
+          return result;
+      }
     }
 }

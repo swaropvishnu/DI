@@ -1,7 +1,16 @@
 ﻿@model DI.Models.FormModal
+@{
+    if (ViewBag.Alert != null)
+    {
+        <script>
+            alert('@ViewBag.Alert');
+        </script>
+    }
+}
 
 @using (Html.BeginForm())
 {
+     @Html.AntiForgeryToken()
     <div class="portlet box green ">
         <div class="portlet-title" >
             <div class="caption">
@@ -15,7 +24,7 @@
             </div>
         </div>
         <div class="portlet-body form">
-            <form role="form">
+            <form  method="post">
                 <div class="form-body" style="background-color:#fff8dc4a">
                     <div class="row">
                         <div class="col-md-4">
@@ -79,18 +88,19 @@
                     <div class="form-group">
                         @*<label class="control-label">यदि प्रस्तावित रूप से पंजीकृत है</label>*@
                         <div class="md-checkbox">
-                            <input type="checkbox" id="checkbox1_1" class="md-check" />
+                            @Html.CheckBoxFor(m => m.IsPreRegistered, new { @class = "md-check", @id = "checkbox1_1",@onclick="showrow();" })
+                            @*<input type="checkbox" id="checkbox1_1" class="md-check" />*@
                             <label for="checkbox1_1">
                                 <span class="inc"></span>
                                 <span class="check"></span>
                                 <span class="box"></span><b>यदि प्रस्तावित रूप से पंजीकृत है</b>
                             </label>
                         </div>
-                        <div class="row">
+                        <div class="row" id="trpreregisteration" style="display:none">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="control-label"><b>पंजीकरण संख्या</b></label>
-                                    @Html.TextBoxFor(m => m.RegistraionNo, new { @class = "form-control", @id = "txtRegistraionNo", placeholder = "पंजीकरण संख्या" })
+                                    @Html.TextBoxFor(m => m.OldRegistraionNo, new { @class = "form-control", @id = "txtRegistraionNo", placeholder = "पंजीकरण संख्या" })
                                    
                                 </div>
                             </div>
@@ -98,7 +108,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="control-label"><b>पंजीकरण दिनांक</b></label>
-                                    @Html.TextBoxFor(m => m.RegistrationDate, new { @class = "form-control", @id = "txtRegistrationDate", placeholder = "dd/mm/yyyy" })
+                                    @Html.TextBoxFor(m => m.OldRegistrationDate, new { @class = "form-control", @id = "txtRegistrationDate", placeholder = "dd/mm/yyyy" })
                                    
                                 </div>
                             </div>
@@ -109,7 +119,7 @@
                         <label class="control-label"><b>सामग्री जिसका उत्पादन किया जायेगा</b></label>
                         <div class="input-icon">
                             @*<i class="fa fa-bell-o"></i>*@
-                            @Html.TextBoxFor(m => m.Product, new { @class = "form-control", @id = "txtproduct", placeholder = "सामग्री का नाम" })
+                            @Html.TextBoxFor(m => m.ProductName, new { @class = "form-control", @id = "txtproduct", placeholder = "सामग्री का नाम" })
                            
                         </div>
                     </div>
@@ -117,10 +127,11 @@
                         <label class="control-label"><b>प्रोजेक्ट रिपोर्ट व्यावहारिक है या नहीं</b></label>
                         <div class="radio-list" style="margin-left:20px">
                             <label class="radio-inline">
-                                <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">हाँ
+                                @Html.RadioButtonFor(m => m.PracticalProjectReport, "Yes", new { @name = "ProjectRadios", @id = "ProjectRadiosYes", @value = "Yes" })
+                                @*<input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">*@हाँ
                             </label>
                             <label class="radio-inline">
-                                <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2" checked="">नहीं
+                                @Html.RadioButtonFor(m => m.PracticalProjectReport, "No", new { @name = "ProjectRadios", @id = "ProjectRadiosNo", @value = "No",@checked="" })नहीं
                             </label>
                         </div>
                     </div>
@@ -128,10 +139,10 @@
                         <label class="control-label"><b>क्या विदेशी सहायता से इकाई स्थापित की जाएगी ?</b></label>
                         <div class="radio-list" style="margin-left:20px">
                             <label class="radio-inline">
-                                <input type="radio" name="optionsRadios" id="foreginRadios1" value="option1">हाँ
+                                @Html.RadioButtonFor(m => m.HelpFromForegin, "Yes", new { @name = "ForeginRadios", @id = "ForeginRadiosYes", @value = "Yes" })हाँ
                             </label>
                             <label class="radio-inline">
-                                <input type="radio" name="optionsRadios" id="foreginRadios2" value="option2" checked="">नहीं
+                                @Html.RadioButtonFor(m => m.HelpFromForegin, "No", new { @name = "ForeginRadios", @id = "ForeginRadiosNo", @value = "No",@checked="" })नहीं
                             </label>
                         </div>
                     </div>
@@ -162,4 +173,18 @@
         </div>
     
 }
-        
+  <script>
+      function showrow() {
+          debugger;
+          if ($('#checkbox1_1').prop("checked") == true) {
+              $('#trpreregisteration').css('display', '');
+          }
+          else
+          {
+              $('#trpreregisteration').css('display', 'none');
+          }
+         
+
+      }
+
+  </script>      
