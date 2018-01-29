@@ -116,7 +116,8 @@ namespace DI
                       "~/Content/assets/layouts/layout2/scripts/demo.min.js",
                       "~/Content/assets/layouts/global/scripts/quick-sidebar.min.js",
                       "~/Content/assets/layouts/global/scripts/quick-nav.min.js",
-                      "~/Content/assets/pages/scripts/form-input-mask.min.js"));
+                      "~/Content/assets/pages/scripts/form-input-mask.min.js",
+                      "~/Scripts/Menu.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrapError").Include(
                       "~/Scripts/jquery-{version}.js",

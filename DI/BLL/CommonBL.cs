@@ -32,5 +32,17 @@ namespace DI.BLL
             CommonDA CommonDA = new CommonDA();
             return CommonDA.UpdateUserDetail(objUserData);
         }
+        internal static string InsertUpdateApplicationFormDetail(FormModal Objform)
+        {
+            try
+            {
+                CommonDA CommonDA = new CommonDA();
+                return CommonDA.InsertUpdateApplicationFormDetail(Objform);
+            }
+            catch
+            {
+                throw;
+            }
+        }
     }
 }

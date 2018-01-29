@@ -303,6 +303,25 @@ namespace DI
             }
         }
 
+        public static IDataReader GetMenuData2(int UserId)
+        {
+            try
+            {
+                IDataReader ds;//= new IDataReader();
+                List<SqlParameter> parameters = new List<SqlParameter>();
+                parameters.Add(new SqlParameter("@pUserId", UserId));
+
+                ds = SqlHelper.ExecuteReader(CommonConfig.Conn(), CommandType.StoredProcedure, "Proc_getMenuItem", parameters.ToArray());
+                return ds;
+            }
+
+
+            catch
+            {
+                return null;
+            }
+        }
+
         public static string CreateOperatorUser(string NameH, string NameE, string Email, string Phone, string UserName, string pass, string usertype, int UserLevel, int state, int DivisionId, int distict, int tahshil, int DepartmentId, int PostId, int thana, int block, int section, string rights, string address, string joiningdate, string id, string Officeid)
         {
             try

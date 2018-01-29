@@ -29,9 +29,33 @@ namespace DI.Controllers
 
         public ActionResult LogOut()
         {
-            FormsAuthentication.SignOut();
-            Session.Abandon(); // it will clear the session at the end of request
-            return RedirectToAction("Login", "Login");
+            try
+            {
+                // First we clean the authentication ticket like always
+                //required NameSpace: using System.Web.Security;
+                FormsAuthentication.SignOut();
+
+                // Second we clear the principal to ensure the user does not retain any authentication
+                //required NameSpace: using System.Security.Principal;
+                HttpContext.User = new GenericPrincipal(new GenericIdentity(string.Empty), null);
+
+                Session.Clear();
+                System.Web.HttpContext.Current.Session.RemoveAll();
+
+                // Last we redirect to a controller/action that requires authentication to ensure a redirect takes place
+                // this clears the Request.IsAuthenticated flag since this triggers a new request
+
+                Session.Abandon(); // it will clear the session at the end of request
+                return RedirectToAction("Login", "Login");
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                Session.Abandon();
+            }
         }
 
 
@@ -44,6 +68,10 @@ namespace DI.Controllers
             //if (this.IsCaptchaValid("Captcha is not valid"))
             if (Model.CaptchaText == HttpContext.Session["captchastring"].ToString())
             {
+                // Ensure we have a valid viewModel to work with
+                //if (!ModelState.IsValid)
+                //    return View(Model);
+
                 string salt = CreateSalt(5);
                 string usrname = Model.UserName;
                 string password = Model.Password;
@@ -67,7 +95,10 @@ namespace DI.Controllers
                         }
                         else
                         {
-                            return RedirectToAction("Login", "Login");
+                            //Login Fail
+                            TempData["ErrorMSG"] = "Access Denied! Wrong Credential";
+                            return View(Model);
+                            //return RedirectToAction("Login", "Login");
                         }
                     }
                     else

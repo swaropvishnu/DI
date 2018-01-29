@@ -8,7 +8,8 @@ using System.Data.Entity.Infrastructure;
 
 namespace DI.Controllers
 {
-    [SessionExpireFilterAttribute]
+    [SessionExpireFilter]
+    //[CheckAuthorization]
     [HandleError(ExceptionType = typeof(DbUpdateException), View = "Error")]
     public class DashboardController : Controller
     {

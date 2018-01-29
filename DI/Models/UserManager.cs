@@ -303,7 +303,21 @@ namespace DI.Models
             }
         }
 
-        
+
         //public string Password { get; set; }
+        //profile pic
+        public string profilephoto
+        {
+            get
+            {
+
+                return "data:image/png;base64," + Convert.ToBase64String((Byte[])(tbl_Session.Rows[0]["PhotoContent"]), 0);
+            }
+            set
+            {
+                string s = "data:image/png;base64," + Convert.ToBase64String((Byte[])(tbl_Session.Rows[0]["PhotoContent"]), 0);
+                s = value;
+            }
+        }
     }
 }

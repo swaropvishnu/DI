@@ -410,7 +410,7 @@
                             <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
                             <li class="dropdown dropdown-user">
                                 <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-                                    <img alt="" class="img-circle" src="~/Content/assets/layouts/layout2/img/avatar3_small.jpg" />
+                                    <img alt="" class="img-circle" src="@UserSession.ProfilePhoto"/>
                                     <span class="username username-hide-on-mobile"> @UserSession.LoggedInUserName.ToString() </span>
                                     <i class="fa fa-angle-down"></i>
                                 </a>
@@ -485,8 +485,8 @@
                     <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
                     <!-- DOC: Set data-keep-expand="true" to keep the submenues expanded -->
                     <!-- DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed -->
-                    <ul class="page-sidebar-menu  page-header-fixed page-sidebar-menu-hover-submenu " data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
-                            <li class="nav-item start ">
+                    <ul class="page-sidebar-menu  page-header-fixed page-sidebar-menu-hover-submenu " data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200"  id="Sidemenu12">
+                            @*<li class="nav-item start ">
                                 <a href="javascript:;" class="nav-link nav-toggle">
                                     <i class="icon-home"></i>
                                     <span class="title">Dashboard</span>
@@ -514,11 +514,11 @@
                                         </a>
                                     </li>
                                 </ul>
-                            </li>
+                            </li>*@
 
 
 
-                            <li class="nav-item  ">
+                            @*<li class="nav-item  ">
                                 <a href="javascript:;" class="nav-link nav-toggle">
                                     <i class="icon-bulb"></i>
                                     <span class="title">Elements</span>
@@ -686,7 +686,7 @@
                                         </a>
                                     </li>
                                 </ul>
-                            </li>
+                            </li>*@
 
 
                         </ul>
@@ -1393,6 +1393,7 @@
 
             @Scripts.Render("~/bundles/bootstrapBlank")
             @(Html.GoogleMap().ScriptRegistrar())
+            
             @RenderSection("scripts", required: false)
 
 
