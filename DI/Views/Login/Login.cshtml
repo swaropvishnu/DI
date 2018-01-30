@@ -23,17 +23,22 @@
     <div class="user-login-5">
         <div class="row bs-reset">
             <div class="col-md-6 bs-reset mt-login-5-bsfix">
-                <div class="login-bg" style="background-image:url(DI/Content/assets/pages/img/login/bg1.jpg)">
+                <div class="login-bg" style="background-image:url(/Content/assets/pages/img/login/bg1.jpg)">
                     <img class="login-logo" src="~/Content/assets/pages/img/login/logo.png" />
                 </div>
             </div>
-            <div class="col-md-6 login-container bs-reset mt-login-5-bsfix">
-                <div class="login-content">
-                    <p>
-                        @ViewBag.ErrMessage
-                    </p>
-                    <h1>Director of Industries Admin Login</h1>
-                    <p> Lorem ipsum dolor sit amet, coectetuer adipiscing elit sed diam nonummy et nibh euismod aliquam erat volutpat. Lorem ipsum dolor sit amet, coectetuer adipiscing. </p>
+            <div class="col-md-6 login-container bs-reset mt-login-5-bsfix" style="background: -webkit-linear-gradient(top,#555,#27a4b0,#555);">
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <p>
+                    @ViewBag.ErrMessage
+                </p> 
+                @*<div class="login-content">
+                    <center><h2><b>Director of Industries Login</b></h2></center>
+                  
                     
                     @using (Html.BeginForm("Login", "Login",
                                         //new { ReturnUrl = ViewBag.ReturnUrl },
@@ -47,14 +52,12 @@
                             </div>
                             <div class="row">
                                 <div class="col-xs-6">
-                                    
-                                    
-                                    @*<input class="form-control form-control-solid placeholder-no-fix form-group" type="text" autocomplete="off" placeholder="Username" name="username" required />*@
+                                 
                                     @Html.TextBoxFor(a => a.UserName, new { @class = "form-control" , @placeholder = "User Name"})
                                     @Html.ValidationMessageFor(a => a.UserName)
                                 </div>
                                 <div class="col-xs-6">
-                                    @*<input class="form-control form-control-solid placeholder-no-fix form-group" type="password" autocomplete="off" placeholder="Password" name="password" required />*@
+                                    
                                     @Html.PasswordFor(a => a.Password, new { @class = "form-control", @placeholder = "Password" })
                                     @Html.ValidationMessageFor(a => a.Password)
                                 </div>
@@ -91,7 +94,7 @@
                                             <div class="forgot-password">
                                                 <a href="javascript:;" id="forget-password" class="forget-password">Forgot Password?</a>
                                             </div>
-                                            @*<button  type="submit" value="Login">Sign In</button>*@
+                                          
                                             <button class="btn green uppercase" type="submit" value="Login">Login</button>
                                         </div>
                                         
@@ -99,7 +102,9 @@
 
 
                     }
-                    
+                    <p>
+                        @ViewBag.ErrMessage
+                    </p>   
                 </div>
                 <div class="login-footer">
                     <div class="row bs-reset">
@@ -128,11 +133,89 @@
                             </div>
                         </div>
                     </div>
+                </div>*@
+@using (Html.BeginForm("Login", "Login",
+                                                    //new { ReturnUrl = ViewBag.ReturnUrl },
+                                                    FormMethod.Post, new { @class = "login-form" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+                <div class="content">
+                    <!-- BEGIN LOGIN FORM -->
+                    <form class="login-form" action="index.html" method="post" novalidate="novalidate">
+                        <h3 class="form-title"> <b>Login to Indrusties</b></h3>
+                        <div class="alert alert-danger display-hide">
+                           
+                            <span> Enter any username and password. </span>
+                        </div>
+                        <div class="form-group">
+                            <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
+                            <label class="control-label visible-ie8 visible-ie9">Username</label>
+                            <div class="input-icon">
+                                <i class="fa fa-user"></i>
+                                @Html.TextBoxFor(a => a.UserName, new { @class = "form-control placeholder-no-fix", @placeholder = "User Name" })
+                                @Html.ValidationMessageFor(a => a.UserName)
+                               
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label visible-ie8 visible-ie9">Password</label>
+                            <div class="input-icon">
+                                <i class="fa fa-lock"></i>
+                                @Html.PasswordFor(a => a.Password, new { @class = "form-control placeholder-no-fix", @placeholder = "Password" })
+                                @Html.ValidationMessageFor(a => a.Password)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label ><img src="/Login/ShowCaptchaImage" /></label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" id="Refresh" class="" style="color:white">Refresh Captcha</a>
+                            <br />
+                            <div class="input-icon">
+                                <i class="fa fa-lock"></i>
+                                @Html.TextBoxFor(a => a.CaptchaText, new { @class = "form-control placeholder-no-fix", @placeholder = "Captcha" })
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <label class="rememberme mt-checkbox mt-checkbox-outline">
+                                <input type="checkbox" name="remember" value="1"> Remember me
+                                <span></span>
+                            </label>
+                          
+                            <button type="submit" class="btn green pull-right"> Login </button>
+                        </div>
+                        @*<div class="login-options">
+                            <h4>Or login with</h4>
+                            <ul class="social-icons">
+                                <li>
+                                    <a class="facebook" data-original-title="facebook" href="javascript:;"> </a>
+                                </li>
+                                <li>
+                                    <a class="twitter" data-original-title="Twitter" href="javascript:;"> </a>
+                                </li>
+                                <li>
+                                    <a class="googleplus" data-original-title="Goole Plus" href="javascript:;"> </a>
+                                </li>
+                                <li>
+                                    <a class="linkedin" data-original-title="Linkedin" href="javascript:;"> </a>
+                                </li>
+                            </ul>
+                        </div>*@
+                        <div class="login-options">
+                            <div class="login-copyright text-right">
+                                <p>Copyright &copy; NIC Lucknow</p>
+                            </div>
+                        </div>
+                       
+                    </form>
+                   
                 </div>
+}
+             
             </div>
         </div>
     </div>
+   
     @Scripts.Render("~/bundles/bootstrapLog1")
     @Scripts.Render("~/bundles/bootstrapLog2")
 </body>
+
 </html>
