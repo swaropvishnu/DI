@@ -1,5 +1,6 @@
 ﻿@using Jmelosegui.Mvc.GoogleMap
-@model DI.Models.LoginModal
+@*@model DI.Models.LoginModal*@
+
 <!DOCTYPE html>
 
 <html lang="en" >
@@ -1392,6 +1393,7 @@
 
 
             @Scripts.Render("~/bundles/bootstrapBlank")
+            @Scripts.Render("~/bundles/ReportJs")
             @(Html.GoogleMap().ScriptRegistrar())
             @RenderSection("scripts", required: false)
 

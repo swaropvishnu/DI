@@ -75,6 +75,11 @@ namespace DI
                       "~/Content/assets/global/css/plugins-md.min.css",
                       "~/Content/assets/pages/css/lock-2.min.css"));
 
+            bundles.Add(new StyleBundle("~/Content/ReportCss").Include(
+                     "~/content/assets/global/plugins/datatables/datatables.min.css",
+                     "~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css"));
+                    
+
 
             /////////////////////////////////////////////////////////////////////
 
@@ -113,13 +118,14 @@ namespace DI
                       "~/Content/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js",
                       "~/Content/assets/global/plugins/jquery-inputmask/jquery.inputmask.bundle.min.js",
                       "~/Content/assets/global/plugins/jquery.input-ip-address-control-1.0.min.js",
-                      "~/Content/assets/global/scripts/app.min.js",
+                                            
                       "~/Content/assets/layouts/layout2/scripts/layout.min.js",
                       "~/Content/assets/layouts/layout2/scripts/demo.min.js",
                       "~/Content/assets/layouts/global/scripts/quick-sidebar.min.js",
                       "~/Content/assets/layouts/global/scripts/quick-nav.min.js",
                       "~/Content/assets/pages/scripts/form-input-mask.min.js",
-                      "~/Scripts/Menu.js"));
+                      "~/Scripts/Menu.js",
+                      "~/Content/assets/global/scripts/app.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrapError").Include(
                       "~/Scripts/jquery-{version}.js",
@@ -159,7 +165,14 @@ namespace DI
                       "~/Content/assets/layouts/global/scripts/quick-nav.min.js",
                       "~/Content/assets/layouts/layout2/scripts/demo.min.js"));
 
-                
+            bundles.Add(new ScriptBundle("~/bundles/ReportJs").Include(
+                         "~/Content/plugins/jquery.min.js",
+                     "~/Content/assets/global/scripts/datatable.js",
+                     "~/Content/assets/global/plugins/datatables/datatables.min.js",
+                     "~/content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js",
+                      "~/content/assets/pages/scripts/table-datatables-rowreorder.min.js"));
+
+
 
             BundleTable.EnableOptimizations = false;
 

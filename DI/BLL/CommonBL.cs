@@ -59,5 +59,18 @@ namespace DI.BLL
                throw;
            }
        }
+
+        public static List<FormModal> ReportApplicationFormDetail(FormModal objform)
+        {
+            try
+            {
+                CommonDA CommonDA = new CommonDA();
+                return CommonDA.ReportApplicationFormDetail(objform);
+            }
+            catch
+            {
+                throw;
+            }
+        }
     }
 }

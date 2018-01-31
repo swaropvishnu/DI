@@ -13,7 +13,7 @@ $(document).ready(function () {
     });
 
     function buildMenu(parent, items) {
-        debugger;
+      
         var li;
         $.each(items, function () {
             for (var i = 0; i < items.length; i++) {
