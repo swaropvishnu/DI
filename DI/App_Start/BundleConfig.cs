@@ -76,6 +76,12 @@ namespace DI
                       "~/Content/assets/pages/css/lock-2.min.css"));
 
 
+            bundles.Add(new StyleBundle("~/Content/cssDash").Include(
+                      "~/Content/assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.css",
+                      "~/Content/ assets/global/plugins/morris/morris.css",
+                      "~/Content/assets/global/plugins/fullcalendar/fullcalendar.min.css" ,
+                      "~/Content/assets/global/plugins/jqvmap/jqvmap/jqvmap.css"));
+
             /////////////////////////////////////////////////////////////////////
 
 
@@ -114,6 +120,7 @@ namespace DI
                       "~/Content/assets/global/plugins/jquery-inputmask/jquery.inputmask.bundle.min.js",
                       "~/Content/assets/global/plugins/jquery.input-ip-address-control-1.0.min.js",
                       "~/Content/assets/global/scripts/app.min.js",
+                      "~/Content/assets/pages/scripts/dashboard.min.js",
                       "~/Content/assets/layouts/layout2/scripts/layout.min.js",
                       "~/Content/assets/layouts/layout2/scripts/demo.min.js",
                       "~/Content/assets/layouts/global/scripts/quick-sidebar.min.js",
@@ -159,7 +166,37 @@ namespace DI
                       "~/Content/assets/layouts/global/scripts/quick-nav.min.js",
                       "~/Content/assets/layouts/layout2/scripts/demo.min.js"));
 
-                
+            bundles.Add(new ScriptBundle("~/bundles/bootstrapDash").Include(
+                  "~/Content/assets/global/plugins/moment.min.js" ,
+                  "~/Content/assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.js",
+                  "~/Content/assets/global/plugins/morris/morris.min.js" ,
+                  "~/Content/assets/global/plugins/morris/raphael-min.js" ,
+                  "~/Content/assets/global/plugins/counterup/jquery.waypoints.min.js" ,
+                  "~/Content/assets/global/plugins/counterup/jquery.counterup.min.js" ,
+                  "~/Content/assets/global/plugins/amcharts/amcharts/amcharts.js" ,
+                  "~/Content/assets/global/plugins/amcharts/amcharts/serial.js" ,
+                  "~/Content/assets/global/plugins/amcharts/amcharts/pie.js" ,
+                  "~/Content/assets/global/plugins/amcharts/amcharts/radar.js" ,
+                  "~/Content/assets/global/plugins/amcharts/amcharts/themes/light.js" ,
+                  "~/Content/assets/global/plugins/amcharts/amcharts/themes/patterns.js" ,
+                  "~/Content/assets/global/plugins/amcharts/amcharts/themes/chalk.js" ,
+                  "~/Content/assets/global/plugins/amcharts/ammap/ammap.js",
+                  "~/Content/assets/global/plugins/amcharts/ammap/maps/js/worldLow.js",
+                  "~/Content/assets/global/plugins/amcharts/amstockcharts/amstock.js" ,
+                  "~/Content/assets/global/plugins/fullcalendar/fullcalendar.min.js" ,
+                  "~/Content/assets/global/plugins/horizontal-timeline/horizontal-timeline.js",
+                  "~/Content/assets/global/plugins/flot/jquery.flot.min.js",
+                  "~/Content/assets/global/plugins/flot/jquery.flot.resize.min.js" ,
+                  "~/Content/assets/global/plugins/flot/jquery.flot.categories.min.js" ,
+                  "~/Content/assets/global/plugins/jquery-easypiechart/jquery.easypiechart.min.js",
+                  "~/Content/assets/global/plugins/jquery.sparkline.min.js" ,
+                  "~/Content/assets/global/plugins/jqvmap/jqvmap/jquery.vmap.js",
+                  "~/Content/assets/global/plugins/jqvmap/jqvmap/maps/jquery.vmap.russia.js" ,
+                  "~/Content/assets/global/plugins/jqvmap/jqvmap/maps/jquery.vmap.world.js" ,
+                  "~/Content/assets/global/plugins/jqvmap/jqvmap/maps/jquery.vmap.europe.js" ,
+                  "~/Content/assets/global/plugins/jqvmap/jqvmap/maps/jquery.vmap.germany.js" ,
+                  "~/Content/assets/global/plugins/jqvmap/jqvmap/maps/jquery.vmap.usa.js" ,
+                  "~/Content/assets/global/plugins/jqvmap/jqvmap/data/jquery.vmap.sampledata.js" ));
 
             BundleTable.EnableOptimizations = false;
 

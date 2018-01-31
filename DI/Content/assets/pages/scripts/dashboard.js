@@ -1266,22 +1266,22 @@ var Dashboard = function() {
                 "theme": "light",
                 "path": "../assets/global/plugins/amcharts/ammap/images/",
                 "dataProvider": [{
-                    "country": "Lithuania",
+                    "country": "Agra",
                     "value": 260
                 }, {
-                    "country": "Ireland",
+                    "country": "Kanpur",
                     "value": 201
                 }, {
-                    "country": "Germany",
+                    "country": "Lucknow",
                     "value": 65
                 }, {
-                    "country": "Australia",
+                    "country": "Gorakhpur",
                     "value": 39
                 }, {
-                    "country": "UK",
+                    "country": "Allahabad",
                     "value": 19
                 }, {
-                    "country": "Latvia",
+                    "country": "Noida",
                     "value": 10
                 }],
                 "valueField": "value",

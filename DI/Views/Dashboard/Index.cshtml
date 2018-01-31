@@ -3,38 +3,246 @@
 
 
 @{
-    ViewBag.Title = "Index";    
+    ViewBag.Title = "Index";
 }
 
 
-<div style="height: 500px; border: solid 1px #cccccc">
-    @(Html.GoogleMap()
-          .Name("map")
-          .Width((int)ViewData["width"])
-          .Height((int)ViewData["height"])
-          .ApiKey("AIzaSyBOYfwN5dgGQislPPsZMYcEt2EE98N5O4A"))
+
+        <!-- END PAGE HEADER-->
+<div class="row widget-row">
+    <div class="col-md-3">
+        <!-- BEGIN WIDGET THUMB -->
+        <div class="widget-thumb widget-bg-color-white text-uppercase margin-bottom-20 ">
+            <h4 class="widget-thumb-heading">Industrial Estates</h4>
+            <div class="widget-thumb-wrap">
+                <i class="widget-thumb-icon bg-green icon-bulb"></i>
+                <div class="widget-thumb-body">
+                    <span class="widget-thumb-subtitle">No.</span>
+                    <span class="widget-thumb-body-stat" data-counter="counterup" data-value="7,644">0</span>
+                </div>
+            </div>
+        </div>
+        <!-- END WIDGET THUMB -->
+    </div>
+    <div class="col-md-3">
+        <!-- BEGIN WIDGET THUMB -->
+        <div class="widget-thumb widget-bg-color-white text-uppercase margin-bottom-20 ">
+            <h4 class="widget-thumb-heading">Occupied Estates</h4>
+            <div class="widget-thumb-wrap">
+                <i class="widget-thumb-icon bg-red icon-layers"></i>
+                <div class="widget-thumb-body">
+                    <span class="widget-thumb-subtitle">No.</span>
+                    <span class="widget-thumb-body-stat" data-counter="counterup" data-value="1,293">0</span>
+                </div>
+            </div>
+        </div>
+        <!-- END WIDGET THUMB -->
+    </div>
+    <div class="col-md-3">
+        <!-- BEGIN WIDGET THUMB -->
+        <div class="widget-thumb widget-bg-color-white text-uppercase margin-bottom-20 ">
+            <h4 class="widget-thumb-heading">Vacant Estates</h4>
+            <div class="widget-thumb-wrap">
+                <i class="widget-thumb-icon bg-purple icon-screen-desktop"></i>
+                <div class="widget-thumb-body">
+                    <span class="widget-thumb-subtitle">No.</span>
+                    <span class="widget-thumb-body-stat" data-counter="counterup" data-value="815">0</span>
+                </div>
+            </div>
+        </div>
+        <!-- END WIDGET THUMB -->
+    </div>
+    <div class="col-md-3">
+        <!-- BEGIN WIDGET THUMB -->
+        <div class="widget-thumb widget-bg-color-white text-uppercase margin-bottom-20 ">
+            <h4 class="widget-thumb-heading">New Applications</h4>
+            <div class="widget-thumb-wrap">
+                <i class="widget-thumb-icon bg-blue icon-bar-chart"></i>
+                <div class="widget-thumb-body">
+                    <span class="widget-thumb-subtitle">No.</span>
+                    <span class="widget-thumb-body-stat" data-counter="counterup" data-value="5,071">0</span>
+                </div>
+            </div>
+        </div>
+        <!-- END WIDGET THUMB -->
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6 col-xs-12 col-sm-12">
+        <div class="portlet light ">
+            <div class="portlet-title">
+                <div class="caption">
+                    <span class="caption-subject bold uppercase font-dark">Industrial Estates Location</span>
+                    <span class="caption-helper">Locations...</span>
+                </div>
+                <div class="actions">
+                    <a class="btn btn-circle btn-icon-only btn-default" href="#">
+                        <i class="icon-cloud-upload"></i>
+                    </a>
+                    <a class="btn btn-circle btn-icon-only btn-default" href="#">
+                        <i class="icon-wrench"></i>
+                    </a>
+                    <a class="btn btn-circle btn-icon-only btn-default" href="#">
+                        <i class="icon-trash"></i>
+                    </a>
+                    <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="#"> </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div id="dashboard_amchart_2" class="mapChart"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6 col-xs-12 col-sm-12">
+        <div class="portlet light ">
+            <div class="portlet-title">
+                <div class="caption ">
+                    <span class="caption-subject font-dark bold uppercase">Industrial Estates Status</span>
+                    <span class="caption-helper">distance stats...</span>
+                </div>
+                <div class="actions">
+                    <div class="btn-group">
+                        <a class="btn green-haze btn-outline btn-circle btn-sm" href="javascript:;" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                            Actions
+                            <i class="fa fa-angle-down"></i>
+                        </a>
+                        <ul class="dropdown-menu pull-right">
+                            <li>
+                                <a href="javascript:;"> Option 1</a>
+                            </li>
+                            <li class="divider"> </li>
+                            <li>
+                                <a href="javascript:;">Option 2</a>
+                            </li>
+                            <li>
+                                <a href="javascript:;">Option 3</a>
+                            </li>
+                            <li>
+                                <a href="javascript:;">Option 4</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div id="dashboard_amchart_4" class="CSSAnimationChart"></div>
+            </div>
+        </div>
+    </div>
 </div>
 
-<pre class="prettyprint">
-@@(
-        Html.GoogleMap()
-            .Name("map")
-            .Height(500)
-            .Markers(m => m.Add().Title("Hello World!"))
-)
-</pre> 
-<pre class="prettyprint">
-    @@section scripts
-    {
-       @@(Html.GoogleMap().ScriptRegistrar())
-    }
-        </pre>
 
-<pre class="prettyprint">
-    @@using Jmelosegui.Mvc.GoogleMap
-        </pre>
+<div class="row">
+    <div class="col-lg-6 col-xs-12 col-sm-12">
+        <div class="portlet light ">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="icon-cursor font-dark hide"></i>
+                    <span class="caption-subject font-dark bold uppercase">General Stats</span>
+                </div>
+                <div class="actions">
+                    <a href="javascript:;" class="btn btn-sm btn-circle red easy-pie-chart-reload">
+                        <i class="fa fa-repeat"></i> Reload
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="easy-pie-chart">
+                            <div class="number transactions" data-percent="55">
+                                <span>+55</span>%
+                            </div>
+                            <a class="title" href="javascript:;">
+                                Transactions
+                                <i class="icon-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="margin-bottom-10 visible-sm"> </div>
+                    <div class="col-md-4">
+                        <div class="easy-pie-chart">
+                            <div class="number visits" data-percent="85">
+                                <span>+85</span>%
+                            </div>
+                            <a class="title" href="javascript:;">
+                                New Visits
+                                <i class="icon-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="margin-bottom-10 visible-sm"> </div>
+                    <div class="col-md-4">
+                        <div class="easy-pie-chart">
+                            <div class="number bounce" data-percent="46">
+                                <span>-46</span>%
+                            </div>
+                            <a class="title" href="javascript:;">
+                                Bounce
+                                <i class="icon-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6 col-xs-12 col-sm-12">
+        <div class="portlet light ">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="icon-equalizer font-dark hide"></i>
+                    <span class="caption-subject font-dark bold uppercase">Server Stats</span>
+                    <span class="caption-helper">monthly stats...</span>
+                </div>
+                <div class="tools">
+                    <a href="" class="collapse"> </a>
+                    <a href="#portlet-config" data-toggle="modal" class="config"> </a>
+                    <a href="" class="reload"> </a>
+                    <a href="" class="remove"> </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="sparkline-chart">
+                            <div class="number" id="sparkline_bar5"></div>
+                            <a class="title" href="javascript:;">
+                                Network
+                                <i class="icon-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="margin-bottom-10 visible-sm"> </div>
+                    <div class="col-md-4">
+                        <div class="sparkline-chart">
+                            <div class="number" id="sparkline_bar6"></div>
+                            <a class="title" href="javascript:;">
+                                CPU Load
+                                <i class="icon-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="margin-bottom-10 visible-sm"> </div>
+                    <div class="col-md-4">
+                        <div class="sparkline-chart">
+                            <div class="number" id="sparkline_line"></div>
+                            <a class="title" href="javascript:;">
+                                Load Rate
+                                <i class="icon-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
+               
+<!-- END CONTENT BODY -->
+       
 
 
 
