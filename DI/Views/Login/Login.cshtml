@@ -20,97 +20,82 @@
 <!-- END HEAD -->
 <body class="login">
     <!-- BEGIN : LOGIN PAGE 5-1 -->
-    <div class="user-login-5">
-        <div class="row bs-reset">
-            <div class="col-md-6 bs-reset mt-login-5-bsfix">
-                <div class="login-bg" style="background-image:url(/Content/assets/pages/img/login/bg1.jpg)">
-                    <img class="login-logo" src="~/Content/assets/pages/img/login/logo.png" />
-                </div>
-            </div>
-            <div class="col-md-6 login-container bs-reset mt-login-5-bsfix">
-               
-@using (Html.BeginForm("Login", "Login",
-                                                    //new { ReturnUrl = ViewBag.ReturnUrl },
-                                                    FormMethod.Post, new { @class = "login-form" }))
-{
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true)
-                <div class="content">
-                    <!-- BEGIN LOGIN FORM -->
-                    <form class="login-form" action="index.html" method="post" novalidate="novalidate">
-                        <h3 class="form-title"> <b>Login to Indrusties</b></h3>
-                        <div class="alert alert-danger display-hide">
-                           
-                            <span> Enter any username and password. </span>
-                        </div>
-                        <div class="form-group">
-                            <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
-                            <label class="control-label visible-ie8 visible-ie9">Username</label>
-                            <div class="input-icon">
-                                <i class="fa fa-user"></i>
-                                @Html.TextBoxFor(a => a.UserName, new { @class = "form-control placeholder-no-fix", @placeholder = "User Name" })
-                                @Html.ValidationMessageFor(a => a.UserName)
-                               
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label visible-ie8 visible-ie9">Password</label>
-                            <div class="input-icon">
-                                <i class="fa fa-lock"></i>
-                                @Html.PasswordFor(a => a.Password, new { @class = "form-control placeholder-no-fix", @placeholder = "Password" })
-                                @Html.ValidationMessageFor(a => a.Password)
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label ><img src="/Login/ShowCaptchaImage" /></label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" id="Refresh" class="" style="color:white">Refresh Captcha</a>
-                            <br />
-                            <div class="input-icon">
-                                <i class="fa fa-lock"></i>
-                                @Html.TextBoxFor(a => a.CaptchaText, new { @class = "form-control placeholder-no-fix", @placeholder = "Captcha" })
-                            </div>
-                        </div>
-                        <div class="form-actions">
-                            <label class="rememberme mt-checkbox mt-checkbox-outline">
-                                <input type="checkbox" name="remember" value="1"> Remember me
-                                <span></span>
-                            </label>
-                          
-                            <button type="submit" class="btn green pull-right"> Login </button>
-                        </div>
-                        @*<div class="login-options">
-                            <h4>Or login with</h4>
-                            <ul class="social-icons">
-                                <li>
-                                    <a class="facebook" data-original-title="facebook" href="javascript:;"> </a>
-                                </li>
-                                <li>
-                                    <a class="twitter" data-original-title="Twitter" href="javascript:;"> </a>
-                                </li>
-                                <li>
-                                    <a class="googleplus" data-original-title="Goole Plus" href="javascript:;"> </a>
-                                </li>
-                                <li>
-                                    <a class="linkedin" data-original-title="Linkedin" href="javascript:;"> </a>
-                                </li>
-                            </ul>
-                        </div>*@
-                        <div class="login-options">
-                            <div class="login-copyright text-right">
-                                <p>Copyright &copy; NIC Lucknow</p>
-                            </div>
-                        </div>
-                       
-                    </form>
-                   
-                </div>
-}
-             
-            </div>
-        </div>
+    <div class="logo">
+        <a href="index.html">
+            <img src="~/Content/assets/pages/img/logo-big.png" alt="" />
+        </a>
     </div>
-   
-    @Scripts.Render("~/bundles/bootstrapLog1")
-    @Scripts.Render("~/bundles/bootstrapLog2")
+    <!-- END LOGO -->
+    <!-- BEGIN LOGIN -->
+    <div class="content">
+        <!-- BEGIN LOGIN FORM -->
+        @using (Html.BeginForm("Login", "Login",
+                  //new { ReturnUrl = ViewBag.ReturnUrl },
+                  FormMethod.Post, new { @class = "login-form" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+            <h3 class="form-title font-green">Sign In</h3>
+            <div class="alert alert-danger display-hide">
+                <button class="close" data-close="alert"></button>
+                <span> Enter any username and password. </span>
+            </div>
+            <div class="form-group">
+                <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
+                <label class="control-label visible-ie8 visible-ie9">Username</label>
+                @Html.TextBoxFor(a => a.UserName, new { @class = "form-control placeholder-no-fix", @placeholder = "User Name" })
+                @Html.ValidationMessageFor(a => a.UserName)
+            </div>
+            <div class="form-group">
+                <label class="control-label visible-ie8 visible-ie9">Password</label>
+                @Html.PasswordFor(a => a.Password, new { @class = "form-control placeholder-no-fix", @placeholder = "Password" })
+                @Html.ValidationMessageFor(a => a.Password)
+            </div>
+            <div class="form-group">
+                <label><img src="/Login/ShowCaptchaImage" /></label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" id="Refresh" class="" style="color:black">Refresh Captcha</a>
+                
+                <div class="clear"> &nbsp;</div>
+                <div class="input-icon">
+                    <i class="fa fa-lock"></i>
+                    @Html.TextBoxFor(a => a.CaptchaText, new { @class = "form-control placeholder-no-fix", @placeholder = "Captcha" })
+                </div>
+               
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn green pull-right"> Login </button>
+            </div>
+            
+            
+            <div class="clear"> &nbsp;</div>
+            <div class="clear"> &nbsp;</div>
+            @*<div class="login-options">
+                <h4>Or login with</h4>
+                <ul class="social-icons">
+                    <li>
+                        <a class="social-icon-color facebook" data-original-title="facebook" href="javascript:;"></a>
+                    </li>
+                    <li>
+                        <a class="social-icon-color twitter" data-original-title="Twitter" href="javascript:;"></a>
+                    </li>
+                    <li>
+                        <a class="social-icon-color googleplus" data-original-title="Goole Plus" href="javascript:;"></a>
+                    </li>
+                    <li>
+                        <a class="social-icon-color linkedin" data-original-title="Linkedin" href="javascript:;"></a>
+                    </li>
+                </ul>
+            </div>*@
+            <div class="create-account">
+                <p>
+                    &nbsp;
+                    @*<a href="javascript:;" id="register-btn" class="uppercase">Create an account</a>*@
+                </p>
+            </div>
+        }
+        <!-- END LOGIN FORM -->
+        </div> 
+        @Scripts.Render("~/bundles/bootstrapLog1")
+        @Scripts.Render("~/bundles/bootstrapLog2")
 </body>
 
 </html>

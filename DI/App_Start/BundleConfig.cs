@@ -42,8 +42,8 @@ namespace DI
                       "~/Content/assets/global/plugins/select2/css/select2-bootstrap.min.css",
                       "~/Content/assets/global/css/components-md.min.css",
                       "~/Content/assets/global/css/plugins-md.min.css",
-                      "~/Content/assets/pages/css/login-5.min.css",
-                        "~/Content/assets/pages/css/login-4.min.css"));
+                        //"~/Content/assets/pages/css/login-5.min.css",
+                        "~/Content/assets/pages/css/login.min.css"));
 
 
             bundles.Add(new StyleBundle("~/Content/cssBlank").Include(
@@ -100,8 +100,8 @@ namespace DI
                       "~/Content/assets/global/plugins/select2/js/select2.full.min.js",
                       "~/Content/assets/global/plugins/backstretch/jquery.backstretch.min.js",
                       "~/Content/assets/global/scripts/app.min.js",
-                      "~/Content/assets/pages/scripts/login-5.min.js",
-                       "~/Content/assets/pages/scripts/login-4.min.js"));
+                       //"~/Content/assets/pages/scripts/login-5.min.js",
+                       "~/Content/pages/scripts/login.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrapBlank").Include(
                       "~/Scripts/jquery-{version}.js",
