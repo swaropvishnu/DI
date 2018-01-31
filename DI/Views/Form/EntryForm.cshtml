@@ -1,11 +1,15 @@
 ﻿@model DI.Models.FormModal
 @{
-    if (ViewBag.Alert != null)
+
+    if (ViewBag.Alert != string.Empty && ViewBag.Alert != null)
     {
-        <script>
-            alert('@ViewBag.Alert');
-        </script>
+        var msg = ViewBag.Alert;
+
+        @Html.Raw("<script language='javascript' type='text/javascript'>alert('" + msg + "');</script>")
+        @Html.Raw("<script language='javascript' type='text/javascript'>window.location='../Form/EntryForm';</script>")       
+
     }
+    
 }
 
 @using (Html.BeginForm())
@@ -65,7 +69,8 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label class="control-label"><b>शुल्क जमा करने की दिनांक</b></label>
-                                    <input class="form-control" id="mask_date2" type="text" placeholder="शुल्क दिनांक">
+                                    @Html.TextBoxFor(m => m.ApplicationFeeDate, new { @class = "form-control", @id = "mask_date2", placeholder = "शुल्क दिनांक" })
+                                    
                                        
                                    
 

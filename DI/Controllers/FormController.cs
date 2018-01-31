@@ -12,29 +12,43 @@ namespace DI.Controllers
     public class FormController : Controller
     {
         // GET: Form
-         [SessionExpireFilterAttribute]
+        [SessionExpireFilterAttribute]
         public ActionResult EntryForm()
         {
             return View();
         }
-          [HttpPost]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-         public ActionResult EntryForm(FormModal Objform)
-         {
+        public ActionResult EntryForm(FormModal Objform)
+        {
             Objform.UserId = UserSession.LoggedInUserId.ToString();
+
             Objform.Mode = "Insert";
             string result = CommonBL.InsertUpdateApplicationFormDetail(Objform);
-            if (result=="Success")
+            if (result == "Success")
             {
-                ViewBag.Alert = "Application Insert Successfully";  
+                ViewBag.Alert = "Application Insert Successfully";
+
             }
             else
             {
-                ViewBag.Alert = "Some Error In Insert Application";  
+                ViewBag.Alert = "Some Error In Insert Application";
             }
 
-            return RedirectToAction("EntryForm", "Form");
-         }
+            return View();
+
+            //return RedirectToAction("EntryForm", "Form");
+        }
+        [SessionExpireFilterAttribute]
+        public ActionResult EntryFormReort()
+        {
+            FormModal Objform = new FormModal();
+            Objform.Mode = "Select";
+
+            List<FormModal> Obj = CommonBL.ReportApplicationFormDetail(Objform).ToList();
+            return View(Obj);
+
+        }
 
     }
 }

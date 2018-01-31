@@ -23,6 +23,7 @@ namespace DI.Models
         public string IndrustryName { get; set; }
         public Decimal ApplicationFee { get; set; }
         public string ApplicationFeedetails { get; set; }
+        public DateTime ApplicationFeeDate { get; set; }
         public bool IsPreRegistered { get; set; }
         public Int64 OldRegistraionNo { get; set; }
         public DateTime OldRegistrationDate { get; set; }
@@ -32,6 +33,10 @@ namespace DI.Models
         public string PracticalProjectReport { get; set; }
         public string HelpFromForegin { get; set; }
         public string Mode { get; set; }
+
     }
-    
+
+
+
+
 }

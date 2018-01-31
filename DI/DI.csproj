@@ -5927,6 +5927,7 @@
     <Content Include="scripts\markerclusterer.js" />
     <Content Include="scripts\Menu.js" />
     <Content Include="scripts\modernizr-2.6.2.js" />
+    <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -5982,7 +5983,6 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Login\Login.cshtml" />
     <Content Include="Views\Dashboard\Index.cshtml" />
@@ -5992,6 +5992,7 @@
     <Content Include="Views\Login\ChangePassword.cshtml" />
     <Content Include="Views\Form\EntryForm.cshtml" />
     <Content Include="Views\Login\ProfileUpdate.cshtml" />
+    <Content Include="Views\Form\EntryFormReort.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
