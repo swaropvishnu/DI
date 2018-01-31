@@ -118,14 +118,13 @@ namespace DI
                       "~/Content/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js",
                       "~/Content/assets/global/plugins/jquery-inputmask/jquery.inputmask.bundle.min.js",
                       "~/Content/assets/global/plugins/jquery.input-ip-address-control-1.0.min.js",
-                                            
+                      "~/Content/assets/global/scripts/app.min.js",
                       "~/Content/assets/layouts/layout2/scripts/layout.min.js",
                       "~/Content/assets/layouts/layout2/scripts/demo.min.js",
                       "~/Content/assets/layouts/global/scripts/quick-sidebar.min.js",
                       "~/Content/assets/layouts/global/scripts/quick-nav.min.js",
                       "~/Content/assets/pages/scripts/form-input-mask.min.js",
-                      "~/Scripts/Menu.js",
-                      "~/Content/assets/global/scripts/app.min.js"));
+                      "~/Scripts/Menu.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrapError").Include(
                       "~/Scripts/jquery-{version}.js",
