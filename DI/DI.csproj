@@ -4730,6 +4730,7 @@
     <Content Include="Content\assets\layouts\layout2\img\icon-img-down.png" />
     <Content Include="Content\assets\layouts\layout2\img\icon-img-up.png" />
     <Content Include="Content\assets\layouts\layout2\img\inbox-nav-arrow-blue.png" />
+    <Content Include="Content\assets\layouts\layout2\img\INDUSTRY.png" />
     <Content Include="Content\assets\layouts\layout2\img\loading-spinner-blue.gif" />
     <Content Include="Content\assets\layouts\layout2\img\loading-spinner-default.gif" />
     <Content Include="Content\assets\layouts\layout2\img\loading-spinner-grey.gif" />
@@ -4738,6 +4739,7 @@
     <Content Include="Content\assets\layouts\layout2\img\logo-big.png" />
     <Content Include="Content\assets\layouts\layout2\img\logo-default.png" />
     <Content Include="Content\assets\layouts\layout2\img\logo.png" />
+    <Content Include="Content\assets\layouts\layout2\img\Logoup.png" />
     <Content Include="Content\assets\layouts\layout2\img\menu-toggler.png" />
     <Content Include="Content\assets\layouts\layout2\img\photo1.jpg" />
     <Content Include="Content\assets\layouts\layout2\img\photo2.jpg" />
@@ -4762,6 +4764,7 @@
     <Content Include="Content\assets\layouts\layout2\img\sidebar_toggler_icon_grey.png" />
     <Content Include="Content\assets\layouts\layout2\img\sidebar_toggler_icon_light.png" />
     <Content Include="Content\assets\layouts\layout2\img\sidebar_toggler_icon_light2.png" />
+    <Content Include="Content\assets\layouts\layout2\img\textindustry.png" />
     <Content Include="Content\assets\layouts\layout2\scripts\demo.js" />
     <Content Include="Content\assets\layouts\layout2\scripts\demo.min.js" />
     <Content Include="Content\assets\layouts\layout2\scripts\layout.js" />
@@ -5993,6 +5996,7 @@
     <Content Include="Views\Form\EntryForm.cshtml" />
     <Content Include="Views\Login\ProfileUpdate.cshtml" />
     <Content Include="Views\Form\EntryFormReort.cshtml" />
+    <Content Include="Views\Dashboard\IndustryLocation.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

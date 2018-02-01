@@ -43,42 +43,44 @@
                 <!-- BEGIN PAGE ACTIONS -->
                 <!-- DOC: Remove "hide" class to enable the page header actions -->
                 <div class="page-actions">
+                    <img src="~/Content/assets/layouts/layout2/img/textindustry.png" alt="logo" class="logo-default" style="margin-top: -15px;" />
                     <div class="btn-group">
-                        <button type="button" class="btn btn-circle btn-outline red dropdown-toggle" data-toggle="dropdown">
-                            <i class="fa fa-plus"></i>&nbsp;
+
+                        @*<button type="button" class="btn btn-circle btn-outline red dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-plus"></i>&nbsp;
                             <span class="hidden-sm hidden-xs">Director of Industries, Uttar Pradesh &nbsp;</span>&nbsp;
-                            <i class="fa fa-angle-down"></i>
-                        </button>
+                        <i class="fa fa-angle-down"></i>
+                    </button>*@
                         @*<ul class="dropdown-menu" role="menu">
-                            <li>
-                                <a href="javascript:;">
-                                    <i class="icon-docs"></i> New Post
-                                </a>
-                            </li>
-                            <li>
-                                <a href="javascript:;">
-                                    <i class="icon-tag"></i> New Comment
-                                </a>
-                            </li>
-                            <li>
-                                <a href="javascript:;">
-                                    <i class="icon-share"></i> Share
-                                </a>
-                            </li>
-                            <li class="divider"> </li>
-                            <li>
-                                <a href="javascript:;">
-                                    <i class="icon-flag"></i> Comments
-                                    <span class="badge badge-success">4</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="javascript:;">
-                                    <i class="icon-users"></i> Feedbacks
-                                    <span class="badge badge-danger">2</span>
-                                </a>
-                            </li>
-                        </ul>*@
+                        <li>
+                            <a href="javascript:;">
+                                <i class="icon-docs"></i> New Post
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">
+                                <i class="icon-tag"></i> New Comment
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">
+                                <i class="icon-share"></i> Share
+                            </a>
+                        </li>
+                        <li class="divider"> </li>
+                        <li>
+                            <a href="javascript:;">
+                                <i class="icon-flag"></i> Comments
+                                <span class="badge badge-success">4</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">
+                                <i class="icon-users"></i> Feedbacks
+                                <span class="badge badge-danger">2</span>
+                            </a>
+                        </li>
+                    </ul>*@
                     </div>
                 </div>
                 <!-- END PAGE ACTIONS -->
@@ -86,7 +88,6 @@
                 <div class="page-top">
                     <!-- BEGIN HEADER SEARCH BOX -->
                     <!-- DOC: Apply "search-form-expanded" right after the "search-form" class to have half expanded search box -->
-                   
                     <!-- END HEADER SEARCH BOX -->
                     <!-- BEGIN TOP NAVIGATION MENU -->
                     <div class="top-menu">
@@ -95,11 +96,9 @@
                             <!-- DOC: Apply "dropdown-dark" class below "dropdown-extended" to change the dropdown styte -->
                             <!-- DOC: Apply "dropdown-hoverable" class after below "dropdown" and remove data-toggle="dropdown" data-hover="dropdown" data-close-others="true" attributes to enable hover dropdown mode -->
                             <!-- DOC: Remove "dropdown-hoverable" and add data-toggle="dropdown" data-hover="dropdown" data-close-others="true" attributes to the below A element with dropdown-toggle class -->
-                            
                             <!-- END NOTIFICATION DROPDOWN -->
                             <!-- BEGIN INBOX DROPDOWN -->
                             <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
-                            
                             <!-- END INBOX DROPDOWN -->
                             <!-- BEGIN TODO DROPDOWN -->
                             <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
@@ -131,7 +130,7 @@
                                                     </span>
                                                 </a>
                                             </li>
-                                            
+
                                         </ul>
                                     </li>
                                 </ul>
@@ -151,9 +150,9 @@
                                             <i class="icon-user"></i> My Profile
                                         </a>
                                     </li>
-                                    
+
                                     <li class="divider"> </li>
-                                    
+
                                     <li>
                                         <a href='@Url.Action("Logout", "Login")'>
                                             <i class="icon-key"></i> Log Out
@@ -165,9 +164,9 @@
                             <!-- BEGIN QUICK SIDEBAR TOGGLER -->
                             <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
                             @*<li class="dropdown dropdown-extended quick-sidebar-toggler">
-                                <span class="sr-only">Toggle Quick Sidebar</span>
-                                <i class="icon-logout"></i>
-                            </li>*@
+                            <span class="sr-only">Toggle Quick Sidebar</span>
+                            <i class="icon-logout"></i>
+                        </li>*@
                             <!-- END QUICK SIDEBAR TOGGLER -->
                         </ul>
                     </div>
