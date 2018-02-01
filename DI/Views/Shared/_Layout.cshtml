@@ -1,5 +1,5 @@
 ﻿@using Jmelosegui.Mvc.GoogleMap
-@model DI.Models.LoginModal
+
 <!DOCTYPE html>
 
 <html lang="en" >
@@ -16,6 +16,7 @@
     
     @Styles.Render("~/Content/cssBlank")
     @Styles.Render("~/Content/cssDash")
+    @Styles.Render("~/Content/ReportCss")
 
     <link rel="shortcut icon" href="favicon.ico" />
 </head>
@@ -733,6 +734,7 @@
 
             @Scripts.Render("~/bundles/bootstrapBlank")
             @Scripts.Render("~/bundles/bootstrapDash")
+             @Scripts.Render("~/bundles/ReportJs")
             @(Html.GoogleMap().ScriptRegistrar())
             @RenderSection("scripts", required: false)
 

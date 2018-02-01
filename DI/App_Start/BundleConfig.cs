@@ -82,6 +82,12 @@ namespace DI
                       "~/Content/assets/global/plugins/fullcalendar/fullcalendar.min.css" ,
                       "~/Content/assets/global/plugins/jqvmap/jqvmap/jqvmap.css"));
 
+            bundles.Add(new StyleBundle("~/Content/ReportCss").Include(
+                     "~/content/assets/global/plugins/datatables/datatables.min.css",
+                     "~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css"));
+
+
+
             /////////////////////////////////////////////////////////////////////
 
 
@@ -197,6 +203,13 @@ namespace DI
                   "~/Content/assets/global/plugins/jqvmap/jqvmap/maps/jquery.vmap.germany.js" ,
                   "~/Content/assets/global/plugins/jqvmap/jqvmap/maps/jquery.vmap.usa.js" ,
                   "~/Content/assets/global/plugins/jqvmap/jqvmap/data/jquery.vmap.sampledata.js" ));
+
+            bundles.Add(new ScriptBundle("~/bundles/ReportJs").Include(
+                       //  "~/Content/plugins/jquery.min.js",
+                     "~/Content/assets/global/scripts/datatable.js",
+            "~/Content/assets/global/plugins/datatables/datatables.min.js"));
+            //"~/content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js",
+            //"~/content/assets/pages/scripts/table-datatables-rowreorder.min.js"));
 
             BundleTable.EnableOptimizations = false;
 
