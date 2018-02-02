@@ -1,0 +1,18 @@
+﻿@using Jmelosegui.Mvc.GoogleMap
+@model DI.Models.DashboardModal
+
+@{
+    ViewBag.Title = "IndustryLocation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+    <div style="height: 500px; border: solid 1px #cccccc">
+        @(Html.GoogleMap()
+              .Name("map")
+              .Width((int)ViewData["width"])
+              .Height((int)ViewData["height"])
+              .ApiKey("AIzaSyBOYfwN5dgGQislPPsZMYcEt2EE98N5O4A"))
+    </div>
+
+

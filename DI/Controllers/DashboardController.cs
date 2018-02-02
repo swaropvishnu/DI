@@ -20,5 +20,12 @@ namespace DI.Controllers
             this.ViewData["width"] = width ?? 0;
             return View();
         }
+
+        public ActionResult IndustryLocation(int? height, int? width)
+        {
+            this.ViewData["height"] = height ?? 0;
+            this.ViewData["width"] = width ?? 0;
+            return View();
+        }
     }
 }
