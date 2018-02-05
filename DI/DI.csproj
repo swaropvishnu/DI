@@ -5972,6 +5972,7 @@
     <Compile Include="Models\CaptchaImageResult.cs" />
     <Compile Include="Models\DashboardModal.cs" />
     <Compile Include="Models\FormModal.cs" />
+    <Compile Include="Models\KmlModel.cs" />
     <Compile Include="Models\LoginModal.cs" />
     <Compile Include="Models\UserAuthorization.cs" />
     <Compile Include="Models\UserManager.cs" />

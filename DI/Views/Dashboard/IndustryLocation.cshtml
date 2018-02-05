@@ -1,5 +1,8 @@
-﻿@using Jmelosegui.Mvc.GoogleMap
-@model DI.Models.DashboardModal
+﻿@using System.Drawing
+@using Jmelosegui.Mvc.GoogleMap
+@using DI.App_Data
+@model DI.Models.KmlModel
+@*@model IEnumerable<DI.Models.KmlModel>*@
 
 @{
     ViewBag.Title = "IndustryLocation";
@@ -8,11 +11,79 @@
 
 
     <div style="height: 500px; border: solid 1px #cccccc">
-        @(Html.GoogleMap()
+        @*@(Html.GoogleMap()
               .Name("map")
               .Width((int)ViewData["width"])
               .Height((int)ViewData["height"])
-              .ApiKey("AIzaSyBOYfwN5dgGQislPPsZMYcEt2EE98N5O4A"))
+              .ApiKey("AIzaSyBOYfwN5dgGQislPPsZMYcEt2EE98N5O4A"))*@
+        @{ Html.GoogleMap()
+          .Name("map")
+          .Height(600)
+          .ApiKey("AIzaSyBOYfwN5dgGQislPPsZMYcEt2EE98N5O4A")
+          .Zoom(11)
+            .Layers(l => l.AddKmlLayer()
+                  .Clickable(Model.Clickable)
+                  .PreserveViewport(Model.PreserveViewport)
+                  .SuppressInfoWindows(Model.SuppressInfoWindows)
+                  .ScreenOverlays(Model.ScreenOverlays)
+                  .Url(Model.Url)
+                  .ZIndex(Model.ZIndex)
+            )
+          .Center(c => c.Latitude(26.8467)          
+            .Longitude(80.9462))
+          .EnableMarkersClustering(options =>
+          {
+              options.MaxZoom =
+          (int)ViewData["MaxZoom"];
+              options.GridSize = (int)ViewData["GridSize"];
+              options.AverageCenter =
+          (bool)ViewData["AverageCenter"];
+              options.ZoomOnClick = (bool)ViewData["ZoomOnClick"];
+
+              options.HideSingleGroupMarker = (bool)ViewData["HideSingleGroupMarker"];
+              if
+          ((string)ViewData["CustomStyles"] == "StackOverflow")
+              {
+                  options.CustomStyles(style =>
+          style.Add().ImageUrl("~/Images/cluster1.png")
+
+          .Height(35).Width(35).FontSize(12).FontColor(Color.White));
+                  options.CustomStyles(style =>
+          style.Add().ImageUrl("~/Images/cluster2.png")
+
+          .Height(45).Width(45).FontSize(12).FontColor(Color.White));
+                  options.CustomStyles(style =>
+          style.Add().ImageUrl("~/Images/cluster3.png")
+
+          .Height(60).Width(60).FontSize(12).FontColor(Color.White));
+                  options.CustomStyles(style =>
+          style.Add().ImageUrl("~/Images/cluster3.png")
+
+          .Height(60).Width(60).FontSize(12).FontColor(Color.White));
+                  options.CustomStyles(style =>
+          style.Add().ImageUrl("~/Images/cluster3.png")
+
+          .Height(60).Width(60).FontSize(12).FontColor(Color.White));
+              }
+          })
+          .BindTo<DI.Models.RegionInfo, Marker>
+
+          (Model, mappings => mappings.For<DI.Models.RegionInfo>
+                  (
+                      binding => binding.ItemDataBound
+
+                  (
+                          (marker, obj) =>
+                          {
+                              marker.Latitude =
+          obj.Latitude;
+                              marker.Longitude = obj.Longitude;
+                          }
+                      )
+
+                  )
+          ).Render();
+        }
     </div>
 
 
