@@ -15,23 +15,65 @@
     <meta content="" name="author" />
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" />
     @Styles.Render("~/Content/cssLog")
-    <link rel="shortcut icon" href="favicon.ico" /> 
+    <link rel="shortcut icon" href="~/Content/Homepage/assets/images/favicon.jpg" /> 
+    <style>
+        /* Logo Style */
+        .fancy{
+		font-family: 'cursive';
+	    }
+	    .site-logo{
+		    font-size:3.5em;
+		    /*float: left;*/
+		    position: relative;
+		    padding-top:8px;
+		    top: 50%;
+		    -webkit-transform: translateY(-50%);
+		    -moz-transform: translateY(-50%);
+		    transform: translateY(-50%);
+	    }
+
+	    .white-nav .site-logo a.logo{
+		    color:#111;
+		    display: block;
+	    }	
+	
+	    .dark-nav .site-logo a.logo{
+		    color:#fff;
+		    display: block;
+	    }	
+
+	    .site-logo a.logo img{
+		    height: auto;
+		    max-height: 160px;
+		    -webkit-transition: all 1s;
+		    -moz-transition: all 1s;
+		    transition: all 1s;
+	    }
+
+    </style>
 </head>
 <!-- END HEAD -->
 <body class="login">
     <!-- BEGIN : LOGIN PAGE 5-1 -->
     <div class="logo">
-        <a href="index.html">
-            <img src="~/Content/assets/pages/img/logo-big.png" alt="" />
-        </a>
+        <div class="site-logo fancy">
+            <a href="index.html" id="logo-text" class="scroll logo">
+                <img src="~/Content/Homepage/assets/images/upgov.png" height="80" width="80" style="margin-top:-14px" /> 
+                <span style="color:whitesmoke">
+                    Directorate of Indrusties
+                </span>
+            </a>
+
+        </div>
+        
     </div>
     <!-- END LOGO -->
     <!-- BEGIN LOGIN -->
     <div class="content">
         <!-- BEGIN LOGIN FORM -->
         @using (Html.BeginForm("Login", "Login",
-                  //new { ReturnUrl = ViewBag.ReturnUrl },
-                  FormMethod.Post, new { @class = "login-form" }))
+                      //new { ReturnUrl = ViewBag.ReturnUrl },
+                      FormMethod.Post, new { @class = "login-form" }))
         {
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(true)
@@ -52,24 +94,33 @@
                 @Html.ValidationMessageFor(a => a.Password)
             </div>
             <div class="form-group">
-                <label><img src="/Login/ShowCaptchaImage" /></label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" id="Refresh" class="" style="color:black">Refresh Captcha</a>
-                
-                <div class="clear"> &nbsp;</div>
-                <div class="input-icon">
-                    <i class="fa fa-lock"></i>
-                    @Html.TextBoxFor(a => a.CaptchaText, new { @class = "form-control placeholder-no-fix", @placeholder = "Captcha" })
+                <div class="row">
+                    <div class="col-lg-3">
+                        <label><img src="/Login/ShowCaptchaImage" style="margin-top: 8px;" /></label>
+                    </div>
+                    <div class="col-lg-3" style="font-weight:bolder; margin-top: 18px;">
+                        <a href="#"   >Refresh</a>
+                    </div>
+                    <div class="col-lg-6">
+                        @Html.TextBoxFor(a => a.CaptchaText, new { @class = "form-control placeholder-no-fix", @placeholder = "Captcha" })
+                    </div>
                 </div>
-               
+
             </div>
             <div class="form-actions">
-                <button type="submit" class="btn green pull-right"> Login </button>
+                <button type="submit" class="btn green uppercase">Login</button>
+                <label class="rememberme check mt-checkbox mt-checkbox-outline">
+                    <input type="checkbox" name="remember" value="1" />Remember
+                    <span></span>
+                </label>
+                <a href="#" id="forget-password" class="forget-password">Return to Home</a>
             </div>
             
-            
-            <div class="clear"> &nbsp;</div>
-            <div class="clear"> &nbsp;</div>
-            @*<div class="login-options">
-                <h4>Or login with</h4>
+
+
+
+            <div class="login-options">
+                <h4>Find us on</h4>
                 <ul class="social-icons">
                     <li>
                         <a class="social-icon-color facebook" data-original-title="facebook" href="javascript:;"></a>
@@ -84,16 +135,33 @@
                         <a class="social-icon-color linkedin" data-original-title="Linkedin" href="javascript:;"></a>
                     </li>
                 </ul>
-            </div>*@
+            </div>
             <div class="create-account">
                 <p>
                     &nbsp;
-                    @*<a href="javascript:;" id="register-btn" class="uppercase">Create an account</a>*@
+                    <a href="javascript:;" id="register-btn" class="uppercase">Forget password</a>
                 </p>
             </div>
         }
         <!-- END LOGIN FORM -->
-        </div> 
+        <!-- BEGIN FORGOT PASSWORD FORM -->
+        <form class="forget-form" action="index.html" method="post">
+            
+        </form>
+        <!-- END FORGOT PASSWORD FORM -->
+        <!-- BEGIN REGISTRATION FORM -->
+        <form class="register-form" action="index.html" method="post">
+            
+        </form>
+        <!-- END REGISTRATION FORM -->
+    </div>
+
+        <div class="copyright"> 
+            <a href="http://nicsu.up.nic.in">
+                2018 © NIC. Powered by NIC UPSU. 
+            </a>
+        </div>
+        
         @Scripts.Render("~/bundles/bootstrapLog1")
         @Scripts.Render("~/bundles/bootstrapLog2")
 </body>
