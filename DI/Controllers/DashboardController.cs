@@ -33,5 +33,11 @@ namespace DI.Controllers
 
             return this.View(App_Data.DataContext.GetHugeAmountOfMarkers());
         }
+
+
+        public ActionResult IndustryCluster()
+        {
+            return View();
+        }
     }
 }

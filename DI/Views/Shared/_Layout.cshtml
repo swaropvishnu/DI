@@ -19,6 +19,13 @@
     @Styles.Render("~/Content/ReportCss")
 
     <link rel="shortcut icon" href="favicon.ico" />
+
+
+    @Scripts.Render("~/bundles/bootstrapBlank")
+    @Scripts.Render("~/bundles/bootstrapDash")
+    @Scripts.Render("~/bundles/ReportJs")
+    @Scripts.Render("~/bundles/gmap3")
+    @(Html.GoogleMap().ScriptRegistrar())
 </head>
 <!-- END HEAD -->
 <body class="page-header-fixed page-sidebar-closed-hide-logo page-container-bg-solid page-md">
@@ -731,10 +738,7 @@
 
             </div> 
 
-            @Scripts.Render("~/bundles/bootstrapBlank")
-            @Scripts.Render("~/bundles/bootstrapDash")
-             @Scripts.Render("~/bundles/ReportJs")
-            @(Html.GoogleMap().ScriptRegistrar())
+            
             @RenderSection("scripts", required: false)
 
 

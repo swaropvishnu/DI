@@ -206,10 +206,14 @@ namespace DI
 
             bundles.Add(new ScriptBundle("~/bundles/ReportJs").Include(
                        //  "~/Content/plugins/jquery.min.js",
-                     "~/Content/assets/global/scripts/datatable.js",
-            "~/Content/assets/global/plugins/datatables/datatables.min.js"));
+                  "~/Content/assets/global/scripts/datatable.js",
+                "~/Content/assets/global/plugins/datatables/datatables.min.js"));
             //"~/content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js",
             //"~/content/assets/pages/scripts/table-datatables-rowreorder.min.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/gmap3").Include(
+                     "~/Scripts/gmap3.js"));
+
 
             BundleTable.EnableOptimizations = false;
 

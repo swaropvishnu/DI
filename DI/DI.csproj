@@ -5547,13 +5547,11 @@
     <Content Include="Content\Homepage\assets\images\clients\8.jpg" />
     <Content Include="Content\Homepage\assets\images\clients\9.jpg" />
     <Content Include="Content\Homepage\assets\images\favicon.jpg" />
-    <Content Include="Content\Homepage\assets\images\Fotoram.io %281%29.jpg" />
     <Content Include="Content\Homepage\assets\images\history-strip.jpg" />
     <Content Include="Content\Homepage\assets\images\li-item.png" />
     <Content Include="Content\Homepage\assets\images\logo-icon.jpg" />
     <Content Include="Content\Homepage\assets\images\logo-icon.png" />
     <Content Include="Content\Homepage\assets\images\NIC.gif" />
-    <Content Include="Content\Homepage\assets\images\NIC.png" />
     <Content Include="Content\Homepage\assets\images\parallax\.picasaoriginals\4.jpg" />
     <Content Include="Content\Homepage\assets\images\parallax\2.jpg" />
     <Content Include="Content\Homepage\assets\images\parallax\6.jpg" />
@@ -5619,6 +5617,9 @@
     <Content Include="Content\Homepage\assets\js\modernizr-latest.js" />
     <Content Include="Content\Homepage\assets\js\plugins.js" />
     <Content Include="Content\Homepage\assets\js\SmoothScroll.js" />
+    <Content Include="Content\map\m1.png" />
+    <Content Include="Content\map\m2.png" />
+    <Content Include="Content\map\m3.png" />
     <Content Include="Content\plugins\bootstrap\css\bootstrap-theme.css" />
     <Content Include="Content\plugins\bootstrap\css\bootstrap-theme.min.css" />
     <Content Include="Content\plugins\bootstrap\css\bootstrap.css" />
@@ -5650,7 +5651,6 @@
     <Content Include="Content\tpl\quick-sidebar.html" />
     <Content Include="Content\tpl\sidebar.html" />
     <Content Include="Content\tpl\theme-panel.html" />
-    <Content Include="demo.html" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Home.html" />
@@ -6046,6 +6046,7 @@
     <None Include="scripts\jquery-3.2.1.intellisense.js" />
     <Content Include="scripts\bootstrap.js" />
     <Content Include="scripts\bootstrap.min.js" />
+    <Content Include="scripts\gmap3.js" />
     <Content Include="scripts\jmelosegui.googlemap.js" />
     <Content Include="scripts\jquery-3.2.1.js" />
     <Content Include="scripts\jquery-3.2.1.min.js" />
@@ -6122,6 +6123,7 @@
     <Content Include="Views\Login\ProfileUpdate.cshtml" />
     <Content Include="Views\Form\EntryFormReort.cshtml" />
     <Content Include="Views\Dashboard\IndustryLocation.cshtml" />
+    <Content Include="Views\Dashboard\IndustryCluster.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
