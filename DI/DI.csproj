@@ -6121,6 +6121,7 @@
     <Content Include="Views\Form\EntryFormReort.cshtml" />
     <Content Include="Views\Dashboard\IndustryLocation.cshtml" />
     <Content Include="Views\Dashboard\IndustryCluster.cshtml" />
+    <Content Include="Views\Form\DistrictIndrustiesInformation.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

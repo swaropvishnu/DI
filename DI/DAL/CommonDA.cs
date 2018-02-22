@@ -7,7 +7,7 @@ using System.Linq;
 using System.Web;
 using DI.BLL;
 using DI.Models;
-
+using Microsoft.ApplicationBlocks.Data;
 
 namespace DI.DAL
 {
@@ -105,6 +105,39 @@ namespace DI.DAL
                 con.Close();
                 con.Dispose();
             }
+        }
+
+        public DataSet bindDropDownHn(string procName, string parm1, string parm2, string parm3)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+               
+                if (parm1.Length > 0 && parm1 != "")
+                {
+                    List<SqlParameter> parameters = new List<SqlParameter>();
+                    parameters.Add(new SqlParameter("@Parm1", parm1));
+                    if (parm2.Length > 0 && parm2 != "")
+                        parameters.Add(new SqlParameter("@Parm2", parm2));
+                    if (parm3.Length > 0 && parm3 != "")
+                        parameters.Add(new SqlParameter("@Parm3", parm3));
+                   
+                    ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, procName, parameters.ToArray());
+                }
+            }
+            catch
+            {
+                
+                throw;
+
+            }
+            finally
+            {
+
+                con.Close();
+                con.Dispose();
+            }
+            return ds;
         }
 
         internal  String UpdateUserDetail(LoginModal objUserData)

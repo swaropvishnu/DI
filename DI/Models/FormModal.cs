@@ -34,6 +34,12 @@ namespace DI.Models
         public string HelpFromForegin { get; set; }
         public string Mode { get; set; }
 
+        public string Districtcodecensus { get; set; }
+        public string Industrycodecensus { get; set; }
+
+        public string Stablishyear { get; set; }
+        public string Area { get; set; }
+        public string CurrentRate { get; set; }
     }
 
 
