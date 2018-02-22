@@ -32,24 +32,26 @@
                 <div class="form-body" style="background-color:#fff8dc">
                     <div class="row">
                         <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="control-label"><b>प्रार्थी का नाम</b></label>
-                                @Html.TextBoxFor(m => m.ApplicantName, new { @class = "form-control", @id = "txtapplicantname", placeholder = "प्रार्थी का नाम" })
-                                
+                            <div class="form-group form-md-line-input form-md-floating-label has-info">
+                               
+                                @Html.TextBoxFor(m => m.ApplicantName, new { @class = "form-control", @id = "txtapplicantname" })
+                                <label class="form_control_1"><b>प्रार्थी का नाम</b></label>
 
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="control-label"><b>प्रार्थी का पता </b></label>
-                                @Html.TextBoxFor(m => m.ApplicantAddress, new { @class = "form-control", @id = "txtapplicantaddress", placeholder = "प्रार्थी का पता" })
+                            <div class="form-group form-md-line-input form-md-floating-label has-info">
+                               
+                                @Html.TextBoxFor(m => m.ApplicantAddress, new { @class = "form-control", @id = "txtapplicantaddress" })
+                                <label class="form_control_1"><b>प्रार्थी का पता </b></label>
                                
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="control-label"><b>औद्योगिक इकाई का नाम </b></label>
-                                @Html.TextBoxFor(m => m.IndrustryName, new { @class = "form-control", @id = "txtindrustryname", placeholder = "औद्योगिक इकाई का नाम" })
+                            <div class="form-group form-md-line-input form-md-floating-label has-info">
+                               
+                                @Html.TextBoxFor(m => m.IndrustryName, new { @class = "form-control", @id = "txtindrustryname" })
+                                <label class="form_control_1"><b>औद्योगिक इकाई का नाम </b></label>
                                
 
                             </div>
@@ -59,29 +61,29 @@
                    
                         <div class="row">
                             <div class="col-md-4">
-                                <div class="form-group">
-                                    <label class="control-label"><b>प्रार्थना-पत्र शुल्क</b></label>
-                                    @Html.TextBoxFor(m => m.ApplicationFee, new { @class = "form-control", @id = "txtapplicationfee", placeholder = "प्रार्थना-पत्र शुल्क" })
-                                   
+                                <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                    
+                                    @Html.TextBoxFor(m => m.ApplicationFee, new { @class = "form-control", @id = "txtapplicationfee"})
+                                    <label class="form_control_1"><b>प्रार्थना-पत्र शुल्क</b></label>
 
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <div class="form-group">
-                                    <label class="control-label"><b>शुल्क जमा करने की दिनांक</b></label>
-                                    @Html.TextBoxFor(m => m.ApplicationFeeDate, new { @class = "form-control", @id = "mask_date2", placeholder = "शुल्क दिनांक" })
-                                    
+                                <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                   
+                                    @Html.TextBoxFor(m => m.ApplicationFeeDate, new { @class = "form-control", @id = "mask_date2" })
+                                    <label class="form_control_1"><b>शुल्क जमा करने की दिनांक</b></label>
                                        
                                    
 
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <div class="form-group">
-                                    <label class="control-label"><b>शुल्क जमा किये जाने का विवरण</b></label>
+                                <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                   
                                   
-                                    @Html.TextBoxFor(m => m.ApplicationFeedetails, new { @class = "form-control", @id = "txtapplicationfeedetails", placeholder = "प्रार्थना-पत्र शुल्क जमा किये जाने का विवरण" })
-                                    
+                                    @Html.TextBoxFor(m => m.ApplicationFeedetails, new { @class = "form-control", @id = "txtapplicationfeedetails" })
+                                    <label class="form_control_1"><b>शुल्क जमा किये जाने का विवरण</b></label>
                                 </div>
                             </div>
                         </div>
@@ -103,29 +105,29 @@
                         </div>
                         <div class="row" id="trpreregisteration" style="display:none">
                             <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="control-label"><b>पंजीकरण संख्या</b></label>
-                                    @Html.TextBoxFor(m => m.OldRegistraionNo, new { @class = "form-control", @id = "txtRegistraionNo", placeholder = "पंजीकरण संख्या" })
+                                <div class="form-group form-md-line-input form-md-floating-label has-info">
                                    
+                                    @Html.TextBoxFor(m => m.OldRegistraionNo, new { @class = "form-control", @id = "txtRegistraionNo" })
+                                    <label class="form_control_1"><b>पंजीकरण संख्या</b></label>
                                 </div>
                             </div>
                             <!--/span-->
                             <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="control-label"><b>पंजीकरण दिनांक</b></label>
-                                    @Html.TextBoxFor(m => m.OldRegistrationDate, new { @class = "form-control", @id = "txtRegistrationDate", placeholder = "dd/mm/yyyy" })
-                                   
+                                <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                  
+                                    @Html.TextBoxFor(m => m.OldRegistrationDate, new { @class = "form-control", @id = "txtRegistrationDate" })
+                                    <label class="form_control_1"><b>पंजीकरण दिनांक</b></label>
                                 </div>
                             </div>
                             <!--/span-->
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="control-label"><b>सामग्री जिसका उत्पादन किया जायेगा</b></label>
+                    <div class="form-group form-md-line-input form-md-floating-label has-info">
+                       
                         <div class="input-icon">
                             @*<i class="fa fa-bell-o"></i>*@
-                            @Html.TextBoxFor(m => m.ProductName, new { @class = "form-control", @id = "txtproduct", placeholder = "सामग्री का नाम" })
-                           
+                            @Html.TextBoxFor(m => m.ProductName, new { @class = "form-control", @id = "txtproduct" })
+                            <label class="form_control_1"><b>सामग्री जिसका उत्पादन किया जायेगा</b></label>
                         </div>
                     </div>
                     <div class="form-group">
@@ -140,7 +142,7 @@
                             </label>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group form-md-line-input form-md-floating-label has-info">
                         <label class="control-label"><b>क्या विदेशी सहायता से इकाई स्थापित की जाएगी ?</b></label>
                         <div class="radio-list" style="margin-left:20px">
                             <label class="radio-inline">
@@ -153,16 +155,17 @@
                     </div>
                     <div class="row">
                         <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="control-label"><b>वित्तीय सहायता का श्रोत</b></label>
-                                @Html.TextBoxFor(m => m.FiananceDetails, new { @class = "form-control", @id = "txtFinancedetails", placeholder = "वित्तीय सहायता का श्रोत" })
+                            <div class="form-group form-md-line-input form-md-floating-label has-info">
+                              
+                                @Html.TextBoxFor(m => m.FiananceDetails, new { @class = "form-control", @id = "txtFinancedetails" })
+                                <label class="form_control_1"><b>वित्तीय सहायता का श्रोत</b></label>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="control-label"><b>कच्चे माल का श्रोत</b></label>
-                                @Html.TextBoxFor(m => m.RowMeterialSource, new { @class = "form-control", @id = "txtRowMeterialSource", placeholder = "कच्चे माल का श्रोत" })
+                            <div class="form-group form-md-line-input form-md-floating-label has-info">
                                 
+                                @Html.TextBoxFor(m => m.RowMeterialSource, new { @class = "form-control", @id = "txtRowMeterialSource"})
+                                <label class="form_control_1"><b>कच्चे माल का श्रोत</b></label>
                             </div>
                             </div>
                         </div>

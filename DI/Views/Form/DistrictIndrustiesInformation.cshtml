@@ -24,42 +24,47 @@
                 <div class="form-body" style="background-color:#fff8dc">
                     <div class="row">
                         <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="control-label"><b>जनपद का नाम</b></label>
+                            <div class="form-group form-md-line-input form-md-floating-label has-info">
+                               
                                     @if (ViewBag.DisLst != null)
                                     {
                                         @Html.DropDownListFor(m => m.Districtcodecensus, (IEnumerable<SelectListItem>)ViewBag.DisLst, new { @id = "ddlDist", @class = "form-control" })
                                     }
+                                <label class="form_control_1"><b>जनपद का नाम</b></label>
                                 </div>
 
 
                             </div>
                         <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="control-label"><b>औद्योगिक आस्थान का नाम </b></label>
+                            <div class="form-group form-md-line-input form-md-floating-label has-info">
+                               
                                 @if (ViewBag.DisLst != null)
                                 {
                                     @Html.DropDownListFor(m => m.Industrycodecensus, (IEnumerable<SelectListItem>)ViewBag.DisLst, new { @id = "ddlDist", @class = "form-control" })
                                 }
-
+                                <label class="form_control_1"><b>औद्योगिक आस्थान का नाम </b></label>
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="control-label"><b>स्थापना वर्ष</b></label>
-                                @Html.TextBoxFor(m => m.Stablishyear, new { @class = "form-control", @id = "txtyear", placeholder = "स्थापना वर्ष" })
+                            <div class="form-group form-md-line-input form-md-floating-label has-info">
+                               
+                                @Html.TextBoxFor(m => m.Stablishyear, new { @class = "form-control", @id = "txtyear" ,@MaxLength=4 })
+                                <label class="form_control_1"><b>स्थापना वर्ष</b></label>
 
 
                             </div>
+
+                            
                         </div>
                         </div>
                         
                     <div class="row">
                         
                         <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="control-label"><b>क्षेत्रफल (वर्ग मीटर में)</b></label>
-                                @Html.TextBoxFor(m => m.Area, new { @class = "form-control", @id = "txtarea", placeholder = "क्षेत्रफल (वर्ग मीटर में)" })
+                            <div class="form-group form-md-line-input form-md-floating-label has-info">
+                               
+                                @Html.TextBoxFor(m => m.Area, new { @class = "form-control", @id = "txtarea" })
+                                <label class="form_control_1"><b>क्षेत्रफल (वर्ग मीटर में)</b></label>
 
 
 
@@ -67,45 +72,74 @@
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="control-label"><b>वर्तमान प्रचलित दर (वर्ग मीटर)</b></label>
+                            <div class="form-group form-md-line-input form-md-floating-label has-info">
+                               
 
-                                @Html.TextBoxFor(m => m.CurrentRate, new { @class = "form-control", @id = "txtapplicationfeedetails", placeholder = "वर्तमान प्रचलित दर (वर्ग मीटर)" })
-
+                                @Html.TextBoxFor(m => m.CurrentRate, new { @class = "form-control", @id = "txtapplicationfeedetails" })
+                                <label class="form_control_1"><b>वर्तमान प्रचलित दर (वर्ग मीटर)</b></label>
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="control-label"><b>आवंटन हेतु गैर विवादित उपलब्ध रिक्त</b></label>
-                                @Html.TextBoxFor(m => m.FiananceDetails, new { @class = "col-md-2 form-control", @id = "txtFinancedetails", placeholder = "भूखण्ड की संख्या" })
-
+                            <div class="form-group form-md-line-input form-md-floating-label has-info">
+                               
+                                @Html.TextBoxFor(m => m.FiananceDetails, new { @class = "form-control", @id = "txtFinancedetails" })
+                                <label class="form_control_1"><b>आवंटन हेतु गैर विवादित उपलब्ध रिक्त भूखण्ड की संख्या</b></label>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="control-label"><b>वर्तमान में कुल विकसित</b></label>
-                                @Html.TextBoxFor(m => m.FiananceDetails, new { @class = "col-md-2 form-control", @id = "txtFinancedetails", placeholder = "भूखण्ड की संख्या" })
-                                @Html.TextBoxFor(m => m.FiananceDetails, new { @class = "col-md-2 form-control", @id = "txtFinancedetails", placeholder = "शेडों की संख्या" })
+                            <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                
+                                @Html.TextBoxFor(m => m.FiananceDetails, new { @class = "form-control", @id = "txtFinancedetails" })
+                                <label class="form_control_1"><b>वर्तमान में कुल विकसित भूखण्ड की संख्या</b></label>
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="control-label"><b>क्षेत्रफलवार विकसित</b></label>
-                                @Html.TextBoxFor(m => m.FiananceDetails, new { @class = "col-md-2 form-control", @id = "txtFinancedetails", placeholder = "भूखण्ड की संख्या" })
-                                @Html.TextBoxFor(m => m.FiananceDetails, new { @class = "col-md-2 form-control", @id = "txtFinancedetails", placeholder = "शेडों की संख्या" })
+                            <div class="form-group form-md-line-input form-md-floating-label has-info">
+                               
+                                @Html.TextBoxFor(m => m.FiananceDetails, new { @class = "form-control", @id = "txtFinancedetails" })
+                                <label class="form_control_1"><b>वर्तमान में कुल विकसित शेडों की संख्या</b></label>
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="control-label"><b>आवंटित</b></label>
-                                @Html.TextBoxFor(m => m.FiananceDetails, new { @class = "col-md-2 form-control", @id = "txtFinancedetails", placeholder = "भूखण्ड की संख्या" })
-                                @Html.TextBoxFor(m => m.FiananceDetails, new { @class = "col-md-2 form-control", @id = "txtFinancedetails", placeholder = "शेडों की संख्या" })
+                            <div class="form-group form-md-line-input form-md-floating-label has-info">
+                               
+                                @Html.TextBoxFor(m => m.FiananceDetails, new { @class = "form-control", @id = "txtFinancedetails" })
+                                <label class="form_control_1"><b>क्षेत्रफलवार विकसित भूखण्ड की संख्या</b></label>
+                               
                             </div>
                         </div>
 
                         
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group form-md-line-input form-md-floating-label has-info">
+                              
+                                @Html.TextBoxFor(m => m.FiananceDetails, new { @class = "form-control", @id = "txtFinancedetails" })
+                                <label class="form_control_1"><b>क्षेत्रफलवार विकसित शेडों की संख्या</b></label>
+                              
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group form-md-line-input form-md-floating-label has-info">
+                               
+                                @Html.TextBoxFor(m => m.FiananceDetails, new { @class = " form-control", @id = "txtFinancedetails" })
+                                <label class="form_control_1"><b>आवंटित भूखण्ड की संख्या</b></label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group form-md-line-input form-md-floating-label has-info">
+                              
+                                @Html.TextBoxFor(m => m.FiananceDetails, new { @class = " form-control", @id = "txtFinancedetails" })
+                                <label class="form_control_1"><b>आवंटित शेडों की संख्या</b></label>
+                               
+                            </div>
+                        </div>
+
+
 
                     </div>
                     <br />
@@ -121,20 +155,20 @@
                             <div class="row">
 
                                 <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label class="control-label"><b>अस्थान में पहुँच दूरी (बस स्टैंड से)</b></label>
-                                        @Html.TextBoxFor(m => m.Area, new { @class = "form-control", @id = "txtarea", placeholder = "निकट बस स्टैंड से दूरी (किलोर्मीटर में)" })
+                                    <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                       
+                                        @Html.TextBoxFor(m => m.Area, new { @class = "form-control", @id = "txtarea" })
 
-
+                                        <label class="form_control_1"><b>अस्थान में पहुँच दूरी (निकट बस स्टैंड से किलोमीटर  में)</b></label>
 
 
                                     </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label class="control-label"><b>अस्थान में पहुँच दूरी (रेलवे स्टेशन से)</b></label>
-                                        @Html.TextBoxFor(m => m.Area, new { @class = "form-control", @id = "txtarea", placeholder = "निकट रेलवे स्टेशन से दूरी (किलोर्मीटर में)" })
-
+                                    <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                       
+                                        @Html.TextBoxFor(m => m.Area, new { @class = "form-control", @id = "txtarea" })
+                                        <label class="form_control_1"><b>अस्थान में पहुँच दूरी (निकट रेलवे स्टेशन से किलोमीटर  में)</b></label>
 
 
 
