@@ -40,6 +40,19 @@ namespace DI.Models
         public string Stablishyear { get; set; }
         public string Area { get; set; }
         public string CurrentRate { get; set; }
+        public string isRawMaterialavalible { get; set; }
+
+        public string IsDrinkingWaterAvailable { get; set; }
+
+        public string  IsWaterOutletAvailable { get; set; }
+        public string IsLightAvailble { get; set; }
+
+        public string IsRoadAvailable { get; set; }
+
+        public string DistanceFromTrain { get; set; }
+
+        public string DistanceFromBus { get; set; }
+
     }
 
 

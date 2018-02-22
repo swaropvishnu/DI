@@ -75,7 +75,7 @@
                             <div class="form-group form-md-line-input form-md-floating-label has-info">
                                
 
-                                @Html.TextBoxFor(m => m.CurrentRate, new { @class = "form-control", @id = "txtapplicationfeedetails" })
+                                @Html.TextBoxFor(m => m.CurrentRate, new { @class = "form-control", @id = "txtCurrentRate" })
                                 <label class="form_control_1"><b>वर्तमान प्रचलित दर (वर्ग मीटर)</b></label>
                             </div>
                         </div>
@@ -157,7 +157,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group form-md-line-input form-md-floating-label has-info">
                                        
-                                        @Html.TextBoxFor(m => m.Area, new { @class = "form-control", @id = "txtarea" })
+                                        @Html.TextBoxFor(m => m.DistanceFromBus, new { @class = "form-control", @id = "txtarea" })
 
                                         <label class="form_control_1"><b>अस्थान में पहुँच दूरी (निकट बस स्टैंड से किलोमीटर  में)</b></label>
 
@@ -167,7 +167,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group form-md-line-input form-md-floating-label has-info">
                                        
-                                        @Html.TextBoxFor(m => m.Area, new { @class = "form-control", @id = "txtarea" })
+                                        @Html.TextBoxFor(m => m.DistanceFromTrain, new { @class = "form-control", @id = "txtarea" })
                                         <label class="form_control_1"><b>अस्थान में पहुँच दूरी (निकट रेलवे स्टेशन से किलोमीटर  में)</b></label>
 
 
@@ -184,11 +184,11 @@
                                 <label class="control-label"><b>अस्थान में पहुंच सड़क उपलब्ध है अथवा नहीं </b></label>
                                 <div class="radio-list" style="margin-left:20px">
                                     <label class="radio-inline">
-                                        @Html.RadioButtonFor(m => m.PracticalProjectReport, "Yes", new { @name = "Road", @id = "RoadRadiosYes", @value = "Yes" })
-                                        @*<input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">*@हाँ
+                                        @Html.RadioButtonFor(m => m.IsRoadAvailable, "Yes", new { @name = "Road", @id = "RoadRadiosYes", @value = "Yes" }) हाँ
+                                       
                                     </label>
                                     <label class="radio-inline">
-                                        @Html.RadioButtonFor(m => m.PracticalProjectReport, "No", new { @name = "Road", @id = "RoadRadiosNo", @value = "No", @checked = "" })नहीं
+                                        @Html.RadioButtonFor(m => m.IsRoadAvailable, "No", new { @name = "Road", @id = "RoadRadiosNo", @value = "No", @checked = "" })नहीं
                                     </label>
                                 </div>
                             </div>
@@ -199,10 +199,10 @@
                                 <label class="control-label"><b>बिजली उपलब्ध है अथवा नहीं </b></label>
                                 <div class="radio-list" style="margin-left:20px">
                                     <label class="radio-inline">
-                                        @Html.RadioButtonFor(m => m.HelpFromForegin, "Yes", new { @name = "Light", @id = "LightRadiosYes", @value = "Yes" })हाँ
+                                        @Html.RadioButtonFor(m => m.IsLightAvailble, "Yes", new { @name = "Light", @id = "LightRadiosYes", @value = "Yes" })हाँ
                                     </label>
                                     <label class="radio-inline">
-                                        @Html.RadioButtonFor(m => m.HelpFromForegin, "No", new { @name = "Light", @id = "LightRadiosNo", @value = "No", @checked = "" })नहीं
+                                        @Html.RadioButtonFor(m => m.IsLightAvailble, "No", new { @name = "Light", @id = "LightRadiosNo", @value = "No", @checked = "" })नहीं
                                     </label>
                                 </div>
                             </div>
@@ -212,10 +212,10 @@
                                 <label class="control-label"><b>जल निकासी/नाली सुविधा उपलब्ध है अथवा नहीं </b></label>
                                 <div class="radio-list" style="margin-left:20px">
                                     <label class="radio-inline">
-                                        @Html.RadioButtonFor(m => m.HelpFromForegin, "Yes", new { @name = "WaterOutlet", @id = "WaterOutletRadiosYes", @value = "Yes" })हाँ
+                                        @Html.RadioButtonFor(m => m.IsWaterOutletAvailable, "Yes", new { @name = "WaterOutlet", @id = "WaterOutletRadiosYes", @value = "Yes" })हाँ
                                     </label>
                                     <label class="radio-inline">
-                                        @Html.RadioButtonFor(m => m.HelpFromForegin, "No", new { @name = "WaterOutlet", @id = "WaterOutletRadiosNo", @value = "No", @checked = "" })नहीं
+                                        @Html.RadioButtonFor(m => m.IsWaterOutletAvailable, "No", new { @name = "WaterOutlet", @id = "WaterOutletRadiosNo", @value = "No", @checked = "" })नहीं
                                     </label>
                                 </div>
                             </div>
@@ -228,11 +228,11 @@
                                     <label class="control-label"><b>पेयजल व्यवस्था उपलब्ध है अथवा नहीं</b></label>
                                     <div class="radio-list" style="margin-left:20px">
                                         <label class="radio-inline">
-                                            @Html.RadioButtonFor(m => m.PracticalProjectReport, "Yes", new { @name = "DrinkingWater", @id = "DrinkingWaterRadiosYes", @value = "Yes" })
+                                            @Html.RadioButtonFor(m => m.IsDrinkingWaterAvailable, "Yes", new { @name = "DrinkingWater", @id = "DrinkingWaterRadiosYes", @value = "Yes" })
                                             @*<input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">*@हाँ
                                         </label>
                                         <label class="radio-inline">
-                                            @Html.RadioButtonFor(m => m.PracticalProjectReport, "No", new { @name = "DrinkingWater", @id = "DrinkingWaterRadiosNo", @value = "No", @checked = "" })नहीं
+                                            @Html.RadioButtonFor(m => m.IsDrinkingWaterAvailable, "No", new { @name = "DrinkingWater", @id = "DrinkingWaterRadiosNo", @value = "No", @checked = "" })नहीं
                                         </label>
                                     </div>
                                 </div>
@@ -243,10 +243,10 @@
                                     <label class="control-label"><b>रॉ मैटेरियल साइडिंग उपलब्ध है अथवा नहीं</b></label>
                                     <div class="radio-list" style="margin-left:20px">
                                         <label class="radio-inline">
-                                            @Html.RadioButtonFor(m => m.HelpFromForegin, "Yes", new { @name = "RawMaterial", @id = "RawMaterialYes", @value = "Yes" })हाँ
+                                            @Html.RadioButtonFor(m => m.isRawMaterialavalible, "Yes", new { @name = "RawMaterial", @id = "RawMaterialYes", @value = "Yes" })हाँ
                                         </label>
                                         <label class="radio-inline">
-                                            @Html.RadioButtonFor(m => m.HelpFromForegin, "No", new { @name = "RawMaterial", @id = "RawMaterialNo", @value = "No", @checked = "" })नहीं
+                                            @Html.RadioButtonFor(m => m.isRawMaterialavalible, "No", new { @name = "RawMaterial", @id = "RawMaterialNo", @value = "No", @checked = "" })नहीं
                                         </label>
                                     </div>
                                 </div>

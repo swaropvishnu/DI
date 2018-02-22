@@ -50,7 +50,15 @@ namespace DI.Controllers
             return View(Obj);
 
         }
+        [SessionExpireFilterAttribute]
         public ActionResult DistrictIndrustiesInformation()
+        {
+            ViewBag.DisLst = DllDistrict();
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DistrictIndrustiesInformation(FormModal Objform)
         {
             ViewBag.DisLst = DllDistrict();
             return View();
