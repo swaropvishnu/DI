@@ -39,7 +39,7 @@ namespace MVCCaptchaDemo.Models
 
         public override void ExecuteResult(ControllerContext context)
         {
-            Bitmap bmp = new Bitmap(72, 30);
+            Bitmap bmp = new Bitmap(90, 30);
             Graphics g = Graphics.FromImage(bmp);
             g.Clear(Color.WhiteSmoke);
             string randomString = GetCaptchaString(4);

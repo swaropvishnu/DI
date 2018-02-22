@@ -26,6 +26,13 @@
     @Scripts.Render("~/bundles/ReportJs")
     @Scripts.Render("~/bundles/gmap3")
     @*@(Html.GoogleMap().ScriptRegistrar())*@
+
+    <script>
+      $.gmap3({
+        key: 'AIzaSyBOYfwN5dgGQislPPsZMYcEt2EE98N5O4A'
+      });
+    </script>
+
 </head>
 <!-- END HEAD -->
 <body class="page-header-fixed page-sidebar-closed-hide-logo page-container-bg-solid page-md">
@@ -203,13 +210,13 @@
                     <!-- DOC: Set data-keep-expand="true" to keep the submenues expanded -->
                     <!-- DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed -->
                     <ul class="page-sidebar-menu  page-header-fixed page-sidebar-menu-hover-submenu "   id="Sidemenu12" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
-                            
+
                         </ul>
 
-                   
+
                     <!-- END SIDEBAR MENU -->
                 </div>
-            
+
 
 
 
@@ -238,7 +245,7 @@
             </a>
             <div class="page-quick-sidebar-wrapper" data-close-on-body-click="false">
                 <div class="page-quick-sidebar">
-                    
+
                     <div class="tab-content">
                         <div class="tab-pane active page-quick-sidebar-chat" id="quick_sidebar_tab_1">
                             @* side menu bar removed *@
@@ -688,7 +695,7 @@
                 </div>
             </div>
             <!-- END QUICK SIDEBAR -->
-        
+
         <!-- END CONTAINER -->
         <!-- BEGIN FOOTER -->
         <div class="page-footer">
@@ -736,9 +743,9 @@
             </nav>*@
             <div class="quick-nav-overlay"></div>
 
-            </div> 
+            </div>
 
-            
+
             @RenderSection("scripts", required: false)
 
 

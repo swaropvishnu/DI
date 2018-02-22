@@ -1484,6 +1484,7 @@
     <Content Include="Content\assets\global\plugins\amcharts\ammap\maps\svg\elSalvadorLow.svg" />
     <Content Include="Content\assets\global\plugins\amcharts\ammap\maps\svg\estoniaHigh.svg" />
     <Content Include="Content\assets\global\plugins\amcharts\ammap\maps\svg\estoniaLow.svg" />
+    <Content Include="Content\assets\global\plugins\amcharts\ammap\maps\svg\UP.svg" />
     <Content Include="Content\assets\global\plugins\amcharts\ammap\maps\svg\faroeIslandsHigh.svg" />
     <Content Include="Content\assets\global\plugins\amcharts\ammap\maps\svg\finlandHigh.svg" />
     <Content Include="Content\assets\global\plugins\amcharts\ammap\maps\svg\finlandLow.svg" />
