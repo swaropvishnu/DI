@@ -5510,6 +5510,8 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\demo.css" />
+    <Content Include="Content\header-second-bar.css" />
     <Content Include="Content\Homepage\assets\css\animate.min.css" />
     <Content Include="Content\Homepage\assets\css\bootstrap.min.css" />
     <Content Include="Content\Homepage\assets\css\font-awesome.css" />
@@ -6050,8 +6052,10 @@
     <Content Include="scripts\jquery-3.2.1.slim.js" />
     <Content Include="scripts\jquery-3.2.1.slim.min.js" />
     <Content Include="scripts\markerclusterer.js" />
+    <Content Include="scripts\md5.js" />
     <Content Include="scripts\Menu.js" />
     <Content Include="scripts\modernizr-2.6.2.js" />
+    <Content Include="scripts\sha256.js" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -6076,6 +6080,7 @@
     <Compile Include="BLL\CommonBL.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\FormController.cs" />
+    <Compile Include="Controllers\IndustrialAreaMasterController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="DAL\CommonDA.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
@@ -6091,9 +6096,11 @@
     <Compile Include="MenuHandler.ashx.cs">
       <DependentUpon>MenuHandler.ashx</DependentUpon>
     </Compile>
+    <Compile Include="Models\AddAllotee.cs" />
     <Compile Include="Models\CaptchaImageResult.cs" />
     <Compile Include="Models\DashboardModal.cs" />
     <Compile Include="Models\FormModal.cs" />
+    <Compile Include="Models\IndustrialAreaMasterModal.cs" />
     <Compile Include="Models\KmlModel.cs" />
     <Compile Include="Models\LoginModal.cs" />
     <Compile Include="Models\UserAuthorization.cs" />
@@ -6122,6 +6129,14 @@
     <Content Include="Views\Dashboard\IndustryLocation.cshtml" />
     <Content Include="Views\Dashboard\IndustryCluster.cshtml" />
     <Content Include="Views\Form\DistrictIndrustiesInformation.cshtml" />
+    <Content Include="Views\IndustrialAreaMaster\AddAreaView.cshtml" />
+    <Content Include="Views\Shared\_PublicPage.cshtml" />
+    <Content Include="Views\Login\RegistrationLogin.cshtml" />
+    <Content Include="Views\Form\MYSYEntry.cshtml" />
+    <Content Include="Views\IndustrialAreaMaster\AddPlot.cshtml" />
+    <Content Include="Views\IndustrialAreaMaster\AddShed.cshtml" />
+    <Content Include="Views\IndustrialAreaMaster\AddAllotee.cshtml" />
+    <Content Include="Views\IndustrialAreaMaster\GetAreaView.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

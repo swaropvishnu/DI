@@ -10,6 +10,7 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Security.Principal;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -24,6 +25,8 @@ namespace DI.Controllers
         // GET: Login
         public ActionResult Login()
         {
+            string salt = CreateSalt(5);
+            Session["salt"] = salt.ToString();
             return View();
         }
 
@@ -61,36 +64,33 @@ namespace DI.Controllers
 
         //
         // POST: /Account/Login
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpPost]        
+        [AllowAnonymous]
         public ActionResult Login(LoginModal Model)
         {
-            //if (this.IsCaptchaValid("Captcha is not valid"))
+            
             if (Model.CaptchaText == HttpContext.Session["captchastring"].ToString())
             {
                 // Ensure we have a valid viewModel to work with
                 //if (!ModelState.IsValid)
                 //    return View(Model);
-
                 string salt = CreateSalt(5);
+
                 string usrname = Model.UserName;
                 string password = Model.Password;
                 DataSet ds = new DataSet();
-                ds = UserDtl.VerifyUser(usrname);
-                //btnlogin.Attributes.Add("onclick", "return HashPwdwithSalt('" + salt.ToString() + "');");
+                ds = UserDtl.VerifyUser(usrname);                
                 if (ds != null)
                 {
-                    string psw = ds.Tables[0].Rows[0]["Password"].ToString();
-                    bool isLogin = CompareHashValue(Model.Password, Model.UserName, psw, salt);
+                    string psw = ds.Tables[0].Rows[0]["Password"].ToString();                    
                     if (ds.Tables[0].Rows.Count > 0 && ds.Tables[0].Rows.Count == 1)
                     {
 
-                        string hashed_pwd = FormsAuthentication.HashPasswordForStoringInConfigFile(psw.ToString().ToLower() + salt, "md5");
-                        string userpwd = FormsAuthentication.HashPasswordForStoringInConfigFile(Model.Password.ToLower() + salt, "md5");
-                        //if (hashed_pwd.ToString().ToLower().Equals(userpwd.ToString().ToLower()))
-                        if (isLogin)
+                        string hashed_pwd = CalculateHash(psw.ToString().ToLower() + Session["salt"].ToString());
+                        if (hashed_pwd.ToString().ToLower().Equals(Model.Password.ToLower()))
                         {
                             Session["tbl_Session"] = ds.Tables[0];
+                            FormsAuthentication.SetAuthCookie(usrname, Model.RememberMe);
                             return RedirectToAction("Index", "Dashboard");
                         }
                         else
@@ -123,6 +123,7 @@ namespace DI.Controllers
         public CaptchaImageResult ShowCaptchaImage()
         {
             return new CaptchaImageResult();
+            
         }
 
         /// <summary>
@@ -136,36 +137,10 @@ namespace DI.Controllers
         /// 
 
 
-        #region --> Comapare HASH Value
-        public static bool CompareHashValue(string password, string username, string OldHASHValue, string SALT)
-        {
-            try
-            {
-                string expectedHashString = Get_HASH_SHA512(password, SALT);
-                string hashed_pwd = FormsAuthentication.HashPasswordForStoringInConfigFile(OldHASHValue.ToLower() + SALT, "md5");
-                return (hashed_pwd == expectedHashString);
-            }
-            catch
-            {
-                return false;
-            }
-        }
-        #endregion
+        
 
         #region --> Generate HASH Using SHA512
-        public static string Get_HASH_SHA512(string password, string _salt)
-        {
-            try
-            {
-                string type_pwd = FormsAuthentication.HashPasswordForStoringInConfigFile(password, "md5");
-                string type_pwd_salt = FormsAuthentication.HashPasswordForStoringInConfigFile(type_pwd.ToLower() + _salt, "md5");
-                return type_pwd_salt;
-            }
-            catch
-            {
-                return string.Empty;
-            }
-        }
+        
         #endregion
         private string CreateSalt(int size) //Generate the salt via Randon Number Genertor cryptography
         {
@@ -175,7 +150,17 @@ namespace DI.Controllers
             return Convert.ToBase64String(buff);
         }
 
+        private string CalculateHash(string input)
+        {
+            using (var algorithm = SHA256.Create()) //or MD5 SHA512 etc.
+            {
+                var hashedBytes = algorithm.ComputeHash(Encoding.UTF8.GetBytes(input));
 
+                return BitConverter.ToString(hashedBytes).Replace("-", "").ToLower();
+            }
+        }
+
+        
 
 
 
@@ -250,7 +235,7 @@ namespace DI.Controllers
 
         //POST: Logout
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult Logout()
         {
             try
@@ -394,6 +379,15 @@ namespace DI.Controllers
 
         {
             return View();
-        }        
+        }
+
+
+
+
+
+        public ActionResult RegistrationLogin()
+        {
+            return View();
+        }
     }
 }

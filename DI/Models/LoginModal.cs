@@ -26,6 +26,8 @@ namespace DI.Models
             set;
         }
 
+        public bool RememberMe { get; set; }
+
         [Required]
         [DataType(DataType.Password)]
         [Display(Name = "OldPassword")]

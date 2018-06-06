@@ -1,0 +1,641 @@
+﻿@model DI.Models.IndustrialAreaMasterModal
+
+@{
+    ViewBag.Title = "MYSYEntry";
+    Layout = "~/Views/Shared/_PublicPage.cshtml";
+}
+
+    <script src="~/scripts/jquery-3.2.1.js"></script>
+    <script src="~/scripts/jquery-3.2.1.min.js"></script>
+
+
+
+@*<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>*@
+
+<script>
+
+  $(document).ready(function() {
+      $("#DOB").datepicker();
+  });
+</script>  
+
+
+<div class="row">
+<div class="col-md-12">
+<div class="portlet-body form">
+    @using (Html.BeginForm("MYSYEntry", "Form",
+    //new { ReturnUrl = ViewBag.ReturnUrl },
+    FormMethod.Post, new { @class = "", enctype = "multipart/form-data" }))
+
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="icon-equalizer font-red-sunglo"></i>
+                    <span class="caption-subject font-red-sunglo bold uppercase">मुख्यमंत्री युवा स्वरोजगार योजना </span>
+                    <span class="caption-helper">प्रार्थना-पत्र (दो-प्रतियों में)</span>
+                </div>
+                @*<div class="tools">
+                    <a href="" class="collapse" data-original-title="" title=""> </a>
+                    <a href="#portlet-config" data-toggle="modal" class="config" data-original-title="" title=""> </a>
+                    <a href="" class="reload" data-original-title="" title=""> </a>
+                    <a href="" class="remove" data-original-title="" title=""> </a>
+                </div>*@
+            </div>
+            <div class="portlet-body form">
+                <!-- BEGIN FORM-->
+                <form action="#" class="form-horizontal">
+                    <div class="form-body" style="padding: 0px !important">
+                        <h3 class="form-section" style="font-weight:bolder">व्यक्तिगत विवरण</h3>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12">नाम</label>
+                                    <div class="col-md-12">
+                                        <input type="text" class="form-control" placeholder="नाम">                                
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12">जन्मतिथि</label>
+                                    <div class="col-md-12">
+                                     
+                                            @Html.EditorFor(m => m.DOB, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(m => m.DOB, "", new { @class = "text-danger" })
+                                            @*<input type="text" class="form-control" placeholder="dd/mm/yyyy">*@
+                                        </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12">आधार कार्ड नं0</label>
+                                    <div class="col-md-12">
+                                        <input type="text" class="form-control" placeholder="आधार कार्ड नं0">                                      
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                        </div>
+                        <!--/row-->
+                      
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12">पिता/पति का नाम</label>
+                                    <div class="col-md-12">
+                                        <input type="text" class="form-control" placeholder="पिता/पति का नाम">
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12">पत्र व्यवहार का पता</label>
+                                    <div class="col-md-12">
+                                        <input type="text" id="address" class="form-control" placeholder="पत्र व्यवहार का पता">
+                                      @*@Html.TextAreaFor(model => model.Address, new { rows = 10, cols = 50 })*@ 
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <!--/span-->
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12">स्थाई पता</label>
+                                    <div class="col-md-12">
+                                        <input type="text" id="permanentadd" class="form-control" placeholder="स्थाई पता">
+                                      @*@Html.TextAreaFor(model => model.ApplicantAddress, new { rows = 10, cols = 50 })*@ 
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12">जनपद </label>
+                                    <div class="col-md-12">
+                                     @Html.DropDownListFor(m => m.DistCode, Model.DistrictNames, "--Select--", new { @id = "ddlDistrict", @class = "form-control" })
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <!--/span-->
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12">तहसील </label>
+                                    <div class="col-md-12">
+                                        @Html.DropDownListFor(m => m.TehsilCode, new List<SelectListItem>(), "--Select--", new { @id = "ddlTehsil", @class = "form-control" })
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12">ब्लॉक</label>
+                                    <div class="col-md-12">
+                                        @Html.DropDownListFor(m => m.BlockCode, new List<SelectListItem>(), "--Select--", new { @id = "ddlBlock", @class = "form-control" })
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                      
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12">ग्राम </label>
+                                    <div class="col-md-12">
+                                        @Html.DropDownListFor(m => m.VillCode, new List<SelectListItem>(), "--Select--", new { @id = "ddlVillage", @class = "form-control" })
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12">मोबाइल नं0</label>
+                                    <div class="col-md-12">
+                                        <input type="text" class="form-control" placeholder="मोबाइल नं0">
+                                       
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <!--/span-->
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12">ई-मेल आई0डी0 (यदि हो तो)	</label>
+                                    <div class="col-md-12">
+                                        <input type="text" class="form-control" placeholder="ई-मेल आई0डी0 (यदि हो तो)">
+                                       
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                        </div>
+                        <!--/row-->
+
+                        <h3 class="form-section" style="font-weight:bolder">परिवार का विवरण </h3>
+                        <!--/row-->
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label col-md-12">पिता</label>
+
+                                <div class="col-md-12">
+                                    <input type="text" class="form-control" placeholder="पिता का नाम">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label col-md-12">उम्र</label>
+
+                                <div class="col-md-12">
+                                    <input type="text" class="form-control" placeholder="उम्र">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label col-md-12">कार्य</label>
+
+                                <div class="col-md-12">
+                                    <input type="text" class="form-control" placeholder="कार्य">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <!--/span-->
+                    </div>
+                    <!--/row-->
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label col-md-3">माता</label>
+
+                                <div class="col-md-12">
+                                    <input type="text" class="form-control" placeholder="माता का नाम">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <!--/span-->
+                        
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label col-md-12">उम्र</label>
+
+                                <div class="col-md-12">
+                                    <input type="text" class="form-control" placeholder="उम्र">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label col-md-12">कार्य</label>
+
+                                <div class="col-md-12">
+                                    <input type="text" class="form-control" placeholder="कार्य">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <!--/span-->
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label col-md-12">भाई/बहन</label>
+
+                                <div class="col-md-12">
+                                    <input type="text" class="form-control" placeholder="भाई या बहन का नाम">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label col-md-12">उम्र</label>
+
+                                <div class="col-md-12">
+                                    <input type="text" class="form-control" placeholder="उम्र">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label col-md-12">कार्य</label>
+
+                                <div class="col-md-12">
+                                    <input type="text" class="form-control" placeholder="कार्य">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <!--/span-->
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label col-md-12">बच्चों का नाम</label>
+
+                                <div class="col-md-12">
+                                    <input type="text" class="form-control" placeholder="बच्चों का नाम">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label col-md-12">उम्र</label>
+
+                                <div class="col-md-12">
+                                    <input type="text" class="form-control" placeholder="उम्र">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label col-md-12">कार्य</label>
+
+                                <div class="col-md-12">
+                                    <input type="text" class="form-control" placeholder="कार्य">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <!--/span-->
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label col-md-12">पेंशन  कार्ड सं0</label>
+
+                                <div class="col-md-12">
+                                    <input type="text" class="form-control" placeholder="पेंषन कार्ड सं0">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <!--/span-->
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label col-md-12">परिवार की वार्षिक आय</label>
+                                <div class="col-md-12">
+                                    <input type="text" class="form-control" placeholder="रू0">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!--/span-->
+                    </div>
+                    <div class="form-body" style="padding: 0px !important">
+                        <h3 class="form-section" style="font-weight:bolder">परियोजना का  विवरण</h3>
+
+                        
+                        <!--/row-->
+                        <div class="row">
+                            <!--/span-->
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12">परियोजना का नाम</label>
+                                    <div class="col-md-12">
+                                        <input type="text" class="form-control" placeholder="परियोजना का नाम">
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <!--/span-->
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12">परियोजना लागत </label>
+                                    <div class="col-md-12">
+                                        <input type="text" class="form-control" placeholder="परियोजना लागत">
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12">प्लाण्ट एवं मशीनरी </label>
+                                    <div class="col-md-12">
+                                        <input type="text" class="form-control" placeholder="रू0">
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <!--/span-->
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12">एक चक कार्यशील पूँजी</label>
+                                    <div class="col-md-12">
+                                        <input type="text" class="form-control" placeholder="एक चक कार्यशील पूँजी  ">
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                        </div>
+
+                    </div>
+
+                    <div class="form-body" style="padding: 0px !important">
+                        <h3 class="form-section" style="font-weight:bolder">बैंक विवरण</h3>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12">निकटतम बैक शाखा  का नाम (शहरी क्षेत्रो हेतु)</label>
+                                    <div class="col-md-12">
+                                        <input type="text" class="form-control" placeholder="निकटतम बैक शाखा  का नाम">
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12">सर्विस शाखा का नाम (ग्रामीण क्षेत्रों हेतु)</label>
+                                    <div class="col-md-12">
+                                        <input type="text" class="form-control" placeholder="सर्विस शाखा का नाम ">
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12">स्वयं का अंशदान</label>
+                                    <div class="col-md-12">
+                                        <input type="text" class="form-control" placeholder="5 व 10 प्रतिशत रू0 ">
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                        </div>
+                        <!--/row-->
+                       
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12">बैक शाखा में जमा धनराशी</label>
+                                    <div class="col-md-12">
+                                        <input type="text" class="form-control" placeholder="बैक शाखा में जमा धनराशी">
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12">बैक शाखा का नाम</label>
+                                    <div class="col-md-12">
+                                        <input type="text" class="form-control" placeholder="बैक शाखा का नाम">
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <!--/span-->
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12">बैक खाता सं0</label>
+                                    <div class="col-md-12">
+                                        <input type="text" class="form-control" placeholder="बैक खाता सं0">
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+
+
+                        </div>
+                        <!--/row-->
+                        <div class="row">
+                            <!--/span-->
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12">आईएफएससी कोड</label>
+                                    <div class="col-md-12">
+                                        <input type="text" class="form-control" placeholder="आईएफएससी कोड">
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <!--/span-->
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12">प्रस्तावित कार्यालय का पता</label>
+                                    <div class="col-md-12">
+                                        <input type="text" class="form-control" placeholder="प्रस्तावित कार्यालय का पता">
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+
+
+                        </div>
+                    </div>
+            </div>
+
+            <div class="form-actions">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-offset-10 col-md-9">
+                                <button type="submit" class="btn green">Submit</button>
+                                <button type="button" class="btn red">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6"> </div>
+                </div>
+            </div>
+        </div>
+                    <!-- END FORM-->
+    }
+                </div>
+            </div>
+                </div>
+
+@*<script type="text/javascript">
+    $("#<%= chk.ClientID %>").change(function () {
+        alert("AASSS");
+         var txt1 = $("#<%= address.ClientID %>").val();
+         $("#<%= permanentadd.ClientID %>").val(txt1);
+     });
+</script>*@
+
+            <script type="text/javascript">
+
+                $(document).ready(function () {
+
+                    //var date_input = $('input[name="date"]'); //our date input has the name "date"
+                    //var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
+                    //date_input.datepicker({
+                    //    format: 'dd/mm/yyyy',
+                    //    container: container,
+                    //    todayHighlight: true,
+                    //    autoclose: true,
+                    //})
+
+                    $('#ddlDistrict').change(function () {
+
+                       // alert("done");
+                        $.ajax({
+                            type: "post",
+                            url: "/Form/GetTehsil",
+                            data: { DistID: $('#ddlDistrict').val() },
+                            datatype: "json",
+                            traditional: true,
+                            success: function (data) {
+                                $('#ddlTehsil').empty();
+                                var district = "<option value=0>Select</option>";
+                                //var district = '';
+                                for (var i = 0; i < data.length; i++) {
+                                    district = district + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                                }
+                                //  district = district + '</select>';
+                                //alert(district);
+
+                                $('#ddlTehsil').append(district);
+                            }
+                        });
+                    });
+
+                    $('#ddlTehsil').change(function () {
+                        //alert($('#ddlTehsil').val());
+                        $.ajax({
+                            type: "post",
+                            url: "/Form/GetBlock",
+                            data: { TehID: $('#ddlTehsil').val() },
+                            datatype: "json",
+                            traditional: true,
+                            success: function (data) {
+                                $('#ddlBlock').empty();
+                                var block = '<option value=0>Select</option>';
+                                // var district = "<select id='ddlTehsil'>";
+                                //var block = '';
+                                for (var i = 0; i < data.length; i++) {
+                                    block = block + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                                }
+                                //  district = district + '</select>';
+                                //alert(district);
+
+
+                                $('#ddlBlock').append(block);
+                            }
+                        });
+                    });
+
+                    $('#ddlBlock').change(function () {
+                        $.ajax({
+                            type: "post",
+                            url: "/Form/GetVillage",
+                            data: { BlockID: $('#ddlBlock').val() },
+                            datatype: "json",
+                            traditional: true,
+                            success: function (data) {
+                                $('#ddlVillage').empty();
+                                var village = "<option value=0>Select</option>";
+                                //var village = '';
+                                for (var i = 0; i < data.length; i++) {
+                                    village = village + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                                }
+                                //  district = district + '</select>';
+                                //alert(district);
+
+                                $('#ddlVillage').append(village);
+                            }
+                        });
+
+                    });
+                });
+</script>
+
+
+
+
+
+
+

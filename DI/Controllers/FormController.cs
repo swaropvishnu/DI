@@ -12,6 +12,10 @@ namespace DI.Controllers
 {
     public class FormController : Controller
     {
+        IndustrialAreaMasterModal dd = new IndustrialAreaMasterModal();
+        CommonBL bl = new CommonBL();
+
+
         // GET: Form
         [SessionExpireFilterAttribute]
         public ActionResult EntryForm()
@@ -94,5 +98,42 @@ namespace DI.Controllers
             
         }
         #endregion
+
+
+
+
+        public ActionResult MYSYEntry()
+        {
+            List<SelectListItem> distNames = new List<SelectListItem>();
+            CMODataEntryBLL.bindDropDownHnGrid("proc_Detail", distNames, "ds", "28", "10");
+            dd.DistrictNames = distNames;
+            return View(dd);
+
+        }
+
+        [HttpPost]
+        public ActionResult GetTehsil(string DistID)
+        {
+            List<SelectListItem> tehsilNames = new List<SelectListItem>();
+            CMODataEntryBLL.bindDropDownHnGrid("proc_Detail", tehsilNames, "TEHSIL", DistID.ToString(), "");
+            return Json(tehsilNames, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult GetBlock(string TehID)
+        {
+            List<SelectListItem> blockNames = new List<SelectListItem>();
+            CMODataEntryBLL.bindDropDownHnGrid("proc_Detail", blockNames, "block", TehID.ToString(), "");
+            return Json(blockNames, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult GetVillage(string BlockID)
+        {
+            List<SelectListItem> villageNames = new List<SelectListItem>();
+            CMODataEntryBLL.bindDropDownHnGrid("proc_Detail", villageNames, "village", BlockID.ToString(), "");
+            return Json(villageNames, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }

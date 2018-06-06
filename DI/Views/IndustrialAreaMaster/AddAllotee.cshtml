@@ -1,0 +1,444 @@
+﻿@model DI.Models.AddAllotee
+@{
+    ViewBag.Title = "AddAllotee";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12">
+
+
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="icon-equalizer font-red-sunglo"></i>
+                    <span class="caption-subject font-red-sunglo bold uppercase"> औद्योगिक आस्थानों में आवंटियों की प्रविष्टि </span>
+                    <span class="caption-helper">... </span>
+                </div>
+                <div class="tools">
+                    <a href="" class="collapse" data-original-title="" title=""> </a>
+                    <a href="#portlet-config" data-toggle="modal" class="config" data-original-title="" title=""> </a>
+                    <a href="" class="reload" data-original-title="" title=""> </a>
+                    <a href="" class="remove" data-original-title="" title=""> </a>
+                </div>
+            </div>
+            <div class="portlet-body form">
+                <!-- BEGIN FORM-->
+                <form action="#" class="form-horizontal">
+                    <div class="form-body" style="padding: 0px !important">
+                        @*<h3 class="form-section">Info</h3>*@
+
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12 " style="text-align:left">आस्थान का नाम </label>
+                                    <div class="col-md-12">
+                                        @*<input type="text" class="form-control" placeholder="आस्थान का नाम">*@
+                                        @Html.TextBoxFor(m => m.house_Name, new { @class = "form-control", @id = "txthouse_Name", @placeholder = "आस्थान का नाम" })
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12" style="text-align:left">प्लाट </label>
+                                    <div class="col-md-12">
+                                        @*<input type="text" class="form-control" placeholder="शेड क्रमांक">*@
+                                        @Html.TextBoxFor(m => m.Plot, new { @class = "form-control", @id = "txtPlot", @placeholder = "प्लाट" })
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12" style="text-align:left"> शेड  </label>
+                                    <div class="col-md-12">
+                                        @*<input type="text" class="form-control" placeholder="शेड का नाम">*@
+                                        @Html.TextBoxFor(m => m.shed_Name, new { @class = "form-control", @id = "txtshed_Name", @placeholder = "शेड का नाम" })
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12" style="text-align:left"> आवंटन सं०  </label>
+                                    <div class="col-md-12">
+                                        @*<input type="text" class="form-control" placeholder="क्षेत्रफल">*@
+                                        @Html.TextBoxFor(m => m.Area, new { @class = "form-control", @id = "txtArea", @placeholder = "क्षेत्रफल" })
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                        </div>
+                        <!--/row-->
+
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12 " style="text-align:left">क्षेत्रफल </label>
+                                    <div class="col-md-12">
+                                        @*<input type="checkbox" class="make-switch" data-on-text="हाँ" data-off-text="नहीं">*@
+                                        @Html.TextBoxFor(m => m.Area, new { @class = "form-control", @id = "txtArea", @placeholder = "क्षेत्रफल" })
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            
+                        </div>
+                        <!--/row-->
+
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12 " style="text-align:left">कंपनी का प्रकार </label>
+                                    <div class="col-md-12">
+                                        @*<input type="text" class="form-control" placeholder="आस्थान का नाम">*@
+                                        @Html.TextBoxFor(m => m.house_Name, new { @class = "form-control", @id = "txthouse_Name", @placeholder = "आस्थान का नाम" })
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12" style="text-align:left">कंपनी का नाम</label>
+                                    <div class="col-md-12">
+                                        @*<input type="text" class="form-control" placeholder="शेड क्रमांक">*@
+                                        @Html.TextBoxFor(m => m.Plot, new { @class = "form-control", @id = "txtPlot", @placeholder = "प्लाट" })
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12" style="text-align:left"> पैन  </label>
+                                    <div class="col-md-12">
+                                        @*<input type="text" class="form-control" placeholder="शेड का नाम">*@
+                                        @Html.TextBoxFor(m => m.shed_Name, new { @class = "form-control", @id = "txtshed_Name", @placeholder = "शेड का नाम" })
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12" style="text-align:left"> CIN सं० </label>
+                                    <div class="col-md-12">
+                                        @*<input type="text" class="form-control" placeholder="क्षेत्रफल">*@
+                                        @Html.TextBoxFor(m => m.Area, new { @class = "form-control", @id = "txtArea", @placeholder = "क्षेत्रफल" })
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                        </div>
+                        <!--/row-->
+
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12 " style="text-align:left">मुख्य व्यक्ति का नाम  </label>
+                                    <div class="col-md-12">
+                                        @*<input type="text" class="form-control" placeholder="आस्थान का नाम">*@
+                                        @Html.TextBoxFor(m => m.house_Name, new { @class = "form-control", @id = "txthouse_Name", @placeholder = "आस्थान का नाम" })
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12" style="text-align:left">पता</label>
+                                    <div class="col-md-12">
+                                        @*<input type="text" class="form-control" placeholder="शेड क्रमांक">*@
+                                        @Html.TextBoxFor(m => m.Plot, new { @class = "form-control", @id = "txtPlot", @placeholder = "प्लाट" })
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12" style="text-align:left"> जनपद  </label>
+                                    <div class="col-md-12">
+                                        @*<input type="text" class="form-control" placeholder="शेड का नाम">*@
+                                        @Html.TextBoxFor(m => m.shed_Name, new { @class = "form-control", @id = "txtshed_Name", @placeholder = "शेड का नाम" })
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12" style="text-align:left"> तहसील </label>
+                                    <div class="col-md-12">
+                                        @*<input type="text" class="form-control" placeholder="क्षेत्रफल">*@
+                                        @Html.TextBoxFor(m => m.Area, new { @class = "form-control", @id = "txtArea", @placeholder = "क्षेत्रफल" })
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                        </div>
+                        <!--/row-->
+
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12 " style="text-align:left">ब्लॉक  </label>
+                                    <div class="col-md-12">
+                                        @*<input type="text" class="form-control" placeholder="आस्थान का नाम">*@
+                                        @Html.TextBoxFor(m => m.house_Name, new { @class = "form-control", @id = "txthouse_Name", @placeholder = "आस्थान का नाम" })
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12" style="text-align:left">ग्राम</label>
+                                    <div class="col-md-12">
+                                        @*<input type="text" class="form-control" placeholder="शेड क्रमांक">*@
+                                        @Html.TextBoxFor(m => m.Plot, new { @class = "form-control", @id = "txtPlot", @placeholder = "प्लाट" })
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12" style="text-align:left"> मोबाइल   </label>
+                                    <div class="col-md-12">
+                                        @*<input type="text" class="form-control" placeholder="शेड का नाम">*@
+                                        @Html.TextBoxFor(m => m.shed_Name, new { @class = "form-control", @id = "txtshed_Name", @placeholder = "शेड का नाम" })
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12" style="text-align:left"> eMail </label>
+                                    <div class="col-md-12">
+                                        @*<input type="text" class="form-control" placeholder="क्षेत्रफल">*@
+                                        @Html.TextBoxFor(m => m.Area, new { @class = "form-control", @id = "txtArea", @placeholder = "क्षेत्रफल" })
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                        </div>
+                        <!--/row-->
+
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12 " style="text-align:left">औद्योगिकी का प्रकार   </label>
+                                    <div class="col-md-12">
+                                        @*<input type="text" class="form-control" placeholder="आस्थान का नाम">*@
+                                        @Html.TextBoxFor(m => m.house_Name, new { @class = "form-control", @id = "txthouse_Name", @placeholder = "आस्थान का नाम" })
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12" style="text-align:left">अनुमानित लागत (लाख में) </label>
+                                    <div class="col-md-12">
+                                        @*<input type="text" class="form-control" placeholder="शेड क्रमांक">*@
+                                        @Html.TextBoxFor(m => m.Plot, new { @class = "form-control", @id = "txtPlot", @placeholder = "प्लाट" })
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12" style="text-align:left"> अनुमानित रोजगार (सं० में)   </label>
+                                    <div class="col-md-12">
+                                        @*<input type="text" class="form-control" placeholder="शेड का नाम">*@
+                                        @Html.TextBoxFor(m => m.shed_Name, new { @class = "form-control", @id = "txtshed_Name", @placeholder = "शेड का नाम" })
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12" style="text-align:left"> अनुमानित समय (माह में) </label>
+                                    <div class="col-md-12">
+                                        @*<input type="text" class="form-control" placeholder="क्षेत्रफल">*@
+                                        @Html.TextBoxFor(m => m.Area, new { @class = "form-control", @id = "txtArea", @placeholder = "क्षेत्रफल" })
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                        </div>
+                        <!--/row-->
+
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12 " style="text-align:left">सम्बंधित कार्यानुभव (माह में)  </label>
+                                    <div class="col-md-12">
+                                        @*<input type="text" class="form-control" placeholder="आस्थान का नाम">*@
+                                        @Html.TextBoxFor(m => m.house_Name, new { @class = "form-control", @id = "txthouse_Name", @placeholder = "आस्थान का नाम" })
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12" style="text-align:left">ढका क्षेत्र (% में ) </label>
+                                    <div class="col-md-12">
+                                        @*<input type="text" class="form-control" placeholder="शेड क्रमांक">*@
+                                        @Html.TextBoxFor(m => m.Plot, new { @class = "form-control", @id = "txtPlot", @placeholder = "प्लाट" })
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12" style="text-align:left"> खुला क्षेत्र (% में )  </label>
+                                    <div class="col-md-12">
+                                        @*<input type="text" class="form-control" placeholder="शेड का नाम">*@
+                                        @Html.TextBoxFor(m => m.shed_Name, new { @class = "form-control", @id = "txtshed_Name", @placeholder = "शेड का नाम" })
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12" style="text-align:left"> भूमि में निवेश मूल्य (लाख में) </label>
+                                    <div class="col-md-12">
+                                        @*<input type="text" class="form-control" placeholder="क्षेत्रफल">*@
+                                        @Html.TextBoxFor(m => m.Area, new { @class = "form-control", @id = "txtArea", @placeholder = "क्षेत्रफल" })
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                        </div>
+                        <!--/row-->
+
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12 " style="text-align:left">ईमारत में लागत (लाख में)  </label>
+                                    <div class="col-md-12">
+                                        @*<input type="text" class="form-control" placeholder="आस्थान का नाम">*@
+                                        @Html.TextBoxFor(m => m.house_Name, new { @class = "form-control", @id = "txthouse_Name", @placeholder = "आस्थान का नाम" })
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12" style="text-align:left">मशीन एवं उपकरण लागत </label>
+                                    <div class="col-md-12">
+                                        @*<input type="text" class="form-control" placeholder="शेड क्रमांक">*@
+                                        @Html.TextBoxFor(m => m.Plot, new { @class = "form-control", @id = "txtPlot", @placeholder = "प्लाट" })
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12" style="text-align:left"> संपत्ति में लागत    </label>
+                                    <div class="col-md-12">
+                                        @*<input type="text" class="form-control" placeholder="शेड का नाम">*@
+                                        @Html.TextBoxFor(m => m.shed_Name, new { @class = "form-control", @id = "txtshed_Name", @placeholder = "शेड का नाम" })
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12" style="text-align:left"> अन्य लागत  </label>
+                                    <div class="col-md-12">
+                                        @*<input type="text" class="form-control" placeholder="क्षेत्रफल">*@
+                                        @Html.TextBoxFor(m => m.Area, new { @class = "form-control", @id = "txtArea", @placeholder = "क्षेत्रफल" })
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                        </div>
+                        <!--/row-->
+
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12 " style="text-align:left">क्या उत्पादन में धुआं उत्पन्न होता है?  </label>
+                                    <div class="col-md-12">
+                                        @*<input type="text" class="form-control" placeholder="आस्थान का नाम">*@
+                                        @Html.TextBoxFor(m => m.house_Name, new { @class = "form-control", @id = "txthouse_Name", @placeholder = "आस्थान का नाम" })
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12" style="text-align:left">बिजली आवश्यकता  </label>
+                                    <div class="col-md-12">
+                                        @*<input type="text" class="form-control" placeholder="शेड क्रमांक">*@
+                                        @Html.TextBoxFor(m => m.Plot, new { @class = "form-control", @id = "txtPlot", @placeholder = "प्लाट" })
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12" style="text-align:left">दूरभाष आवश्यकता  </label>
+                                    <div class="col-md-12">
+                                        @*<input type="text" class="form-control" placeholder="शेड का नाम">*@
+                                        @Html.TextBoxFor(m => m.shed_Name, new { @class = "form-control", @id = "txtshed_Name", @placeholder = "शेड का नाम" })
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12" style="text-align:left"> सकल लाभ  </label>
+                                    <div class="col-md-12">
+                                        @*<input type="text" class="form-control" placeholder="क्षेत्रफल">*@
+                                        @Html.TextBoxFor(m => m.Area, new { @class = "form-control", @id = "txtArea", @placeholder = "क्षेत्रफल" })
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                        </div>
+                        <!--/row-->
+
+                    </div>
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    @*<div class="col-md-offset-3 col-md-9">*@
+                                    <div class="col-md-offset-10 col-md-6">
+                                        <button type="submit" class="btn green" align="right">Submit</button>
+                                        <button type="button" class="btn default" align="right">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6"> </div>
+                        </div>
+                    </div>
+                </form>
+                <!-- END FORM-->
+            </div>
+        </div>
+    </div>
+</div>
+
