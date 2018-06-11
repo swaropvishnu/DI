@@ -49,7 +49,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-12 " style="text-align:left">आस्थान का नाम </label>
                                     <div class="col-md-12">
-                                        @Html.DropDownListFor(m => m.IndustrialArea, Model.IndustrialArea, "Select", new { @id = "ddlIndustrialArea", @class = "form-control" })
+                                        @Html.DropDownListFor(m => m.IndustrialEstate, Model.IndustrialEstate, "Select", new { @id = "ddlIndustrialArea", @class = "form-control" })
                                         <input id="hfPlotCode" type="hidden" value="-1" />
                                         @*@Html.TextBoxFor(m => m.tbl_IndustrialAreaCode, new { @class = "form-control", @id = "txthouse_Name", @placeholder = "आस्थान का नाम" })*@
                                     </div>
@@ -91,8 +91,13 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-12 " style="text-align:left">क्या भूखंड आवंटित है ? </label>
                                     <div class="col-md-12">
-                                        @Html.CheckBoxFor(m => m.IsPlot_Assigned, new { @name = "plotallottedCheckBox", @id = "plotallottedYes", @class = "" })
-                                    </div>
+                                        @Html.CheckBoxFor(m => m.IsPlot_Assigned, new { @name = "plotallottedCheckBox", @id = "plotallottedYes", @class = "make-switch"  })
+
+                                        @*<label>
+                                            This Switch is Set to
+                                            <label id="CheckBoxValue" value="None"></label>
+                                            </label>*@
+</div>
                                 </div>
                             </div>
                             <!--/span-->
@@ -100,7 +105,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-12 " style="text-align:left">क्या भूखंड विवादित है ? </label>
                                     <div class="col-md-12">
-                                        @Html.CheckBoxFor(m => m.IsPlot_Disputed, new { @name = "PlotdisputedCheckBox", @id = "PlotdisputedYes", @class = "" })
+                                        @Html.CheckBoxFor(m => m.IsPlot_Disputed, new { @name = "PlotdisputedCheckBox", @id = "PlotdisputedYes", @class = "make-switch" })
 
                                     </div>
                                 </div>
@@ -217,7 +222,7 @@
                                {
                                 <tr role="row" class="filter">
                                     <td>@(i + 1)</td>
-                                    <td>@dt.Rows[i]["IndustrialArea"].ToString().Trim()</td>
+                                    <td>@dt.Rows[i]["IndustrialEstate"].ToString().Trim()</td>
                                     <td>@dt.Rows[i]["PlotName"].ToString().Trim()</td>
                                     <td>@dt.Rows[i]["PlotSerial"].ToString().Trim()</td>
                                     <td>@dt.Rows[i]["Plot_Area"].ToString().Trim()</td>
@@ -253,7 +258,32 @@
         </div>
     </div>
 </div>
+<script>
+
+    $('.make-switch').bootstrapSwitch('state', false);
+
+    //$('#plotallottedYes').on('switchChange.bootstrapSwitch', function () {
+
+    //    $("#CheckBoxValue").text($('#plotallottedYes').bootstrapSwitch('state'));
+    //});
+
+
+   // document.getElementsByName('IsPlot_Assigned').checked = true;
+   // $('#plotallottedCheckBox').prop
+    //$("#plotallottedCheckBox").prop('checked');
+    //$('#CheckBoxValue').text($('.make-switch').bootstrapSwitch('state'));
+
+    //$('#plotallottedCheckBox').on('switchChange.bootstrapSwitch', function () {
+
+    //    $("#CheckBoxValue").text($('.make-switch').bootstrapSwitch('state'));
+    //});
+    //$('.make-switch').bootstrapSwitch('state', true);
+
+    //$('#CheckBoxValue').text($("#plotallottedCheckBox").bootstrapSwitch('state'));
+</script>
 <script type="text/javascript">
+    
+
     function res() {
         location.reload();
     }
@@ -285,19 +315,18 @@
                 alert("क्षेत्रफल");
                 return;
             }
-            var IsPlot_Assigned = $("#plotallottedYes").is(":checked");
-            var IsPlot_Disputed = $("#PlotdisputedYes").is(":checked");
+            var IsPlot_Assigned = $('#plotallottedYes').bootstrapSwitch('state');
+            var IsPlot_Disputed = $('#PlotdisputedYes').bootstrapSwitch('state');
                     var M01 = {
                         "PlotCode": document.getElementById("hfPlotCode").value,
-                        "tbl_IndustrialAreaCode": document.getElementById("ddlIndustrialArea").value,
+                        "IndustrialEstateCode": document.getElementById("ddlIndustrialArea").value,
                         "PlotSerial": document.getElementById("txtPlotnumber").value,
                         "PlotName": document.getElementById("txtPlot_name").value,
                         "PlotArea": document.getElementById("txtArea").value,
-                        "IsPlot_Assigned": IsPlot_Assigned,//document.getElementById("plotallottedYes").value,
-                        "IsPlot_Disputed": IsPlot_Disputed,//document.getElementById("PlotdisputedYes").value,
+                        "IsPlot_Assigned": IsPlot_Assigned,//document.getElementById("plotallottedYes").value, $('#plotallottedYes').bootstrapSwitch('state')
+                        "IsPlot_Disputed": IsPlot_Disputed,//document.getElementById("PlotdisputedYes").value, $('#PlotdisputedYes').bootstrapSwitch('state')
                         "Plot_Desc": document.getElementById("txtPlotdescription").value,
-                        "Plot_Allottee_Desc": document.getElementById("txtAllotteeDetails").value,
-
+                        "Plot_Allottee_Desc": document.getElementById("txtAllotteeDetails").value
                     }
                     $.ajax({
                         url: '/IndustrialAreaMaster/InsertUpdatePlot',
@@ -335,20 +364,24 @@
             if (IsPlot_Assigned=="Yes") 
             {
                 //document.getElementById("plotallottedYes").checked = true;
-                $('#plotallottedYes').prop('checked', true);
+                //$('#plotallottedYes').prop('checked', true);
+                $('#plotallottedYes').bootstrapSwitch('state', true);
             }
             else {
-                $('#plotallottedYes').prop('checked', false);
+                $('#plotallottedYes').bootstrapSwitch('state', false);
+
+                //$('#plotallottedYes').prop('checked', false);
                // document.getElementById("plotallottedYes").checked = false;
             }
             if (IsPlot_Disputed=="Yes") 
             {
-                $('#PlotdisputedYes').prop('checked', true);
-
+                //$('#PlotdisputedYes').prop('checked', true);
+                $('#PlotdisputedYes').bootstrapSwitch('state', true);
                 //document.getElementById("PlotdisputedYes").checked = true;
             }
             else {
-                $('#PlotdisputedYes').prop('checked', false);
+               // $('#PlotdisputedYes').prop('checked', false);
+                $('#PlotdisputedYes').bootstrapSwitch('state', false);
 
                 //document.getElementById("PlotdisputedYes").checked = false;
             }
@@ -366,7 +399,7 @@
 
             var M01 = {
                 "PlotCode": X,
-                "tbl_IndustrialAreaCode": "-1",
+                "IndustrialEstateCode": "-1",
                 "PlotSerial":  "X",
                 "PlotName":  "X" ,
                 "PlotArea":  "X",

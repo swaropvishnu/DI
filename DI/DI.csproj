@@ -6096,7 +6096,6 @@
     <Compile Include="MenuHandler.ashx.cs">
       <DependentUpon>MenuHandler.ashx</DependentUpon>
     </Compile>
-    <Compile Include="Models\AddAllotee.cs" />
     <Compile Include="Models\CaptchaImageResult.cs" />
     <Compile Include="Models\DashboardModal.cs" />
     <Compile Include="Models\FormModal.cs" />
@@ -6129,14 +6128,16 @@
     <Content Include="Views\Dashboard\IndustryLocation.cshtml" />
     <Content Include="Views\Dashboard\IndustryCluster.cshtml" />
     <Content Include="Views\Form\DistrictIndrustiesInformation.cshtml" />
-    <Content Include="Views\IndustrialAreaMaster\AddAreaView.cshtml" />
     <Content Include="Views\Shared\_PublicPage.cshtml" />
     <Content Include="Views\Login\RegistrationLogin.cshtml" />
-    <Content Include="Views\Form\MYSYEntry.cshtml" />
     <Content Include="Views\IndustrialAreaMaster\AddPlot.cshtml" />
     <Content Include="Views\IndustrialAreaMaster\AddShed.cshtml" />
     <Content Include="Views\IndustrialAreaMaster\AddAllotee.cshtml" />
-    <Content Include="Views\IndustrialAreaMaster\GetAreaView.cshtml" />
+    <Content Include="Views\IndustrialAreaMaster\IndustrialEstateEntryForm.cshtml" />
+    <Content Include="Views\IndustrialAreaMaster\GetIndustrialEstateList.cshtml" />
+    <Content Include="Views\IndustrialAreaMaster\EstateList.cshtml" />
+    <Content Include="Views\IndustrialAreaMaster\GetPlot.cshtml" />
+    <Content Include="Views\IndustrialAreaMaster\GetShed.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

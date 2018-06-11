@@ -28,6 +28,13 @@ namespace DI.Controllers
             dd.DistrictNames = distNames;
             return View(dd);
         }
+        public ActionResult IndustrialEstateEntryForm()
+        {
+            List<SelectListItem> distNames = new List<SelectListItem>();
+            CMODataEntryBLL.bindDropDownHnGrid("proc_Detail", distNames, "ds", "28", "10");
+            dd.DistrictNames = distNames;
+            return View(dd);
+        }
         public ActionResult addAreaView2()
         {
             return View();
@@ -62,6 +69,10 @@ namespace DI.Controllers
         {
             try
             {
+                if (M01.ShedName=="")
+                {
+                    return Json("Please Enter Shed Name", JsonRequestBehavior.AllowGet);
+                }
                 string str = new DAL.CommonDA().InsertUpdateShed(M01, sptype);
                 return Json(str, JsonRequestBehavior.AllowGet);
             }
@@ -126,7 +137,7 @@ namespace DI.Controllers
         {
             List<SelectListItem> IndustrialArea = new List<SelectListItem>();
             CMODataEntryBLL.bindDropDownHnGrid("proc_Detail", IndustrialArea, "IA", "-1", "");
-            AP.IndustrialArea = IndustrialArea;
+            AP.IndustrialEstate = IndustrialArea;
             return View(AP);
         }
 
@@ -134,18 +145,30 @@ namespace DI.Controllers
         {
             List<SelectListItem> IndustrialArea = new List<SelectListItem>();
             CMODataEntryBLL.bindDropDownHnGrid("proc_Detail", IndustrialArea, "IA", "-1", "");
-            As.IndustrialArea = IndustrialArea;
+            As.IndustrialEstate = IndustrialArea;
             return View(As);
         }
 
         public ActionResult AddAllotee()
         {
+            //List<SelectListItem> IndustrialArea = new List<SelectListItem>();
+            //CMODataEntryBLL.bindDropDownHnGrid("proc_Detail", IndustrialArea, "IA", "-1", "");
+            //As.IndustrialEstate = IndustrialArea;
             return View();
         }
-        public ActionResult GetAreaView()
+        public ActionResult GetIndustrialEstateList()
         {
             return View();
         }
 
+        public ActionResult GetShed()
+        {
+            return View();
+        }
+
+        public ActionResult GetPlot()
+        {
+            return View();
+        }
     }
 }

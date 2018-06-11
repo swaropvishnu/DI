@@ -55,7 +55,7 @@
                                         @*<input type="text" class="form-control" placeholder="आस्थान का नाम">*@
                                         @*@Html.TextBoxFor(m => m.house_Name, new { @class = "form-control", @id = "txthouse_Name", @placeholder = "आस्थान का नाम" })*@
                                         @*@Html.DropDownListFor(m => m.IndustrialArea, Model.IndustrialArea, "--Select--", new { @id = "ddlIndustrialArea", @class = "form-control" })*@
-                                        @Html.DropDownListFor(m => m.IndustrialArea, Model.IndustrialArea, "Select", new { @id = "ddlIndustrialArea", @class = "form-control" })
+                                        @Html.DropDownListFor(m => m.IndustrialEstate, Model.IndustrialEstate, "Select", new { @id = "ddlIndustrialArea", @class = "form-control" })
                                         <input id="hfShedCode" type="hidden" value="-1" />
 
                                     </div>
@@ -102,7 +102,7 @@
                                     <label class="control-label col-md-12 " style="text-align:left">क्या शेड आवंटित है ? </label>
                                     <div class="col-md-12">
                                         @*<input type="checkbox" class="make-switch" data-on-text="हाँ" data-off-text="नहीं">*@
-                                        @Html.CheckBoxFor(m => m.IsShed_Assigned, new { @name = "Alloted_shadeCheckBox", @id = "ShadedisputedYes", @class = "" })
+                                        @Html.CheckBoxFor(m => m.IsShed_Assigned, new { @name = "Alloted_shadeCheckBox", @id = "ShadeAllotedYes", @class = "make-switch" })
 
                                     </div>
                                 </div>
@@ -113,7 +113,7 @@
                                     <label class="control-label col-md-12 " style="text-align:left">क्या शेड विवादित है ? </label>
                                     <div class="col-md-12">
                                         @*<input type="checkbox" class="make-switch" data-on-text="हाँ" data-off-text="नहीं">*@
-                                        @Html.CheckBoxFor(m => m.IsShed_Disputed, new { @name = "ShadedisputedCheckBox", @id = "ShadedisputedYes", @class = "" })
+                                        @Html.CheckBoxFor(m => m.IsShed_Disputed, new { @name = "ShadedisputedCheckBox", @id = "ShadedisputedYes", @class = "make-switch" })
 
                                     </div>
                                 </div>
@@ -150,7 +150,7 @@
                                     @*<div class="col-md-offset-3 col-md-9">*@
                                     <div class="col-md-offset-10 col-md-6">
                                         <button type="button" class="btn green"  align="right" onclick="Save(false)"id="btnsave" >Submit</button>
-                                        <button type="button" class="btn red" align="right">Cancel</button>
+                                        <button type="button" class="btn red" align="right" onclick="res()">Cancel</button>
                                     </div>
                                 </div>
                             </div>
@@ -227,8 +227,9 @@
                         <th width="15%"> शेड&nbsp;का नाम </th>
                         <th width="15%"> शेड सं० </th>
                         <th width="10%"> क्षेत्रफल </th>
-                        <th width="10%"> विवाद स्थिति </th>
+                       
                         <th width="15%"> आवंटन स्थिति </th>
+                        <th width="10%"> विवाद स्थिति </th>
                         <th width="10%"> शेड विवरण </th>
                         <th width="10%"> आवंटन विवरण </th>
                         <th width="10%">  </th>
@@ -244,17 +245,18 @@
         {
             <tr role="row" class="filter">
                 <td>@(i + 1)</td>
-                <td>@dt.Rows[i]["IndustrialArea"].ToString().Trim()</td>
+                <td>@dt.Rows[i]["IndustrialEstate"].ToString().Trim()</td>
                 <td>@dt.Rows[i]["ShedName"].ToString().Trim()</td>
                 <td>@dt.Rows[i]["ShedSerial"].ToString().Trim()</td>
                 <td>@dt.Rows[i]["Shed_Area"].ToString().Trim()</td>
                 <td>@dt.Rows[i]["IsShed_Assigned"].ToString().Trim()</td>
                 <td>@dt.Rows[i]["IsShed_Disputed"].ToString().Trim()</td>
+                
                 <td>@dt.Rows[i]["Shed_Desc"].ToString().Trim()</td>
                 <td>@dt.Rows[i]["Shed_Allottee_Desc"].ToString().Trim()</td>
                 @*<td>@dt.Rows[i]["IndustrialArea"].ToString().Trim()</td>*@
                 <td>
-                    <button  type="submit" class="btn green" onclick="edit('@dt.Rows[i]["ShedCode"].ToString().Trim()','@dt.Rows[i]["tbl_IndustrialAreaCode"].ToString().Trim()','@dt.Rows[i]["ShedSerial"].ToString().Trim()','@dt.Rows[i]["ShedName"].ToString().Trim()','@dt.Rows[i]["Shed_Area"].ToString().Trim()','@dt.Rows[i]["IsShed_Assigned"].ToString().Trim()','@dt.Rows[i]["IsShed_Disputed"].ToString().Trim()','@dt.Rows[i]["Shed_Desc"].ToString().Trim()','@dt.Rows[i]["Shed_Allottee_Desc"].ToString().Trim()')">Edit</button>
+                    <button  type="submit" class="btn green" onclick="edit('@dt.Rows[i]["ShedCode"].ToString().Trim()','@dt.Rows[i]["tbl_IndustrialEstateCode"].ToString().Trim()','@dt.Rows[i]["ShedSerial"].ToString().Trim()','@dt.Rows[i]["ShedName"].ToString().Trim()','@dt.Rows[i]["Shed_Area"].ToString().Trim()','@dt.Rows[i]["IsShed_Assigned"].ToString().Trim()','@dt.Rows[i]["IsShed_Disputed"].ToString().Trim()','@dt.Rows[i]["Shed_Desc"].ToString().Trim()','@dt.Rows[i]["Shed_Allottee_Desc"].ToString().Trim()')">Edit</button>
                 </td>
                 <td>
                     <button type="button" class="btn red" onclick="del('@dt.Rows[i]["ShedCode"].ToString().Trim()')">Delete</button>
@@ -346,6 +348,10 @@
     </div>
 </div>
 <script type="text/javascript">
+    function res() {
+        location.reload();
+    }
+    $('.make-switch').bootstrapSwitch('state', false);
     function Save(sptype) {
         if (document.getElementById("ddlIndustrialArea").value == "Select") {
             document.getElementById("ddlIndustrialArea").focus();
@@ -367,12 +373,14 @@
             alert("क्षेत्रफल");
             return;
         }
-
-        var IsShed_Assigned = $("#ShadeAllotedYes").is(":checked");
-        var IsShed_Disputed = $("#ShadedisputedYes").is(":checked");
+        //$('#ShadeAllotedYes').bootstrapSwitch('state', true);
+        var IsShed_Assigned = $('#ShadeAllotedYes').bootstrapSwitch('state');// $("#ShadeAllotedYes").is(":checked");
+        var IsShed_Disputed = $('#ShadedisputedYes').bootstrapSwitch('state');//$("#ShadedisputedYes").is(":checked");
+        //alert($('#ShadeAllotedYes').bootstrapSwitch('state'), $('#ShadedisputedYes').bootstrapSwitch('state'));
+        //return;
         var M01 = {
             "ShedCode": document.getElementById("hfShedCode").value,
-            "tbl_IndustrialAreaCode": document.getElementById("ddlIndustrialArea").value,
+            "IndustrialEstateCode": document.getElementById("ddlIndustrialArea").value,
             "ShedSerial": document.getElementById("txtshed_SNo").value,
             "ShedName": document.getElementById("txtshed_Name").value,
             "ShedArea": document.getElementById("txtArea").value,
@@ -410,34 +418,37 @@
     }
 
 
-    function edit(PlotCode, tbl_IndustrialAreaCode, PlotSerial, PlotName, Plot_Area, IsPlot_Assigned, IsPlot_Disputed, Plot_Desc, Plot_Allottee_Desc) {
+    function edit(ShedCode, tbl_IndustrialAreaCode, ShedSerial,ShedName,Shed_Area, IsShed_Assigned, IsShed_Disputed, Shed_Desc, Shed_Allottee_Desc) {
 
-        document.getElementById("hfShedCode").value = PlotCode;
+        document.getElementById("hfShedCode").value = ShedCode;
         document.getElementById("ddlIndustrialArea").value = tbl_IndustrialAreaCode;
-        document.getElementById("txtshed_SNo").value = PlotSerial;
-        document.getElementById("txtshed_Name").value = PlotName;
-        document.getElementById("txtArea").value = Plot_Area;
-        if (IsPlot_Assigned == "Yes") {
-            // document.getElementById("ShadeAllotedYes").checked = true;
-            $('#ShadeAllotedYes').prop('checked', true);
+        document.getElementById("txtshed_SNo").value = ShedSerial;
+        document.getElementById("txtshed_Name").value = ShedName;
+        document.getElementById("txtArea").value = Shed_Area;
+        if (IsShed_Assigned == "Yes") {
+            // document.getElementById("ShadeAllotedYes").checked = true; IsShed_Assigned
+            // $('#ShadeAllotedYes').prop('checked', true);
+            $('#ShadeAllotedYes').bootstrapSwitch('state', true);
         }
         else {
             //document.getElementById("ShadeAllotedYes").checked = false;
-            $('#ShadeAllotedYes').prop('checked', false);
+            //$('#ShadeAllotedYes').prop('checked', false);
+            $('#ShadeAllotedYes').bootstrapSwitch('state', false);
         }
-        if (IsPlot_Disputed == "Yes") {
-            $('#ShadedisputedYes').prop('checked', true);
+        if (IsShed_Disputed == "Yes") {
+            $('#ShadedisputedYes').bootstrapSwitch('state', true);
+            //$('#ShadedisputedYes').prop('checked', true);
            // document.getElementById("ShadedisputedYes").checked = true;
         }
         else {
-            $('#ShadedisputedYes').prop('checked', false);
-
+            //$('#ShadedisputedYes').prop('checked', false);
+            $('#ShadedisputedYes').bootstrapSwitch('state', false);
             //document.getElementById("ShadedisputedYes").checked = false;
         }
 
 
-        document.getElementById("txtShedDetail").value = Plot_Desc;
-        document.getElementById("txtName_Allottee").value = Plot_Allottee_Desc;
+        document.getElementById("txtShedDetail").value = Shed_Desc;
+        document.getElementById("txtName_Allottee").value = Shed_Allottee_Desc;
         //document.getElementById("btnsave").value = "Update";
         $('#btnsave').html('Update');
     }
@@ -448,7 +459,7 @@
         var M01 = {
 
             "ShedCode": X,
-            "tbl_IndustrialAreaCode": "-1",
+            "IndustrialEstateCode": "-1",
             "ShedSerial": "X",
             "ShedName": "X",
             "ShedArea": "X",

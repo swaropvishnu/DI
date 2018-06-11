@@ -297,29 +297,29 @@ namespace DI.DAL
                 SqlCommand cmd = new SqlCommand();
                 cmd.Connection = con;
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.CommandText = "[Proc_InsertUpdateIndustrialArea]";
+                cmd.CommandText = "[Proc_InsertUpdateIndustrialEstate]";
                 cmd.CommandTimeout = 3600;
-                cmd.Parameters.AddWithValue("IndustrialAreaCode", m06.IndustrialAreaCode);
-                cmd.Parameters.AddWithValue("IndustrialAreaName", m06.IndustrialAreaName);
+                cmd.Parameters.AddWithValue("IndustrialEstateCode", m06.IndustrialEstateCode);
+                cmd.Parameters.AddWithValue("IndustrialEstateName", m06.IndustrialEstateName);
                 cmd.Parameters.AddWithValue("Establishment", m06.Establishment);
                 cmd.Parameters.AddWithValue("Address", m06.Address);
-                cmd.Parameters.AddWithValue("DisID", m06.tbl_DistrictID);
-                cmd.Parameters.AddWithValue("TehSilID", m06.tbl_TehsilID);
-                cmd.Parameters.AddWithValue("BlocID", m06.tbl_BlockID);
-                cmd.Parameters.AddWithValue("ThanaID", m06.tbl_ThanaID);
-                cmd.Parameters.AddWithValue("PinCode", m06.PinCode);
+                cmd.Parameters.AddWithValue("DisID", m06.DistrictCode);
+                cmd.Parameters.AddWithValue("TehSilID", m06.TehsilCode);
+                cmd.Parameters.AddWithValue("BlocID", m06.BlockCode);
+                cmd.Parameters.AddWithValue("@VillageID", m06.VillageCode);
+                cmd.Parameters.AddWithValue("PinCode", m06.PinCode==null?"" : m06.PinCode);
                 cmd.Parameters.AddWithValue("@AreaPerSqfeet", m06.DistancePerSqFeet);
                 cmd.Parameters.AddWithValue("@DistancePerSqFeet", m06.DistancePerSqFeet);
                 cmd.Parameters.AddWithValue("PlotNo", m06.PlotNo);
                 cmd.Parameters.AddWithValue("ShadeNo", m06.ShadeNo);
                 cmd.Parameters.AddWithValue("NearestRailwayStationKm", m06.NearestRailwayStationKm);
                 cmd.Parameters.AddWithValue("NearestBusStationKM", m06.NearestBusStationKM);
-                cmd.Parameters.AddWithValue("ISStreet", m06.IsStreet);
-                cmd.Parameters.AddWithValue("IsElectriccity", m06.IsElectriccity);
-                cmd.Parameters.AddWithValue("IsDrainage", m06.IsDrainage);
-                cmd.Parameters.AddWithValue("IsDrinkingWater", m06.IsDrinkingWater);
-                cmd.Parameters.AddWithValue("IsRawMaterialsSiding", m06.IsRawMaterialsSiding);
-                cmd.Parameters.AddWithValue("IsIndustrialPark", m06.IsIndustrialPark);
+                cmd.Parameters.AddWithValue("ISStreet", m06.IsStreet == true ? 'Y' : 'N');
+                cmd.Parameters.AddWithValue("IsElectriccity", m06.IsElectriccity == true ? 'Y' : 'N');
+                cmd.Parameters.AddWithValue("IsDrainage", m06.IsDrainage == true ? 'Y' : 'N');
+                cmd.Parameters.AddWithValue("IsDrinkingWater", m06.IsDrinkingWater == true ? 'Y' : 'N');
+                cmd.Parameters.AddWithValue("IsRawMaterialsSiding", m06.IsRawMaterialsSiding == true ? 'Y' : 'N');
+                cmd.Parameters.AddWithValue("IsIndustrialPark", m06.IsIndustrialPark == true ? 'Y' : 'N');
                 cmd.Parameters.AddWithValue("CUserID", "");
                 cmd.Parameters.AddWithValue("@CUserIP", "");
                 cmd.Parameters.AddWithValue("@CMac", "");
@@ -327,6 +327,7 @@ namespace DI.DAL
                 cmd.Parameters.AddWithValue("@UUserID", "");
                 cmd.Parameters.AddWithValue("@UUserIP", "");
                 cmd.Parameters.AddWithValue("IsDel", IsDel);//sptype
+                cmd.Parameters.AddWithValue("industrytype_code_diff", m06.industrytype_code_diff);
                 cmd.Parameters.AddWithValue("Msg", "");
                 cmd.Parameters["Msg"].Size = 256;
                 cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
@@ -354,15 +355,15 @@ namespace DI.DAL
                 SqlCommand cmd = new SqlCommand();
                 cmd.Connection = con;
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.CommandText = "[Proc_InsertUpdatePlote]";
+                cmd.CommandText = "[Proc_InsertUpdatePlot]";
                 cmd.CommandTimeout = 3600;
                 cmd.Parameters.AddWithValue("PlotCode", AP.PlotCode);
-                cmd.Parameters.AddWithValue("tbl_IndustrialAreaCode", AP.tbl_IndustrialAreaCode);
+                cmd.Parameters.AddWithValue("@tbl_IndustrialEstateCode", AP.IndustrialEstateCode);
                 cmd.Parameters.AddWithValue("PlotSerial", AP.PlotSerial);
                 cmd.Parameters.AddWithValue("PlotName", AP.PlotName);
                 cmd.Parameters.AddWithValue("@PlotArea", AP.PlotArea);
-                cmd.Parameters.AddWithValue("IsPlot_Assigned", AP.IsPlot_Assigned);
-                cmd.Parameters.AddWithValue("IsPlot_Disputed", AP.IsPlot_Disputed);
+                cmd.Parameters.AddWithValue("IsPlot_Assigned", AP.IsPlot_Assigned == true ? 'Y' : 'N');
+                cmd.Parameters.AddWithValue("IsPlot_Disputed", AP.IsPlot_Disputed == true ? 'Y' : 'N');
                 cmd.Parameters.AddWithValue("Plot_Desc", AP.Plot_Desc);
                 cmd.Parameters.AddWithValue("Plot_Allottee_Desc", AP.Plot_Allottee_Desc);
                 cmd.Parameters.AddWithValue("IsDel", IsDel);
@@ -392,7 +393,7 @@ namespace DI.DAL
                 cmd.Connection = con;
                 cmd.CommandText = "[Proc_GetPlot]";
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("IndustrialAreaCode", IndustrialAreaCode);
+                cmd.Parameters.AddWithValue("@IndustrialEstateCode", IndustrialAreaCode);
                 cmd.Parameters.AddWithValue("PlotCode", PlotCode);
                 cmd.Parameters.AddWithValue("PlotSerialNo", PlotSerialNo);
                 cmd.Parameters.AddWithValue("PlotName", PlotName);
@@ -422,14 +423,37 @@ namespace DI.DAL
                 cmd.Connection = con;
                 cmd.CommandText = "[Proc_GetShed]";
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("IndustrialAreaCode", IndustrialAreaCode);
+                cmd.Parameters.AddWithValue("@IndustrialEstateCode", IndustrialAreaCode);
                 cmd.Parameters.AddWithValue("@ShedCode", @ShedCode);
                 cmd.Parameters.AddWithValue("@ShedSerialNo", @ShedSerialNo);
                 cmd.Parameters.AddWithValue("@ShedName", @ShedName);
                 cmd.Parameters.AddWithValue("FromDate", FromDate);
                 cmd.Parameters.AddWithValue("ToDate", ToDate);
-                cmd.Parameters.AddWithValue("IsShed_Disputed", IsShed_Disputed);
+                cmd.Parameters.AddWithValue("IsShed_Disputed", IsShed_Disputed );
                 cmd.Parameters.AddWithValue("IsShed_Assigned", IsShed_Assigned);
+                SqlDataAdapter da = new SqlDataAdapter();
+                da.SelectCommand = cmd;
+                da.Fill(dt);
+            }
+            catch (Exception e)
+            {
+                dt = null;
+            }
+            con.Close();
+            return dt;
+        }
+
+        public DataTable GetDashBord()
+        {
+            DataTable dt = new DataTable();
+            con.Open();
+            try
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = con;
+                cmd.CommandText = "[Proc_GetDashBord]";
+                cmd.CommandType = CommandType.StoredProcedure;
+              
                 SqlDataAdapter da = new SqlDataAdapter();
                 da.SelectCommand = cmd;
                 da.Fill(dt);
@@ -456,12 +480,12 @@ namespace DI.DAL
                 cmd.CommandText = "[Proc_InsertUpdateShed]";
                 cmd.CommandTimeout = 3600;
                 cmd.Parameters.AddWithValue("ShedCode", AS.ShedCode);
-                cmd.Parameters.AddWithValue("tbl_IndustrialAreaCode", AS.tbl_IndustrialAreaCode);
+                cmd.Parameters.AddWithValue("tbl_IndustrialEstateCode", AS.IndustrialEstateCode);
                 cmd.Parameters.AddWithValue("ShedSerial", AS.ShedSerial);
                 cmd.Parameters.AddWithValue("ShedName", AS.ShedName);
                 cmd.Parameters.AddWithValue("ShedArea", AS.ShedArea);
-                cmd.Parameters.AddWithValue("IsShed_Assigned", AS.IsShed_Assigned);
-                cmd.Parameters.AddWithValue("IsShed_Disputed", AS.IsShed_Disputed);
+                cmd.Parameters.AddWithValue("IsShed_Assigned", AS.IsShed_Assigned == true ? 'Y' : 'N');
+                cmd.Parameters.AddWithValue("IsShed_Disputed", AS.IsShed_Disputed == true ? 'Y' : 'N');
                 cmd.Parameters.AddWithValue("Shed_Desc", AS.Shed_Desc);
                 cmd.Parameters.AddWithValue("Shed_Allottee_Desc", AS.Shed_Allottee_Desc);
                 cmd.Parameters.AddWithValue("IsDel", IsDel);
@@ -482,7 +506,7 @@ namespace DI.DAL
             return message;
         }
 
-        public DataTable GetIndustrialAreaInfo(int @IndustrialAreaCode, string @IndustrialAreaName, int @DistrictID, int @TehSilID, int @BlocID, int @ThanaID, string @PinCode, string @PlotNo, string @ShadeNo, DateTime @FromDate, DateTime @ToDate, DateTime @FromEstablishment, DateTime @ToEstablishment)
+        public DataTable GetIndustrialEstateInfo(int @IndustrialEstateCode, string @IndustrialEstateName, int @DistrictID, int @TehSilID, int @BlocID, int VillageID, string @PinCode, string @PlotNo, string @ShadeNo, DateTime @FromDate, DateTime @ToDate, DateTime @FromEstablishment, DateTime @ToEstablishment, string IndustryType)
         {
             DataTable dt = new DataTable();
             con.Open();
@@ -490,14 +514,14 @@ namespace DI.DAL
             {
                 SqlCommand cmd = new SqlCommand();
                 cmd.Connection = con;
-                cmd.CommandText = "[Proc_GetIndustrialAreaInfo]";
+                cmd.CommandText = "[Proc_GetIndustrialEstateInfo]";
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("IndustrialAreaCode", IndustrialAreaCode);
-                cmd.Parameters.AddWithValue("@IndustrialAreaName", @IndustrialAreaName);
+                cmd.Parameters.AddWithValue("IndustrialEstateCode", IndustrialEstateCode);
+                cmd.Parameters.AddWithValue("@IndustrialEstateName", @IndustrialEstateName);
                 cmd.Parameters.AddWithValue("@DistrictID", @DistrictID);
                 cmd.Parameters.AddWithValue("@TehSilID", @TehSilID);
                 cmd.Parameters.AddWithValue("@BlocID", @BlocID);
-                cmd.Parameters.AddWithValue("@ThanaID", @ThanaID);
+                cmd.Parameters.AddWithValue("@VillageID", @VillageID);
                 cmd.Parameters.AddWithValue("@PinCode", @PinCode);
                 cmd.Parameters.AddWithValue("@PlotNo", @PlotNo);
                 cmd.Parameters.AddWithValue("@ShadeNo", @ShadeNo);
@@ -505,6 +529,7 @@ namespace DI.DAL
                 cmd.Parameters.AddWithValue("@ToDate", @ToDate);
                 cmd.Parameters.AddWithValue("@FromEstablishment", @FromEstablishment);
                 cmd.Parameters.AddWithValue("@ToEstablishment", @ToEstablishment);
+                cmd.Parameters.AddWithValue("@IndustrialType", IndustryType);
                 SqlDataAdapter da = new SqlDataAdapter();
                 da.SelectCommand = cmd;
                 da.Fill(dt);
@@ -517,6 +542,66 @@ namespace DI.DAL
             return dt;
         }
 
+        public DataTable GetShedInfo(int @IndustrialEstateCode, Int64 @ShedCode, string @ShedSerialNo, string @ShedName, DateTime @FromDate, DateTime @ToDate, string @IsShed_Disputed, string @IsShed_Assigned)
+        {
+            DataTable dt = new DataTable();
+            con.Open();
+            try
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = con;
+                cmd.CommandText = "[Proc_GetShed]";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("IndustrialEstateCode", IndustrialEstateCode);
+                cmd.Parameters.AddWithValue("@ShedCode", @ShedCode);
+                cmd.Parameters.AddWithValue("@ShedSerialNo", @ShedSerialNo);
+                cmd.Parameters.AddWithValue("@ShedName", @ShedName);
+                cmd.Parameters.AddWithValue("@FromDate", @FromDate);
+                cmd.Parameters.AddWithValue("@ToDate", @ToDate);
+                cmd.Parameters.AddWithValue("@IsShed_Disputed", @IsShed_Disputed);
+                cmd.Parameters.AddWithValue("@IsShed_Assigned", @IsShed_Assigned);
+                SqlDataAdapter da = new SqlDataAdapter();
+                da.SelectCommand = cmd;
+                da.Fill(dt);
+            }
+            catch (Exception e)
+            {
+                dt = null;
+            }
+            con.Close();
+            return dt;
+        }
+
+
+        public DataTable GetPlotInfo(int IndustrialEstateCode, Int64 @PlotCode, string @PlotSerialNo, string @PlotName, DateTime @FromDate, DateTime @ToDate, string @IsPlot_Disputed, string @IsPlot_Assigned)
+        {
+            DataTable dt = new DataTable();
+            con.Open();
+            try
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = con;
+                cmd.CommandText = "[Proc_GetPlot]";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("IndustrialEstateCode ", IndustrialEstateCode);
+                cmd.Parameters.AddWithValue("@PlotCode", @PlotCode);
+                cmd.Parameters.AddWithValue("@PlotSerialNo", @PlotSerialNo);
+                cmd.Parameters.AddWithValue("@PlotName", @PlotName);
+                cmd.Parameters.AddWithValue("@FromDate", @FromDate);
+                cmd.Parameters.AddWithValue("@ToDate", @ToDate);
+                cmd.Parameters.AddWithValue("@IsPlot_Disputed", @IsPlot_Disputed);
+                cmd.Parameters.AddWithValue("@IsPlot_Assigned", @IsPlot_Assigned);
+                SqlDataAdapter da = new SqlDataAdapter();
+                da.SelectCommand = cmd;
+                da.Fill(dt);
+            }
+            catch (Exception e)
+            {
+                dt = null;
+            }
+            con.Close();
+            return dt;
+        }
 
         #endregion
 
