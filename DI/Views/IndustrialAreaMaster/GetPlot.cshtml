@@ -1,8 +1,13 @@
-﻿@model DI.Models.IndustrialAreaMasterModal
+﻿
 
 @{
     ViewBag.Title = "GetPlot";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    if (UserSession.LoggedInUserLevelId == null || UserSession.LoggedInUserLevelId != "6")
+    {
+        Response.Redirect("../Login/login");
+        return;
+    }
 }
 
 @using System.Data;
@@ -23,11 +28,14 @@
 
     }
 }
+@using (Html.BeginForm("GetPlot", "IndustrialAreaMaster", FormMethod.Post, new { @class = "", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
 
 <div class="portlet box green">
     <div class="portlet-title red">
         <div class="caption">
-            <i class="fa fa-globe"></i>जनपद में स्थापित औद्योगिक आस्थानो के भूखंड विवरण
+            <i class="fa fa-globe"></i>भूखंड की  सूची
         </div>
         <div class="tools"> </div>
     </div>
@@ -136,5 +144,6 @@
         });
     }
 </script>
+}
 
 

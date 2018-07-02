@@ -13,6 +13,7 @@ namespace DI.Controllers
     public class FormController : Controller
     {
         IndustrialAreaMasterModal dd = new IndustrialAreaMasterModal();
+        AddMYSY ad = new AddMYSY();
         CommonBL bl = new CommonBL();
 
 
@@ -106,8 +107,16 @@ namespace DI.Controllers
         {
             List<SelectListItem> distNames = new List<SelectListItem>();
             CMODataEntryBLL.bindDropDownHnGrid("proc_Detail", distNames, "ds", "28", "10");
-            dd.DistrictNames = distNames;
-            return View(dd);
+            ad.DistrictNames = distNames;
+            return View(ad);
+
+        }
+        public ActionResult MYSY_Entry()
+        {
+            List<SelectListItem> distNames = new List<SelectListItem>();
+            CMODataEntryBLL.bindDropDownHnGrid("proc_Detail", distNames, "ds", "28", "10");
+            ad.DistrictNames = distNames;
+            return View(ad);
 
         }
 
@@ -135,5 +144,49 @@ namespace DI.Controllers
             return Json(villageNames, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult InsertUpdateMYSY(AddMYSY Objform)
+        {
+            try
+            {
+                Objform.Mode = "Insert";
+                string str = new DAL.CommonDA().InsertUpdateMYSY(Objform);
+                return Json(str, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+        public ActionResult GetMYSY()
+        {
+            return View();
+
+        }
+
+        public ActionResult InsertUpdateYojona_Master()
+        {
+            return View();
+        }
+
+        public JsonResult InsertUpdateYojona_Master_(Yojona_Master Objform, string sptype)
+        {
+            try
+            {
+                Objform.Mode = sptype;
+                string str = new DAL.CommonDA().InsertYojona_Master(Objform);
+                return Json(str, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+        public ActionResult Get_Data_MYSY()
+        {
+            return View();
+        }
     }
 }

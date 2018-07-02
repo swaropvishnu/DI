@@ -1,0 +1,170 @@
+﻿
+@{
+    ViewBag.Title = "shapathpatar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using System.Data;
+@using DI.Models;
+@using DI.DAL;
+@using DI.BLL;
+
+
+@{
+    //var grid = new WebGrid(Model, rowsPerPage: 20);
+    DataSet ds = new DataSet();
+
+   // ds = new CommonDA().GetPramarPatar(1);
+
+}
+
+<script type="text/javascript">
+      window.history.forward();
+</script>
+
+<script language="javascript" type="text/javascript">
+        function printDiv(divID) {
+            //Get the HTML of div
+            var divElements = document.getElementById(divID).innerHTML;
+            //Get the HTML of whole page
+            var oldPage = document.body.innerHTML;
+
+            //Reset the page's HTML with div's HTML only
+            document.body.innerHTML =
+               "<html><head><title></title></head><body>" +
+                "<div align='center' style='margin-left:1%;margin-right:1%;width:100%;'>" +
+
+               divElements + "</div></body>";
+
+            //Print Page
+            window.print();
+
+            //Restore orignal HTML
+            document.body.innerHTML = oldPage;
+        }
+</script>
+
+
+
+@using (Html.BeginForm("shapathpatar", "IndustrialAreaMaster", FormMethod.Post, new { @class = "", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="portlet-title">
+        <div class="caption font-green">
+            <i class="icon-pin font-green"></i>
+            <span class="caption-subject bold uppercase">शपथ - पत्र</span>
+        </div>
+        <div class="col-sm-12" style="text-align: right;  width:85%">
+
+            <button type="button" class="btn green" onclick="javascript:printDiv('reportdiv')" id="btnprint">Print</button>
+        </div>
+    </div>
+
+    <div style="border:0px solid; width:100%" id="reportdiv">
+       @if (ds != null)
+       {
+           if (ds.Tables[0] != null)
+           {
+               if (ds.Tables[0].Rows.Count > 0)
+               {
+                   for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                   {
+        <table class="table-responsive tblcss" style="width:100%;margin-left:60px">
+           
+            <tr><td style="font-size:x-large" align="center">शपथ - पत्र <br /><br /><br /></td></tr>
+            
+           
+            <tr>
+                <td style="border: none;font-size:20px;" align="Left">
+                    &nbsp;  समक्ष,
+                    
+                </td>
+            </tr>
+            <tr>
+                <td style="border: none;font-size: 20px;">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  उपयुक्त उद्योग,
+                    <br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ज़िला उद्योग एवं उद्यम  प्रोत्साहन  केन्द्र,
+                    <br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; कानपुर नगर
+                    <br />
+                </td>
+               
+            </tr>
+           
+            <tr>
+                <td style="border: none;font-size: 20px;" align="Left">
+                    &nbsp;  महोदय,
+                    
+                </td>
+            </tr>
+
+            
+            <tr>
+                <td style="text-align:justify;border: none;text-indent:-15px;font-size:20px;">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    मै @ds.Tables[0].Rows[i]["applicant_name"].ToString().Trim() पुत्र / पुत्री / पत्नी श्री / श्रीमती @ds.Tables[0].Rows[i]["father_name"].ToString().Trim() निवासी @ds.Tables[0].Rows[i]["permanent_address"].ToString().Trim() शपथ <br/> पूर्वक घोषणा करता  / करती  हूँ कि : 
+                    <br /><br /></td>
+            </tr>
+          
+            <tr><td style="text-align:justify;border: none; font-size: 20px;">1. मै एक  बेरोज़गार  युवक  युवती  हूँ | </td></tr>
+           
+            <tr><td style="text-align:justify;border: none; font-size: 20px;">2. मेरी  उम्र  दिनांक  ....  को......... वर्ष  है  तथा  मेरी  जन्म  तिथि  ....... है |</td></tr>
+            
+            <tr><td style="text-align:justify;border: none; font-size: 20px;">3. मेरी  शैक्षिक  योग्यता ........ है |</td></tr>
+            
+            <tr><td style="text-align:justify;border: none; font-size: 20px;">4. मेरे  परिवार  की वार्षिक  आय रु० ............ है |   </td></tr>
+            
+            
+            <tr><td style="text-align:justify;border: none; font-size: 20px;">5. मैंने  इससे  पूर्व किसी  भी  केंद्र तथा  राज्य  सरकार की  स्वरोज़गार अनुदान  परक योजना में  लाभ  प्राप्त नहीं किया है | </td></tr>
+            
+            <tr><td style="text-align:justify;border: none; font-size: 20px;">6. मैं  किसी भी बैंक / वित्तीय संस्था  अथवा अन्य  राजकीय संस्था का  डिफाल्टर   नहीं हूँ | </td></tr>
+            
+          
+            <tr><td style="text-align:justify;border: none; font-size: 20px;">7. मुझे  किसी  भी  न्यायालय  द्वारा दण्डित  नहीं  किया गया है |</td></tr>
+            
+            
+            <tr><td style="text-align:justify;border: none; font-size: 20px;">8. मैने  जो  परियोजना  संलग्न की  है , उसे  भली-भांति पढ़ा एवं  समझा है | <br /><br /></td></tr>
+            
+            
+            <tr><td style="text-align:justify;border: none; font-size: 20px;"> मेरी पूर्ण  जानकारी के  अनुसार परियोजना  में  उल्लिखित सभी  तथ्य सही तथा पूर्ण  है |  मेरे द्वारा कोई  जानकारी <br/> छुपाई  नहीं  गयी  है |</td></tr>
+
+        </table>
+        <br />        <br />        <br />
+        <table id="example1" style="width:46%; margin-left:52%; text-align:justify" align="">
+           
+            
+            
+            
+            
+            
+            <tr style="background-color:#39b4dd">
+
+            <tr><td style="padding-left:50px;border: none;font-size: 20px;">हस्ताक्षर - </td> </tr>
+
+            <tr><td style="border: none;"></td></tr>
+            <tr><td style="padding-left:50px;height:40px;border: none;font-size: 20px;">नाम          -@ds.Tables[0].Rows[i]["applicant_name"].ToString().Trim()</td></tr>
+
+
+
+            <tr><td style="border: none;"></td></tr>
+           
+            <tr><td style="padding-left:50px;height:40px;border: none;font-size: 20px;">पता  - @ds.Tables[0].Rows[i]["permanent_address"].ToString().Trim()</td></tr>
+
+
+
+
+            <tbody>
+                <tr></tr>
+            </tbody>
+        </table>
+                   }
+               }
+           }
+
+       }
+    </div>
+
+}
+

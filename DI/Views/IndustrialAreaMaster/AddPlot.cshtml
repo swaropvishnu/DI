@@ -3,6 +3,11 @@
 @{
     ViewBag.Title = "AddPlot";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    if (UserSession.LoggedInUserLevelId == null || UserSession.LoggedInUserLevelId != "6")
+    {
+        Response.Redirect("../Login/login");
+        return;
+    }
 }
 @using System.Data;
 @using DI.Models;
@@ -14,307 +19,327 @@
     DataTable dt = new CommonDA().Getplot(-1, -1, "", "", CommonBL.Setdate("01/01/1990"), DateTime.Now, "", "");
 }
 
+@using (Html.BeginForm("AddPlot", "IndustrialAreaMaster",FormMethod.Post, new { @class = "", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="portlet light ">
+        <div class="portlet-title">
 
-<div class="portlet-title">
-    <div class="caption font-green">
-        <i class="icon-pin font-green"></i>
-        <span class="caption-subject bold uppercase"> जनपद में स्थापित औद्योगिक आस्थानो के भूखंड विवरण </span>
-    </div>
-</div>
+            <div class="caption font-green">
+                <i class="icon-pin font-green"></i>
+                <span class="caption-subject bold uppercase"> जनपद में स्थापित औद्योगिक आस्थानो के भूखंड  </span>
+            </div>
+        </div>
 
-<div class="row">
-    <div class="col-md-12">
-        <div class="portlet light bordered">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet light bordered">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="icon-equalizer font-red-sunglo"></i>
+                            <span class="caption-subject font-red-sunglo bold uppercase">भूखंडों की प्रविष्टि एवं संशोधन </span>
+                            <span class="caption-helper">... </span>
+                        </div>
+                        @*<div class="tools">
+                                <a href="" class="collapse" data-original-title="" title=""> </a>
+                                <a href="#portlet-config" data-toggle="modal" class="config" data-original-title="" title=""> </a>
+                                <a href="" class="reload" data-original-title="" title=""> </a>
+                                <a href="" class="remove" data-original-title="" title=""> </a>
+                            </div>*@
+                    </div>
+                    <div class="portlet-body form">
+                        <!-- BEGIN FORM-->
+                        <form action="#" class="form-horizontal">
+                            <div class="form-body" style="padding: 0px !important">
+                                @*<h3 class="form-section">Info</h3>*@
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-12">जनपद</label>
+                                            <div class="col-md-12">
+                                                @Html.DropDownListFor(m => m.DistrictNames, Model.DistrictNames, new { @id = "ddlDistrict", @class = "form-control" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-12 " style="text-align:left" id="lblEstate">आस्थान का नाम <span class="Mandatory">*</span></label>
+                                            <div class="col-md-12">
+                                                @Html.DropDownListFor(m => m.IndustrialEstate, new List<SelectListItem> { new SelectListItem { Text = "--चयन करे--", Value = "-1" } }, new { @id = "ddlIndustrialArea", @class = "form-control" })
+
+                                                <input id="hfPlotCode" type="hidden" value="-1" />
+                                                @*@Html.TextBoxFor(m => m.tbl_IndustrialAreaCode, new { @class = "form-control", @id = "txthouse_Name", @placeholder = "आस्थान का नाम" })*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/span-->
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-12" style="text-align:left" id="lblplot">भूखंड क्रमांक<span class="Mandatory">*</span></label>
+                                            <div class="col-md-12">
+                                                @Html.TextBoxFor(m => m.PlotSerial, new { @class = "form-control", @id = "txtPlotnumber", @placeholder = "भूखंड क्रमांक", @onkeypress = "return IsNumeric(event);", @Maxlength = 15 })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/span-->
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-col-md-12" style="text-align:left; margin-left:20px" id="lblplotname"> भूखंड का नाम <span class="Mandatory">*</span></label>
+                                            <div class="col-md-12">
+                                                @Html.TextBoxFor(m => m.PlotName, new { @class = "form-control", @id = "txtPlot_name", @placeholder = "भूखंड का नाम ", @Maxlength = 50 })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/span-->
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-12 " style="text-align:left" id="lblplotarea">क्षेत्रफल <span class="Mandatory">*</span></label>
+                                            <div class="col-md-12">
+                                                @Html.TextBoxFor(m => m.PlotArea, new { @class = "form-control", @id = "txtArea", @placeholder = "क्षेत्रफल ", @onkeypress = "return IsNumeric(event);", @Maxlength = 10 })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/span-->
+                                </div>
+                                <!--/row-->
+
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-12 " style="text-align:left">क्या भूखंड आवंटित है ? </label>
+                                            <div class="col-md-12">
+                                                @Html.CheckBoxFor(m => m.IsPlot_Assigned, new { @name = "plotallottedCheckBox", @id = "plotallottedYes", @class = "make-switch" })
+
+                                                @*<label>
+                                                    This Switch is Set to
+                                                    <label id="CheckBoxValue" value="None"></label>
+                                                    </label>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/span-->
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-12 " style="text-align:left">क्या भूखंड विवादित है ? </label>
+                                            <div class="col-md-12">
+                                                @Html.CheckBoxFor(m => m.IsPlot_Disputed, new { @name = "PlotdisputedCheckBox", @id = "PlotdisputedYes", @class = "make-switch" })
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/span-->
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-12" style="text-align:left">भूखंड का विवरण </label>
+                                            <div class="col-md-12">
+                                                @Html.TextBoxFor(m => m.Plot_Desc, new { @class = "form-control", @id = "txtPlotdescription", @placeholder = "भूखंड का विवरण" })
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/span-->
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-12" style="text-align:left"> आवंटी का विवरण  </label>
+                                            <div class="col-md-12">
+                                                @Html.TextBoxFor(m => m.Plot_Allottee_Desc, new { @class = "form-control", @id = "txtAllotteeDetails", @placeholder = "आवंटी का विवरण" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/span-->
+                                </div>
+                                <!--/row-->
+
+                            </div>
+                            <div class="form-actions">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-offset-12 col-md-12" align="right">
+                                                <button type="button" class="btn green" onclick="Save(false)" id="btnsave">Submit</button>
+                                                <button type="button" class="btn red" onclick="res()">Cancel</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6"> </div>
+                                </div>
+                            </div>
+                        </form>
+                        <!-- END FORM-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+
+        <!-- Begin: life time stats -->
+        <div class="portlet light">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="icon-equalizer font-red-sunglo"></i>
-                    <span class="caption-subject font-red-sunglo bold uppercase">औद्योगिक आस्थानों में भूखंड जोड़े </span>
-                    <span class="caption-helper">... </span>
+                    <i class="fa fa-th-list"></i>भूखंडों  का संशोधन
                 </div>
-                @*<div class="tools">
-                        <a href="" class="collapse" data-original-title="" title=""> </a>
-                        <a href="#portlet-config" data-toggle="modal" class="config" data-original-title="" title=""> </a>
-                        <a href="" class="reload" data-original-title="" title=""> </a>
-                        <a href="" class="remove" data-original-title="" title=""> </a>
-                    </div>*@
-            </div>
-            <div class="portlet-body form">
-                <!-- BEGIN FORM-->
-                <form action="#" class="form-horizontal">
-                    <div class="form-body" style="padding: 0px !important">
-                        @*<h3 class="form-section">Info</h3>*@
-
-                        <div class="row">
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label class="control-label col-md-12 " style="text-align:left">आस्थान का नाम </label>
-                                    <div class="col-md-12">
-                                        @Html.DropDownListFor(m => m.IndustrialEstate, Model.IndustrialEstate, "Select", new { @id = "ddlIndustrialArea", @class = "form-control" })
-                                        <input id="hfPlotCode" type="hidden" value="-1" />
-                                        @*@Html.TextBoxFor(m => m.tbl_IndustrialAreaCode, new { @class = "form-control", @id = "txthouse_Name", @placeholder = "आस्थान का नाम" })*@
-                                    </div>
-                                </div>
-                            </div>
-                            <!--/span-->
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label class="control-label col-md-12" style="text-align:left">भूखंड क्रमांक</label>
-                                    <div class="col-md-12">
-                                        @Html.TextBoxFor(m => m.PlotSerial, new { @class = "form-control", @id = "txtPlotnumber", @placeholder = "भूखंड क्रमांक", @onkeypress = "return IsNumeric(event);", @Maxlength = 15 })
-                                    </div>
-                                </div>
-                            </div>
-                            <!--/span-->
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label class="control-label col-md-col-md-12" style="text-align:left; margin-left:20px"> भूखंड का नाम </label>
-                                    <div class="col-md-12">
-                                        @Html.TextBoxFor(m => m.PlotName, new { @class = "form-control", @id = "txtPlot_name", @placeholder = "भूखंड का नाम ", @Maxlength = 50 })
-                                    </div>
-                                </div>
-                            </div>
-                            <!--/span-->
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label class="control-label col-md-12 " style="text-align:left">क्षेत्रफल </label>
-                                    <div class="col-md-12">
-                                        @Html.TextBoxFor(m => m.PlotArea, new { @class = "form-control", @id = "txtArea", @placeholder = "क्षेत्रफल ", @onkeypress = "return IsNumeric(event);", @Maxlength = 10 })
-                                    </div>
-                                </div>
-                            </div>
-                            <!--/span-->
-                        </div>
-                        <!--/row-->
-
-                        <div class="row">
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label class="control-label col-md-12 " style="text-align:left">क्या भूखंड आवंटित है ? </label>
-                                    <div class="col-md-12">
-                                        @Html.CheckBoxFor(m => m.IsPlot_Assigned, new { @name = "plotallottedCheckBox", @id = "plotallottedYes", @class = "make-switch"  })
-
-                                        @*<label>
-                                            This Switch is Set to
-                                            <label id="CheckBoxValue" value="None"></label>
-                                            </label>*@
-</div>
-                                </div>
-                            </div>
-                            <!--/span-->
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label class="control-label col-md-12 " style="text-align:left">क्या भूखंड विवादित है ? </label>
-                                    <div class="col-md-12">
-                                        @Html.CheckBoxFor(m => m.IsPlot_Disputed, new { @name = "PlotdisputedCheckBox", @id = "PlotdisputedYes", @class = "make-switch" })
-
-                                    </div>
-                                </div>
-                            </div>
-                            <!--/span-->
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label class="control-label col-md-12" style="text-align:left">भूखंड का विवरण </label>
-                                    <div class="col-md-12">
-                                        @Html.TextBoxFor(m => m.Plot_Desc, new { @class = "form-control", @id = "txtPlotdescription", @placeholder = "भूखंड का विवरण" })
-
-                                    </div>
-                                </div>
-                            </div>
-                            <!--/span-->
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label class="control-label col-md-12" style="text-align:left"> आवंटी का विवरण  </label>
-                                    <div class="col-md-12">
-                                        @Html.TextBoxFor(m => m.Plot_Allottee_Desc, new { @class = "form-control", @id = "txtAllotteeDetails", @placeholder = "आवंटी का विवरण" })
-                                    </div>
-                                </div>
-                            </div>
-                            <!--/span-->
-                        </div>
-                        <!--/row-->
-
-                    </div>
-                    <div class="form-actions">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="row">
-                                    <div class="col-md-offset-12 col-md-12" align="right">
-                                        <button type="submit" class="btn green" onclick="Save(false)" id="btnsave">Submit</button>
-                                        <button type="button" class="btn red" onclick="res()">Cancel</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6"> </div>
-                        </div>
-                    </div>
-                </form>
-                <!-- END FORM-->
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<!-- Begin: life time stats -->
-<div class="portlet light">
-    <div class="portlet-title">
-        <div class="caption">
-            <i class="fa fa-th-list"></i>भूखंड विवरण एवं संशोधन
-        </div>
-        <div class="actions">
-
-            <div class="btn-group">
-                <a class="btn btn-circle btn-default dropdown-toggle" href="javascript:;" data-toggle="dropdown">
-                    <i class="fa fa-share"></i>
-                    <span class="hidden-xs"> Tools </span>
-                    <i class="fa fa-angle-down"></i>
-                </a>
-                <div class="dropdown-menu pull-right">
-                    <li>
-                        <a href="javascript:;"> Export to Excel </a>
-                    </li>
-                    <li>
-                        <a href="javascript:;"> Export to CSV </a>
-                    </li>
-                    <li>
-                        <a href="javascript:;"> Export to XML </a>
-                    </li>
-
+                <div class="actions">
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="portlet-body">
-        <div class="table-container">
-            <div class="table-actions-wrapper">
-                <span> </span>
-                <select class="table-group-action-input form-control input-inline input-small input-sm">
-                    <option value="">Select...</option>
-                    <option value="publish">विवादित </option>
-                    <option value="unpublished">आवंटित </option>
-                    <option value="delete">उपलब्ध </option>
-                </select>
-                <button class="btn btn-sm btn-success table-group-action-submit">
-                    <i class="fa fa-check"></i> खोजें
-                </button>
-            </div>
-            <table class="table table-striped table-bordered table-hover table-checkable" id="datatable_products">
-                <thead>
-                    <tr role="row" class="heading">
-                        
-                        <th width="10%"> क्र० सं० </th>
-                        <th width="15%"> आस्थानों &nbsp;का नाम </th>
-                        <th width="15%"> भूखंड&nbsp;का नाम </th>
-                        <th width="15%"> भूखंड सं० </th>
-                        <th width="10%"> क्षेत्रफल </th>
-                        <th width="10%"> विवाद स्थिति </th>
-                        <th width="15%"> आवंटन स्थिति </th>
-                        <th width="10%"> भूखंड विवरण </th>
-                        <th width="10%">  </th>
-                        <th width="10%">  </th>
-                    </tr>
-                   
-                       @if (dt != null)
+            <div class="portlet-body">
+                <div class="table-container">
+                    <div class="table-actions-wrapper">
+                        <span> </span>
+                        <select class="table-group-action-input form-control input-inline input-small input-sm">
+                            <option value="">Select...</option>
+                            <option value="publish">विवादित </option>
+                            <option value="unpublished">आवंटित </option>
+                            <option value="delete">उपलब्ध </option>
+                        </select>
+                        <button class="btn btn-sm btn-success table-group-action-submit">
+                            <i class="fa fa-check"></i> खोजें
+                        </button>
+                    </div>
+                    <table class="table table-striped table-bordered table-hover table-checkable" id="datatable_products">
+                        <thead>
+                            <tr role="row" class="heading">
+
+                                <th width="10%"> क्र० सं० </th>
+                                <th width="10%">जनपद </th>
+                                <th width="15%"> आस्थानों &nbsp;का नाम </th>
+                                <th width="15%"> भूखंड&nbsp;का नाम </th>
+                                <th width="10%"> भूखंड सं० </th>
+                                <th width="10%"> क्षेत्रफल </th>
+                                <th width="10%"> विवाद स्थिति </th>
+                                <th width="10%"> आवंटन स्थिति </th>
+                                <th width="10%"> भूखंड विवरण </th>
+                                <th width="10%">  </th>
+                                <th width="10%">  </th>
+                            </tr>
+
+                            @if (dt != null)
                        {
                            if (dt.Rows.Count > 0)
                            {
                                for (int i = 0; i < dt.Rows.Count; i++)
                                {
-                                <tr role="row" class="filter">
-                                    <td>@(i + 1)</td>
-                                    <td>@dt.Rows[i]["IndustrialEstate"].ToString().Trim()</td>
-                                    <td>@dt.Rows[i]["PlotName"].ToString().Trim()</td>
-                                    <td>@dt.Rows[i]["PlotSerial"].ToString().Trim()</td>
-                                    <td>@dt.Rows[i]["Plot_Area"].ToString().Trim()</td>
-                                    <td>@dt.Rows[i]["IsPlot_Disputed"].ToString().Trim()</td>
-                                    <td>@dt.Rows[i]["IsPlot_Assigned"].ToString().Trim()</td>
-                                    <td>@dt.Rows[i]["Plot_Desc"].ToString().Trim()</td>
-                                    @*<td>@dt.Rows[i]["IndustrialArea"].ToString().Trim()</td>*@
-                                    <td>
-                                        <button type="submit" class="btn green" onclick="edit('@dt.Rows[i]["PlotCode"].ToString().Trim()','@dt.Rows[i]["tbl_IndustrialAreaCode"].ToString().Trim()','@dt.Rows[i]["PlotSerial"].ToString().Trim()','@dt.Rows[i]["PlotName"].ToString().Trim()','@dt.Rows[i]["Plot_Area"].ToString().Trim()','@dt.Rows[i]["IsPlot_Assigned"].ToString().Trim()','@dt.Rows[i]["IsPlot_Disputed"].ToString().Trim()','@dt.Rows[i]["Plot_Desc"].ToString().Trim()','@dt.Rows[i]["Plot_Allottee_Desc"].ToString().Trim()')">Edit</button>
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn red" onclick="del('@dt.Rows[i]["PlotCode"].ToString().Trim()')">Delete</button>
+                    <tr role="row" class="filter">
+                        <td>@(i + 1)</td>
+                        <td>@dt.Rows[i]["DistictName_U"].ToString().Trim()</td>
+                        <td>@dt.Rows[i]["IndustrialEstate"].ToString().Trim()</td>
+                        <td>@dt.Rows[i]["PlotName"].ToString().Trim()</td>
+                        <td>@dt.Rows[i]["PlotSerial"].ToString().Trim()</td>
+                        <td>@dt.Rows[i]["Plot_Area"].ToString().Trim()</td>
+                        <td>@dt.Rows[i]["IsPlot_Disputed"].ToString().Trim()</td>
+                        <td>@dt.Rows[i]["IsPlot_Assigned"].ToString().Trim()</td>
+                        <td>@dt.Rows[i]["Plot_Desc"].ToString().Trim()</td>
+                        @*<td>@dt.Rows[i]["IndustrialArea"].ToString().Trim()</td>*@
+                        <td>
+                            <button type="submit" class="btn green" onclick="edit('@dt.Rows[i]["PlotCode"].ToString().Trim()','@dt.Rows[i]["tbl_IndustrialAreaCode"].ToString().Trim()','@dt.Rows[i]["PlotSerial"].ToString().Trim()','@dt.Rows[i]["PlotName"].ToString().Trim()','@dt.Rows[i]["Plot_Area"].ToString().Trim()','@dt.Rows[i]["IsPlot_Assigned"].ToString().Trim()','@dt.Rows[i]["IsPlot_Disputed"].ToString().Trim()','@dt.Rows[i]["Plot_Desc"].ToString().Trim()','@dt.Rows[i]["Plot_Allottee_Desc"].ToString().Trim()','@dt.Rows[i]["district_code_census"].ToString().Trim()')">Edit</button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn red" onclick="del('@dt.Rows[i]["PlotCode"].ToString().Trim()')">Delete</button>
 
-                                    </td>
-                                </tr>
+                        </td>
+                    </tr>
                                }
                            }
                        }
 
-                               
-                </thead>
-                <tbody> </tbody>
-            </table>
 
-
-          
+                        </thead>
+                        <tbody> </tbody>
+                    </table>
 
 
 
 
 
 
+
+
+
+                </div>
+            </div>
         </div>
-    </div>
-</div>
-<script>
+        <script>
 
-    $('.make-switch').bootstrapSwitch('state', false);
+            $('.make-switch').bootstrapSwitch('state', false);
 
-    //$('#plotallottedYes').on('switchChange.bootstrapSwitch', function () {
+            //$('#plotallottedYes').on('switchChange.bootstrapSwitch', function () {
 
-    //    $("#CheckBoxValue").text($('#plotallottedYes').bootstrapSwitch('state'));
-    //});
+            //    $("#CheckBoxValue").text($('#plotallottedYes').bootstrapSwitch('state'));
+            //});
 
 
-   // document.getElementsByName('IsPlot_Assigned').checked = true;
-   // $('#plotallottedCheckBox').prop
-    //$("#plotallottedCheckBox").prop('checked');
-    //$('#CheckBoxValue').text($('.make-switch').bootstrapSwitch('state'));
+            // document.getElementsByName('IsPlot_Assigned').checked = true;
+            // $('#plotallottedCheckBox').prop
+            //$("#plotallottedCheckBox").prop('checked');
+            //$('#CheckBoxValue').text($('.make-switch').bootstrapSwitch('state'));
 
-    //$('#plotallottedCheckBox').on('switchChange.bootstrapSwitch', function () {
+            //$('#plotallottedCheckBox').on('switchChange.bootstrapSwitch', function () {
 
-    //    $("#CheckBoxValue").text($('.make-switch').bootstrapSwitch('state'));
-    //});
-    //$('.make-switch').bootstrapSwitch('state', true);
+            //    $("#CheckBoxValue").text($('.make-switch').bootstrapSwitch('state'));
+            //});
+            //$('.make-switch').bootstrapSwitch('state', true);
 
-    //$('#CheckBoxValue').text($("#plotallottedCheckBox").bootstrapSwitch('state'));
-</script>
-<script type="text/javascript">
-    
+            //$('#CheckBoxValue').text($("#plotallottedCheckBox").bootstrapSwitch('state'));
+        </script>
+        <script type="text/javascript">
+    $(document).ready(function () {
+        $('#ddlDistrict').change(function () {
 
+            //  alert("done");
+            $.ajax({
+                type: "post",
+                url: "/IndustrialAreaMaster/GetEstate",
+                data: { District: $('#ddlDistrict').val() },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    $('#ddlIndustrialArea').empty();
+                    var district = "";
+                    //var district = '';
+                    for (var i = 0; i < data.length; i++) {
+                        district = district + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                    }
+                    //district = district + '</select>';
+                    //alert(district);
+                    $('#ddlIndustrialArea').append(district);
+                }
+            });
+        });
+    });
     function res() {
         location.reload();
     }
         function Save(sptype)
                 {
-            if (document.getElementById("ddlIndustrialArea").value == "Select")
+            if (document.getElementById("ddlIndustrialArea").value == "-1")
                     {
                 document.getElementById("ddlIndustrialArea").focus();
+
+                $('#lblEstate').css('color', 'red');
                 alert("आस्थान का नाम");
                         return;
             }
             if (document.getElementById("txtPlotnumber").value == "") {
                 document.getElementById("txtPlotnumber").focus();
+                $('#lblplot').css('color', 'red');
                 alert("भूखंड क्रमांक");
                 return;
             }
             if (document.getElementById("txtPlot_name").value == "") {
                 document.getElementById("txtPlot_name").focus();
+                $('#lblplotname').css('color', 'red');
                 alert("भूखंड का नाम");
                 return;
             }
             if (document.getElementById("txtArea").value == "") {
                 document.getElementById("txtArea").focus();
+                $('#lblplotarea').css('color', 'red');
                 alert("क्षेत्रफल");
                 return;
             }
-            if (document.getElementById("txtArea").value == "") {
-                document.getElementById("txtArea").focus();
-                alert("क्षेत्रफल");
-                return;
-            }
+
             var IsPlot_Assigned = $('#plotallottedYes').bootstrapSwitch('state');
             var IsPlot_Disputed = $('#PlotdisputedYes').bootstrapSwitch('state');
                     var M01 = {
@@ -325,8 +350,8 @@
                         "PlotArea": document.getElementById("txtArea").value,
                         "IsPlot_Assigned": IsPlot_Assigned,//document.getElementById("plotallottedYes").value, $('#plotallottedYes').bootstrapSwitch('state')
                         "IsPlot_Disputed": IsPlot_Disputed,//document.getElementById("PlotdisputedYes").value, $('#PlotdisputedYes').bootstrapSwitch('state')
-                        "Plot_Desc": document.getElementById("txtPlotdescription").value,
-                        "Plot_Allottee_Desc": document.getElementById("txtAllotteeDetails").value
+                        "Plot_Desc": document.getElementById("txtPlotdescription").value==""?" ":document.getElementById("txtPlotdescription").value,
+                        "Plot_Allottee_Desc": document.getElementById("txtAllotteeDetails").value==""?" ":document.getElementById("txtAllotteeDetails").value
                     }
                     $.ajax({
                         url: '/IndustrialAreaMaster/InsertUpdatePlot',
@@ -335,7 +360,9 @@
                         contentType: 'application/json; charset=utf-8',
                         success: function (data) {
                             alert(data);
-                            location.reload();
+                            if (data=="RECORD SAVE...") {
+                                location.reload();
+                            }
                         }
                     });
         }
@@ -354,14 +381,33 @@
             }
             return ret;
         }
-        function edit(PlotCode ,tbl_IndustrialAreaCode ,PlotSerial ,PlotName ,Plot_Area ,IsPlot_Assigned,IsPlot_Disputed,Plot_Desc ,Plot_Allottee_Desc) {
-    
+        function edit(PlotCode ,tbl_IndustrialAreaCode ,PlotSerial ,PlotName ,Plot_Area ,IsPlot_Assigned,IsPlot_Disputed,Plot_Desc ,Plot_Allottee_Desc,district_code_census) {
+            document.getElementById("ddlDistrict").value=district_code_census;
+
+            $.ajax({
+                type: "post",
+                url: "/IndustrialAreaMaster/GetEstate",
+                data: { District: $('#ddlDistrict').val() },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    $('#ddlIndustrialArea').empty();
+                    var district = "";
+                    //var district = '';
+                    for (var i = 0; i < data.length; i++) {
+                        district = district + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                    }
+
+                    $('#ddlIndustrialArea').append(district);
+                    $('#ddlIndustrialArea').val(tbl_IndustrialAreaCode);
+                }
+            });
             document.getElementById("hfPlotCode").value= PlotCode;
             document.getElementById("ddlIndustrialArea").value= tbl_IndustrialAreaCode;
             document.getElementById("txtPlotnumber").value= PlotSerial;
             document.getElementById("txtPlot_name").value= PlotName;
             document.getElementById("txtArea").value= Plot_Area;
-            if (IsPlot_Assigned=="Yes") 
+            if (IsPlot_Assigned=="हाँ")
             {
                 //document.getElementById("plotallottedYes").checked = true;
                 //$('#plotallottedYes').prop('checked', true);
@@ -373,7 +419,7 @@
                 //$('#plotallottedYes').prop('checked', false);
                // document.getElementById("plotallottedYes").checked = false;
             }
-            if (IsPlot_Disputed=="Yes") 
+            if (IsPlot_Disputed=="हाँ")
             {
                 //$('#PlotdisputedYes').prop('checked', true);
                 $('#PlotdisputedYes').bootstrapSwitch('state', true);
@@ -386,7 +432,7 @@
                 //document.getElementById("PlotdisputedYes").checked = false;
             }
 
-           
+
             document.getElementById("txtPlotdescription").value= Plot_Desc;
             document.getElementById("txtAllotteeDetails").value = Plot_Allottee_Desc;
             $('#btnsave').html('Update');
@@ -420,6 +466,15 @@
                 }
             });
         }
-
-</script>
-<!-- End: life time stats -->
+        $(document).ready(function () {
+            try {
+                $("input[type='text']").each(function () {
+                    $(this).attr("autocomplete", "off");
+                });
+            }
+            catch (e)
+            { }
+        });
+        </script>
+        }
+        <!-- End: life time stats -->

@@ -156,6 +156,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\jquery-ui.css" />
+    <Content Include="Content\plugins\jquery-ui.js" />
+    <Content Include="no_image.png" />
     <Content Include="Content\assets\apps\css\inbox.css" />
     <Content Include="Content\assets\apps\css\inbox.min.css" />
     <Content Include="Content\assets\apps\css\ticket.css" />
@@ -4110,19 +4113,10 @@
     <Content Include="Content\assets\global\plugins\ladda\ladda-themeless.min.css" />
     <Content Include="Content\assets\global\plugins\ladda\ladda.min.js" />
     <Content Include="Content\assets\global\plugins\ladda\spin.min.js" />
-    <Content Include="Content\assets\global\plugins\mapplic\apartment.html" />
-    <Content Include="Content\assets\global\plugins\mapplic\australia.html" />
-    <Content Include="Content\assets\global\plugins\mapplic\brazil.html" />
-    <Content Include="Content\assets\global\plugins\mapplic\canada.html" />
-    <Content Include="Content\assets\global\plugins\mapplic\china.html" />
-    <Content Include="Content\assets\global\plugins\mapplic\continents.html" />
     <Content Include="Content\assets\global\plugins\mapplic\css\font-awesome.css" />
     <Content Include="Content\assets\global\plugins\mapplic\css\map.css" />
     <Content Include="Content\assets\global\plugins\mapplic\css\style.css" />
-    <Content Include="Content\assets\global\plugins\mapplic\europe.html" />
     <Content Include="Content\assets\global\plugins\mapplic\fonts\fontawesome-webfont.svg" />
-    <Content Include="Content\assets\global\plugins\mapplic\france.html" />
-    <Content Include="Content\assets\global\plugins\mapplic\germany.html" />
     <Content Include="Content\assets\global\plugins\mapplic\images\apartment\lower-small.jpg" />
     <Content Include="Content\assets\global\plugins\mapplic\images\apartment\lower.jpg" />
     <Content Include="Content\assets\global\plugins\mapplic\images\apartment\upper-small.jpg" />
@@ -4176,8 +4170,6 @@
     <Content Include="Content\assets\global\plugins\mapplic\images\wordpress.png" />
     <Content Include="Content\assets\global\plugins\mapplic\images\world\world.svg" />
     <Content Include="Content\assets\global\plugins\mapplic\images\wp.png" />
-    <Content Include="Content\assets\global\plugins\mapplic\index.html" />
-    <Content Include="Content\assets\global\plugins\mapplic\italy.html" />
     <Content Include="Content\assets\global\plugins\mapplic\js\hammer.min.js" />
     <Content Include="Content\assets\global\plugins\mapplic\js\html5shiv.js" />
     <Content Include="Content\assets\global\plugins\mapplic\js\jquery.easing.js" />
@@ -4264,11 +4256,6 @@
     <Content Include="Content\assets\global\plugins\mapplic\maps\usa.svg" />
     <Content Include="Content\assets\global\plugins\mapplic\maps\world-continents.svg" />
     <Content Include="Content\assets\global\plugins\mapplic\maps\world.svg" />
-    <Content Include="Content\assets\global\plugins\mapplic\russia.html" />
-    <Content Include="Content\assets\global\plugins\mapplic\switzerland.html" />
-    <Content Include="Content\assets\global\plugins\mapplic\uk.html" />
-    <Content Include="Content\assets\global\plugins\mapplic\usa.html" />
-    <Content Include="Content\assets\global\plugins\mapplic\world.html" />
     <Content Include="Content\assets\global\plugins\moment.min.js" />
     <Content Include="Content\assets\global\plugins\morris\examples\area-as-line.html" />
     <Content Include="Content\assets\global\plugins\morris\examples\area.html" />
@@ -5653,6 +5640,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Home.html" />
+    <Content Include="image1.jpg" />
     <Content Include="scripts\ai.0.22.9-build00167.js" />
     <Content Include="scripts\ai.0.22.9-build00167.min.js" />
     <Content Include="Content\assets\global\img\social\Thumbs.db" />
@@ -6041,10 +6029,12 @@
     <Content Include="Content\Homepage\assets\fonts\fontawesome-webfontd41d.eot" />
     <Content Include="Content\Homepage\assets\images\parallax\.picasa.ini" />
     <Content Include="Content\Homepage\assets\images\parallax\.picasaoriginals\.picasa.ini" />
+    <Content Include="Content\chosen.min.css" />
     <None Include="Properties\PublishProfiles\DI.pubxml" />
     <None Include="scripts\jquery-3.2.1.intellisense.js" />
     <Content Include="scripts\bootstrap.js" />
     <Content Include="scripts\bootstrap.min.js" />
+    <Content Include="scripts\chosen.jquery.min.js" />
     <Content Include="scripts\gmap3.js" />
     <Content Include="scripts\jmelosegui.googlemap.js" />
     <Content Include="scripts\jquery-3.2.1.js" />
@@ -6056,6 +6046,7 @@
     <Content Include="scripts\Menu.js" />
     <Content Include="scripts\modernizr-2.6.2.js" />
     <Content Include="scripts\sha256.js" />
+    <Content Include="Views\IndustrialAreaMaster\AddAlloteeWizard.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -6082,6 +6073,7 @@
     <Compile Include="Controllers\FormController.cs" />
     <Compile Include="Controllers\IndustrialAreaMasterController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="DAL\CommonDA.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\ExampleConfigurator.cs" />
@@ -6096,6 +6088,7 @@
     <Compile Include="MenuHandler.ashx.cs">
       <DependentUpon>MenuHandler.ashx</DependentUpon>
     </Compile>
+    <Compile Include="Models\Applicant.cs" />
     <Compile Include="Models\CaptchaImageResult.cs" />
     <Compile Include="Models\DashboardModal.cs" />
     <Compile Include="Models\FormModal.cs" />
@@ -6135,9 +6128,25 @@
     <Content Include="Views\IndustrialAreaMaster\AddAllotee.cshtml" />
     <Content Include="Views\IndustrialAreaMaster\IndustrialEstateEntryForm.cshtml" />
     <Content Include="Views\IndustrialAreaMaster\GetIndustrialEstateList.cshtml" />
-    <Content Include="Views\IndustrialAreaMaster\EstateList.cshtml" />
     <Content Include="Views\IndustrialAreaMaster\GetPlot.cshtml" />
     <Content Include="Views\IndustrialAreaMaster\GetShed.cshtml" />
+    <Content Include="Views\Form\MYSYEntry.cshtml" />
+    <Content Include="Views\IndustrialAreaMaster\GetAllotee.cshtml" />
+    <Content Include="Views\Form\MYSY_Entry.cshtml" />
+    <Content Include="Views\IndustrialAreaMaster\EditIndustrialEstate.cshtml" />
+    <Content Include="Views\Login\Registration_Login.cshtml" />
+    <Content Include="Views\Login\TestView.cshtml" />
+    <Content Include="Views\IndustrialAreaMaster\ReportIndustrialEstate.cshtml" />
+    <Content Include="Views\Shared\UserLayout.cshtml" />
+    <Content Include="Views\User\CMYS_SchemeEntryForm.cshtml" />
+    <Content Include="Views\IndustrialAreaMaster\ReportAllotees.cshtml" />
+    <Content Include="Views\IndustrialAreaMaster\EditAllotee.cshtml" />
+    <Content Include="Views\Form\GetMYSY.cshtml" />
+    <Content Include="Views\Form\InsertUpdateYojona_Master.cshtml" />
+    <Content Include="Views\IndustrialAreaMaster\Adddoc_type.cshtml" />
+    <Content Include="Views\IndustrialAreaMaster\Affidavit_Letter.cshtml" />
+    <Content Include="Views\IndustrialAreaMaster\certificate_Letter.cshtml" />
+    <Content Include="Views\Form\Get_Data_MYSY.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -6146,9 +6155,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Applicant_Doc\" />
     <Folder Include="Content\assets\apps\img\" />
     <Folder Include="Content\assets\global\plugins\angularjs\plugins\angular-file-upload\uploads\" />
-    <Folder Include="Views\Default\" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

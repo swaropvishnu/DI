@@ -18,10 +18,10 @@ using System.Web.Security;
 
 namespace DI.Controllers
 {
-    
-   
     public class LoginController : Controller
     {
+        CMYSS_Applicant CM = new CMYSS_Applicant();
+ 
         // GET: Login
         public ActionResult Login()
         {
@@ -29,7 +29,11 @@ namespace DI.Controllers
             Session["salt"] = salt.ToString();
             return View();
         }
-
+        public ActionResult TestView()
+        {
+           
+            return View();
+        }
         public ActionResult LogOut()
         {
             try
@@ -89,9 +93,18 @@ namespace DI.Controllers
                         string hashed_pwd = CalculateHash(psw.ToString().ToLower() + Session["salt"].ToString());
                         if (hashed_pwd.ToString().ToLower().Equals(Model.Password.ToLower()))
                         {
-                            Session["tbl_Session"] = ds.Tables[0];
-                            FormsAuthentication.SetAuthCookie(usrname, Model.RememberMe);
-                            return RedirectToAction("Index", "Dashboard");
+                            if (ds.Tables[0].Rows[0]["UserLevel"].ToString().Trim()=="6")
+                            {
+                                Session["tbl_Session"] = ds.Tables[0];
+                                FormsAuthentication.SetAuthCookie(usrname, Model.RememberMe);
+                                return RedirectToAction("Index", "Dashboard");
+                            }
+                            else
+                            {
+                                ViewBag.ErrMessage = "Invalid Username or Password.";
+                                return RedirectToAction("Login", "Login");
+                            }
+
                         }
                         else
                         {
@@ -282,8 +295,8 @@ namespace DI.Controllers
                     string psw = ds.Tables[0].Rows[0]["Password"].ToString();
                     string lpsw = ds.Tables[0].Rows[0]["OldPassWord"].ToString();
 
-                    string pwd_salt = FormsAuthentication.HashPasswordForStoringInConfigFile(ChangePwd.OldPassword_CHG.ToString(), "md5");
-                    string type_pwd_salt = FormsAuthentication.HashPasswordForStoringInConfigFile(ChangePwd.NewPassword_CHG.ToString(), "md5");
+                    string pwd_salt = FormsAuthentication.HashPasswordForStoringInConfigFile(ChangePwd.OldPassword_CHG.ToString(), "sha256");
+                    string type_pwd_salt = FormsAuthentication.HashPasswordForStoringInConfigFile(ChangePwd.NewPassword_CHG.ToString(), "sha256");
 
                     string hashed_pwd = pwd_salt;
                     string hashed_newpwd = type_pwd_salt;
@@ -373,21 +386,120 @@ namespace DI.Controllers
             
             return View(objUserData);
         }
-
-
         public ActionResult Error()
 
         {
             return View();
         }
-
-
-
-
-
+        
         public ActionResult RegistrationLogin()
         {
             return View();
         }
+        public ActionResult Registration_Login()
+        {
+            string salt = CreateSalt(5);
+            Session["salt"] = salt.ToString();
+            List<SelectListItem> Scheme = new List<SelectListItem>();
+            CMODataEntryBLL.bindDropDownHnGrid("proc_Detail", Scheme, "y", "", "");
+            CM.Scheme = Scheme;
+            return View(CM);
+        }
+
+        public JsonResult InsertUpdateCMYSS_Applicant(CMYSS_Applicant Objform)
+        {
+            try
+            {
+                try
+                {
+                    DateTime dt = BLL.CommonBL.Setdate(Objform.inputdob);
+                    Objform.dob = dt;
+                }
+                catch (Exception)
+                {
+
+                    return Json("Date of Birth must be dd/mm/yyyy format", JsonRequestBehavior.AllowGet);
+                }
+
+                Objform.steps = "0";
+                string[] dobTime = Objform.dob.ToString().Split(' ');
+                string[] dob = dobTime[0].Split('-');
+                string Mobchar = Objform.mobile_no.Substring(0, 2);
+                List<CMYSS_Applicant_Doc> objdoc = new List<CMYSS_Applicant_Doc>();
+                List<CMYSS_Applicant_Family> objFamily = new List<CMYSS_Applicant_Family>();
+                Objform.Password= FormsAuthentication.HashPasswordForStoringInConfigFile(dob[2].ToString().Trim()+ dob[1].ToString().Trim()+ Mobchar+ dob[0].ToString().Trim(), "sha256");
+                string str = new DAL.CommonDA().InsertUpdateCMYSS_Applicant(Objform, objdoc, objFamily, false);
+                if (str.Contains("Save") && str.Contains("/"))
+                {
+                    string[] Msg = str.Split('/');
+
+                    return Json(Msg[0] + "\n" + "User Name :" + Msg[1] + "\n" + "Password :" + dob[2].ToString().Trim() + dob[1].ToString().Trim() + Mobchar + dob[0].ToString().Trim(), JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(str, JsonRequestBehavior.AllowGet);
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+        public JsonResult Applicant_Login(LoginModal Model)
+        {
+            string salt = CreateSalt(5);
+                string usrname = Model.UserName;
+                string password = Model.Password;
+          
+            DataSet ds = new DataSet();
+                ds = UserDtl.VerifyUser(usrname);
+                if (ds != null)
+                {
+                    string psw = ds.Tables[0].Rows[0]["Password"].ToString();
+                    if (ds.Tables[0].Rows.Count > 0 && ds.Tables[0].Rows.Count == 1)
+                    {
+
+                        string hashed_pwd = CalculateHash(psw.ToString().ToLower() + Session["salt"].ToString());
+                        if (hashed_pwd.ToString().ToLower().Equals(Model.Password.ToLower()))
+                        {
+                            if (ds.Tables[0].Rows[0]["UserLevel"].ToString().Trim() == "100")
+                            {
+                                Session["tbl_Session"] = ds.Tables[0];
+                                FormsAuthentication.SetAuthCookie(usrname, Model.RememberMe);
+                            return Json("Sucess", JsonRequestBehavior.AllowGet);
+                            //return RedirectToAction("CMYSS_Applicant", "User");
+                        }
+                            else
+                            {
+                                ViewBag.ErrMessage = "Invalid Username or Password.";
+                            return Json("Invalid Username or Password.", JsonRequestBehavior.AllowGet);
+                        }
+
+                        }
+                        else
+                        {
+                            //Login Fail
+                            TempData["ErrorMSG"] = "Access Denied! Wrong Credential";
+                        return Json("Access Denied! Wrong Credential", JsonRequestBehavior.AllowGet);
+                        //return RedirectToAction("Login", "Login");
+                    }
+                    }
+                    else
+                    {
+                        ViewBag.ErrMessage = "Invalid Username or Password.";
+                    return Json("Invalid Username or Password.", JsonRequestBehavior.AllowGet);
+                }
+                }
+                else
+                {
+                    ViewBag.ErrMessage = "Invalid Username or Password.";
+                return Json("Invalid Username or Password.", JsonRequestBehavior.AllowGet);
+            }
+            
+        }
+
     }
 }

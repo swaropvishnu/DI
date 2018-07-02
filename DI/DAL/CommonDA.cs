@@ -8,6 +8,7 @@ using System.Web;
 using DI.BLL;
 using DI.Models;
 using Microsoft.ApplicationBlocks.Data;
+using System.Net.NetworkInformation;
 
 namespace DI.DAL
 {
@@ -32,7 +33,7 @@ namespace DI.DAL
                 dt = new DataTable();
                 adap.Fill(dt);
                 cmd.Dispose();
-                if (dt!=null && dt.Rows.Count>0)
+                if (dt != null && dt.Rows.Count > 0)
                 {
                     for (int i = 0; i < dt.Rows.Count; i++)
                     {
@@ -42,9 +43,9 @@ namespace DI.DAL
                         fm.UserNameHindi = dt.Rows[i]["NameHindi"].ToString();
                         fm.UserEmail = dt.Rows[i]["EmailId"].ToString();
                         fm.UserAddress = dt.Rows[i]["Office_Add"].ToString();
-                        fm.UserImage = (Byte[])dt.Rows[i]["PhotoContent"]; 
+                        fm.UserImage = (Byte[])dt.Rows[i]["PhotoContent"];
                     }
-                   
+
 
                 }
                 return fm;
@@ -83,11 +84,11 @@ namespace DI.DAL
                     objdd.ApplicationFee = Convert.ToDecimal(reader["ApplicationFee"]);
                     objdd.ApplicationFeeDate = Convert.ToDateTime(reader["ApplicationFeeDate"]);
                     objdd.ApplicationFeedetails = reader["ApplicationFeedetails"].ToString();
-                    objdd.ProductName= reader["ProductName"].ToString(); 
+                    objdd.ProductName = reader["ProductName"].ToString();
                     objdd.FiananceDetails = reader["FiananceDetails"].ToString();
                     objdd.RowMeterialSource = reader["RowMeterialSource"].ToString();
                     objdd.PracticalProjectReport = reader["PracticalProjectReport"].ToString();
-                    objdd.HelpFromForegin= reader["HelpFromForegin"].ToString();
+                    objdd.HelpFromForegin = reader["HelpFromForegin"].ToString();
                     Obj.Add(objdd);
                 }
                 reader.Close();
@@ -112,7 +113,7 @@ namespace DI.DAL
             DataSet ds = new DataSet();
             try
             {
-               
+
                 if (parm1.Length > 0 && parm1 != "")
                 {
                     List<SqlParameter> parameters = new List<SqlParameter>();
@@ -121,13 +122,13 @@ namespace DI.DAL
                         parameters.Add(new SqlParameter("@Parm2", parm2));
                     if (parm3.Length > 0 && parm3 != "")
                         parameters.Add(new SqlParameter("@Parm3", parm3));
-                   
+
                     ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, procName, parameters.ToArray());
                 }
             }
             catch
             {
-                
+
                 throw;
 
             }
@@ -140,7 +141,7 @@ namespace DI.DAL
             return ds;
         }
 
-        internal  String UpdateUserDetail(LoginModal objUserData)
+        internal String UpdateUserDetail(LoginModal objUserData)
         {
             string result = "";
             try
@@ -163,7 +164,7 @@ namespace DI.DAL
             {
                 result = "Failed";
                 throw;
-               
+
             }
             finally
             {
@@ -175,26 +176,26 @@ namespace DI.DAL
             return result;
         }
 
-  
 
-      internal  string InsertUpdateApplicationFormDetail(FormModal Objform)
-      {
-          string result = "";
-          try
-          {
-              con.Open();
-              cmd = new SqlCommand("Proc_InsertUpdateApplicationFormDetail", con);
-              cmd.CommandType = CommandType.StoredProcedure;
-              cmd.Parameters.AddWithValue("@UserId", SqlDbType.BigInt).Value = Objform.UserId;
-              cmd.Parameters.AddWithValue("@ApplicantName", SqlDbType.NVarChar).Value = Objform.ApplicantName;
-              cmd.Parameters.AddWithValue("@ApplicantAddress", SqlDbType.NVarChar).Value = Objform.ApplicantAddress;
-              cmd.Parameters.AddWithValue("@IndrustryName", SqlDbType.NVarChar).Value = Objform.IndrustryName;
-              cmd.Parameters.AddWithValue("@ApplicationFee", SqlDbType.Decimal).Value = Objform.ApplicationFee;
-               cmd.Parameters.AddWithValue("@ApplicationFeeDate", SqlDbType.DateTime).Value = Objform.ApplicationFeeDate;
-              cmd.Parameters.AddWithValue("@ApplicationFeedetails", SqlDbType.NVarChar).Value = Objform.ApplicationFeedetails;
-              cmd.Parameters.AddWithValue("@IsPreRegistered", SqlDbType.Bit).Value = Objform.IsPreRegistered;
-               if (Objform.IsPreRegistered == false)
-               {
+
+        internal string InsertUpdateApplicationFormDetail(FormModal Objform)
+        {
+            string result = "";
+            try
+            {
+                con.Open();
+                cmd = new SqlCommand("Proc_InsertUpdateApplicationFormDetail", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@UserId", SqlDbType.BigInt).Value = Objform.UserId;
+                cmd.Parameters.AddWithValue("@ApplicantName", SqlDbType.NVarChar).Value = Objform.ApplicantName;
+                cmd.Parameters.AddWithValue("@ApplicantAddress", SqlDbType.NVarChar).Value = Objform.ApplicantAddress;
+                cmd.Parameters.AddWithValue("@IndrustryName", SqlDbType.NVarChar).Value = Objform.IndrustryName;
+                cmd.Parameters.AddWithValue("@ApplicationFee", SqlDbType.Decimal).Value = Objform.ApplicationFee;
+                cmd.Parameters.AddWithValue("@ApplicationFeeDate", SqlDbType.DateTime).Value = Objform.ApplicationFeeDate;
+                cmd.Parameters.AddWithValue("@ApplicationFeedetails", SqlDbType.NVarChar).Value = Objform.ApplicationFeedetails;
+                cmd.Parameters.AddWithValue("@IsPreRegistered", SqlDbType.Bit).Value = Objform.IsPreRegistered;
+                if (Objform.IsPreRegistered == false)
+                {
                     cmd.Parameters.AddWithValue("@OldRegistraionNo", SqlDbType.BigInt).Value = null;
                     cmd.Parameters.AddWithValue("@OldRegistrationDate", SqlDbType.DateTime).Value = null;
 
@@ -204,33 +205,63 @@ namespace DI.DAL
                     cmd.Parameters.AddWithValue("@OldRegistraionNo", SqlDbType.BigInt).Value = Objform.OldRegistraionNo;
                     cmd.Parameters.AddWithValue("@OldRegistrationDate", SqlDbType.DateTime).Value = Objform.OldRegistrationDate;
                 }
-             
-              cmd.Parameters.AddWithValue("@ProductName", SqlDbType.NVarChar).Value = Objform.ProductName;
-              cmd.Parameters.AddWithValue("@FiananceDetails", SqlDbType.NVarChar).Value = Objform.FiananceDetails;
-              cmd.Parameters.AddWithValue("@RowMeterialSource", SqlDbType.NVarChar).Value = Objform.RowMeterialSource;
-              cmd.Parameters.AddWithValue("@PracticalProjectReport", SqlDbType.VarChar).Value = Objform.PracticalProjectReport;
-              cmd.Parameters.AddWithValue("@HelpFromForegin", SqlDbType.NVarChar).Value = Objform.HelpFromForegin;
 
-              cmd.Parameters.AddWithValue("@Mode", SqlDbType.VarChar).Value = Objform.Mode;
-              cmd.ExecuteNonQuery();
-              result = "Success";
+                cmd.Parameters.AddWithValue("@ProductName", SqlDbType.NVarChar).Value = Objform.ProductName;
+                cmd.Parameters.AddWithValue("@FiananceDetails", SqlDbType.NVarChar).Value = Objform.FiananceDetails;
+                cmd.Parameters.AddWithValue("@RowMeterialSource", SqlDbType.NVarChar).Value = Objform.RowMeterialSource;
+                cmd.Parameters.AddWithValue("@PracticalProjectReport", SqlDbType.VarChar).Value = Objform.PracticalProjectReport;
+                cmd.Parameters.AddWithValue("@HelpFromForegin", SqlDbType.NVarChar).Value = Objform.HelpFromForegin;
 
-          }
-          catch
-          {
-              result = "Failed";
-              throw;
+                cmd.Parameters.AddWithValue("@Mode", SqlDbType.VarChar).Value = Objform.Mode;
+                cmd.ExecuteNonQuery();
+                result = "Success";
 
-          }
-          finally
-          {
+            }
+            catch
+            {
+                result = "Failed";
+                throw;
 
-              con.Close();
-              con.Dispose();
-          }
+            }
+            finally
+            {
 
-          return result;
-      }
+                con.Close();
+                con.Dispose();
+            }
+
+            return result;
+        }
+
+        public static string GetMACAddress()
+        {
+            NetworkInterface[] nics = NetworkInterface.GetAllNetworkInterfaces();
+            String sMacAddress = string.Empty;
+            foreach (NetworkInterface adapter in nics)
+            {
+                if (sMacAddress == String.Empty)
+                {
+                    IPInterfaceProperties properties = adapter.GetIPProperties();
+                    sMacAddress = adapter.GetPhysicalAddress().ToString();
+                }
+            }
+            return sMacAddress;
+        }
+
+        public static string GetIpAddress()
+        {
+            string ipaddress;
+
+            ipaddress = HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+
+            if (ipaddress == "" || ipaddress == null)
+
+                ipaddress = HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"];
+            return ipaddress;
+        }
+        string IpAddress = GetIpAddress();
+        string MacAddress = GetMACAddress();
+
 
         //internal string Details_Established_industrialDal(IndustrialAreaMasterModal Objform)
         //{
@@ -307,11 +338,11 @@ namespace DI.DAL
                 cmd.Parameters.AddWithValue("TehSilID", m06.TehsilCode);
                 cmd.Parameters.AddWithValue("BlocID", m06.BlockCode);
                 cmd.Parameters.AddWithValue("@VillageID", m06.VillageCode);
-                cmd.Parameters.AddWithValue("PinCode", m06.PinCode==null?"" : m06.PinCode);
-                cmd.Parameters.AddWithValue("@AreaPerSqfeet", m06.DistancePerSqFeet);
-                cmd.Parameters.AddWithValue("@DistancePerSqFeet", m06.DistancePerSqFeet);
-                cmd.Parameters.AddWithValue("PlotNo", m06.PlotNo);
-                cmd.Parameters.AddWithValue("ShadeNo", m06.ShadeNo);
+                cmd.Parameters.AddWithValue("PinCode", m06.PinCode == null ? "" : m06.PinCode);
+                cmd.Parameters.AddWithValue("@AreaPerSqfeet", m06.AreaPerSqfeet);
+                cmd.Parameters.AddWithValue("@RatePerSqFeet", m06.RatePerSqFeet);
+                cmd.Parameters.AddWithValue("PlotNo", m06.PlotNo );
+                cmd.Parameters.AddWithValue("ShadeNo", m06.ShadeNo );
                 cmd.Parameters.AddWithValue("NearestRailwayStationKm", m06.NearestRailwayStationKm);
                 cmd.Parameters.AddWithValue("NearestBusStationKM", m06.NearestBusStationKM);
                 cmd.Parameters.AddWithValue("ISStreet", m06.IsStreet == true ? 'Y' : 'N');
@@ -320,12 +351,12 @@ namespace DI.DAL
                 cmd.Parameters.AddWithValue("IsDrinkingWater", m06.IsDrinkingWater == true ? 'Y' : 'N');
                 cmd.Parameters.AddWithValue("IsRawMaterialsSiding", m06.IsRawMaterialsSiding == true ? 'Y' : 'N');
                 cmd.Parameters.AddWithValue("IsIndustrialPark", m06.IsIndustrialPark == true ? 'Y' : 'N');
-                cmd.Parameters.AddWithValue("CUserID", "");
-                cmd.Parameters.AddWithValue("@CUserIP", "");
-                cmd.Parameters.AddWithValue("@CMac", "");
-                cmd.Parameters.AddWithValue("@UMac", "");
-                cmd.Parameters.AddWithValue("@UUserID", "");
-                cmd.Parameters.AddWithValue("@UUserIP", "");
+                cmd.Parameters.AddWithValue("CUserID", @UserSession.LoggedInUser.UserName);
+                cmd.Parameters.AddWithValue("@CUserIP", this.IpAddress);
+                cmd.Parameters.AddWithValue("@CMac", this.MacAddress);
+                cmd.Parameters.AddWithValue("@UMac", this.MacAddress);
+                cmd.Parameters.AddWithValue("@UUserID", @UserSession.LoggedInUser.UserName);
+                cmd.Parameters.AddWithValue("@UUserIP", this.IpAddress);
                 cmd.Parameters.AddWithValue("IsDel", IsDel);//sptype
                 cmd.Parameters.AddWithValue("industrytype_code_diff", m06.industrytype_code_diff);
                 cmd.Parameters.AddWithValue("Msg", "");
@@ -344,6 +375,131 @@ namespace DI.DAL
             con.Close();
             return message;
         }
+
+        public string InsertUpdateEstateAllotee(IndustrialEstateAllotee IEA, List<IndustrialEstateAlloteePlot> L01, List<IndustrialEstateAlloteeShed> L02, bool @Sptype)
+        {
+            string message = "";
+            int allotee_code = -1;
+            con.Open();
+            new DataTable();
+            SqlTransaction transaction = con.BeginTransaction();  // this.cn.BeginTransaction();
+            try
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = con;
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "[Proc_InsertUpdateEstateAllotee]";
+                cmd.CommandTimeout = 3600;
+                cmd.Parameters.AddWithValue("allotee_code", IEA.allotee_code);
+                cmd.Parameters["allotee_code"].Direction = ParameterDirection.InputOutput;
+                cmd.Parameters["allotee_code"].Size = 256;
+                cmd.Parameters.AddWithValue("allotee_name", IEA.@allotee_name);
+                cmd.Parameters.AddWithValue("company_name", IEA.@company_name);
+                cmd.Parameters.AddWithValue("panno", IEA.@panno);
+                cmd.Parameters.AddWithValue("cinno", IEA.@cinno);
+                cmd.Parameters.AddWithValue("address", IEA.@address);
+                cmd.Parameters.AddWithValue("district_code_census", IEA.@district_code_census);
+                cmd.Parameters.AddWithValue("tehsil_code_census", IEA.@tehsil_code_census);
+                cmd.Parameters.AddWithValue("block_code", IEA.@block_code);
+                cmd.Parameters.AddWithValue("village_code", IEA.@village_code);
+                cmd.Parameters.AddWithValue("mobile", IEA.@mobile);
+                cmd.Parameters.AddWithValue("email", IEA.@email);
+                cmd.Parameters.AddWithValue("industrytype_code_diff", IEA.industrytype_code_diff);
+                cmd.Parameters.AddWithValue("companytype_code", IEA.@companytype_code);
+                cmd.Parameters.AddWithValue("estimated_cost", IEA.@estimated_cost);
+                cmd.Parameters.AddWithValue("projected_employment", IEA.@projected_employment);
+                cmd.Parameters.AddWithValue("estimate_time", IEA.@estimate_time);
+                cmd.Parameters.AddWithValue("related_work_experience", IEA.@related_work_experience);
+                cmd.Parameters.AddWithValue("covered_area", IEA.@covered_area);
+                cmd.Parameters.AddWithValue("uncovered_area", IEA.@uncovered_area);
+                cmd.Parameters.AddWithValue("land_investment", IEA.@land_investment);
+                cmd.Parameters.AddWithValue("other_investment", IEA.@other_investment);
+                cmd.Parameters.AddWithValue("building_investment", IEA.@building_investment);
+                cmd.Parameters.AddWithValue("equipment_investment", IEA.@equipment_investment);
+                cmd.Parameters.AddWithValue("property_cost", IEA.property_cost);
+                cmd.Parameters.AddWithValue("is_produce_smoke", IEA.is_produce_smoke);
+                cmd.Parameters.AddWithValue("is_electricity", IEA.is_electricity);
+                cmd.Parameters.AddWithValue("is_telephone", IEA.is_telephone);
+                cmd.Parameters.AddWithValue("grossprofit", IEA.grossprofit);
+                cmd.Parameters.AddWithValue("c_user_id", @UserSession.LoggedInUser.UserName);
+                cmd.Parameters.AddWithValue("c_user_ip", this.IpAddress);
+                cmd.Parameters.AddWithValue("c_mac", this.MacAddress);
+                cmd.Parameters.AddWithValue("u_user_id", @UserSession.LoggedInUser.UserName);
+                cmd.Parameters.AddWithValue("u_user_ip", this.IpAddress);
+                cmd.Parameters.AddWithValue("u_mac", this.MacAddress);
+                cmd.Parameters.AddWithValue("Sptype", @Sptype);
+                cmd.Parameters.AddWithValue("Msg", "");
+                cmd.Parameters["Msg"].Size = 256;
+                cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
+                cmd.Transaction = transaction;
+                cmd.ExecuteNonQuery();
+                allotee_code = int.Parse(cmd.Parameters["allotee_code"].Value.ToString());
+                message = cmd.Parameters["Msg"].Value.ToString();
+
+                if (allotee_code!=-1)
+                {
+                    if (L01!=null)
+                    {
+                        if (L01.Count > 0)
+                        {
+                            for (int i = 0; i < L01.Count; i++)
+                            {
+                                cmd = new SqlCommand();
+                                cmd.Connection = con;
+                                cmd.CommandType = CommandType.StoredProcedure;
+                                cmd.CommandText = "[Proc_InsertEstateAlloteePlot]";
+                                cmd.CommandTimeout = 3600;
+                                cmd.Parameters.AddWithValue("allotee_code", allotee_code);
+                                cmd.Parameters.AddWithValue("plot_code", L01[i].@plot_code);
+                                cmd.Parameters.AddWithValue("@industrial_estate_code", L01[i].@industrial_estate_code);
+                                cmd.Parameters.AddWithValue("@allotmentno", L01[i].allotmentno);
+                                cmd.Parameters.AddWithValue("IsFirst", i == 0 ? true : false);
+                                cmd.Parameters.AddWithValue("Msg", "");
+                                cmd.Parameters["Msg"].Size = 256;
+                                cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
+                                cmd.Transaction = transaction;
+                                cmd.ExecuteNonQuery();
+                            }
+
+
+                        }
+                    }
+                    if (L02 != null)
+                    {
+                        if (L02.Count > 0)
+                        {
+                            for (int j = 0; j < L02.Count; j++)
+                            {
+                                cmd = new SqlCommand();
+                                cmd.Connection = con;
+                                cmd.CommandType = CommandType.StoredProcedure;
+                                cmd.CommandText = "[Proc_InsertEstateAlloteeShed]";
+                                cmd.CommandTimeout = 3600;
+                                cmd.Parameters.AddWithValue("allotee_code", allotee_code);
+                                cmd.Parameters.AddWithValue("shed_code", L02[j].shed_code);
+                                cmd.Parameters.AddWithValue("@industrial_estate_code", L02[j].@industrial_estate_code);
+                                cmd.Parameters.AddWithValue("@allotmentno", L02[j].@allotmentno);
+                                cmd.Parameters.AddWithValue("IsFirst", j == 0 ? true : false);
+                                cmd.Parameters.AddWithValue("Msg", "");
+                                cmd.Parameters["Msg"].Size = 256;
+                                cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
+                                cmd.Transaction = transaction;
+                                cmd.ExecuteNonQuery();
+                            }
+                        }
+                    }
+                }
+                transaction.Commit();
+            }
+            catch (Exception ex1)
+            {
+                transaction.Rollback();
+                message = ex1.Message;
+            }
+            con.Close();
+            return message;
+        }
+
         public string InsertUpdatePlot(AddPlot AP, bool IsDel)
         {
             string message = "";
@@ -429,7 +585,7 @@ namespace DI.DAL
                 cmd.Parameters.AddWithValue("@ShedName", @ShedName);
                 cmd.Parameters.AddWithValue("FromDate", FromDate);
                 cmd.Parameters.AddWithValue("ToDate", ToDate);
-                cmd.Parameters.AddWithValue("IsShed_Disputed", IsShed_Disputed );
+                cmd.Parameters.AddWithValue("IsShed_Disputed", IsShed_Disputed);
                 cmd.Parameters.AddWithValue("IsShed_Assigned", IsShed_Assigned);
                 SqlDataAdapter da = new SqlDataAdapter();
                 da.SelectCommand = cmd;
@@ -453,7 +609,7 @@ namespace DI.DAL
                 cmd.Connection = con;
                 cmd.CommandText = "[Proc_GetDashBord]";
                 cmd.CommandType = CommandType.StoredProcedure;
-              
+
                 SqlDataAdapter da = new SqlDataAdapter();
                 da.SelectCommand = cmd;
                 da.Fill(dt);
@@ -464,6 +620,29 @@ namespace DI.DAL
             }
             con.Close();
             return dt;
+        }
+
+        public DataSet GetEstateeAllotee(long allotee_code)
+        {
+            DataSet ds = new DataSet();
+            con.Open();
+            try
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = con;
+                cmd.CommandText = "Proc_GetEstateeAllotee";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@allotee_code", allotee_code);
+                SqlDataAdapter da = new SqlDataAdapter();
+                da.SelectCommand = cmd;
+                da.Fill(ds);
+            }
+            catch (Exception e)
+            {
+                ds = null;
+            }
+            con.Close();
+            return ds;
         }
 
         public string InsertUpdateShed(AddShed AS, bool IsDel)
@@ -604,6 +783,426 @@ namespace DI.DAL
         }
 
         #endregion
+        #region Form
+        internal string InsertUpdateMYSY(AddMYSY Objform)
+        {
+            string result = "";
+            try
+            {
+                con.Open();
+                cmd = new SqlCommand("Proc_InsertUpdate_Swarozgar_yojana", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@district_code_census", SqlDbType.Int).Value = Objform.DistCode;
+                cmd.Parameters.AddWithValue("@tehsil_code_census", SqlDbType.Int).Value = Objform.TehsilCode;
+                cmd.Parameters.AddWithValue("@block_code", SqlDbType.Int).Value = Objform.BlockCode;
+                cmd.Parameters.AddWithValue("@village_code", SqlDbType.Int).Value = Objform.VillCode;
+                cmd.Parameters.AddWithValue("@applicant_name", SqlDbType.NVarChar).Value = Objform.applicant_name;
+                cmd.Parameters.AddWithValue("@dob", SqlDbType.DateTime).Value = Objform.dob;
+                cmd.Parameters.AddWithValue("@adhar_no", SqlDbType.VarChar).Value = Objform.adhar_no;
+                cmd.Parameters.AddWithValue("@father_name", SqlDbType.NVarChar).Value = Objform.father_name;
+                cmd.Parameters.AddWithValue("@current_address", SqlDbType.NVarChar).Value = Objform.current_address;
+                cmd.Parameters.AddWithValue("@bank_office_address", SqlDbType.NVarChar).Value = Objform.bank_office_address;
+                cmd.Parameters.AddWithValue("@permanent_address", SqlDbType.NVarChar).Value = Objform.permanent_address;
+                cmd.Parameters.AddWithValue("@mobile_no", SqlDbType.VarChar).Value = Objform.mobile_no;
+                cmd.Parameters.AddWithValue("@email", SqlDbType.VarChar).Value = Objform.email;
+                cmd.Parameters.AddWithValue("@pansion_card_no", SqlDbType.VarChar).Value = Objform.pansion_card_No;
+                cmd.Parameters.AddWithValue("@family_income", SqlDbType.Decimal).Value = Objform.family_income;
+                cmd.Parameters.AddWithValue("@project_name", SqlDbType.NVarChar).Value = Objform.project_name;
+                cmd.Parameters.AddWithValue("@project_cost", SqlDbType.Decimal).Value = Objform.project_cost;
+                cmd.Parameters.AddWithValue("@machinery_cost", SqlDbType.Decimal).Value = Objform.machinery_cost;
+                cmd.Parameters.AddWithValue("@working_capital", SqlDbType.Decimal).Value = Objform.working_capital;
 
+                cmd.Parameters.AddWithValue("@bank_name", SqlDbType.NVarChar).Value = Objform.bank_name;
+                cmd.Parameters.AddWithValue("@self_share", SqlDbType.NVarChar).Value = Objform.self_share;
+                cmd.Parameters.AddWithValue("@deposit_amt", SqlDbType.Decimal).Value = Objform.deposit_amt;
+                //cmd.Parameters.AddWithValue("@Depositbankbranch", SqlDbType.NVarChar).Value = Objform.branch_name;
+                cmd.Parameters.AddWithValue("@branch_name", SqlDbType.NVarChar).Value = Objform.branch_name;
+                cmd.Parameters.AddWithValue("@bank_account_no", SqlDbType.NVarChar).Value = Objform.bank_account_no;
+                cmd.Parameters.AddWithValue("@ifsc_code", SqlDbType.NVarChar).Value = Objform.@ifsc_code;
+                cmd.Parameters.AddWithValue("@c_user_id", SqlDbType.VarChar).Value = Objform.c_user_id;
+                cmd.Parameters.AddWithValue("@c_user_ip", SqlDbType.VarChar).Value = Objform.c_user_ip;
+                cmd.Parameters.AddWithValue("@c_mac", SqlDbType.NVarChar).Value = Objform.c_mac;
+
+                //cmd.Parameters.AddWithValue("@FamilyPersonName", SqlDbType.NVarChar).Value = Objform.FamilyPersonName;
+                //cmd.Parameters.AddWithValue("@FamilyPerson_Age", SqlDbType.Int).Value = Objform.FamilyPerson_Age;
+                //cmd.Parameters.AddWithValue("@FamilyPerson_work", SqlDbType.Int).Value = Objform.FamilyPerson_work;
+                //cmd.Parameters.AddWithValue("@FamilyPerson_Father_Name", SqlDbType.NVarChar).Value = Objform.FamilyPerson_Father_Name;
+                //cmd.Parameters.AddWithValue("@Mother_Name", SqlDbType.NVarChar).Value = Objform.Mother_Name;
+                //cmd.Parameters.AddWithValue("@Mother_Age", SqlDbType.Int).Value = Objform.Mother_Age;
+                //cmd.Parameters.AddWithValue("@Mother_work", SqlDbType.NVarChar).Value = Objform.Mother_work;
+                //cmd.Parameters.AddWithValue("@Family_brother_sister", SqlDbType.NVarChar).Value = Objform.Family_brother_sister;
+                //cmd.Parameters.AddWithValue("@Family_brother_sister_Age", SqlDbType.Int).Value = Objform.Family_brother_sister_Age;
+                //cmd.Parameters.AddWithValue("@Family_brother_sister_Work", SqlDbType.NVarChar).Value = Objform.Family_brother_sister_Work;
+                //cmd.Parameters.AddWithValue("@children_Name", SqlDbType.NVarChar).Value = Objform.children_Name;
+                //cmd.Parameters.AddWithValue("@children_Age", SqlDbType.Int).Value = Objform.children_Age;
+                //cmd.Parameters.AddWithValue("@children_Work", SqlDbType.Int).Value = Objform.children_Work;
+
+
+                cmd.Parameters.AddWithValue("@Mode", SqlDbType.VarChar).Value = Objform.Mode;
+                cmd.ExecuteNonQuery();
+                result = "Success";
+
+            }
+            catch
+            {
+                result = "Failed";
+                throw;
+
+            }
+            finally
+            {
+
+                con.Close();
+                con.Dispose();
+            }
+
+            return result;
+        }
+
+
+        public DataTable GetMYSY(AddMYSY Objform)
+        {
+            DataTable dt = new DataTable();
+            con.Open();
+            try
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = con;
+                cmd.CommandText = "[Proc_InsertUpdate_Swarozgar_yojana]";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@mode", "select");
+
+                SqlDataAdapter da = new SqlDataAdapter();
+                da.SelectCommand = cmd;
+                da.Fill(dt);
+            }
+            catch (Exception e)
+            {
+                dt = null;
+            }
+            con.Close();
+            return dt;
+        }
+
+        public string InsertYojona_Master(Yojona_Master Objform)
+        {
+            string result = "";
+            try
+            {
+                con.Open();
+                cmd = new SqlCommand("Proc_Yojana_master", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@yojana_code", SqlDbType.Int).Value = Objform.yojana_code;
+                cmd.Parameters.AddWithValue("@yojana_name", SqlDbType.VarChar).Value = Objform.yojana_name;
+                cmd.Parameters.AddWithValue("@yojana_name_u", SqlDbType.NVarChar).Value = Objform.yojana_name_u;
+                cmd.Parameters.AddWithValue("@status", SqlDbType.Char).Value = Objform.status;
+                cmd.Parameters.AddWithValue("c_user_id", @UserSession.LoggedInUser.UserName);
+                cmd.Parameters.AddWithValue("c_user_ip", this.IpAddress);
+                cmd.Parameters.AddWithValue("c_mac", this.MacAddress);
+                cmd.Parameters.AddWithValue("u_user_id", @UserSession.LoggedInUser.UserName);
+                cmd.Parameters.AddWithValue("u_user_ip", this.IpAddress);
+                cmd.Parameters.AddWithValue("u_mac", this.MacAddress);
+                cmd.Parameters.AddWithValue("@Mode", SqlDbType.VarChar).Value = Objform.Mode;
+                cmd.ExecuteNonQuery();
+                result = "Success";
+
+            }
+            catch
+            {
+                result = "Failed";
+                throw;
+
+            }
+            finally
+            {
+
+                con.Close();
+                con.Dispose();
+            }
+
+            return result;
+        }
+
+
+        public DataTable GetYojona_Master(Yojona_Master Objform)
+        {
+            DataTable dt = new DataTable();
+            con.Open();
+            try
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = con;
+                cmd.CommandText = "[Proc_Yojana_master]";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@mode", "select");
+
+                SqlDataAdapter da = new SqlDataAdapter();
+                da.SelectCommand = cmd;
+                da.Fill(dt);
+            }
+            catch (Exception e)
+            {
+                dt = null;
+            }
+            con.Close();
+            return dt;
+        }
+        #endregion
+
+        #region Applicant
+        public string InsertUpdateCMYSS_Applicant(CMYSS_Applicant Objform, List<CMYSS_Applicant_Doc> objdoc, List<CMYSS_Applicant_Family> objFamily, bool @sptype)
+        {
+            string message = "";
+            long applicant_code = -1;
+            string  UserName = "";
+            con.Open();
+            new DataTable();
+            SqlTransaction transaction = con.BeginTransaction();  // this.cn.BeginTransaction();
+            try
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = con;
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "[Proc_InsertUpdateApplicant]";
+                cmd.CommandTimeout = 3600;
+                cmd.Parameters.AddWithValue("applicant_code", Objform.@applicant_code);
+                cmd.Parameters["applicant_code"].Direction = ParameterDirection.InputOutput;
+                cmd.Parameters["applicant_code"].Size = 256;
+                cmd.Parameters.AddWithValue("@yojana_code", Objform.@yojana_code);
+                cmd.Parameters.AddWithValue("@applicant_name", Objform.@applicant_name);
+                cmd.Parameters.AddWithValue("@adhar_no", Objform.@adhar_no);
+                cmd.Parameters.AddWithValue("@dob", Objform.@dob);
+                cmd.Parameters.AddWithValue("@father_name", Objform.@Husband_father_name);
+                cmd.Parameters.AddWithValue("@current_address", Objform.@current_address);
+                cmd.Parameters.AddWithValue("@proposed_office_address", Objform.proposed_office_address == null ? "" : Objform.proposed_office_address);
+                cmd.Parameters.AddWithValue("@permanent_address", Objform.@permanent_address == null ? "" :Objform.permanent_address);
+                cmd.Parameters.AddWithValue("@mobile_no", Objform.@mobile_no );
+                cmd.Parameters.AddWithValue("@email", Objform.@email);
+                cmd.Parameters.AddWithValue("@pansion_card_no", Objform.pansion_card_No == null ? "" :Objform.pansion_card_No);
+                cmd.Parameters.AddWithValue("@project_name", Objform.@project_name == null ? "" :Objform.project_name);
+                cmd.Parameters.AddWithValue("@family_income", Objform.@family_income);
+                cmd.Parameters.AddWithValue("@project_cost", Objform.@project_cost);
+                cmd.Parameters.AddWithValue("@machinery_cost", Objform.@machinery_cost);
+                cmd.Parameters.AddWithValue("@working_capital", Objform.@working_capital);
+                cmd.Parameters.AddWithValue("@bank_name", Objform.@bank_name == null ? "" : Objform.bank_name);
+                cmd.Parameters.AddWithValue("@self_share", Objform.@self_share);
+                cmd.Parameters.AddWithValue("@deposit_amt", Objform.@deposit_amt);
+                cmd.Parameters.AddWithValue("@branch_name", Objform.@branch_name == null ? "" :Objform.branch_name);
+                cmd.Parameters.AddWithValue("@bank_account_no", Objform.@bank_account_no == null ? "" :Objform.bank_account_no);
+                cmd.Parameters.AddWithValue("@ifsc_code", Objform.@ifsc_code == null ? "" :Objform.ifsc_code);
+                cmd.Parameters.AddWithValue("@district_code_census", Objform.@DistCode);
+                cmd.Parameters.AddWithValue("@tehsil_code_census", Objform.@TehsilCode);
+                cmd.Parameters.AddWithValue("@block_code", Objform.@BlockCode);
+                cmd.Parameters.AddWithValue("@village_code", Objform.@VillCode);
+                cmd.Parameters.AddWithValue("UserName", "");
+                cmd.Parameters["UserName"].Direction = ParameterDirection.InputOutput;
+                cmd.Parameters["UserName"].Size = 256;
+                cmd.Parameters.AddWithValue("@Password", Objform.@Password);
+                cmd.Parameters.AddWithValue("c_user_id", "");
+                cmd.Parameters.AddWithValue("c_user_ip", this.IpAddress);
+                cmd.Parameters.AddWithValue("c_mac", this.MacAddress);
+                cmd.Parameters.AddWithValue("u_user_id", "");
+                cmd.Parameters.AddWithValue("u_user_ip", this.IpAddress);
+                cmd.Parameters.AddWithValue("u_mac", this.MacAddress);
+                cmd.Parameters.AddWithValue("Sptype", @sptype);
+                cmd.Parameters.AddWithValue("@Steps", Objform.steps);
+                cmd.Parameters.AddWithValue("Msg", "");
+                cmd.Parameters["Msg"].Size = 256;
+                cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
+                cmd.Transaction = transaction;
+                cmd.ExecuteNonQuery();
+                applicant_code = int.Parse(cmd.Parameters["applicant_code"].Value.ToString());
+                message = cmd.Parameters["Msg"].Value.ToString();
+                if (message.Contains("Save"))
+                {
+                    message = message + "/" + cmd.Parameters["UserName"].Value.ToString();
+                }
+
+                if (applicant_code != -1)
+                {
+                    if (objFamily != null)
+                    {
+                        if (objFamily.Count > 0)
+                        {
+                            for (int i = 0; i < objFamily.Count; i++)
+                            {
+                                cmd = new SqlCommand();
+                                cmd.Connection = con;
+                                cmd.CommandType = CommandType.StoredProcedure;
+                                cmd.CommandText = "[Proc_InsertApplicantFamilyDetails]";
+                                cmd.CommandTimeout = 3600;
+                                cmd.Parameters.AddWithValue("@applicant_code", applicant_code);
+                                cmd.Parameters.AddWithValue("@relation_code", objFamily[i].@relation_code);
+                                cmd.Parameters.AddWithValue("@person_name", objFamily[i].@person_name);
+                                cmd.Parameters.AddWithValue("@age", objFamily[i].@age);
+                                cmd.Parameters.AddWithValue("@workingfield", objFamily[i].@workingfield);
+                                cmd.Parameters.AddWithValue("IsFirst", i == 0 ? true : false);
+                                cmd.Parameters.AddWithValue("Msg", "");
+                                cmd.Parameters["Msg"].Size = 256;
+                                cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
+                                cmd.Transaction = transaction;
+                                cmd.ExecuteNonQuery();
+                            }
+                        }
+                    }
+                    if (objdoc != null)
+                    {
+                        if (objdoc.Count > 0)
+                        {
+                            for (int j = 0; j < objdoc.Count; j++)
+                            {
+                                cmd = new SqlCommand();
+                                cmd.Connection = con;
+                                cmd.CommandType = CommandType.StoredProcedure;
+                                cmd.CommandText = "[Proc_InsertApplicantDoc]";
+                                cmd.CommandTimeout = 3600;
+                                cmd.Parameters.AddWithValue("applicant_code", applicant_code);
+                                cmd.Parameters.AddWithValue("doc_path", objdoc[j].doc_path);
+                                cmd.Parameters.AddWithValue("@doc_type", objdoc[j].doc_type);
+                                
+                                cmd.Parameters.AddWithValue("IsFirst", j == 0 ? true : false);
+                                cmd.Parameters.AddWithValue("Msg", "");
+                                cmd.Parameters["Msg"].Size = 256;
+                                cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
+                                cmd.Transaction = transaction;
+                                cmd.ExecuteNonQuery();
+                            }
+                        }
+                    }
+                }
+                transaction.Commit();
+            }
+            catch (Exception ex1)
+            {
+                transaction.Rollback();
+                message = ex1.Message;
+            }
+            con.Close();
+            return message;
+        }
+
+        public DataSet GetApplicantinfo(long applicant_code, short yojana_code, string applicant_user_name)
+        {
+            DataSet ds = new DataSet();
+            con.Open();
+            try
+            {
+                SqlCommand cmd = new SqlCommand();
+        cmd.Connection = con;
+                cmd.CommandText = "[Proc_GetPlot]";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("applicant_code ", applicant_code);
+                cmd.Parameters.AddWithValue("@yojana_code", yojana_code);
+                cmd.Parameters.AddWithValue("@applicant_user_name", applicant_user_name);
+                SqlDataAdapter da = new SqlDataAdapter();
+        da.SelectCommand = cmd;
+                da.Fill(ds);
+            }
+            catch (Exception e)
+            {
+                ds = null;
+            }
+con.Close();
+            return ds;
+        }
+
+        #endregion
+        #region Master
+        internal string InsertUpdate_doc_type(Doc_type DI)
+        {
+            DataTable dt = new DataTable();
+            string result = "";
+            try
+            {
+                con.Open();
+                cmd = new SqlCommand("Proc_InsertUpdate_doc_type", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@doc_code_census", DI.doc_code_census);
+                cmd.Parameters.AddWithValue("@doc_type", DI.Docment);
+                cmd.Parameters.AddWithValue("@doc_code", DI.doc_code);
+                cmd.Parameters.AddWithValue("@status", "A");
+                cmd.Parameters.AddWithValue("@u_doc_type", DI.u_doc_type);
+                cmd.Parameters.AddWithValue("@desciption", DI.desciption);
+                cmd.Parameters.AddWithValue("@u_description", DI.u_description);
+                cmd.Parameters.AddWithValue("@c_user_id", @UserSession.LoggedInUser.UserName);
+                cmd.Parameters.AddWithValue("@c_user_ip", this.IpAddress);
+                cmd.Parameters.AddWithValue("@c_mac", this.MacAddress);
+                cmd.Parameters.AddWithValue("@u_user_id", @UserSession.LoggedInUser.UserName);
+                cmd.Parameters.AddWithValue("@u_user_ip", this.IpAddress);
+                cmd.Parameters.AddWithValue("@u_mac", this.MacAddress);
+                cmd.Parameters.AddWithValue("@Mode", SqlDbType.VarChar).Value = DI.Mode;
+                SqlDataAdapter dap = new SqlDataAdapter(cmd);
+                dap.Fill(dt);
+                if (dt.Rows.Count > 0)
+                {
+                    result = dt.Rows[0][0].ToString();
+                }
+                else
+                {
+                    result = "Success";
+                }
+
+            }
+            catch
+            {
+                result = "Failed";
+                throw;
+
+            }
+            finally
+            {
+                con.Close();
+                con.Dispose();
+            }
+            return result;
+        }
+
+        public DataTable Getdoc_type(Doc_type Objform)
+        {
+            DataTable dt = new DataTable();
+            con.Open();
+            try
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = con;
+                cmd.CommandText = "[Proc_InsertUpdate_doc_type]";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@mode", "select");
+
+                SqlDataAdapter da = new SqlDataAdapter();
+                da.SelectCommand = cmd;
+                da.Fill(dt);
+            }
+            catch (Exception e)
+            {
+                dt = null;
+            }
+            con.Close();
+            return dt;
+        }
+        #endregion
+
+        public DataSet GetPramarPatar(long applicant_code)
+        {
+            DataSet ds = new DataSet();
+            con.Open();
+            try
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = con;
+                cmd.CommandText = "Proc_Get_PramarPatar";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@applicant_code", applicant_code);
+                SqlDataAdapter da = new SqlDataAdapter();
+                da.SelectCommand = cmd;
+                da.Fill(ds);
+            }
+            catch (Exception e)
+            {
+                ds = null;
+            }
+            con.Close();
+            return ds;
+        }
     }
 }

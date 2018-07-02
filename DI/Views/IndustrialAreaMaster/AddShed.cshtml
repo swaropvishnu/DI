@@ -3,6 +3,11 @@
 @{
     ViewBag.Title = "AddShed";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    if (UserSession.LoggedInUserLevelId == null || UserSession.LoggedInUserLevelId != "6")
+    {
+        Response.Redirect("../Login/login");
+        return;
+    }
 }
 @using System.Data;
 @using DI.Models;
@@ -11,258 +16,245 @@
 
 @{
     //var grid = new WebGrid(Model, rowsPerPage: 20);
-     DataTable dt = new CommonDA().GetShed(-1, -1, "", "", CommonBL.Setdate("01/01/1990"), DateTime.Now, "", "");
+    DataTable dt = new CommonDA().GetShed(-1, -1, "", "", CommonBL.Setdate("01/01/1990"), DateTime.Now, "", "");
 }
 
 
+@using (Html.BeginForm("AddShed", "IndustrialAreaMaster", FormMethod.Post, new { @class = "", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="portlet light ">
+        <div class="portlet-title">
+            <div class="caption font-green">
+                <i class="icon-pin font-green"></i>
+                <span class="caption-subject bold uppercase"> जनपद में स्थापित औद्योगिक आस्थानो के शेड </span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
 
 
-<div class="portlet-title">
-    <div class="caption font-green">
-        <i class="icon-pin font-green"></i>
-        <span class="caption-subject bold uppercase"> जनपद में स्थापित औद्योगिक आस्थानो के शेडों का विवरण </span>
-    </div>
+                <div class="portlet light bordered">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="icon-equalizer font-red-sunglo"></i>
+                            <span class="caption-subject font-red-sunglo bold uppercase">शेडों की प्रविष्टि एवं संशोधन </span>
+                            <span class="caption-helper">... </span>
+                        </div>
+                        @*<div class="tools">
+                                <a href="" class="collapse" data-original-title="" title=""> </a>
+                                <a href="#portlet-config" data-toggle="modal" class="config" data-original-title="" title=""> </a>
+                                <a href="" class="reload" data-original-title="" title=""> </a>
+                                <a href="" class="remove" data-original-title="" title=""> </a>
+                            </div>*@
+                    </div>
+                    <div class="portlet-body form">
+                        <!-- BEGIN FORM-->
+                        <form action="#" class="form-horizontal">
+                            <div class="form-body" style="padding: 0px !important">
+                                @*<h3 class="form-section">Info</h3>*@
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-12">जनपद</label>
+                                            <div class="col-md-12 select2-container--bootstrap">
+                                                @Html.DropDownListFor(m => m.DistrictNames, Model.DistrictNames, new { @id = "ddlDistrict", @class = "form-control  select2" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-12 " style="text-align:left" id="lblEstate">आस्थान का नाम <span class="Mandatory">*</span></label>
+                                            <div class="col-md-12">
+                                                @*<input type="text" class="form-control" placeholder="आस्थान का नाम">*@
+                                                @*@Html.TextBoxFor(m => m.house_Name, new { @class = "form-control", @id = "txthouse_Name", @placeholder = "आस्थान का नाम" })*@
+                                                @*@Html.DropDownListFor(m => m.IndustrialArea, Model.IndustrialArea, "--Select--", new { @id = "ddlIndustrialArea", @class = "form-control" })*@
+                                                @Html.DropDownListFor(m => m.IndustrialEstate, new List<SelectListItem> { new SelectListItem { Text = "--चयन करे--", Value = "-1" } }, new { @id = "ddlIndustrialArea", @class = "form-control" })
+                                                <input id="hfShedCode" type="hidden" value="-1" />
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/span-->
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-12" style="text-align:left" id="lblshed">शेड क्रमांक <span class="Mandatory">*</span></label>
+                                            <div class="col-md-12">
+                                                @*<input type="text" class="form-control" placeholder="शेड क्रमांक">*@
+                                                @Html.TextBoxFor(m => m.ShedSerial, new { @class = "form-control", @id = "txtshed_SNo", @placeholder = "शेड क्रमांक" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/span-->
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-12" style="text-align:left" id="lblshedname"> शेड का नाम <span class="Mandatory">*</span></label>
+                                            <div class="col-md-12">
+                                                @*<input type="text" class="form-control" placeholder="शेड का नाम">*@
+                                                @Html.TextBoxFor(m => m.ShedName, new { @class = "form-control", @id = "txtshed_Name", @placeholder = "शेड का नाम" })
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/span-->
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-12" style="text-align:left" id="lblshedarea"> क्षेत्रफल <span class="Mandatory">*</span> </label>
+                                            <div class="col-md-12">
+                                                @*<input type="text" class="form-control" placeholder="क्षेत्रफल">*@
+                                                @Html.TextBoxFor(m => m.ShedArea, new { @class = "form-control", @id = "txtArea", @placeholder = "क्षेत्रफल" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/span-->
+                                </div>
+                                <!--/row-->
+
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-12 " style="text-align:left">क्या शेड आवंटित है ? </label>
+                                            <div class="col-md-12">
+                                                @*<input type="checkbox" class="make-switch" data-on-text="हाँ" data-off-text="नहीं">*@
+                                                @Html.CheckBoxFor(m => m.IsShed_Assigned, new { @name = "Alloted_shadeCheckBox", @id = "ShadeAllotedYes", @class = "make-switch" })
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/span-->
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-12 " style="text-align:left">क्या शेड विवादित है ? </label>
+                                            <div class="col-md-12">
+                                                @*<input type="checkbox" class="make-switch" data-on-text="हाँ" data-off-text="नहीं">*@
+                                                @Html.CheckBoxFor(m => m.IsShed_Disputed, new { @name = "ShadedisputedCheckBox", @id = "ShadedisputedYes", @class = "make-switch" })
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/span-->
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-12 " style="text-align:left">शेड का विवरण </label>
+                                            <div class="col-md-12">
+                                                @*<input type="text" class="form-control" placeholder="शेड का विवरण">*@
+                                                @Html.TextBoxFor(m => m.Shed_Desc, new { @class = "form-control", @id = "txtShedDetail", @placeholder = "शेड का विवरण" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/span-->
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-12 " style="text-align:left"> आवंटी का नाम </label>
+                                            <div class="col-md-12">
+                                                @*<input type="text" class="form-control" placeholder="आवंटी का नाम">*@
+                                                @Html.TextBoxFor(m => m.Shed_Allottee_Desc, new { @class = "form-control", @id = "txtName_Allottee", @placeholder = "आवंटी का नाम" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/span-->
+                                </div>
+                                <!--/row-->
+
+                            </div>
+                            <div class="form-actions">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            @*<div class="col-md-offset-3 col-md-9">*@
+                                            <div class="col-md-offset-10 col-md-6">
+                                                <button type="button" class="btn green" align="right" onclick="Save(false)" id="btnsave">Submit</button>
+                                                <button type="button" class="btn red" align="right" onclick="res()">Cancel</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6"> </div>
+                                </div>
+                            </div>
+                        </form>
+                        <!-- END FORM-->
+                    </div>
+                </div>
+            </div>
+        </div>
 </div>
-<div class="row">
-    <div class="col-md-12">
 
-
-        <div class="portlet light bordered">
+        <!-- Begin: life time stats -->
+        <div class="portlet light">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="icon-equalizer font-red-sunglo"></i>
-                    <span class="caption-subject font-red-sunglo bold uppercase">औद्योगिक आस्थानों में शेडों की प्रविष्टि  </span>
-                    <span class="caption-helper">... </span>
+                    <i class="fa fa-th-list"></i>शेडों का संशोधन
                 </div>
-                @*<div class="tools">
-                        <a href="" class="collapse" data-original-title="" title=""> </a>
-                        <a href="#portlet-config" data-toggle="modal" class="config" data-original-title="" title=""> </a>
-                        <a href="" class="reload" data-original-title="" title=""> </a>
-                        <a href="" class="remove" data-original-title="" title=""> </a>
-                    </div>*@
+
             </div>
-            <div class="portlet-body form">
-                <!-- BEGIN FORM-->
-                <form action="#" class="form-horizontal">
-                    <div class="form-body" style="padding: 0px !important">
-                        @*<h3 class="form-section">Info</h3>*@
+            <div class="portlet-body">
+                <div class="table-container">
+                    @*<div class="table-actions-wrapper">
+                            <span> </span>
+                            <select class="table-group-action-input form-control input-inline input-small input-sm">
+                                <option value="">Select...</option>
+                                <option value="publish">विवादित </option>
+                                <option value="unpublished">आवंटित </option>
+                                <option value="delete">उपलब्ध </option>
+                            </select>
+                            <button class="btn btn-sm btn-success table-group-action-submit">
+                                <i class="fa fa-check"></i> खोजें
+                            </button>
+                        </div>*@
+                    <table class="table table-striped table-bordered table-hover table-checkable" id="datatable_products">
+                        <thead>
+                            <tr role="row" class="heading">
+                                @*<th width="1%">
+                                        <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                            <input type="checkbox" class="group-checkable" data-set="#sample_2 .checkboxes" />
+                                            <span></span>
+                                        </label>
+                                    </th>*@
+                                <th width="10%"> क्र० सं० </th>
+                                <th width="10%">जनपद </th>
+                                <th width="15%"> आस्थान&nbsp;का नाम </th>
+                                <th width="15%"> शेड&nbsp;का नाम </th>
+                                <th width="10%"> शेड सं० </th>
+                                <th width="10%"> क्षेत्रफल </th>
 
-                        <div class="row">
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label class="control-label col-md-12 " style="text-align:left">आस्थान का नाम </label>
-                                    <div class="col-md-12">
-                                        @*<input type="text" class="form-control" placeholder="आस्थान का नाम">*@
-                                        @*@Html.TextBoxFor(m => m.house_Name, new { @class = "form-control", @id = "txthouse_Name", @placeholder = "आस्थान का नाम" })*@
-                                        @*@Html.DropDownListFor(m => m.IndustrialArea, Model.IndustrialArea, "--Select--", new { @id = "ddlIndustrialArea", @class = "form-control" })*@
-                                        @Html.DropDownListFor(m => m.IndustrialEstate, Model.IndustrialEstate, "Select", new { @id = "ddlIndustrialArea", @class = "form-control" })
-                                        <input id="hfShedCode" type="hidden" value="-1" />
-
-                                    </div>
-                                </div>
-                            </div>
-                            <!--/span-->
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label class="control-label col-md-12" style="text-align:left">शेड क्रमांक</label>
-                                    <div class="col-md-12">
-                                        @*<input type="text" class="form-control" placeholder="शेड क्रमांक">*@
-                                        @Html.TextBoxFor(m => m.ShedSerial, new { @class = "form-control", @id = "txtshed_SNo", @placeholder = "शेड क्रमांक" })
-                                    </div>
-                                </div>
-                            </div>
-                            <!--/span-->
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label class="control-label col-md-12" style="text-align:left"> शेड का नाम </label>
-                                    <div class="col-md-12">
-                                        @*<input type="text" class="form-control" placeholder="शेड का नाम">*@
-                                        @Html.TextBoxFor(m => m.ShedName, new { @class = "form-control", @id = "txtshed_Name", @placeholder = "शेड का नाम" })
-
-                                    </div>
-                                </div>
-                            </div>
-                            <!--/span-->
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label class="control-label col-md-12" style="text-align:left"> क्षेत्रफल  </label>
-                                    <div class="col-md-12">
-                                        @*<input type="text" class="form-control" placeholder="क्षेत्रफल">*@
-                                        @Html.TextBoxFor(m => m.ShedArea, new { @class = "form-control", @id = "txtArea", @placeholder = "क्षेत्रफल" })
-                                    </div>
-                                </div>
-                            </div>
-                            <!--/span-->
-                        </div>
-                        <!--/row-->
-
-                        <div class="row">
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label class="control-label col-md-12 " style="text-align:left">क्या शेड आवंटित है ? </label>
-                                    <div class="col-md-12">
-                                        @*<input type="checkbox" class="make-switch" data-on-text="हाँ" data-off-text="नहीं">*@
-                                        @Html.CheckBoxFor(m => m.IsShed_Assigned, new { @name = "Alloted_shadeCheckBox", @id = "ShadeAllotedYes", @class = "make-switch" })
-
-                                    </div>
-                                </div>
-                            </div>
-                            <!--/span-->
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label class="control-label col-md-12 " style="text-align:left">क्या शेड विवादित है ? </label>
-                                    <div class="col-md-12">
-                                        @*<input type="checkbox" class="make-switch" data-on-text="हाँ" data-off-text="नहीं">*@
-                                        @Html.CheckBoxFor(m => m.IsShed_Disputed, new { @name = "ShadedisputedCheckBox", @id = "ShadedisputedYes", @class = "make-switch" })
-
-                                    </div>
-                                </div>
-                            </div>
-                            <!--/span-->
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label class="control-label col-md-12 " style="text-align:left">शेड का विवरण </label>
-                                    <div class="col-md-12">
-                                        @*<input type="text" class="form-control" placeholder="शेड का विवरण">*@
-                                        @Html.TextBoxFor(m => m.Shed_Desc, new { @class = "form-control", @id = "txtShedDetail", @placeholder = "शेड का विवरण" })
-                                    </div>
-                                </div>
-                            </div>
-                            <!--/span-->
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label class="control-label col-md-12 " style="text-align:left"> आवंटी का नाम </label>
-                                    <div class="col-md-12">
-                                        @*<input type="text" class="form-control" placeholder="आवंटी का नाम">*@
-                                        @Html.TextBoxFor(m => m.Shed_Allottee_Desc, new { @class = "form-control", @id = "txtName_Allottee", @placeholder = "आवंटी का नाम" })
-                                    </div>
-                                </div>
-                            </div>
-                            <!--/span-->
-                        </div>
-                        <!--/row-->
-
-                    </div>
-                    <div class="form-actions">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="row">
-                                    @*<div class="col-md-offset-3 col-md-9">*@
-                                    <div class="col-md-offset-10 col-md-6">
-                                        <button type="button" class="btn green"  align="right" onclick="Save(false)"id="btnsave" >Submit</button>
-                                        <button type="button" class="btn red" align="right" onclick="res()">Cancel</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6"> </div>
-                        </div>
-                    </div>
-                </form>
-                <!-- END FORM-->
-            </div>
-        </div>
-    </div>
-</div>
+                                <th width="10%"> आवंटन स्थिति </th>
+                                <th width="10%"> विवाद स्थिति </th>
+                                <th width="10%"> शेड विवरण </th>
+                                <th width="10%"> आवंटन विवरण </th>
+                                <th width="10%">  </th>
+                                <th width="10%">  </th>
+                            </tr>
 
 
-<!-- Begin: life time stats -->
-<div class="portlet light">
-    <div class="portlet-title">
-        <div class="caption">
-            <i class="fa fa-th-list"></i>शेड विवरण एवं संशोधन
-        </div>
-        <div class="actions">
-            @*<a href="javascript:;" class="btn btn-circle btn-info">
-                    <i class="fa fa-plus"></i>
-                    <span class="hidden-xs"> New Order </span>
-                </a>*@
-            <div class="btn-group">
-                <a class="btn btn-circle btn-default dropdown-toggle" href="javascript:;" data-toggle="dropdown">
-                    <i class="fa fa-share"></i>
-                    <span class="hidden-xs"> Tools </span>
-                    <i class="fa fa-angle-down"></i>
-                </a>
-                <div class="dropdown-menu pull-right">
-                    <li>
-                        <a href="javascript:;"> Export to Excel </a>
-                    </li>
-                    <li>
-                        <a href="javascript:;"> Export to CSV </a>
-                    </li>
-                    <li>
-                        <a href="javascript:;"> Export to XML </a>
-                    </li>
-                    @*<li class="divider"></li>
-                        <a href="javascript:;"> Print Invoices </a>
-                        </li>*@
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="portlet-body">
-        <div class="table-container">
-            @*<div class="table-actions-wrapper">
-                    <span> </span>
-                    <select class="table-group-action-input form-control input-inline input-small input-sm">
-                        <option value="">Select...</option>
-                        <option value="publish">विवादित </option>
-                        <option value="unpublished">आवंटित </option>
-                        <option value="delete">उपलब्ध </option>
-                    </select>
-                    <button class="btn btn-sm btn-success table-group-action-submit">
-                        <i class="fa fa-check"></i> खोजें
-                    </button>
-                </div>*@
-            <table class="table table-striped table-bordered table-hover table-checkable" id="datatable_products">
-                <thead>
-                    <tr role="row" class="heading">
-                        @*<th width="1%">
-                                <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                    <input type="checkbox" class="group-checkable" data-set="#sample_2 .checkboxes" />
-                                    <span></span>
-                                </label>
-                            </th>*@
-                        <th width="10%"> क्र० सं० </th>
-                        <th width="15%"> आस्थान&nbsp;का नाम </th>
-                        <th width="15%"> शेड&nbsp;का नाम </th>
-                        <th width="15%"> शेड सं० </th>
-                        <th width="10%"> क्षेत्रफल </th>
-                       
-                        <th width="15%"> आवंटन स्थिति </th>
-                        <th width="10%"> विवाद स्थिति </th>
-                        <th width="10%"> शेड विवरण </th>
-                        <th width="10%"> आवंटन विवरण </th>
-                        <th width="10%">  </th>
-                        <th width="10%">  </th>
-                    </tr>
-
-
-@if (dt != null)
+                            @if (dt != null)
 {
     if (dt.Rows.Count > 0)
     {
         for (int i = 0; i < dt.Rows.Count; i++)
         {
-            <tr role="row" class="filter">
-                <td>@(i + 1)</td>
-                <td>@dt.Rows[i]["IndustrialEstate"].ToString().Trim()</td>
-                <td>@dt.Rows[i]["ShedName"].ToString().Trim()</td>
-                <td>@dt.Rows[i]["ShedSerial"].ToString().Trim()</td>
-                <td>@dt.Rows[i]["Shed_Area"].ToString().Trim()</td>
-                <td>@dt.Rows[i]["IsShed_Assigned"].ToString().Trim()</td>
-                <td>@dt.Rows[i]["IsShed_Disputed"].ToString().Trim()</td>
-                
-                <td>@dt.Rows[i]["Shed_Desc"].ToString().Trim()</td>
-                <td>@dt.Rows[i]["Shed_Allottee_Desc"].ToString().Trim()</td>
-                @*<td>@dt.Rows[i]["IndustrialArea"].ToString().Trim()</td>*@
-                <td>
-                    <button  type="submit" class="btn green" onclick="edit('@dt.Rows[i]["ShedCode"].ToString().Trim()','@dt.Rows[i]["tbl_IndustrialEstateCode"].ToString().Trim()','@dt.Rows[i]["ShedSerial"].ToString().Trim()','@dt.Rows[i]["ShedName"].ToString().Trim()','@dt.Rows[i]["Shed_Area"].ToString().Trim()','@dt.Rows[i]["IsShed_Assigned"].ToString().Trim()','@dt.Rows[i]["IsShed_Disputed"].ToString().Trim()','@dt.Rows[i]["Shed_Desc"].ToString().Trim()','@dt.Rows[i]["Shed_Allottee_Desc"].ToString().Trim()')">Edit</button>
-                </td>
-                <td>
-                    <button type="button" class="btn red" onclick="del('@dt.Rows[i]["ShedCode"].ToString().Trim()')">Delete</button>
+                    <tr role="row" class="filter">
+                        <td>@(i + 1)</td>
+                        <td>@dt.Rows[i]["DistictName_U"].ToString().Trim()</td>
+                        <td>@dt.Rows[i]["IndustrialEstate"].ToString().Trim()</td>
+                        <td>@dt.Rows[i]["ShedName"].ToString().Trim()</td>
+                        <td>@dt.Rows[i]["ShedSerial"].ToString().Trim()</td>
+                        <td>@dt.Rows[i]["Shed_Area"].ToString().Trim()</td>
+                        <td>@dt.Rows[i]["IsShed_Assigned"].ToString().Trim()</td>
+                        <td>@dt.Rows[i]["IsShed_Disputed"].ToString().Trim()</td>
 
-                </td>
-            </tr>
+                        <td>@dt.Rows[i]["Shed_Desc"].ToString().Trim()</td>
+                        <td>@dt.Rows[i]["Shed_Allottee_Desc"].ToString().Trim()</td>
+                        @*<td>@dt.Rows[i]["IndustrialArea"].ToString().Trim()</td>*@
+                        <td>
+                            <button type="submit" class="btn green" onclick="edit('@dt.Rows[i]["ShedCode"].ToString().Trim()','@dt.Rows[i]["tbl_IndustrialEstateCode"].ToString().Trim()','@dt.Rows[i]["ShedSerial"].ToString().Trim()','@dt.Rows[i]["ShedName"].ToString().Trim()','@dt.Rows[i]["Shed_Area"].ToString().Trim()','@dt.Rows[i]["IsShed_Assigned"].ToString().Trim()','@dt.Rows[i]["IsShed_Disputed"].ToString().Trim()','@dt.Rows[i]["Shed_Desc"].ToString().Trim()','@dt.Rows[i]["Shed_Allottee_Desc"].ToString().Trim()','@dt.Rows[i]["district_code_census"].ToString().Trim()')">Edit</button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn red" onclick="del('@dt.Rows[i]["ShedCode"].ToString().Trim()')">Delete</button>
+
+                        </td>
+                    </tr>
         }
     }
 }
@@ -348,28 +340,58 @@
     </div>
 </div>
 <script type="text/javascript">
+    $(document).ready(function () {
+        $('#ddlDistrict').change(function () {
+
+            //  alert("done");
+            $.ajax({
+                type: "post",
+                url: "/IndustrialAreaMaster/GetEstate",
+                data: { District: $('#ddlDistrict').val() },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    $('#ddlIndustrialArea').empty();
+                    var district = "";
+                    //var district = '';
+                    for (var i = 0; i < data.length; i++) {
+                        district = district + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                    }
+                    //district = district + '</select>';
+                    //alert(district);
+                    $('#ddlIndustrialArea').append(district);
+                }
+            });
+        });
+    });
+
+
     function res() {
         location.reload();
     }
     $('.make-switch').bootstrapSwitch('state', false);
     function Save(sptype) {
-        if (document.getElementById("ddlIndustrialArea").value == "Select") {
+        if (document.getElementById("ddlIndustrialArea").value == "-1") {
             document.getElementById("ddlIndustrialArea").focus();
+            $('#lblEstate').css('color', 'red');
             alert("आस्थान का नाम");
             return;
         }
         if (document.getElementById("txtshed_SNo").value == "") {
             document.getElementById("txtshed_SNo").focus();
+            $('#lblshed').css('color', 'red');
             alert("शेड क्रमांक");
             return;
         }
         if (document.getElementById("txtshed_Name").value == "") {
             document.getElementById("txtshed_Name").focus();
+            $('#lblshedname').css('color', 'red');
             alert("शेड का नाम");
             return;
         }
         if (document.getElementById("txtArea").value == "") {
             document.getElementById("txtArea").focus();
+            $('#lblshedarea').css('color', 'red');
             alert("क्षेत्रफल");
             return;
         }
@@ -386,8 +408,8 @@
             "ShedArea": document.getElementById("txtArea").value,
             "IsShed_Assigned": IsShed_Assigned,//document.getElementById("plotallottedYes").value,
             "IsShed_Disputed": IsShed_Disputed,//document.getElementById("PlotdisputedYes").value,
-            "Shed_Desc": document.getElementById("txtShedDetail").value,
-            "Shed_Allottee_Desc": document.getElementById("txtName_Allottee").value,
+            "Shed_Desc": document.getElementById("txtShedDetail").value==""?" ":document.getElementById("txtShedDetail").value ,
+            "Shed_Allottee_Desc": document.getElementById("txtName_Allottee").value==""?" ":document.getElementById("txtName_Allottee").value ,
 
         }
         $.ajax({
@@ -397,7 +419,10 @@
             contentType: 'application/json; charset=utf-8',
             success: function (data) {
                 alert(data);
-                location.reload();
+                if (data=="RECORD SAVE...") {
+                    location.reload();
+                }
+
             }
         });
     }
@@ -418,7 +443,26 @@
     }
 
 
-    function edit(ShedCode, tbl_IndustrialAreaCode, ShedSerial,ShedName,Shed_Area, IsShed_Assigned, IsShed_Disputed, Shed_Desc, Shed_Allottee_Desc) {
+    function edit(ShedCode, tbl_IndustrialAreaCode, ShedSerial,ShedName,Shed_Area, IsShed_Assigned, IsShed_Disputed, Shed_Desc, Shed_Allottee_Desc,district_code_census) {
+        document.getElementById("ddlDistrict").value=district_code_census;
+        $.ajax({
+            type: "post",
+            url: "/IndustrialAreaMaster/GetEstate",
+            data: { District: $('#ddlDistrict').val() },
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+                $('#ddlIndustrialArea').empty();
+                var district = "";
+                //var district = '';
+                for (var i = 0; i < data.length; i++) {
+                    district = district + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                }
+
+                $('#ddlIndustrialArea').append(district);
+                $('#ddlIndustrialArea').val(tbl_IndustrialAreaCode);
+            }
+        });
 
         document.getElementById("hfShedCode").value = ShedCode;
         document.getElementById("ddlIndustrialArea").value = tbl_IndustrialAreaCode;
@@ -438,7 +482,7 @@
         if (IsShed_Disputed == "Yes") {
             $('#ShadedisputedYes').bootstrapSwitch('state', true);
             //$('#ShadedisputedYes').prop('checked', true);
-           // document.getElementById("ShadedisputedYes").checked = true;
+            // document.getElementById("ShadedisputedYes").checked = true;
         }
         else {
             //$('#ShadedisputedYes').prop('checked', false);
@@ -480,6 +524,15 @@
             }
         });
     }
-
+    $(document).ready(function () {
+        try {
+            $("input[type='text']").each(function () {
+                $(this).attr("autocomplete", "off");
+            });
+        }
+        catch (e)
+        { }
+    });
 </script>
+}
 <!-- End: life time stats -->

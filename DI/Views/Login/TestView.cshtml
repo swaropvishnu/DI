@@ -1,0 +1,391 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <style>
+        .white {
+            color: #000;
+            background-color: #fff;
+        }
+
+        .btn-facebook {
+            color: #ffffff;
+            -webkit-text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+            text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+            background-color: #2b4b90;
+            *background-color: #133783;
+            background-image: -moz-linear-gradient(top, #3b5998, #133783);
+            background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#3b5998), to(#133783));
+            background-image: -webkit-linear-gradient(top, #3b5998, #133783);
+            background-image: -o-linear-gradient(top, #3b5998, #133783);
+            background-image: linear-gradient(to bottom, #3b5998, #133783);
+            background-repeat: repeat-x;
+            border-color: #133783 #133783 #091b40;
+            border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff3b5998', endColorstr='#ff133783', GradientType=0);
+            filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+        }
+
+            .btn-facebook:hover,
+            .btn-facebook:focus,
+            .btn-facebook:active,
+            .btn-facebook.active,
+            .btn-facebook.disabled,
+            .btn-facebook[disabled] {
+                color: #ffffff;
+                background-color: #133783 !important;
+                *background-color: #102e6d !important;
+            }
+
+            .btn-facebook:active,
+            .btn-facebook.active {
+                background-color: #0d2456 \9 !important;
+            }
+
+        .panel-heading {
+            text-align: center;
+            background-color: #295888 !important;
+            color: #fff !important;
+        }
+
+        .panel01 {
+            padding: 10px;
+        }
+
+        .panel02 {
+            border: 1px solid #d2d0d0;
+            padding: 10px;
+        }
+
+        .panel03 {
+            padding: 10px;
+        }
+    </style>
+    @Styles.Render("~/Content/PublicPage")
+    @Styles.Render("~/Content/cssBlank")
+</head>
+<body style="background-color:#fff">
+    <header class="header-two-bars">
+        <div class="header-first-bar">
+            <div class="header-limiter">
+                <h1><a href="#">Director of Industries<span></span></a></h1>
+                <nav>
+                    
+                </nav>
+                
+            </div>
+        </div>
+        <div class="header-second-bar">
+            <div class="header-limiter">
+                <h2><a href="#" style="font-family: monospacepace;font-weight: 800 !important;font-size: 18px;">विभिन्न योजनाओ हेतु प्रार्थना पत्र </a></h2>
+                <nav>
+
+                    @*<a href="#"><i class="fa fa-file-text"></i> Results </a>
+                        <a href="#"><i class="fa fa-group"></i> Participants </a>*@
+                    <a href="#divInst"><i class="fa fa-cogs"></i> Instructions </a>
+                    <a href="#divdownloads"><i class="fa fa-cloud-download"></i> Downloads </a>
+                </nav>
+            </div>
+        </div>
+    </header>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="col-md-12 col-md-2offset panel01">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Login to your account</h3>
+                            @*<h3 class="panel-title">Login</h3>*@
+                        </div>
+                        <div class="panel-body">
+                            <form accept-charset="UTF-8" role="form">
+                                <fieldset>
+                                    @*<div class="form-group">
+                                            <input class="form-control" placeholder="yourmail@example.com" name="email" type="text">
+                                        </div>
+                                        <div class="form-group">
+                                            <input class="form-control" placeholder="Password" name="password" type="password" value="">
+                                        </div>
+                                        <div class="checkbox">
+                                            <label>
+                                               &nbsp;&nbsp; <input name="remember" type="checkbox" value="Remember Me"> Remember Me
+                                            </label>
+                                        </div>
+                                        <input class="btn btn-lg btn-success btn-block" type="submit" value="Login">*@
+
+
+                                    <div class="alert alert-danger display-hide">
+                                        <button class="close" data-close="alert"></button>
+                                        <span> Enter any username and password. </span>
+                                    </div>
+                                    <div class="form-group">
+
+                                        <select id="schema" class="form-control select2-container ">
+                                            <option>Select Schema</option>
+                                            <option value="AK">MYSY</option>
+                                            <option value="HI">MYSY2</option>
+
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
+                                        <label class="control-label visible-ie8 visible-ie9">Username</label>
+                                        <div class="input-icon">
+                                            <i class="fa fa-user"></i>
+                                            <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="Username" name="username">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label visible-ie8 visible-ie9">Password</label>
+                                        <div class="input-icon">
+                                            <i class="fa fa-lock"></i>
+                                            <input class="form-control placeholder-no-fix" type="password" autocomplete="off" placeholder="Password" name="password">
+                                        </div>
+                                    </div>
+                                    <div class="form-actions">
+                                        <label class="rememberme mt-checkbox mt-checkbox-outline">
+                                            <input type="checkbox" name="remember" value="1"> Remember me
+                                            <span></span>
+                                        </label>
+                                        <button type="submit" class="btn green pull-right"> Login </button>
+                                    </div>
+
+                                    <div class="forget-password">
+                                        @*<a href="javascript:;" id="register-btn" class="btn red-flamingo">New User </a>*@
+                                        <a href="javascript:;" id="" style="text-align:right">Forgot your password </a>
+                                        @*<p>
+                                                no worries, click
+                                                <a href="javascript:;" id="forget-password"> here </a> to reset your password.
+                                            </p>*@
+                                    </div>
+
+                                </fieldset>
+                            </form>
+
+                        </div>
+                    </div>
+                    
+                    <div class="panel panel-default">
+                      
+                            <h3><i class="icon-share font-dark"></i> &nbsp;&nbsp;Application Status</h3>
+                           
+                        
+                        <div class="panel-body">
+                            <form accept-charset="UTF-8" role="form">
+                                <fieldset>
+                                   
+                                    <div class="form-group">
+                                        
+                                        <div class="input-icon">
+                                           
+                                            <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="Application No" name="username" >
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-actions">
+                                        <button type="submit" class="btn green pull-right"> Know Your Application Status </button>
+                                        
+                                    </div>
+
+                                    
+
+                                </fieldset>
+                            </form>
+
+                        </div>
+                    </div>
+
+                   
+                </div>
+
+                
+            </div>
+            <div class="col-md-8 panel03">
+
+                <form>
+                    <div class="panel-primary">
+
+                        <h2><i class="icon-book-open">&nbsp;&nbsp;&nbsp;<label>New Registration</label>  </i></h2>
+                        @*<h3 class="panel-title">Login</h3>*@
+                    </div>
+                    <div class="col-sm-12 panel02">
+                        @*<div class="caption" id="down">
+                                <i class="icon-cloud-download font-dark"></i>
+                                <span class="caption-subject font-dark bold uppercase">Registration Form</span>
+                            </div>*@
+                        <div class="row">
+                            <div class="col-sm-6 form-group">
+                                <label>Scheme</label>
+                                <select id="schema" class="form-control select2-container ">
+                                    <option>Select Schema</option>
+                                    <option value="AK">MYSY</option>
+                                    <option value="HI">MYSY2</option>
+
+                                </select>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 form-group">
+                                <label>Name</label>
+                                <input type="text" placeholder="Enter Name Here.." class="form-control" id="txtName">
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <label>Date Of Birth</label>
+                                <input type="text" placeholder="Enter Name Here.." class="form-control">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 form-group">
+                                <label>Father's Name</label>
+                                <input type="text" placeholder="Enter Father Name.." class="form-control">
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <label>Aadhaar  No</label>
+                                <input type="text" placeholder="Enter Aadhaar  No Here.." class="form-control">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 form-group">
+                                <label>Phone Number</label>
+                                <input type="text" placeholder="Enter Phone Number Here.." class="form-control">
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <label>Email Address</label>
+                                <input type="text" placeholder="Enter Email Address Here.." class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Address</label>
+                            <textarea placeholder="Enter Address Here.." rows="3" class="form-control"></textarea>
+                        </div>
+                        @*<div class="row">
+                                <div class="col-sm-4 form-group">
+                                    <label>City</label>
+                                    <input type="text" placeholder="Enter City Name Here.." class="form-control">
+                                </div>
+                                <div class="col-sm-4 form-group">
+                                    <label>State</label>
+                                    <input type="text" placeholder="Enter State Name Here.." class="form-control">
+                                </div>
+                                <div class="col-sm-4 form-group">
+                                    <label>Zip</label>
+                                    <input type="text" placeholder="Enter Zip Code Here.." class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Address</label>
+                                <textarea placeholder="Enter Address Here.." rows="3" class="form-control"></textarea>
+                            </div>*@
+                        @*<div class="row">
+                                <div class="col-sm-6 form-group">
+                                    <label>Title</label>
+                                    <input type="text" placeholder="Enter Designation Here.." class="form-control">
+                                </div>
+                                <div class="col-sm-6 form-group">
+                                    <label>Company</label>
+                                    <input type="text" placeholder="Enter Company Name Here.." class="form-control">
+                                </div>
+                            </div>*@
+
+
+                        <button type="button" class="btn btn-lg btn-info" onclick="funcSub()">Submit</button>
+                    </div>
+   
+
+                </form>
+            </div>
+            
+        </div>
+    </div>
+    <div class="portlet light " style="border: 1px solid #ddd;box-shadow: 0 0 4px #ddd; border-radius: 6px 6px;" id="divdownloads">
+        <div class="portlet-title tabbable-line">
+            <div class="caption" id="down">
+                <i class="icon-cloud-download font-dark"></i>
+                <span class="caption-subject font-dark bold uppercase">Downloads</span>
+            </div>
+
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#portlet_tab2_1" data-toggle="tab" id="instruction" aria-expanded="true"> Links </a>
+                </li>
+            </ul>
+        </div>
+        <div class="portlet-body" >
+            <div class="tab-content">
+                <div class="tab-pane active" id="portlet_tab2_1">
+                    <h4>दस्तावेजों की सूची :-</h4>
+                    <ul>
+
+
+                        <li> आवेदक / अधिकृत व्यक्ति का फोटो</li>
+                        <li> परियोजना प्रतिवेदन</li>
+                        <li> उत्तर प्रदेश का मूल निवासी / स्थानीय निवासी / अथवा मूल निवासी हेतु निर्धारित प्रपत्र पर स्वप्रमानीकरण</li>
+                        <li> आधार कार्ड</li>
+                        <li> शैक्षणिक योग्यता संबंधी प्रमाण-पत्र</li>
+                        <li> जन्मतिथि संबंधी प्रमाण-पत्र</li>
+                        <li> सक्षम प्राधिकारी द्वारा जारी निशक्तजन संबंधी प्रमाण-पत्र (यदि लागू हो तो)</li>
+                        <li> भूमि/भवन किराए पर लिया हो तो किरायानामा (यदि लागू हो तो)</li>
+                        <li> मशीनरी/उपकरण/साज-सज्जा हेतु वर्तमान दरों के कोटेशन(यदि लागू हो तो)</li>
+                        <li> जाति प्रमाण पत्र(यदि लागू हो तो)</li>
+                        <li> अन्य पिछड़ा वर्ग के अंतर्गत क्रीमीलेयर की सीमा से अधिक होने की स्थिति में सक्षम अधिकारी द्वारा जारी किया आय प्रमाण-पत्र (यदि लागू हो तो)</li>
+                        <li> उद्यमिता विकास प्रशिक्षण प्राप्त किया हो तो प्रमाणपत्र संलग्न करें(यदि लागू हो तो)</li>
+                        <li> बीoपीoएलo राशन कार्ड की प्रतिलिपि (यदि लागू हो तो)</li>
+                    </ul>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    
+    <div class="portlet light " style="border: 1px solid #ddd;box-shadow: 0 0 4px #ddd; border-radius: 6px 6px;" id="divInst">
+        <div class="portlet-title tabbable-line">
+            <div class="caption" id="down">
+                <i class="icon-info font-dark"></i>
+                <span class="caption-subject font-dark bold uppercase">Important Instructions</span>
+            </div>
+
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#portlet_tab2_1" data-toggle="tab" id="instruction" aria-expanded="true"> Help </a>
+                </li>
+            </ul>
+        </div>
+        <div class="portlet-body">
+            <div class="tab-content">
+                <div class="tab-pane active" id="portlet_tab2_1">
+
+                    <p> <a href="~/PDF/industrial_estate.pdf"> मुख्यमंत्री युवा स्वरोजगार योजना, उ0प्र0 प्रार्थना-पत्र (दो-प्रतियों में) </a></p>
+
+                    <p><a href="~/PDF/industrial_estate.pdf"> मुख्यमंत्री युवा स्वरोजगार योजना, उ0प्र0(परियोजना प्रारूपं) </a></p>
+
+                    <p><a href="~/PDF/industrial_estate.pdf">निर्देश</a></p>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script>
+    function funcSub()
+    {
+        document.getElementById('txtName').focus();
+        $('#txtName').css('border-color', 'red');
+    }
+</script>

@@ -15,32 +15,88 @@
     //var grid = new WebGrid(Model, rowsPerPage: 20);
     DataTable dt = new CommonDA().GetDashBord();
 }
-
-
-
-
-        <!-- END PAGE HEADER-->
+ <!-- END PAGE HEADER-->
 <div class="row widget-row">
-    <div class="col-md-3">
-        <!-- BEGIN WIDGET THUMB -->
+
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
         <a href="@Url.Action("GetIndustrialEstateList", "IndustrialAreaMaster")">
-            <div class="widget-thumb widget-bg-color-white text-uppercase margin-bottom-20 ">
-                <h4 class="widget-thumb-heading">Industrial Estates</h4>
-                <div class="widget-thumb-wrap">
-                    <i class="widget-thumb-icon bg-green icon-bulb"></i>
-                    <div class="widget-thumb-body">
-                        <span class="widget-thumb-subtitle">No.</span>
-                        <span class="widget-thumb-body-stat" data-counter="counterup" data-value="@dt.Rows[0]["TotalEstate"].ToString().Trim()">0</span>
+            <div class="dashboard-stat2 ">
+                <div class="display">
+                    <div class="number">
+                        <h3 class="font-green-sharp">
+                            <span data-counter="counterup" data-value="@dt.Rows[0]["TotalEstate"].ToString().Trim()">@dt.Rows[0]["TotalEstate"].ToString().Trim()</span>
+                            <small class="font-green-sharp"></small>
+                        </h3>
+                        <small>Total Estate</small>
+                    </div>
+                    <div class="icon">
+                        <i class="icon-pie-chart"></i>
+                    </div>
+                </div>
+                <div class="progress-info">
+                    
+                        <div class="progress">
+                            <span style="width: @dt.Rows[0]["PerAllotedEstate"].ToString().Trim()%;" class="progress-bar progress-bar-success green-sharp">
+                                <span class="sr-only">@dt.Rows[0]["PerAllotedEstate"].ToString().Trim()% Estate Alloted</span>
+                            </span>
+                        </div>
+                    
+
+                    <div class="status">
+                        <div class="status-title"> Estate Alloted </div>
+                        <div class="status-number">@dt.Rows[0]["PerAllotedEstate"].ToString().Trim()% </div>
                     </div>
                 </div>
             </div>
-        </a>
-        <!-- END WIDGET THUMB -->
-    </div>
-    <div class="col-md-3">
+            </a>
+            <!-- BEGIN WIDGET THUMB -->
+            @*<a href="@Url.Action("GetIndustrialEstateList", "IndustrialAreaMaster")">
+                <div class="widget-thumb widget-bg-color-white text-uppercase margin-bottom-20 ">
+                    <h4 class="widget-thumb-heading">Industrial Estates</h4>
+                    <div class="widget-thumb-wrap">
+                        <i class="widget-thumb-icon bg-green icon-bulb"></i>
+                        <div class="widget-thumb-body">
+                            <span class="widget-thumb-subtitle">No.</span>
+                            <span class="widget-thumb-body-stat" data-counter="counterup" data-value="@dt.Rows[0]["TotalEstate"].ToString().Trim()">0</span>
+                        </div>
+                    </div>
+                </div>
+            </a>*@
+            <!-- END WIDGET THUMB -->
+</div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
         <!-- BEGIN WIDGET THUMB -->
         <a href="@Url.Action("GetIndustrialEstateList", "IndustrialAreaMaster", new {Industry = "Small_Scale"})">
-            <div class="widget-thumb widget-bg-color-white text-uppercase margin-bottom-20 ">
+            <div class="dashboard-stat2 ">
+                <div class="display">
+                    <div class="number">
+                        <h3 class="font-blue-sharp">
+                            <span data-counter="counterup" data-value="@dt.Rows[0]["TotalSmallEstate"].ToString().Trim()">@dt.Rows[0]["TotalSmallEstate"].ToString().Trim()</span>
+                            <small class="font-blue-sharp"></small>
+                        </h3>
+                        <small>Total Small Estate</small>
+                    </div>
+                    <div class="icon">
+                        <i class="icon-pie-chart"></i>
+                    </div>
+                </div>
+                <div class="progress-info">
+                   
+                        
+                        <div class="progress">
+                            <span style="width: @dt.Rows[0]["PerAllotedSmallEstate"].ToString().Trim()%;" class="progress-bar progress-bar-success blue-sharp">
+                                <span class="sr-only">@dt.Rows[0]["PerAllotedSmallEstate"].ToString().Trim()% Small Estate Alloted</span>
+                            </span>
+                        </div>
+                    
+
+                    <div class="status">
+                        <div class="status-title">Small Estate Alloted </div>
+                        <div class="status-number">@dt.Rows[0]["PerAllotedSmallEstate"].ToString().Trim()% </div>
+                    </div>
+                </div>
+            </div>
+            @*<div class="widget-thumb widget-bg-color-white text-uppercase margin-bottom-20 ">
                 <h4 class="widget-thumb-heading">Small Industry  Estate</h4>
                 <div class="widget-thumb-wrap">
                     <i class="widget-thumb-icon bg-red icon-layers"></i>
@@ -49,13 +105,41 @@
                         <span class="widget-thumb-body-stat" data-counter="counterup" data-value="@dt.Rows[0]["TotalSmallEstate"].ToString().Trim()">0</span>
                     </div>
                 </div>
-            </div>
+            </div>*@
             </a>
             <!-- END WIDGET THUMB -->
 </div>
-    <div class="col-md-3">
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
         <!-- BEGIN WIDGET THUMB -->
         <a href="@Url.Action("GetIndustrialEstateList", "IndustrialAreaMaster", new {Industry = "Large_Scale"})">
+            <div class="dashboard-stat2 ">
+                <div class="display">
+                    <div class="number">
+                        <h3 class="font-purple-soft">
+                            <span data-counter="counterup" data-value="@dt.Rows[0]["TotalLargeEstate"].ToString().Trim()">@dt.Rows[0]["TotalSmallEstate"].ToString().Trim()</span>
+                            <small class="font-purple-soft"></small>
+                        </h3>
+                        <small>Total Large Estate</small>
+                    </div>
+                    <div class="icon">
+                        <i class="icon-pie-chart"></i>
+                    </div>
+                </div>
+                <div class="progress-info">
+                    <div class="progress">
+                        <span style="width: @dt.Rows[0]["PerAllotedLargeEstate"].ToString().Trim()%;" class="progress-bar progress-bar-success purple-soft">
+                            <span class="sr-only">@dt.Rows[0]["PerAllotedLargeEstate"].ToString().Trim()% Small Estate Alloted</span>
+                        </span>
+                    </div>
+                    <div class="status">
+                        <div class="status-title">Large Estate Alloted </div>
+                        <div class="status-number">@dt.Rows[0]["PerAllotedLargeEstate"].ToString().Trim()% </div>
+                    </div>
+                </div>
+            </div>
+           
+        </a>
+        @*<a href="@Url.Action("GetIndustrialEstateList", "IndustrialAreaMaster", new {Industry = "Large_Scale"})">
             <div class="widget-thumb widget-bg-color-white text-uppercase margin-bottom-20 ">
                 <h4 class="widget-thumb-heading"> Large Industry Estate</h4>
                 <div class="widget-thumb-wrap">
@@ -66,10 +150,11 @@
                     </div>
                 </div>
             </div>
-            </a>
+            </a>*@
             <!-- END WIDGET THUMB -->
 </div>
-    <div class="col-md-3">
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+       
         <!-- BEGIN WIDGET THUMB -->
         <a href="@Url.Action("Getplot", "IndustrialAreaMaster")">
             <div class="widget-thumb widget-bg-color-white text-uppercase margin-bottom-20 ">
@@ -77,15 +162,15 @@
                 <div class="widget-thumb-wrap">
                     <i class="widget-thumb-icon bg-blue icon-bar-chart"></i>
                     <div class="widget-thumb-body">
-                        <span class="widget-thumb-subtitle">No.</span>
+                        @*<span class="widget-thumb-subtitle">No.</span>*@
                         <span class="widget-thumb-body-stat" data-counter="counterup" data-value="@dt.Rows[0]["TotalPlot"].ToString().Trim()">0</span>
                     </div>
                 </div>
             </div>
-            </a>
-            <!-- END WIDGET THUMB -->
-</div>
-    <div class="col-md-3">
+        </a>
+        <!-- END WIDGET THUMB -->
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
         <!-- BEGIN WIDGET THUMB -->
         <a href="@Url.Action("Getshed", "IndustrialAreaMaster"  )">
             <div class="widget-thumb widget-bg-color-white text-uppercase margin-bottom-20 ">
@@ -93,15 +178,15 @@
                 <div class="widget-thumb-wrap">
                     <i class="widget-thumb-icon bg-blue icon-bar-chart"></i>
                     <div class="widget-thumb-body">
-                        <span class="widget-thumb-subtitle">No.</span>
+                        @*<span class="widget-thumb-subtitle">No.</span>*@
                         <span class="widget-thumb-body-stat" data-counter="counterup" data-value="@dt.Rows[0]["TotalShed"].ToString().Trim()">0</span>
                     </div>
                 </div>
             </div>
-            </a>
-            <!-- END WIDGET THUMB -->
-</div>
-    <div class="col-md-3">
+        </a>
+        <!-- END WIDGET THUMB -->
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
         <!-- BEGIN WIDGET THUMB -->
         <a href="@Url.Action("Getplot", "IndustrialAreaMaster", new { status = "UnAssigned" })">
             <div class="widget-thumb widget-bg-color-white text-uppercase margin-bottom-20 ">
@@ -109,15 +194,15 @@
                 <div class="widget-thumb-wrap">
                     <i class="widget-thumb-icon bg-blue icon-bar-chart"></i>
                     <div class="widget-thumb-body">
-                        <span class="widget-thumb-subtitle">No.</span>
+                        @*<span class="widget-thumb-subtitle">No.</span>*@
                         <span class="widget-thumb-body-stat" data-counter="counterup" data-value="@dt.Rows[0]["TotalVacantPlot"].ToString().Trim()">0</span>
                     </div>
                 </div>
             </div>
-            </a>
-            <!-- END WIDGET THUMB -->
-</div>
-    <div class="col-md-3">
+        </a>
+        <!-- END WIDGET THUMB -->
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
 
         <!-- BEGIN WIDGET THUMB -->
         <a href="@Url.Action("Getplot", "IndustrialAreaMaster", new { status = "Assigned" })">
@@ -126,15 +211,15 @@
                 <div class="widget-thumb-wrap">
                     <i class="widget-thumb-icon bg-blue icon-bar-chart"></i>
                     <div class="widget-thumb-body">
-                        <span class="widget-thumb-subtitle">No.</span>
+                        @*<span class="widget-thumb-subtitle">No.</span>*@
                         <span class="widget-thumb-body-stat" data-counter="counterup" data-value="@dt.Rows[0]["TotalAllotedPlot"].ToString().Trim()">0</span>
                     </div>
                 </div>
             </div>
-            </a>
-            <!-- END WIDGET THUMB -->
-</div>
-    <div class="col-md-3">
+        </a>
+        <!-- END WIDGET THUMB -->
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
         <!-- BEGIN WIDGET THUMB -->
         <a href="@Url.Action("GetShed", "IndustrialAreaMaster", new { status = "UnAssigned" })">
             <div class="widget-thumb widget-bg-color-white text-uppercase margin-bottom-20 ">
@@ -142,15 +227,15 @@
                 <div class="widget-thumb-wrap">
                     <i class="widget-thumb-icon bg-blue icon-bar-chart"></i>
                     <div class="widget-thumb-body">
-                        <span class="widget-thumb-subtitle">No.</span>
+                        @*<span class="widget-thumb-subtitle">No.</span>*@
                         <span class="widget-thumb-body-stat" data-counter="counterup" data-value="@dt.Rows[0]["TotalVacantShed"].ToString().Trim()">0</span>
                     </div>
                 </div>
             </div>
         </a>
-            <!-- END WIDGET THUMB -->
-</div>
-    <div class="col-md-3">
+        <!-- END WIDGET THUMB -->
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
         <!-- BEGIN WIDGET THUMB -->
         <a href="@Url.Action("GetShed", "IndustrialAreaMaster", new { status = "Assigned" })">
             <div class="widget-thumb widget-bg-color-white text-uppercase margin-bottom-20 ">
@@ -158,14 +243,14 @@
                 <div class="widget-thumb-wrap">
                     <i class="widget-thumb-icon bg-blue icon-bar-chart"></i>
                     <div class="widget-thumb-body">
-                        <span class="widget-thumb-subtitle">No.</span>
+                        @*<span class="widget-thumb-subtitle">No.</span>*@
                         <span class="widget-thumb-body-stat" data-counter="counterup" data-value="@dt.Rows[0]["TotalAllotedShed"].ToString().Trim()">0</span>
                     </div>
                 </div>
             </div>
-            </a>
-            <!-- END WIDGET THUMB -->
-</div>
+        </a>
+        <!-- END WIDGET THUMB -->
+    </div>
 </div>
 <div class="row">
     <div class="col-lg-6 col-xs-12 col-sm-12">

@@ -1,0 +1,139 @@
+﻿
+@{
+    ViewBag.Title = "certificate_Letter";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using System.Data;
+@using DI.Models;
+@using DI.DAL;
+@using DI.BLL;
+
+
+@{
+    //var grid = new WebGrid(Model, rowsPerPage: 20);
+    DataSet ds = new DataSet();
+
+    ds = new CommonDA().GetPramarPatar(1);
+
+}
+
+<style>
+    img {
+        page-break-inside: avoid;
+    }
+
+    .img-rounded {
+        border-radius: 6px;
+        Height: 100px;
+        Width: 109px;
+    }
+</style>
+
+<script type="text/javascript">
+      window.history.forward();
+</script>
+
+<script language="javascript" type="text/javascript">
+        function printDiv(divID) {
+            //Get the HTML of div
+            var divElements = document.getElementById(divID).innerHTML;
+            //Get the HTML of whole page
+            var oldPage = document.body.innerHTML;
+
+            //Reset the page's HTML with div's HTML only
+            document.body.innerHTML =
+               "<html><head><title></title></head><body>" +
+                "<div align='center' style='margin-left:1%;margin-right:1%;width:100%;'>" +
+
+               divElements + "</div></body>";
+          //  window.open()
+            //Print Page
+          window.print();
+
+            //Restore orignal HTML
+           document.body.innerHTML = oldPage;
+        }
+</script>
+
+<div style="background-color:white ;">
+    <div style="margin-left:79%; ">
+        <button type="button" class="btn green" onclick="javascript:printDiv('reportdiv')" style="margin-left:5%;margin-right:5%;" id="btnprint">Print</button>
+
+    </div>
+    <div class="row">
+
+
+        @using (Html.BeginForm("certificate_Letter", "IndustrialAreaMaster", FormMethod.Post, new { @class = "", enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+
+
+            <div id="reportdiv">
+                <h4 class="title" align="center" style="font-size:x-large">नई इकाई का प्रमाण - पत्र</h4>
+
+                @if (ds != null)
+                {
+                    if (ds.Tables[0] != null)
+                    {
+                        if (ds.Tables[0].Rows.Count > 0)
+                        {
+                            for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                            {
+
+                                <table class="table-responsive tblcss" id="Letter" border="0" style="width:80%" align="center">
+
+                                   
+                                    <tr>
+                                        <td style="text-align:justify;border: none;text-indent:-15px;font-size:20px">
+                                            <br />
+                                            
+                                             <br /><br />
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td style="font-size:20px" width="80%" valign="bottom">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            प्रमाणित किया जाता हैं कि मेरे द्वारा प्रस्तावित  @ds.Tables[0].Rows[i]["project_name"].ToString().Trim()  उद्योग / सेवा उद्योग जो  कार्यस्थल  @ds.Tables[0].Rows[i]["permanent_address"].ToString().Trim() में  स्थापित किया जाना प्रस्तावित है |
+                                            यह भी किया जाता है कि  उपरोक्त प्रस्तावित  उद्योग / सेवा  उद्योग पूर्ण रुपेण नयी  इकाई होगी | इसे स्थापित कर संचालित किये जाने वाली इकाई से  क्षेत्र में  रोजगार सृजन के अवसर प्राप्त होंगे |</td>
+
+                                    </tr>
+                                   
+
+                                </table>
+
+                                <br />        <br />        <br />
+                                <table id="example1" style="width:80%; margin-left:70%; text-align:justify" align="left">
+
+                                    <tr style="background-color:#39b4dd">
+
+                                    <tr><td style="padding-left:50px;border: none;font-size: 20px;">प्राथी के हस्ताक्षर -</td> </tr>
+
+                                    <tr><td style="border: none;"></td></tr>
+                                    <tr><td style="padding-left:50px;height:40px;border: none;font-size: 20px;">नाम          -@ds.Tables[0].Rows[i]["applicant_name"].ToString().Trim()</td></tr>
+
+
+
+                                    <tr><td style="border: none;"></td></tr>
+
+                                    <tr><td style="padding-left:50px;height:40px;border: none;font-size: 20px;">पिता का नाम   -@ds.Tables[0].Rows[i]["father_name"].ToString().Trim()</td></tr>
+                                    <tr><td style="padding-left:50px;height:40px;border: none;font-size: 20px;">निवास  का  पता  -@ds.Tables[0].Rows[i]["permanent_address"].ToString().Trim()</td></tr>
+
+
+
+                                    <tbody>
+                                        <tr></tr>
+                                    </tbody>
+                                </table>
+                            }
+                        }
+                    }
+
+                }
+            </div>
+        }
+    </div>
+
+</div>
+
+

@@ -19,7 +19,7 @@ $(document).ready(function () {
             for (var i = 0; i < items.length; i++) {
                 if($(items[i]).attr('parentId') != null)
                 {
-                    li = $('<li class ="active" ><a href="' + this.NavURL + '" class="nav-link " ><span class="badge badge-danger">\u0020</span>' + this.Icon + '<span class="title">' + this.Text + '</span> </a> </li>');
+                    li = $('<li class ="active" ><a href="' + this.NavURL + '" class="nav-link " >' + this.Icon + '<span class="title">' + this.Text + '</span> </a> </li>');
                 }
                 else {
                     li = $('<li class ="active"><a href="' + this.NavURL + '" class="nav-link nav-toggle">' + this.Icon + '<span class="title">' + this.Text + '</span></a> </li>');

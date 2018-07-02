@@ -24,13 +24,14 @@ namespace DI
         }
 
         void Application_Error(object sender, EventArgs e)
+
         {
             //Code that runs when an unhandled error occurs
             //Exception ex = default(Exception);
 
             //ex = Server.GetLastError().InnerException;
             //if (ex != null)
-            //{
+            //{ 
             //    ex = Server.GetLastError().InnerException;
             //    CMODataEntryBLL.InsertErrLog(Request.Url.ToString(), ex.ToString());
             //    //HttpContext.Current.Response.Redirect("~/ErrorPageS.aspx",false);

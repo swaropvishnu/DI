@@ -1,25 +1,26 @@
-﻿@model DI.Models.IndustrialAreaMasterModal
+﻿@model DI.Models.AddMYSY
 
 @{
     ViewBag.Title = "MYSYEntry";
     Layout = "~/Views/Shared/_PublicPage.cshtml";
 }
 
-    <script src="~/scripts/jquery-3.2.1.js"></script>
-    <script src="~/scripts/jquery-3.2.1.min.js"></script>
-
-
-
-@*<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-<script src="//code.jquery.com/jquery-1.10.2.js"></script>
-<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>*@
+    
 
 <script>
+    $(document).ready(function () {
 
-  $(document).ready(function() {
-      $("#DOB").datepicker();
-  });
-</script>  
+        $("#txtDOB").datepicker({
+
+            dateFormat: "dd/mm/yy",
+            changeMonth: true,
+            changeYear: true
+        });
+    });
+
+</script>
+
+  
 
 
 <div class="row">
@@ -39,12 +40,7 @@
                     <span class="caption-subject font-red-sunglo bold uppercase">मुख्यमंत्री युवा स्वरोजगार योजना </span>
                     <span class="caption-helper">प्रार्थना-पत्र (दो-प्रतियों में)</span>
                 </div>
-                @*<div class="tools">
-                    <a href="" class="collapse" data-original-title="" title=""> </a>
-                    <a href="#portlet-config" data-toggle="modal" class="config" data-original-title="" title=""> </a>
-                    <a href="" class="reload" data-original-title="" title=""> </a>
-                    <a href="" class="remove" data-original-title="" title=""> </a>
-                </div>*@
+               
             </div>
             <div class="portlet-body form">
                 <!-- BEGIN FORM-->
@@ -56,7 +52,8 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-12">नाम</label>
                                     <div class="col-md-12">
-                                        <input type="text" class="form-control" placeholder="नाम">                                
+                                        @Html.TextBoxFor(m => m.applicant_name, new { @class = "form-control", @id = "txtName", @placeholder = "नाम ", @Maxlength = 20 })
+                               
                                     </div>
                                 </div>
                             </div>
@@ -64,11 +61,10 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label class="control-label col-md-12">जन्मतिथि</label>
-                                    <div class="col-md-12">
-                                     
-                                            @Html.EditorFor(m => m.DOB, new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.ValidationMessageFor(m => m.DOB, "", new { @class = "text-danger" })
-                                            @*<input type="text" class="form-control" placeholder="dd/mm/yyyy">*@
+                                    <div class="col-md-12">  
+                                        @Html.EditorFor(model => model.dob, new { htmlAttributes = new { @class = "form-control", @onkeypress = "return IsNumeric(event);", @Value = "", @placeholder = "dd/mm/yy", @id = "txtDOB" } })
+                                        @Html.ValidationMessageFor(model => model.dob, "", new { @class = "text-danger" })
+                                                                                                                                          
                                         </div>
                                 </div>
                             </div>
@@ -77,7 +73,8 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-12">आधार कार्ड नं0</label>
                                     <div class="col-md-12">
-                                        <input type="text" class="form-control" placeholder="आधार कार्ड नं0">                                      
+                                        @Html.TextBoxFor(m => m.adhar_no, new { @class = "form-control", @id = "txtAdhar_card_No", @placeholder = "आधार कार्ड नं0 ", @onkeypress = "return IsNumeric(event);", @Maxlength = 12 })
+                                                                          
                                     </div>
                                 </div>
                             </div>
@@ -90,8 +87,8 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-12">पिता/पति का नाम</label>
                                     <div class="col-md-12">
-                                        <input type="text" class="form-control" placeholder="पिता/पति का नाम">
-                                        
+                                     
+                                        @Html.TextBoxFor(m => m.father_name, new { @class = "form-control", @id = "txtFather_Name", @placeholder = "पिता/पति का नाम ", @Maxlength = 20 })        
                                     </div>
                                 </div>
                             </div>
@@ -99,9 +96,8 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label class="control-label col-md-12">पत्र व्यवहार का पता</label>
-                                    <div class="col-md-12">
-                                        <input type="text" id="address" class="form-control" placeholder="पत्र व्यवहार का पता">
-                                      @*@Html.TextAreaFor(model => model.Address, new { rows = 10, cols = 50 })*@ 
+                                    <div class="col-md-12">                                      
+                                        @Html.TextBoxFor(m => m.current_address, new { @class = "form-control", @id = "txtCurrentAddress", @placeholder = "पत्र व्यवहार का पता", @Maxlength = 200 })                                       
                                     </div>
                                 </div>
                             </div>
@@ -111,8 +107,9 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-12">स्थाई पता</label>
                                     <div class="col-md-12">
-                                        <input type="text" id="permanentadd" class="form-control" placeholder="स्थाई पता">
-                                      @*@Html.TextAreaFor(model => model.ApplicantAddress, new { rows = 10, cols = 50 })*@ 
+                                     
+                                        @Html.TextBoxFor(m => m.permanent_address, new { @class = "form-control", @id = "txtPermanent_Address", @placeholder = "स्थाई पता", @Maxlength = 200 })
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -167,9 +164,8 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label class="control-label col-md-12">मोबाइल नं0</label>
-                                    <div class="col-md-12">
-                                        <input type="text" class="form-control" placeholder="मोबाइल नं0">
-                                       
+                                    <div class="col-md-12">                                     
+                                        @Html.TextBoxFor(m => m.mobile_no, new { @class = "form-control", @id = "txtMobile_No", @placeholder = "मोबाइल नं0", @onkeypress = "return IsNumeric(event);", @Maxlength = 10 })      
                                     </div>
                                 </div>
                             </div>
@@ -179,8 +175,9 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-12">ई-मेल आई0डी0 (यदि हो तो)	</label>
                                     <div class="col-md-12">
-                                        <input type="text" class="form-control" placeholder="ई-मेल आई0डी0 (यदि हो तो)">
-                                       
+                                    
+                                        @Html.TextBoxFor(m => m.email, new { @class = "form-control", @id = "txtEmailID", @placeholder = "ई-मेल आई0डी0 (यदि हो तो)", @Maxlength = 50 })
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -200,7 +197,8 @@
                                 <label class="control-label col-md-12">पिता</label>
 
                                 <div class="col-md-12">
-                                    <input type="text" class="form-control" placeholder="पिता का नाम">
+                                  
+                                    @Html.TextBoxFor(m => m.FamilyPerson_Father_Name, new { @class = "form-control", @id = "txtFamilyPerson_Father_Name", @placeholder = "पिता का नाम", @Maxlength = 50 })
                                     <span class="help-block"></span>
                                 </div>
                             </div>
@@ -211,7 +209,8 @@
                                 <label class="control-label col-md-12">उम्र</label>
 
                                 <div class="col-md-12">
-                                    <input type="text" class="form-control" placeholder="उम्र">
+                                    @Html.TextBoxFor(m => m.FamilyPerson_Age, new { @class = "form-control", @id = "txtFamilyPerson_Age", @onkeypress = "return IsNumeric(event);", @placeholder = "उम्र", @Maxlength = 3})
+                                  
                                     <span class="help-block"></span>
                                 </div>
                             </div>
@@ -222,7 +221,8 @@
                                 <label class="control-label col-md-12">कार्य</label>
 
                                 <div class="col-md-12">
-                                    <input type="text" class="form-control" placeholder="कार्य">
+                                    
+                                    @Html.TextBoxFor(m => m.FamilyPerson_work, new { @class = "form-control", @id = "txtFamilyPerson_work", @placeholder = "कार्य", @Maxlength = 50 })
                                     <span class="help-block"></span>
                                 </div>
                             </div>
@@ -236,7 +236,8 @@
                                 <label class="control-label col-md-3">माता</label>
 
                                 <div class="col-md-12">
-                                    <input type="text" class="form-control" placeholder="माता का नाम">
+                                   
+                                    @Html.TextBoxFor(m => m.Mother_Name, new { @class = "form-control", @id = "txt_Mother_Name", @placeholder = "माता का नाम", @Maxlength = 50 })
                                     <span class="help-block"></span>
                                 </div>
                             </div>
@@ -248,7 +249,9 @@
                                 <label class="control-label col-md-12">उम्र</label>
 
                                 <div class="col-md-12">
-                                    <input type="text" class="form-control" placeholder="उम्र">
+                                  
+                                    
+                                    @Html.TextBoxFor(m => m.Mother_Age, new { @class = "form-control", @id = "txt_Mother_Age", @onkeypress = "return IsNumeric(event);", @placeholder = "उम्र", @Maxlength = 3 })
                                     <span class="help-block"></span>
                                 </div>
                             </div>
@@ -259,7 +262,8 @@
                                 <label class="control-label col-md-12">कार्य</label>
 
                                 <div class="col-md-12">
-                                    <input type="text" class="form-control" placeholder="कार्य">
+                               
+                                    @Html.TextBoxFor(m => m.Mother_work, new { @class = "form-control", @id = "txt_Mother_work", @placeholder = "कार्य", @Maxlength = 50 })
                                     <span class="help-block"></span>
                                 </div>
                             </div>
@@ -273,7 +277,8 @@
                                 <label class="control-label col-md-12">भाई/बहन</label>
 
                                 <div class="col-md-12">
-                                    <input type="text" class="form-control" placeholder="भाई या बहन का नाम">
+                                 
+                                    @Html.TextBoxFor(m =>m.Family_brother_sister, new { @class = "form-control", @id = "txt_Family_brother_sister", @placeholder = "भाई या बहन का नाम", @Maxlength = 50 })
                                     <span class="help-block"></span>
                                 </div>
                             </div>
@@ -284,7 +289,9 @@
                                 <label class="control-label col-md-12">उम्र</label>
 
                                 <div class="col-md-12">
-                                    <input type="text" class="form-control" placeholder="उम्र">
+                                   
+                                    @Html.TextBoxFor(m => m.Family_brother_sister_Age, new { @class = "form-control", @id = "txt_Family_brother_sister_Age", @onkeypress = "return IsNumeric(event);", @placeholder = "उम्र", @Maxlength = 3 })
+
                                     <span class="help-block"></span>
                                 </div>
                             </div>
@@ -295,7 +302,9 @@
                                 <label class="control-label col-md-12">कार्य</label>
 
                                 <div class="col-md-12">
-                                    <input type="text" class="form-control" placeholder="कार्य">
+                                   
+                                    @Html.TextBoxFor(m => m.Family_brother_sister_Work, new { @class = "form-control", @id = "txt_Family_brother_sister_Work", @placeholder = "कार्य", @Maxlength = 50 })
+
                                     <span class="help-block"></span>
                                 </div>
                             </div>
@@ -309,7 +318,8 @@
                                 <label class="control-label col-md-12">बच्चों का नाम</label>
 
                                 <div class="col-md-12">
-                                    <input type="text" class="form-control" placeholder="बच्चों का नाम">
+                                    @Html.TextBoxFor(m => m.children_Name, new { @class = "form-control", @id = "txt_children_Name", @placeholder = "बच्चों का नाम", @Maxlength = 50 })
+                                   
                                     <span class="help-block"></span>
                                 </div>
                             </div>
@@ -320,7 +330,8 @@
                                 <label class="control-label col-md-12">उम्र</label>
 
                                 <div class="col-md-12">
-                                    <input type="text" class="form-control" placeholder="उम्र">
+                                    
+                                    @Html.TextBoxFor(m => m.children_Age, new { @class = "form-control", @id = "txt_children_Age", @onkeypress = "return IsNumeric(event);", @placeholder = "उम्र", @Maxlength = 3 })
                                     <span class="help-block"></span>
                                 </div>
                             </div>
@@ -331,7 +342,8 @@
                                 <label class="control-label col-md-12">कार्य</label>
 
                                 <div class="col-md-12">
-                                    <input type="text" class="form-control" placeholder="कार्य">
+                                  
+                                    @Html.TextBoxFor(m => m.children_Work, new { @class = "form-control", @id = "txt_children_Work", @placeholder = "कार्य", @Maxlength = 50})
                                     <span class="help-block"></span>
                                 </div>
                             </div>
@@ -345,7 +357,9 @@
                                 <label class="control-label col-md-12">पेंशन  कार्ड सं0</label>
 
                                 <div class="col-md-12">
-                                    <input type="text" class="form-control" placeholder="पेंषन कार्ड सं0">
+                              
+                                    @Html.TextBoxFor(m => m.pansion_card_No, new { @class = "form-control", @id = "txt_pensioncardnumber", @placeholder = "पेंषन कार्ड सं0", @Maxlength = 10 })
+                                    
                                     <span class="help-block"></span>
                                 </div>
                             </div>
@@ -355,7 +369,9 @@
                             <div class="form-group">
                                 <label class="control-label col-md-12">परिवार की वार्षिक आय</label>
                                 <div class="col-md-12">
-                                    <input type="text" class="form-control" placeholder="रू0">
+                                    
+                                    @Html.TextBoxFor(m => m.family_income, new { @class = "form-control", @id = "txt_Family_Income", @onkeypress = "return IsNumeric(event);", @placeholder = "रू0", @Maxlength = 6 })
+                                
                                     <span class="help-block"></span>
                                 </div>
                             </div>
@@ -375,7 +391,8 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-12">परियोजना का नाम</label>
                                     <div class="col-md-12">
-                                        <input type="text" class="form-control" placeholder="परियोजना का नाम">
+                                        @Html.TextBoxFor(m => m.project_name, new { @class = "form-control", @id = "txt_ProjectName", @placeholder = "परियोजना का नाम", @Maxlength = 50 })
+                                        
                                         <span class="help-block"></span>
                                     </div>
                                 </div>
@@ -386,16 +403,17 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-12">परियोजना लागत </label>
                                     <div class="col-md-12">
-                                        <input type="text" class="form-control" placeholder="परियोजना लागत">
+                                        @Html.TextBoxFor(m => m.project_cost, new { @class = "form-control", @id = "txt_Projectcost", @onkeypress = "return IsNumeric(event);", @placeholder = "परियोजना लागत", @Maxlength = 50 })                                      
                                         <span class="help-block"></span>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label class="control-label col-md-12">प्लाण्ट एवं मशीनरी </label>
+                                    <label class="control-label col-md-12">प्लान्ट एवं मशीनरी </label>
                                     <div class="col-md-12">
-                                        <input type="text" class="form-control" placeholder="रू0">
+                                        @Html.TextBoxFor(m => m.machinery_cost, new { @class = "form-control", @id = "txt_Plant_Mashreni", @onkeypress = "return IsNumeric(event);", @placeholder = "रू0", @Maxlength = 6 })
+                                     
                                         <span class="help-block"></span>
                                     </div>
                                 </div>
@@ -406,7 +424,8 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-12">एक चक कार्यशील पूँजी</label>
                                     <div class="col-md-12">
-                                        <input type="text" class="form-control" placeholder="एक चक कार्यशील पूँजी  ">
+                                        @Html.TextBoxFor(m => m.working_capital, new { @class = "form-control", @id = "txt_ChuckWorkingPepsi", @onkeypress = "return IsNumeric(event);", @placeholder = "एक चक कार्यशील पूँजी ", @Maxlength = 50 })
+                                     
                                         <span class="help-block"></span>
                                     </div>
                                 </div>
@@ -424,7 +443,8 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-12">निकटतम बैक शाखा  का नाम (शहरी क्षेत्रो हेतु)</label>
                                     <div class="col-md-12">
-                                        <input type="text" class="form-control" placeholder="निकटतम बैक शाखा  का नाम">
+                                   
+                                        @Html.TextBoxFor(m => m.bank_name, new { @class = "form-control", @id = "txt_Nearestbankbranchname", @placeholder = "निकटतम बैक शाखा  का नाम ", @Maxlength = 50 })
                                         <span class="help-block"></span>
                                     </div>
                                 </div>
@@ -434,7 +454,8 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-12">सर्विस शाखा का नाम (ग्रामीण क्षेत्रों हेतु)</label>
                                     <div class="col-md-12">
-                                        <input type="text" class="form-control" placeholder="सर्विस शाखा का नाम ">
+                                        @*@Html.TextBoxFor(m => m.Nameservicebranch, new { @class = "form-control", @id = "txt_Nameservicebranch", @placeholder = "सर्विस शाखा का नाम ", @Maxlength = 50 })*@
+                             
                                         <span class="help-block"></span>
                                     </div>
                                 </div>
@@ -444,7 +465,8 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-12">स्वयं का अंशदान</label>
                                     <div class="col-md-12">
-                                        <input type="text" class="form-control" placeholder="5 व 10 प्रतिशत रू0 ">
+                                        @Html.TextBoxFor(m => m.self_share, new { @class = "form-control", @id = "txt_Owndeposit", @onkeypress = "return IsNumeric(event);", @placeholder = "5 व 10 प्रतिशत रू0 ", @Maxlength = 50 })
+                                     
                                         <span class="help-block"></span>
                                     </div>
                                 </div>
@@ -458,7 +480,8 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-12">बैक शाखा में जमा धनराशी</label>
                                     <div class="col-md-12">
-                                        <input type="text" class="form-control" placeholder="बैक शाखा में जमा धनराशी">
+                                      
+                                        @Html.TextBoxFor(m => m.deposit_amt, new { @class = "form-control", @id = "txt_Depositbankbranch", @onkeypress = "return IsNumeric(event);", @placeholder = "बैक शाखा में जमा धनराशी", @Maxlength = 50 })
                                         <span class="help-block"></span>
                                     </div>
                                 </div>
@@ -468,7 +491,8 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-12">बैक शाखा का नाम</label>
                                     <div class="col-md-12">
-                                        <input type="text" class="form-control" placeholder="बैक शाखा का नाम">
+                                       
+                                        @Html.TextBoxFor(m => m.branch_name, new { @class = "form-control", @id = "txt_BankbranchName", @placeholder = "बैक शाखा का नाम", @Maxlength = 50 })
                                         <span class="help-block"></span>
                                     </div>
                                 </div>
@@ -479,14 +503,13 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-12">बैक खाता सं0</label>
                                     <div class="col-md-12">
-                                        <input type="text" class="form-control" placeholder="बैक खाता सं0">
+                                       
+                                        @Html.TextBoxFor(m => m.bank_account_no, new { @class = "form-control", @id = "txt_BankAccountNo", @placeholder = "बैक खाता सं0", @Maxlength = 16 })
                                         <span class="help-block"></span>
                                     </div>
                                 </div>
                             </div>
                             <!--/span-->
-
-
                         </div>
                         <!--/row-->
                         <div class="row">
@@ -495,7 +518,8 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-12">आईएफएससी कोड</label>
                                     <div class="col-md-12">
-                                        <input type="text" class="form-control" placeholder="आईएफएससी कोड">
+                                        @Html.TextBoxFor(m => m.ifsc_code, new { @class = "form-control", @id = "txt_IFSCCode", @placeholder = "आईएफएससी कोड", @Maxlength = 16 })
+                                        
                                         <span class="help-block"></span>
                                     </div>
                                 </div>
@@ -506,13 +530,13 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-12">प्रस्तावित कार्यालय का पता</label>
                                     <div class="col-md-12">
-                                        <input type="text" class="form-control" placeholder="प्रस्तावित कार्यालय का पता">
+                                        @Html.TextBoxFor(m => m.bank_office_address, new { @class = "form-control", @id = "txt_Address", @placeholder = "प्रस्तावित कार्यालय का पता", @Maxlength = 500})
+                                  
                                         <span class="help-block"></span>
                                     </div>
                                 </div>
                             </div>
                             <!--/span-->
-
 
                         </div>
                     </div>
@@ -523,7 +547,8 @@
                     <div class="col-md-6">
                         <div class="row">
                             <div class="col-md-offset-10 col-md-9">
-                                <button type="submit" class="btn green">Submit</button>
+                               
+                                <button type="submit" class="btn green" onclick="Save(false)" id="btnsave">Submit</button>
                                 <button type="button" class="btn red">Cancel</button>
                             </div>
                         </div>
@@ -631,6 +656,127 @@
 
                     });
                 });
+</script>
+
+<script type="text/javascript">
+   
+    function res() {
+        location.reload();
+    }
+        function Save(sptype)
+                {
+            if (document.getElementById("ddlDistrict").value == "Select")
+                    {
+                document.getElementById("ddlDistrict").focus();
+                alert("ज़िला का नाम");
+                        return;
+            }
+            if (document.getElementById("ddlTehsil").value == "Select") {
+                document.getElementById("ddlTehsil").focus();
+                alert("तहसील का नाम");
+                return;
+            }
+            if (document.getElementById("ddlBlock").value == "Select") {
+                document.getElementById("ddlBlock").focus();
+                alert("ब्लॉक का नाम");
+                return;
+            }
+            if (document.getElementById("ddlVillage").value == "Select") {
+                document.getElementById("ddlVillage").focus();
+                alert("ग्राम का नाम");
+                return;
+            }
+            if (document.getElementById("txtName").value == "") {
+                document.getElementById("txtName").focus();
+                alert("नाम");
+                return;
+            }
+            if (document.getElementById("txtAdhar_card_No").value == "") {
+                document.getElementById("txtAdhar_card_No").focus();
+                alert("आधार कार्ड नं0 ");
+                return;
+            }
+            if (document.getElementById("txtFather_Name").value == "") {
+                document.getElementById("txtFather_Name").focus();
+                alert("पिता/पति का नाम");
+                return;
+            }
+            if (document.getElementById("txtCurrentAddress").value == "") {
+                document.getElementById("txtCurrentAddress").focus();
+                alert("पत्र व्यवहार का पता");
+                return;
+            }
+            alert("AAA");
+            var Objform = {
+                        // "PlotCode": document.getElementById("hfPlotCode").value,
+                "applicant_name": document.getElementById("txtName").value,
+                "adhar_no": document.getElementById("txtAdhar_card_No").value,
+                "father_name": document.getElementById("txtFather_Name").value,
+                "current_address": document.getElementById("txtCurrentAddress").value,
+                "permanent_address": document.getElementById("txtPermanent_Address").value,
+                "mobile_no": document.getElementById("txtMobile_No").value,
+                "email": document.getElementById("txtEmailID").value,                      
+                "pansion_card_No": document.getElementById("txt_pensioncardnumber").value,
+                "family_income": document.getElementById("txt_Family_Income").value,
+                "project_name": document.getElementById("txt_ProjectName").value,
+                "project_cost": document.getElementById("txt_Projectcost").value,
+                "machinery_cost": document.getElementById("txt_Plant_Mashreni").value,
+                "working_capital": document.getElementById("txt_ChuckWorkingPepsi").value,
+                "bank_name": document.getElementById("txt_Nearestbankbranchname").value,
+                     //   "Nameservicebranch": document.getElementById("txt_Nameservicebranch").value,
+                "self_share": document.getElementById("txt_Owndeposit").value,
+                "deposit_amt": document.getElementById("txt_Depositbankbranch").value,
+                "branch_name": document.getElementById("txt_BankbranchName").value,
+                "bank_account_no": document.getElementById("txt_BankAccountNo").value,
+                "ifsc_code": document.getElementById("txt_IFSCCode").value,
+                "bank_office_address": document.getElementById("txt_Address").value,
+                "DistCode": document.getElementById("ddlDistrict").value,
+                "TehsilCode": document.getElementById("ddlTehsil").value,
+                "BlockCode": document.getElementById("ddlBlock").value,
+                "VillCode": document.getElementById("ddlVillage").value,
+                "DOB": document.getElementById("txtDOB").value,
+
+                        //"FamilyPerson_Father_Name": document.getElementById("txtFamilyPerson_Father_Name").value,
+                        //"FamilyPerson_Age": document.getElementById("txtFamilyPerson_Age").value,
+                        //"FamilyPerson_work": document.getElementById("txtFamilyPerson_work").value,
+                        //"Mother_Name": document.getElementById("txt_Mother_Name").value,
+                        //"Mother_Age": document.getElementById("txt_Mother_Age").value,
+                        //"Mother_work": document.getElementById("txt_Mother_work").value,
+                        //"Family_brother_sister": document.getElementById("txt_Family_brother_sister").value,
+                        //"Family_brother_sister_Age": document.getElementById("txt_Family_brother_sister_Age").value,
+                        //"Family_brother_sister_Work": document.getElementById("txt_Family_brother_sister_Work").value,
+                        //"children_Name": document.getElementById("txt_children_Name").value,
+                        //"children_Age": document.getElementById("txt_children_Age").value,
+                        //"children_Work": document.getElementById("txt_children_Work").value,
+                    }
+                    $.ajax({
+                      
+                        url: '/Form/InsertUpdateMYSY',
+                        data: JSON.stringify({ Objform: Objform }),
+                        type: 'POST',
+                        contentType: 'application/json; charset=utf-8',
+                        success: function (data) {
+                            alert(data);
+                            location.reload();
+                        }
+                    });
+        }
+        var specialKeys = new Array();
+        specialKeys.push(47); // for Forward Slash(/)
+        specialKeys.push(8); //Backspace
+        specialKeys.push(9); // Tab
+        specialKeys.push(46); // for .
+        specialKeys.push(37); // for left Arrow
+        specialKeys.push(39); // for Right Arrow
+        function IsNumeric(e) {
+            var keyCode = e.which ? e.which : e.keyCode
+            var ret = ((keyCode >= 48 && keyCode <= 57) || specialKeys.indexOf(keyCode) != -1); // For Decimal To All Number
+            if (ret == false) {
+                alert("Only numaric value allwed.");
+            }
+            return ret;
+        }
+       
 </script>
 
 

@@ -1,0 +1,563 @@
+﻿@model DI.Models.IndustrialEstateAllotee
+
+@{
+    ViewBag.Title = "AddAlloteeWizard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using (Html.BeginForm("AddAlloteeWizard", "IndustrialAreaMaster", FormMethod.Post, new { @class = "", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+<div class="portlet light " id="form_wizard_1">
+    <div class="portlet-title">
+        <div class="caption">
+            <i class=" icon-layers font-red"></i>
+            <span class="caption-subject font-red bold uppercase">
+                औद्योगिक आस्थानों में आवंटियों की प्रविष्टि 
+                <span class="step-title"> चरण 1 of 4 </span>
+            </span>
+        </div>
+        <div class="actions">
+            <a class="btn btn-circle btn-icon-only btn-default" href="javascript:;">
+                <i class="icon-cloud-upload"></i>
+            </a>
+            <a class="btn btn-circle btn-icon-only btn-default" href="javascript:;">
+                <i class="icon-wrench"></i>
+            </a>
+            <a class="btn btn-circle btn-icon-only btn-default" href="javascript:;">
+                <i class="icon-trash"></i>
+            </a>
+        </div>
+    </div>
+    <div class="portlet-body form">
+        <form class="form-horizontal" action="#" id="submit_form" method="POST" novalidate="novalidate">
+            <div class="form-wizard">
+                <div class="form-body">
+                    <ul class="nav nav-pills nav-justified steps">
+                        <li class="active" id="litab1">
+                            <a href="#tab1" data-toggle="tab" class="step" aria-expanded="true">
+                                <span class="number"> 1 </span>
+                                <span class="desc">
+                                    <i class="fa fa-check"></i> अकाउंट  सेटअप 
+                                </span>
+                            </a>
+                        </li>
+                        <li id="litab2">
+                            <a href="#tab2" data-toggle="tab" class="step">
+                                <span class="number"> 2 </span>
+                                <span class="desc">
+                                    <i class="fa fa-check"></i>प्रोफाइल सेटअप
+                                </span>
+                            </a>
+                        </li>
+                        <li id="litab3">
+                            <a href="#tab3" data-toggle="tab" class="step active">
+                                <span class="number"> 3 </span>
+                                <span class="desc">
+                                    <i class="fa fa-check"></i> औद्योगिकी सेटअप
+                                </span>
+                            </a>
+                        </li>
+                        <li id="litab4">
+                            <a href="#tab4" data-toggle="tab" class="step">
+                                <span class="number"> 4 </span>
+                                <span class="desc">
+                                    <i class="fa fa-check"></i> आस्थानों का विवरण
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                    <div id="bar" class="progress progress-striped" role="progressbar">
+                        <div class="progress-bar progress-bar-success" style="width: 0%;" id="divpross"> </div>
+                    </div>
+                    <div class="tab-content">
+                        <div class="alert alert-danger display-none">
+                            <button class="close" data-dismiss="alert"></button> You have some form errors. Please check below.
+                        </div>
+                        <div class="alert alert-success display-none">
+                            <button class="close" data-dismiss="alert"></button> Your form validation is successful!
+                        </div>
+                        <div class="tab-pane active" id="tab1">
+                            <h3 class="block">अपने कंपनी का विवरण प्रदान करें</h3>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">
+                                    कंपनी का प्रकार
+                                    <span class="required" aria-required="true"> * </span>
+                                </label>
+                                <div class="col-md-4">
+                                    <select class="form-control">
+                                        <option value="-1">select</option>
+                                        <option value="1">demo1</option>
+                                        <option value="2">demo2</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">
+                                    कंपनी का नाम
+                                    <span class="required" aria-required="true"> * </span>
+                                </label>
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(m => m.company_name, new { @class = "form-control", @id = "txtCompanyName", @placeholder = "कंपनी का नाम" })
+
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">
+                                    पैन
+                                    <span class="required" aria-required="true"> * </span>
+                                </label>
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(m => m.panno, new { @class = "form-control", @id = "txtPanCard", @placeholder = "पैन" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">
+                                    CIN सं०
+                                    <span class="required" aria-required="true"> * </span>
+                                </label>
+                                <div class="col-md-4">
+                                    @*<input type="text" class="form-control" name="email">*@
+                                    @Html.TextBoxFor(m => m.cinno, new { @class = "form-control", @id = "txtCIN", @placeholder = "क्षेत्रफल" })
+
+
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="tab2">
+                            <h3 class="block">अपने प्रोफाइल विवरण प्रदान करें</h3>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">
+                                    मुख्य व्यक्ति का नाम
+                                    <span class="required" aria-required="true"> * </span>
+                                </label>
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(m => m.allotee_name, new { @class = "form-control", @id = "txtAlloteeName", @placeholder = "आस्थान का नाम" })
+
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">
+                                    पता
+                                    <span class="required" aria-required="true"> * </span>
+                                </label>
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(m => m.address, new { @class = "form-control", @id = "txtPlot", @placeholder = "पता" })
+
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">
+                                    जनपद
+                                    <span class="required" aria-required="true"> * </span>
+                                </label>
+                                <div class="col-md-4">
+                                    <select class="form-control">
+                                        <option value="-1">select</option>
+                                        <option value="1">demo1</option>
+                                        <option value="2">demo2</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">
+                                    तहसील
+                                    <span class="required" aria-required="true"> * </span>
+                                </label>
+                                <div class="col-md-4">
+                                    <select class="form-control">
+                                        <option value="-1">select</option>
+                                        <option value="1">demo1</option>
+                                        <option value="2">demo2</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">
+                                    ब्लॉक
+                                    <span class="required" aria-required="true"> * </span>
+                                </label>
+                                <div class="col-md-4">
+                                    <select class="form-control">
+                                        <option value="-1">select</option>
+                                        <option value="1">demo1</option>
+                                        <option value="2">demo2</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">ग्राम</label>
+                                <div class="col-md-4">
+                                    <select class="form-control">
+                                        <option value="-1">select</option>
+                                        <option value="1">demo1</option>
+                                        <option value="2">demo2</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">मोबाइल</label>
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(m => m.mobile, new { @class = "form-control", @id = "txtMobile", @placeholder = "मोबाइल" })
+
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                            <label class="control-label col-md-3">ईमेल </label>
+                            <div class="col-md-4">
+                                @Html.TextBoxFor(m => m.mobile, new { @class = "form-control", @id = "txtMobile", @placeholder = "ईमेल " })
+
+
+                            </div>
+                        </div>
+
+                           
+                        </div>
+                        <div class="tab-pane" id="tab3">
+                            <h3 class="block">औद्योगिक विवरण </h3>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">
+                                    औद्योगिकी का प्रकार 
+                                    <span class="required" aria-required="true"> * </span>
+                                </label>
+                                <div class="col-md-4">
+                                    <select class="form-control">
+                                        <option value="-1">select</option>
+                                        <option value="1">demo1</option>
+                                        <option value="2">demo2</option>
+                                    </select>
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">
+                                    अनुमानित लागत (लाख में)
+                                    <span class="required" aria-required="true"> * </span>
+                                </label>
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(m => m.estimated_cost, new { @class = "form-control", @id = "txtEstimatedCost", @placeholder = "अनुमानित लागत" })
+
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">
+                                    अनुमानित रोजगार (सं० में)
+                                    <span class="required" aria-required="true"> * </span>
+                                </label>
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(m => m.projected_employment, new { @class = "form-control", @id = "txtProjectedEmployment", @placeholder = "अनुमानित रोजगार" })
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">
+                                    अनुमानित समय (माह में)
+                                    <span class="required" aria-required="true"> * </span>
+                                </label>
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(m => m.estimate_time, new { @class = "form-control", @id = "txtEstimateTime", @placeholder = "अनुमानित समय " })
+
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">
+                                    सम्बंधित कार्यानुभव (माह में)
+                                    <span class="required" aria-required="true"> * </span>
+                                </label>
+                                <div class="col-md-4">
+                                   
+                                        @Html.TextBoxFor(m => m.related_work_experience, new { @class = "form-control", @id = "txtRelatedWorkExperience", @placeholder = "सम्बंधित कार्यानुभव" })
+                                    
+                                   
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">
+                                    ढका क्षेत्र (% में )
+                                    <span class="required" aria-required="true"> * </span>
+                                </label>
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(m => m.covered_area, new { @class = "form-control", @id = "txtCoveredArea", @placeholder = "ढका क्षेत्र" })
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">
+                                    खुला क्षेत्र (% में ) 
+                                    <span class="required" aria-required="true"> * </span>
+                                </label>
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(m => m.uncovered_area, new { @class = "form-control", @id = "txtUnCoveredArea", @placeholder = "खुला क्षेत्र " })
+
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">
+                                    खुला क्षेत्र (% में )
+                                    <span class="required" aria-required="true"> * </span>
+                                </label>
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(m => m.uncovered_area, new { @class = "form-control", @id = "txtUnCoveredArea", @placeholder = "खुला क्षेत्र " })
+
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">
+                                    भूमि में निवेश मूल्य (लाख में)
+                                    <span class="required" aria-required="true"> * </span>
+                                </label>
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(m => m.land_investment, new { @class = "form-control", @id = "txtLandInvestment", @placeholder = "भूमि में निवेश मूल्य " })
+
+
+
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">
+                                    ईमारत में लागत (लाख में)
+                                    <span class="required" aria-required="true"> * </span>
+                                </label>
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(m => m.building_investment, new { @class = "form-control", @id = "txtBuildingInvestment", @placeholder = "ईमारत में लागत" })
+
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">
+                                    ईमारत में लागत (लाख में)
+                                    <span class="required" aria-required="true"> * </span>
+                                </label>
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(m => m.building_investment, new { @class = "form-control", @id = "txtBuildingInvestment", @placeholder = "ईमारत में लागत" })
+
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">
+                                    मशीन एवं उपकरण लागत
+                                    <span class="required" aria-required="true"> * </span>
+                                </label>
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(m => m.equipment_investment, new { @class = "form-control", @id = "txtEquipmentInvestment", @placeholder = "मशीन एवं उपकरण लागत" })
+
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">
+                                    संपत्ति में लागत
+                                    <span class="required" aria-required="true"> * </span>
+                                </label>
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(m => m.estimated_cost, new { @class = "form-control", @id = "txtEstimatedCost", @placeholder = "संपत्ति में लागत" })
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">
+                                    अन्य लागत 
+                                    <span class="required" aria-required="true"> * </span>
+                                </label>
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(m => m.other_investment, new { @class = "form-control", @id = "txtOtherInvestment", @placeholder = "अन्य लागत" })
+
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">
+                                    क्या उत्पादन में धुआं उत्पन्न होता है?
+                                    <span class="required" aria-required="true"> * </span>
+                                </label>
+                                <div class="col-md-4">
+                                    @Html.CheckBoxFor(m => m.is_produce_smoke, new { @name = "PlotdisputedCheckBox", @id = "chkIsproducesmoke", @class = "make-switch" })
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">
+                                    बिजली आवश्यकता
+                                    <span class="required" aria-required="true"> * </span>
+                                </label>
+                                <div class="col-md-4">
+                                    @Html.CheckBoxFor(m => m.is_produce_smoke, new { @name = "PlotdisputedCheckBox", @id = "chkIsproducesmoke", @class = "make-switch" })
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">
+                                    दूरभाष आवश्यकता
+                                    <span class="required" aria-required="true"> * </span>
+                                </label>
+                                <div class="col-md-4">
+                                    @Html.CheckBoxFor(m => m.is_telephone, new { @name = "PlotdisputedCheckBox", @id = "chkIsTelephone", @class = "make-switch" })
+
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">
+                                    सकल लाभ
+                                    <span class="required" aria-required="true"> * </span>
+                                </label>
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(m => m.grossprofit, new { @class = "form-control", @id = "txtArea", @placeholder = "सकल लाभ" })
+
+
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="tab4">
+                            <h3 class="block">आस्थान का विवरण</h3>
+                            @*<h4 class="form-section">आस्थान</h4>*@
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12 " style="text-align:left">आस्थान का नाम </label>
+                                    <div class="col-md-12">
+                                        @*@Html.DropDownListFor(m => m.IndustrialEstate, Model.IndustrialEstate, "--Select--", new { @id = "ddlIndustrialEstate", @class = "form-control" })*@
+                                        <select class="form-control">
+                                            <option value="-1">select</option>
+                                            <option value="1">demo1</option>
+                                            <option value="2">demo2</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12" style="text-align:left">भूखंड </label>
+                                    <div class="col-md-12">
+                                        @*@Html.DropDownListFor(m => m.PlotName, Model.PlotName, "--Select--", new { @id = "ddlPlotName", @class = "form-control" })*@
+
+                                        <select class="form-control">
+                                            <option value="-1">select</option>
+                                            <option value="1">demo1</option>
+                                            <option value="2">demo2</option>
+                                        </select>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12" style="text-align:left"> शेड  </label>
+                                    <div class="col-md-12">
+                                        @*@Html.DropDownListFor(m => m.ShedName, Model.ShedName, "--Select--", new { @id = "ddlShedName", @class = "form-control" })*@
+
+                                        <select class="form-control">
+                                            <option value="-1">select</option>
+                                            <option value="1">demo1</option>
+                                            <option value="2">demo2</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12" style="text-align:left"> आवंटन सं०  </label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" placeholder="आवंटन">
+                                      
+
+                                    </div>
+                                    <div class="col-md-6">
+                                        <button type="submit" class="btn green" align="right">Add</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <table class="table table-striped table-bordered table-hover table-checkable" id="datatable_products">
+                                    <thead>
+
+                                        <tr role="row" class="heading">
+
+                                            <th width="10%"> क्र० सं० </th>
+                                            <th width="15%"> आस्थान का नाम </th>
+                                            <th width="15%"> भूखंड</th>
+                                            <th width="15%"> शेड </th>
+                                            <th width="10%"> आवंटन सं०</th>
+
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <div class="row">
+                        <div class="col-md-offset-3 col-md-9">
+                            <a href="javascript:;" class="btn default button-previous disabled" style="display: none;">
+                                <i class="fa fa-angle-left"></i> Back
+                            </a>
+                            <a href="javascript:;" class="btn btn-outline green button-next" onclick="myfunction()">
+                                Continue
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                            <a href="javascript:;" class="btn green button-submit" style="display: none;">
+                                Submit
+                                <i class="fa fa-check"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script>
+    function myfunction() {
+        if ($("#tab1").hasClass('active'))
+        {
+            //divpross
+            $("#divpross").css('width', '25%');
+            $("#litab2").addClass('active');
+            $("#litab1").removeClass('active');
+            $("#litab1").addClass('done');
+            $("#tab2").addClass('active');
+            $("#tab1").removeClass('active');
+            return;
+        }
+        else if ($("#tab2").hasClass('active')) {
+            $("#divpross").css('width', '50%');
+            $("#litab3").addClass('active');
+            $("#litab2").removeClass('active');
+            $("#litab2").addClass('done');
+            $("#tab3").addClass('active');
+            $("#tab2").removeClass('active');
+            return;
+        }
+        else if ($("#tab3").hasClass('active')) {
+            $("#divpross").css('width', '75%');
+
+            $("#litab4").addClass('active');
+            $("#litab3").removeClass('active');
+            $("#litab3").addClass('done');
+            $("#tab4").addClass('active');
+            $("#tab3").removeClass('active');
+            return;
+        }
+    }
+
+</script>
+}

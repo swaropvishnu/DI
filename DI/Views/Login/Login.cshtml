@@ -13,7 +13,8 @@
     <meta content="width=device-width, initial-scale=1" name="viewport" />
     <meta content="Director of Industries" name="description" />
     <meta content="" name="author" />
-    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" />
+
+
     @Styles.Render("~/Content/cssLog")
     <link rel="shortcut icon" href="~/Content/Homepage/assets/images/favicon.jpg" /> 
     <style>
@@ -53,7 +54,6 @@
     </style>
     <script src="~/scripts/sha256.js"></script>
     <script type="text/javascript">
-
         function HashPwdwithSalt() {
             var salt = '@Session["salt"]';
 
@@ -77,9 +77,7 @@
                   sha256(document.getElementById("txtPassword").value + salt);
 
             }
-
             // return true;
-
         }
 
         function HashPwdwithSalt11(salt) {
@@ -150,10 +148,30 @@
             xmlHTTP.send();
         }
     </script>
+    <script>
 
+    document.onkeypress = function (event) {
+        event = (event || window.event);
+        if (event.keyCode == 123) {
+            return false;
+        }
+    }
+    document.onmousedown = function (event) {
+        event = (event || window.event);
+        if (event.keyCode == 123) {
+            return false;
+        }
+    }
+    document.onkeydown = function (event) {
+        event = (event || window.event);
+        if (event.keyCode == 123) {
+            return false;
+        }
+    }
+    </script>
 </head>
 <!-- END HEAD -->
-<body class="login">
+<body class="login" oncontextmenu="return false;">
     <!-- BEGIN : LOGIN PAGE 5-1 -->
     <div class="logo">
         <div class="site-logo fancy">

@@ -1,6 +1,6 @@
 ﻿@model DI.Models.IndustrialAreaMasterModal
 @{
-    ViewBag.Title = "IndustrialEstateEntryForm";
+    ViewBag.Title = "EditIndustrialEstate";
     Layout = "~/Views/Shared/_Layout.cshtml";
     if (UserSession.LoggedInUserLevelId == null || UserSession.LoggedInUserLevelId != "6")
     {
@@ -8,6 +8,8 @@
         return;
     }
 }
+
+
 <script>
     $(document).ready(function () {
 
@@ -18,28 +20,20 @@
             changeYear: true
         });
     });
-    //$(document).ready(function () {
-    //    try {
-    //        $("input[type='text']").each(function () {
-    //            $(this).attr("autocomplete", "no");
-    //        });
-    //    }
-    //    catch (e)
-    //    { }
-    //});
+
 </script>
 <!-- BEGIN SAMPLE FORM PORTLET-->
 <div class="portlet light ">
     <div class="portlet-title">
         <div class="caption font-green">
             <i class="icon-pin font-green"></i>
-            <span class="caption-subject bold uppercase"> जनपद में स्थापित औद्योगिक आस्थान </span>
+            <span class="caption-subject bold uppercase"> जनपद में स्थापित औद्योगिक आस्थानो का विवरण </span>
         </div>
     </div>
     <div class="portlet-body form">
         @using (Html.BeginForm("IndustrialEstateEntryForm", "IndustrialAreaMaster",
-                                                                       //new { ReturnUrl = ViewBag.ReturnUrl },
-                                                                       FormMethod.Post, new { @class = "", enctype = "multipart/form-data" }))
+                                                                               //new { ReturnUrl = ViewBag.ReturnUrl },
+                                                                               FormMethod.Post, new { @class = "", enctype = "multipart/form-data" }))
 
         {
             @Html.AntiForgeryToken()
@@ -48,7 +42,7 @@
                 <div class="portlet-title">
                     <div class="caption">
                         <i class="icon-equalizer font-red-sunglo"></i>
-                        <span class="caption-subject font-red-sunglo bold uppercase">औद्योगिक आस्थानो की प्रविष्टि </span>
+                        <span class="caption-subject font-red-sunglo bold uppercase">औद्योगिक आस्थानो का संशोधन </span>
                         @*<span class="caption-helper">उद्यमिता के प्रोत्साहन हेतु </span>*@
                     </div>
                     @*<div class="tools">
@@ -68,7 +62,19 @@
                                     <div class="form-group">
                                         <label class="control-label col-md-12" id="lblIndustryType"> औद्योगिक प्रकार <span class="Mandatory">*</span></label>
                                         <div class="col-md-12">
-                                                @Html.DropDownListFor(m => m.IndustryType, new List<SelectListItem> { new SelectListItem { Text = "--चयन करे--", Value = "-1" } }, new { @id = "ddlIndustryType", @class = "form-control" })
+                                            @Html.DropDownListFor(m => m.IndustryType, new List<SelectListItem> { new SelectListItem { Text = "--चयन करे--", Value = "-1" } }, new { @id = "ddlIndustryType", @class = "form-control" } )
+                                            @Html.HiddenFor(m => m.industrytype_code_diff, new { @id = "hfIndustryType" })
+                                            @Html.HiddenFor(m => m.DistrictCode, new { @id = "hfddlDistrict" })
+                                            @Html.HiddenFor(m => m.TehsilCode, new { @id = "hfddlTehsil" })
+                                            @Html.HiddenFor(m => m.BlockCode, new { @id = "hfddlBlock" })
+                                            @Html.HiddenFor(m => m.VillageCode, new { @id = "hfddlVillage" })
+                                            @*@Html.HiddenFor(m => m.IsStreet, new { @id = "hfIsStreet" })
+                                            @Html.HiddenFor(m => m.IsElectriccity, new { @id = "hfIsElectriccity" })
+                                            @Html.HiddenFor(m => m.IsDrainage, new { @id = "hfIsDrainage" })
+                                            @Html.HiddenFor(m => m.IsDrinkingWater, new { @id = "hfIsDrinkingWater" })
+                                            @Html.HiddenFor(m => m.IsIndustrialPark, new { @id = "hfIsIndustrialPark" })
+                                            @Html.HiddenFor(m => m.IsRawMaterialsSiding, new { @id = "hfIsRawMaterialsSiding" })*@
+                                           
                                         </div>
                                     </div>
                                 </div>
@@ -78,10 +84,10 @@
                                     <div class="form-group">
                                         <label class="control-label col-md-12" id="lblEstate_name">आस्थान का नाम<span class="Mandatory">*</span></label>
                                         <div class="col-md-12">
-                                           
-                                                @Html.TextBoxFor(m => m.IndustrialEstateName, new { @class = "form-control", @placeholder = "आस्थान का नाम", @id = "txtEstablished_industrial" ,@Maxlength="20" })
-                                  @*@onkeypress = "return validate(event);"*@          
-                                            <input id="hfIndustrialAreaCode" type="hidden" value="-1" />
+
+                                            @Html.TextBoxFor(m => m.IndustrialEstateName, new { @class = "form-control", @placeholder = "आस्थान का नाम", @id = "txtEstablished_industrial" ,@Maxlength = 20 })
+                                            @Html.HiddenFor(m => m.IndustrialEstateCode, new { @id = "hfIndustrialAreaCode" })
+                                          
                                         </div>
                                     </div>
                                 </div>
@@ -91,8 +97,8 @@
                                         <label class="control-label col-md-12" id="lblEstateyear">स्थापना वर्ष<span class="Mandatory">*</span></label>
                                         <div class="col-md-12">
                                             @*<input id="Indrustry_start_year" name="Indrustry_start_year" onkeypress="return IsNumeric(event);"  class = "form-control"  />*@
-                                            @Html.EditorFor(model => model.EditEstablishment, new { htmlAttributes = new { @class = "form-control", @onkeypress = "return IsNumeric(event);", @Value = "", @placeholder = "dd/mm/yy", @id = "Establishment", @maxlength = 10 } })
-                                            @Html.ValidationMessageFor(model => model.Establishment, "", new { @class = "text-danger"})
+                                            @Html.EditorFor(model => model.Establishment, new { htmlAttributes = new { @class = "form-control", @onkeypress = "return IsNumeric(event);", @Value = Model.EditEstablishment, @placeholder = "dd/mm/yy", @id = "Establishment", @Maxlength = 10 } })
+                                            @Html.ValidationMessageFor(model => model.Establishment, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                 </div>
@@ -110,7 +116,10 @@
                                     <div class="form-group">
                                         <label class="control-label col-md-12" id="lblEstateDist">जनपद<span class="Mandatory">*</span></label>
                                         <div class="col-md-12">
-                                            @Html.DropDownListFor(m => m.DistrictNames, Model.DistrictNames, new { @id = "ddlDistrict", @class = "form-control" })
+                                            
+
+                                            @Html.DropDownListFor(m => m.DistrictNames, new List<SelectListItem> { new SelectListItem { Text = "--चयन करे--", Value = "-1" } }, new { @id = "ddlDistrict", @class = "form-control" })
+
                                         </div>
                                     </div>
                                 </div>
@@ -150,7 +159,7 @@
                                     <div class="form-group">
                                         <label class="control-label col-md-12">पिन कोड </label>
                                         <div class="col-md-12">
-                                            @Html.TextBoxFor(m => m.PinCode, new { @class = "form-control", @id = "txtPincode", @placeholder = "पिन कोड", @onkeypress = "return IsNumeric(event);", @Maxlength = 6, @Value = "" })
+                                            @Html.TextBoxFor(m => m.PinCode, new { @class = "form-control", @id = "txtPincode", @placeholder = "पिन कोड", @onkeypress = "return IsNumeric(event);", @Maxlength = 6,  })
                                         </div>
                                     </div>
                                 </div>
@@ -161,9 +170,9 @@
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label class="control-label col-md-12" id="lblEstateArea">क्षेत्रफल (वर्ग मी०)<span class="Mandatory">*</span></label>
+                                        <label class="control-label col-md-12 " id="lblEstateArea">क्षेत्रफल (वर्ग मी०)<span class="Mandatory">*</span></label>
                                         <div class="col-md-12">
-                                            @Html.TextBoxFor(m => m.AreaPerSqfeet, new { @class = "form-control", @id = "txtArea", @placeholder = "क्षे० (वर्ग मी०)", @onkeypress = "return IsNumeric(event);"  ,@Maxlength = 8 })
+                                            @Html.TextBoxFor(m => m.AreaPerSqfeet, new { @class = "form-control", @id = "txtArea", @placeholder = "क्षे० (वर्ग मी०)", @onkeypress = "return IsNumeric(event);", @Maxlength = 8 })
                                         </div>
                                     </div>
                                 </div>
@@ -172,14 +181,14 @@
                                     <div class="form-group">
                                         <label class="control-label col-md-12" id="lblEstaterate">वर्तमान प्रचलित दर(वर्ग मीटर)<span class="Mandatory">*</span></label>
                                         <div class="col-md-12">
-                                            @Html.TextBoxFor(m => m.RatePerSqFeet, new { @class = "form-control", @id = "txtrate", @placeholder = "दूरी (वर्ग मी०)", @onkeypress = "return IsNumeric(event);", @Maxlength = 8 })
+                                            @Html.TextBoxFor(m => m.RatePerSqFeet, new { @class = "form-control", @id = "txtrate", @placeholder = "दूरी (वर्ग मी०)", @onkeypress = "return IsNumeric(event);" , @Maxlength = 8 })
                                         </div>
                                     </div>
                                 </div>
                                 <!--/span-->
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label class="control-label col-md-12" id="lblEstateplotcount">भूखंड (संख्या)  <span class="Mandatory">*</span></label>
+                                        <label class="control-label col-md-12" id="lblEstateplotcount">भूखंड (संख्या)  </label>
                                         <div class="col-md-12">
                                             @Html.TextBoxFor(m => m.PlotNo, new { @class = "form-control", @id = "txtCurrentlynumbertotaldevelopedlandarea", @placeholder = "भूखंड (संख्या)", @onkeypress = "return IsNumeric(event);", @Maxlength = 3 })
                                         </div>
@@ -188,9 +197,9 @@
                                 <!--/span-->
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label class="control-label col-md-12" id="lblEstateshed">शेड (संख्या) <span class="Mandatory">*</span></label>
+                                        <label class="control-label col-md-12" id="lblEstateshed">शेड (संख्या) </label>
                                         <div class="col-md-12">
-                                            @Html.TextBoxFor(m => m.ShadeNo, new { @class = "form-control", @id = "txttotaldevelopedlandarea_Number_sheds", @onkeypress = "return IsNumeric(event);" , @placeholder = "शेड (संख्या)",@Maxlength = 3 })
+                                            @Html.TextBoxFor(m => m.ShadeNo, new { @class = "form-control", @id = "txttotaldevelopedlandarea_Number_sheds", @onkeypress = "return IsNumeric(event);", @Maxlength = 3 })
                                         </div>
                                     </div>
                                 </div>
@@ -204,7 +213,7 @@
                                     <div class="form-group">
                                         <label class="control-label col-md-12" id="lblEstaterail">निकटतम रेलवे स्टेशन से दूरी (कि० मी०)<span class="Mandatory">*</span></label>
                                         <div class="col-md-12">
-                                            @Html.TextBoxFor(m => m.NearestRailwayStationKm, new { @class = "form-control", @id = "txtDistancekilometers_station", @Maxlength = 8 })
+                                            @Html.TextBoxFor(m => m.NearestRailwayStationKm, new { @class = "form-control", @id = "txtDistancekilometers_station" , @Maxlength = 8 })
                                         </div>
                                     </div>
                                 </div>
@@ -213,7 +222,7 @@
                                     <div class="form-group">
                                         <label class="control-label col-md-12" id="lblEstatebus">निकटतम बस स्टेशन से दूरी (कि० मी०) <span class="Mandatory">*</span></label>
                                         <div class="col-md-12">
-                                            @Html.TextBoxFor(m => m.NearestBusStationKM, new { @class = "form-control", @id = "txtAccess_distancenet_bus_stand", @Maxlength = 8 })
+                                            @Html.TextBoxFor(m => m.NearestBusStationKM, new { @class = "form-control", @id = "txtAccess_distancenet_bus_stand" , @Maxlength = 8 })
                                             @*<span class="help-block"> This is inline help </span>*@
                                         </div>
                                     </div>
@@ -283,11 +292,11 @@
                         </div>
                         <div class="form-actions">
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-11">
                                     <div class="row">
-                                        <div class="col-md-offset-9 col-md-12">
-                                            <button type="button" class="btn green" onclick="Save()">Submit</button>
-                                            <button type="button" class="btn red" onclick="res()">Cancel</button>
+                                        <div class="col-md-offset-12 col-md-12">
+                                            <button type="button" class="btn green" onclick="Save()">Update</button>
+                                          
                                         </div>
                                     </div>
                                 </div>
@@ -318,8 +327,92 @@
                             //district = district + '</select>';
                             //alert(district);
                             $('#ddlIndustryType').append(ddlComapnyType);
+                            $('#ddlIndustryType').val($('#hfIndustryType').val());
+                            
+
                         }
                     });
+
+                    $.ajax({
+                        type: "post",
+                        url: "/IndustrialAreaMaster/GetDistrict",
+                        data: {},
+                        datatype: "json",
+                        traditional: true,
+                        success: function (data) {
+                            $('#ddlDistrict').empty();
+                            var ddlComapnyType = "";
+                            //var district = '';
+                            for (var i = 0; i < data.length; i++) {
+                                ddlComapnyType = ddlComapnyType + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                            }
+                            //district = district + '</select>';
+                            //alert(district);
+                            $('#ddlDistrict').append(ddlComapnyType);
+                            $('#ddlDistrict').val($('#hfddlDistrict').val());
+                            $.ajax({
+                                type: "post",
+                                url: "/IndustrialAreaMaster/GetTehsil",
+                                data: { DistID: $('#hfddlDistrict').val() },
+                                datatype: "json",
+                                traditional: true,
+                                success: function (data) {
+                                    $('#ddlTehsil').empty();
+                                    var district = "";
+                                    //var district = '';
+                                    for (var i = 0; i < data.length; i++) {
+                                        district = district + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                                    }
+                                    //district = district + '</select>';
+                                    //alert(district);
+                                    $('#ddlTehsil').append(district);
+                                    $('#ddlTehsil').val($('#hfddlTehsil').val());
+                                }
+                            });
+
+                            $.ajax({
+                                type: "post",
+                                url: "/IndustrialAreaMaster/GetBlock",
+                                data: { TehID: $('#hfddlTehsil').val() },
+                                datatype: "json",
+                                traditional: true,
+                                success: function (data) {
+                                    $('#ddlBlock').empty();
+                                    var block = '';
+                                    // var district = "<select id='ddlTehsil'>";
+                                    //var block = '';
+                                    for (var i = 0; i < data.length; i++) {
+                                        block = block + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                                    }
+                                    //  district = district + '</select>';
+                                    //alert(district);
+                                    $('#ddlBlock').append(block);
+                                    $('#ddlBlock').val($('#hfddlBlock').val());
+                                }
+                            });
+                            $.ajax({
+                                type: "post",
+                                url: "/IndustrialAreaMaster/GetVillage",
+                                data: { BlockID: $('#hfddlBlock').val() },
+                                datatype: "json",
+                                traditional: true,
+                                success: function (data) {
+                                    $('#ddlVillage').empty();
+                                    var village = "";
+                                    //var village = '';
+                                    for (var i = 0; i < data.length; i++) {
+                                        village = village + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                                    }
+                                    //  district = district + '</select>';
+                                    //alert(district);
+                                    $('#ddlVillage').append(village);
+                                    $('#ddlVillage').val($('#hfddlVillage').val());
+                                }
+                            });
+                        }
+                    });
+
+
                     $('#ddlDistrict').change(function () {
 
                         //  alert("done");
@@ -339,6 +432,7 @@
                                 //district = district + '</select>';
                                 //alert(district);
                                 $('#ddlTehsil').append(district);
+                                $('#ddlTehsil').val($('#hfddlTehsil').val());
                             }
                         });
                     });
@@ -362,6 +456,7 @@
                                 //  district = district + '</select>';
                                 //alert(district);
                                 $('#ddlBlock').append(block);
+                                $('#ddlBlock').val($('#hfddlBlock').val());
                             }
                         });
                     });
@@ -383,9 +478,11 @@
                                 //  district = district + '</select>';
                                 //alert(district);
                                 $('#ddlVillage').append(village);
+                                $('#ddlVillage').val($('#hfddlVillage').val());
                             }
                         });
                     });
+                   
                 });
 
 
@@ -415,13 +512,48 @@
             </script>
 
             <script type="text/javascript">
-                $('.make-switch').bootstrapSwitch('state', false);
+               
 
                 function res() {
                     location.reload();
                 }
                 function Save() {
 
+                    //if (document.getElementById("ddlIndustryType").value == "-1") {
+                    //    document.getElementById("ddlIndustryType").focus();
+                    //    alert("Please Select IndustryType");
+                    //    return;
+                    //}
+                    //if (document.getElementById("txtEstablished_industrial").value == "") {
+                    //    document.getElementById("txtEstablished_industrial").focus();
+                    //    alert("Please Enter Location");
+                    //    return;
+                    //}
+                    //if (document.getElementById("Establishment").value == "") {
+                    //    document.getElementById("Establishment").focus();
+                    //    alert("Please Establishment Year");
+                    //    return;
+                    //}
+                    //if (document.getElementById("txtAddress").value == "") {
+                    //    document.getElementById("txtAddress").focus();
+                    //    alert("Please Enter Address");
+                    //    return;
+                    //}
+                    //if (document.getElementById("ddlDistrict").value == "-1") {
+                    //    document.getElementById("ddlDistrict").focus();
+                    //    alert("Please select District");
+                    //    return;
+                    //}
+                    //if (document.getElementById("txtArea").value == "") {
+                    //    document.getElementById("txtArea").focus();
+                    //    alert("Please enter Area");
+                    //    return;
+                    //}
+                    //if (document.getElementById("txtrate").value == "") {
+                    //    document.getElementById("txtrate").focus();
+                    //    alert("Please enter rate");
+                    //    return;
+                    //}
                     if (document.getElementById("ddlIndustryType").value == "-1") {
                         document.getElementById("ddlIndustryType").focus();
                         $('#lblIndustryType').css('color', 'red');
@@ -432,14 +564,14 @@
                         document.getElementById("txtEstablished_industrial").focus();
                         $('#lblEstate_name').css('color', 'red');
                         alert("आस्थान का नाम");
-                        
+
                         return;
                     }
                     if (document.getElementById("Establishment").value == "") {
                         document.getElementById("Establishment").focus();
                         $('#lblEstateyear').css('color', 'red');
                         alert("स्थापना वर्ष");
-                       // alert("Please Establishment Year");
+                        // alert("Please Establishment Year");
                         return;
                     }
                     if (document.getElementById("txtAddress").value == "") {
@@ -485,7 +617,6 @@
                         //alert("Please enter rate");
                         return;
                     }
-
                     var IsStreet = $('#Accessibility_location_available_notYes').bootstrapSwitch('state'); //$("#Accessibility_location_available_notYes").is(":checked");
                     var IsElectriccity = $('#Whether_electricity_Available_notRadiosYes').bootstrapSwitch('state')// $("#Whether_electricity_Available_notRadiosYes").is(":checked");
                     var IsDrainage = $('#Whether_Drainage_facility_AvailableRadios').bootstrapSwitch('state')//$("#Whether_Drainage_facility_AvailableRadios").is(":checked");
@@ -524,7 +655,7 @@
                             contentType: 'application/json; charset=utf-8',
                             success: function (data) {
                                 alert(data);
-                                location.reload();
+                                
                             }
                         });
                     } catch (e) {
@@ -533,16 +664,6 @@
                     }
 
                 }
-
-                $(document).ready(function () {
-                    try {
-                        $("input[type='text']").each(function () {
-                            $(this).attr("autocomplete", "nope");
-                        });
-                    }
-                    catch (e)
-                    { }
-                });
             </script>
 
         }

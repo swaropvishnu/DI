@@ -1,9 +1,17 @@
 ﻿@*@using Jmelosegui.Mvc.GoogleMap*@
 
+
 <!DOCTYPE html>
 
 <html lang="en" >
+@{
+    if (UserSession.LoggedInUserLevelId == null || UserSession.LoggedInUserLevelId != "6")
+    {
+        Response.Redirect("../Login/login");
+        return;
+    }
 
+}
 <head>
     <meta charset="utf-8" />
     <title>Industries</title>
@@ -12,7 +20,7 @@
     <meta content="Director of Industries" name="description" />
     <meta content="" name="author" />
     <!-- BEGIN GLOBAL MANDATORY STYLES -->
-    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" />
+   
     
     @Styles.Render("~/Content/cssBlank")
     @Styles.Render("~/Content/cssDash")
@@ -31,13 +39,50 @@
       $.gmap3({
         key: 'AIzaSyBOYfwN5dgGQislPPsZMYcEt2EE98N5O4A'
       });
+      
     </script>
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-    <link rel="stylesheet" href="/resources/demos/style.css">
+    @*<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>*@
+
+    @*<link rel="stylesheet" href="/resources/demos/style.css">*@
+    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+    <script src="~/Content/plugins/jquery-ui.js"></script>
+    <style>
+        
+input:focus,textarea:focus,select:focus{ 
+    outline: none !important;
+    border-color: #38af05 !important;
+    box-shadow: 0 0 10px #38af05 !important;
+}
+        .Mandatory {
+            color:red !important;
+           
+        }
+    </style>
+    <script>
+
+    document.onkeypress = function (event) {
+        event = (event || window.event);
+        if (event.keyCode == 123) {
+            return false;
+        }
+    }
+    document.onmousedown = function (event) {
+        event = (event || window.event);
+        if (event.keyCode == 123) {
+            return false;
+        }
+    }
+    document.onkeydown = function (event) {
+        event = (event || window.event);
+        if (event.keyCode == 123) {
+            return false;
+        }
+    }
+    </script>
 </head>
 <!-- END HEAD -->
-<body class="page-header-fixed page-sidebar-closed-hide-logo page-container-bg-solid page-md">
+<body class="page-header-fixed page-sidebar-closed-hide-logo page-container-bg-solid page-md" oncontextmenu="return false;">
 @*<body ng-controller="AppController" class="page-header-fixed page-sidebar-closed-hide-logo page-container-bg-solid page-md" ng-class="{'page-sidebar-closed': settings.layout.pageSidebarClosed}">*@
         <!-- BEGIN HEADER -->
         <div class="page-header navbar navbar-fixed-top">
@@ -118,7 +163,10 @@
                             <!-- END INBOX DROPDOWN -->
                             <!-- BEGIN TODO DROPDOWN -->
                             <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
-                            <li class="dropdown dropdown-extended dropdown-tasks" id="header_task_bar">
+
+                            @*Comment by *@
+
+                            @*<li class="dropdown dropdown-extended dropdown-tasks" id="header_task_bar">
                                 <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
                                     <i class="icon-calendar"></i>
                                     <span class="badge badge-default"> 3 </span>
@@ -150,7 +198,7 @@
                                         </ul>
                                     </li>
                                 </ul>
-                            </li>
+                            </li>*@
                             <!-- END TODO DROPDOWN -->
                             <!-- BEGIN USER LOGIN DROPDOWN -->
                             <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
@@ -161,11 +209,11 @@
                                     <i class="fa fa-angle-down"></i>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-default">
-                                    <li>
+                                    @*<li>
                                         <a href="page_user_profile_1.html">
                                             <i class="icon-user"></i> My Profile
                                         </a>
-                                    </li>
+                                    </li>*@
 
                                     <li class="divider"> </li>
 
