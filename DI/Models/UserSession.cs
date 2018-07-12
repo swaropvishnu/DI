@@ -269,7 +269,18 @@ namespace DI.Models
                 LoggedInUser.profilephoto = value;
             }
         }
-
+        public static short yojanacode
+        {
+            get
+            {
+                return LoggedInUser.yojanacode;
+            }
+            set
+            {
+                LoggedInUser.yojanacode = value;
+            }
+        }
+        //public short yojana_code { get; set; }
 
     }
 }

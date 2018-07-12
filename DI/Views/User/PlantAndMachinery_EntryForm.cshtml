@@ -1,0 +1,448 @@
+﻿@model DI.Models.Plant_mahinery
+@{
+    ViewBag.Title = "PlantAndMachinery_EntryForm";
+    Layout = "~/Views/Shared/UserLayout.cshtml";
+}
+<style>
+    .disabled {
+        pointer-events: none !important;
+        cursor: default !important;
+    }
+</style>
+<div class="portlet light " id="form_wizard_1">
+    <div class="portlet-title">
+        <div class="caption">
+            <i class="icon-layers font-red"></i>
+            <span class="caption-subject font-red bold uppercase">
+                मुख्यमंत्री युवा स्वरोजगार योजना - प्लांट एंड मशीनरी विवरण
+                <span class="step-title"> चरण 1 से  2 </span>
+            </span>
+        </div>
+
+    </div>
+    <div class="portlet-body form">
+        <form class="form-horizontal" action="#" id="submit_form" method="POST" novalidate="novalidate">
+            <div class="form-wizard">
+                <div class="form-body">
+                    <ul class="nav nav-pills nav-justified steps">
+
+                        <li class="active" id="litab1">
+                            <a data-toggle="tab" class="step disabled" aria-expanded="true">
+                                <span class="number"> 1 </span>
+                                <span class="desc">
+                                    <i class="fa fa-check"></i> प्लांट एंड मशीनरी
+                                </span>
+                            </a>
+                        </li>
+
+                        <li id="litab2" class="">
+                            <a data-toggle="tab" class="step disabled">
+                                <span class="number"> 2 </span>
+                                <span class="desc">
+                                    <i class="fa fa-check"></i>वित्तीय विवरण
+                                </span>
+                            </a>
+                        </li>
+
+                    </ul>
+                    <div id="bar" class="progress progress-striped" role="progressbar">
+                        <div class="progress-bar progress-bar-success" style="width: 0%;" id="divpross"> </div>
+                    </div>
+                    <div class="tab-content">
+                        <div class="alert alert-danger display-none">
+                            <button class="close" data-dismiss="alert"></button> You have some form errors. Please check below.
+                        </div>
+                        <div class="alert alert-success display-none">
+                            <button class="close" data-dismiss="alert"></button> Your form validation is successful!
+                        </div>
+                        <div class="tab-pane active" id="tab1">
+                            <h3 class="form-section" style="font-weight:bolder">प्लांट एंड मशीनरी</h3>
+                            @*<div class="form-body" style="padding: 0px !important">
+
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-12" id="lblname">नाम<span class="Mandatory">*</span></label>
+                                                <div class="col-md-12">
+                                                    @Html.TextBoxFor(m => m.applicant_name, new { @class = "form-control", @id = "txtName", @placeholder = "नाम ", @Maxlength = 20 })
+                                                    @Html.HiddenFor(m => m.applicant_code, new { @id = "hfapplicant_code" })
+                                                    @Html.HiddenFor(m => m.steps, new { @id = "hfstep" })
+                                                    @Html.HiddenFor(m => m.DistCode, new { @id = "hfDistCode" })
+                                                    @Html.HiddenFor(m => m.TehsilCode, new { @id = "hfTehsilCode" })
+                                                    @Html.HiddenFor(m => m.BlockCode, new { @id = "hfBlockCode" })
+                                                    @Html.HiddenFor(m => m.VillCode, new { @id = "hfVillCode" })
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--/span-->
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-12" id="lbldob">जन्मतिथि<span class="Mandatory">*</span></label>
+                                                <div class="col-md-12">
+                                                    @Html.EditorFor(model => model.inputdob, new { htmlAttributes = new { @class = "form-control", @onkeypress = "return IsNumeric(event);", @placeholder = "dd/mm/yy", @id = "txtDOB" } })
+                                                    @Html.ValidationMessageFor(model => model.inputdob, "", new { @class = "text-danger" })
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-12" id="lbladhar">आधार कार्ड नं0<span class="Mandatory">*</span></label>
+                                                <div class="col-md-12">
+                                                    @Html.TextBoxFor(m => m.adhar_no, new { @class = "form-control", @id = "txtAdhar_card_No", @placeholder = "आधार कार्ड नं0 ", @onkeypress = "return IsNumeric(event);", @Maxlength = 12 })
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--/span-->
+                                    </div>
+                                    <!--/row-->
+
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-12" id="lblfather">पिता/पति का नाम<span class="Mandatory">*</span></label>
+                                                <div class="col-md-12">
+
+                                                    @Html.TextBoxFor(m => m.Husband_father_name, new { @class = "form-control", @id = "txtHusband_father_name", @placeholder = "पिता/पति का नाम ", @Maxlength = 20 })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--/span-->
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-12" id="lbladress">पत्र व्यवहार का पता<span class="Mandatory">*</span></label>
+                                                <div class="col-md-12">
+                                                    @Html.TextBoxFor(m => m.current_address, new { @class = "form-control", @id = "txtCurrentAddress", @placeholder = "पत्र व्यवहार का पता", @Maxlength = 200 })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--/span-->
+                                        <!--/span-->
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-12" id="lblPeradress">स्थाई पता<span class="Mandatory">*</span></label>
+                                                <div class="col-md-12">
+
+                                                    @Html.TextBoxFor(m => m.permanent_address, new { @class = "form-control", @id = "txtPermanent_Address", @placeholder = "स्थाई पता", @Maxlength = 200 })
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--/span-->
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-12" id="lbldist">जनपद <span class="Mandatory">*</span></label>
+                                                <div class="col-md-12">
+                                                    @Html.DropDownListFor(m => m.DistCode, new List<SelectListItem> { new SelectListItem { Text = "--चयन करे--", Value = "-1" } }, new { @id = "ddlDistrict", @class = "form-control" })
+
+
+
+                                                    <span class="help-block"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--/span-->
+                                        <!--/span-->
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-12">तहसील </label>
+                                                <div class="col-md-12">
+                                                    @Html.DropDownListFor(m => m.TehsilCode, new List<SelectListItem>(), "--चयन करे--", new { @id = "ddlTehsil", @class = "form-control" })
+                                                    <span class="help-block"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-12">ब्लॉक</label>
+                                                <div class="col-md-12">
+                                                    @Html.DropDownListFor(m => m.BlockCode, new List<SelectListItem>(), "--चयन करे--", new { @id = "ddlBlock", @class = "form-control" })
+                                                    <span class="help-block"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-12">ग्राम </label>
+                                                <div class="col-md-12">
+                                                    @Html.DropDownListFor(m => m.VillCode, new List<SelectListItem>(), "--चयन करे--", new { @id = "ddlVillage", @class = "form-control" })
+                                                    <span class="help-block"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--/span-->
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-12">मोबाइल नं0<span class="Mandatory">*</span></label>
+                                                <div class="col-md-12">
+                                                    @Html.TextBoxFor(m => m.mobile_no, new { @class = "form-control", @id = "txtMobile_No", @placeholder = "मोबाइल नं0", @onkeypress = "return IsNumeric(event);", @Maxlength = 10 })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--/span-->
+                                        <!--/span-->
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-12">ई-मेल आई0डी0 (यदि हो तो)	</label>
+                                                <div class="col-md-12">
+
+                                                    @Html.TextBoxFor(m => m.email, new { @class = "form-control", @id = "txtEmailID", @placeholder = "ई-मेल आई0डी0 (यदि हो तो)", @Maxlength = 50 })
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--/span-->
+                                    </div>
+                                    <!--/row-->
+                                </div>*@
+                            <div class="form-body" style="padding: 0px !important">
+
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-12">1.लाभार्थी  का नाम </label>
+                                            <div class="col-md-12">
+                                                @Html.TextBoxFor(m => m.applicant_name, new { @class = "form-control", @id = "txtName", @placeholder = "लाभार्थी  का नाम", @Maxlength = 20, disabled = "disabled" })
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/span-->
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-12">2.पिता/पति का नाम</label>
+                                            <div class="col-md-12">
+                                                @Html.TextBoxFor(m => m.father_name, new { @class = "form-control", @id = "txtFather_Name", @placeholder = "पिता/पति का नाम ", @Maxlength = 20, disabled = "disabled" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-12">3. पता</label>
+                                            <div class="col-md-12">
+                                                @Html.TextBoxFor(m => m.address, new { @class = "form-control", @id = "txtAddress", @placeholder = "पता", @Maxlength = 200, disabled = "disabled" })
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/span-->
+                                </div>
+                                <!--/row-->
+
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-12">4.मोबाइल नं0</label>
+                                            <div class="col-md-12">
+                                                @Html.TextBoxFor(m => m.mobile_no, new { @class = "form-control", @id = "txtMobile_No", @placeholder = "मोबाइल नं0", @onkeypress = "return IsNumeric(event);", @Maxlength = 10, disabled = "disabled" })
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/span-->
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-12">5.आधार कार्ड नं0 </label>
+                                            <div class="col-md-12">
+                                                @Html.TextBoxFor(m => m.adhar_no, new { @class = "form-control", @id = "txtAdhar_card_No", @placeholder = "आधार कार्ड नं0 ", @onkeypress = "return IsNumeric(event);", @Maxlength = 12, disabled = "disabled" })
+                                                <span class="help-block"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-12">6.प्रस्तावित कार्यालय का पता</label>
+                                            <div class="col-md-12">
+                                                @Html.TextBoxFor(m => m.office_address, new { @class = "form-control", @id = "txt_office_Address", @placeholder = "प्रस्तावित कार्यालय का पता", @Maxlength = 500, disabled = "disabled" })
+                                                <span class="help-block"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/span-->
+                                    <!--/span-->
+                                    <!--/span-->
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-12">7.उत्पात का नाम</label>
+                                            <div class="col-md-12">
+                                                @Html.TextBoxFor(m => m.Utpat_name, new { @class = "form-control", @id = "txt_Utpat_name", @placeholder = "उत्पात का नाम", @Maxlength = 500, disabled = "disabled" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/span-->
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-12">8.विपणन व्यवस्था</label>
+                                            <div class="col-md-12">
+                                                @Html.TextBoxFor(m => m.Marketingsystem, new { @class = "form-control", @id = "txt_Marketingsystem", @placeholder = "विपणन व्यवस्था", @Maxlength = 500, disabled = "disabled" })
+                                                <span class="help-block"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+                                <h3 class="form-section" style="font-weight:bolder">9. प्लाण्ट एवं मशीनरी का विवरण </h3>
+                                <!--/row-->
+
+                                <table class="table-responsive tblcss" id="Letter" border="1" style="width:80%" align="center">
+                                    <tr>
+                                        <td width="2%" height="50px"></td>
+                                        <td width="20%" style="font-size:20px; font-weight:bold;">&nbsp;&nbsp;क्र० स०</td>
+                                        <td width="40%" style="font-size:20px; font-weight:bold;">&nbsp;&nbsp;मशीन का नाम</td>
+                                        <td width="12%" style="font-size:20px; font-weight:bold">&nbsp;कीमत (रु० में)</td>
+                                        <td width="30%" style="font-size:20px; font-weight:bold">&nbsp;&nbsp;आपूर्तिकर्ता  का नाम </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td style="font-size:17px"></td>
+                                        <td style="font-size:17px">&nbsp;&nbsp;</td>
+                                        <td style="font-size:17px">&nbsp;&nbsp;</td>
+                                        <td style="font-size:17px">&nbsp;&nbsp;</td>
+                                        <td style="font-size:17px">&nbsp;&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="font-size:17px"></td>
+                                        <td style="font-size:17px">&nbsp;&nbsp;</td>
+                                        <td style="font-size:17px">&nbsp;&nbsp;</td>
+                                        <td style="font-size:17px">&nbsp;&nbsp;</td>
+                                        <td style="font-size:17px">&nbsp;&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="font-size:17px"></td>
+                                        <td style="font-size:17px">&nbsp;&nbsp;</td>
+                                        <td style="font-size:17px">&nbsp;&nbsp;</td>
+                                        <td style="font-size:17px">&nbsp;&nbsp;</td>
+                                        <td style="font-size:17px">&nbsp;&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="font-size:17px"></td>
+                                        <td style="font-size:17px">&nbsp;&nbsp;</td>
+                                        <td style="font-size:17px">&nbsp;&nbsp;</td>
+                                        <td style="font-size:17px">&nbsp;&nbsp;</td>
+                                        <td style="font-size:17px">&nbsp;&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="font-size:17px">10.</td>
+                                        <td colspan="2" style="font-size:17px;">&nbsp;&nbsp; कुल  स्थायी पूंजी विनियोजना </td>
+
+                                        <td style="font-size:17px">&nbsp;&nbsp;योग</td>
+                                        <td style="font-size:17px">&nbsp;&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="font-size:17px">11.</td>
+                                        <td colspan="2" style="font-size:17px">&nbsp;&nbsp;कार्यशील पूँजी (एक चक्रo)</td>
+
+                                        <td style="font-size:17px">&nbsp;&nbsp;योग</td>
+                                        <td style="font-size:17px">&nbsp;&nbsp;</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td style="font-size:17px">12.</td>
+                                        <td colspan="2" style="font-size:17px">&nbsp;&nbsp;परियोजना लागत</td>
+                                        <td style="font-size:17px">&nbsp;&nbsp;योग</td>
+                                        <td style="font-size:17px">&nbsp;&nbsp;</td>
+                                    </tr>
+
+                                </table>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="tab2">
+                            <div class="form-body" style="padding: 0px !important">
+                                <h3 class="form-section" style="font-weight:bolder">13. वित्तीय व्यवस्था</h3>
+
+                                <table class="table-responsive tblcss" id="Letter" border="1" style="width:80%" align="center">
+                                    <tr>
+                                        <td width="2%" height="50px">10.</td>
+                                        <td width="20%" style="font-size:20px; font-weight:bold;">&nbsp;&nbsp;स्वत: पूंजी विनियोजन (रु०)</td>
+                                        <td width="40%" style="font-size:20px; font-weight:bold;">&nbsp;&nbsp;बैंक ऋण (रु०)</td>
+                                        <td width="12%" style="font-size:20px; font-weight:bold">&nbsp;मार्जिन मनी  (रु०)</td>
+                                        <td width="30%" style="font-size:20px; font-weight:bold">&nbsp;&nbsp;योग (रु०)</td>
+
+                                    </tr>
+                                    <tr>
+                                        <td style="font-size:17px"></td>
+                                        <td style="font-size:17px">&nbsp;&nbsp;</td>
+                                        <td style="font-size:17px">&nbsp;&nbsp;</td>
+                                        <td style="font-size:17px">&nbsp;&nbsp;</td>
+                                        <td style="font-size:17px">&nbsp;&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="font-size:17px"></td>
+                                        <td style="font-size:17px">&nbsp;&nbsp;</td>
+                                        <td style="font-size:17px">&nbsp;&nbsp;</td>
+                                        <td style="font-size:17px">&nbsp;&nbsp;</td>
+                                        <td style="font-size:17px">&nbsp;&nbsp;</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td style="font-size:17px"></td>
+                                        <td style="font-size:17px">&nbsp;&nbsp;</td>
+                                        <td style="font-size:17px">&nbsp;&nbsp;</td>
+                                        <td style="font-size:17px">&nbsp;&nbsp;</td>
+                                        <td style="font-size:17px">&nbsp;&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="font-size:17px"></td>
+                                        <td style="font-size:17px" &nbsp;&nbsp;></td>
+                                        <td style="font-size:17px" &nbsp;&nbsp;></td>
+                                        <td style="font-size:17px" &nbsp;&nbsp;></td>
+                                        <td style="font-size:17px" &nbsp;&nbsp;></td>
+                                    </tr>
+                                </table>
+                                <!--/row-->
+
+
+                            </div>
+                            </div>
+
+                        </div>
+
+
+</div>
+                      
+                    </div>
+                
+                <div class="form-actions">
+                    <div class="row">
+                        <div class="col-md-offset-9 col-md-12">
+                            @*<a href="javascript:;" class="btn default button-previous disabled" style="display: none;">
+                                    <i class="fa fa-angle-left"></i> Back
+                                </a>*@
+                            @*<a href="javascript:;" class="btn btn-outline green button-next" id="btncont" onclick="myfunction()">
+                                    Continue
+                                    <i class="fa fa-angle-right"></i>
+                                </a>*@
+                            <button type="button" class="btn btn-outline green button-next hide" onclick="funback()" id="btnback">Back<i class="fa fa-angle-right"></i></button>
+
+                            <button type="button" class="btn btn-outline green button-next" onclick="myfunction()" id="btncont">Continue<i class="fa fa-angle-right"></i></button>
+
+
+                            @*<a href="javascript:;" class="btn green button-submit" style="display: none;">
+                                    Submit
+                                    <i class="fa fa-check"></i>
+                                </a>*@
+                        </div>
+                    </div>
+                </div>
+           
+        </form>
+    </div>
+</div>

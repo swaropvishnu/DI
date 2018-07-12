@@ -284,6 +284,15 @@ namespace DI
             ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "Proc_VerifyUser", parameters.ToArray());
             return ds;
         }
+        public static DataSet VerifyApplicant(string UserName,short yojana_code )
+        {
+            DataSet ds = new DataSet();
+            List<SqlParameter> parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter("@pUserName", UserName));
+            parameters.Add(new SqlParameter("@Yojana_Code", yojana_code));
+            ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "Proc_VerifyApplicant", parameters.ToArray());
+            return ds;
+        }
         public static DataSet GetMenuData(int UserId)
         {
             try

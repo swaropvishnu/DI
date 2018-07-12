@@ -26,6 +26,8 @@ namespace DI.Models
             set;
         }
 
+        public bool RememberMe { get; set; }
+
         [Required]
         [DataType(DataType.Password)]
         [Display(Name = "OldPassword")]
@@ -103,6 +105,7 @@ namespace DI.Models
         public string UserMobile { get; set; }
         public string UserEmail { get; set; }
         public string UserAddress { get; set; }
+        public short yojana_code { get; set; }
         public byte[] UserImage { get; set; }
     }
 }

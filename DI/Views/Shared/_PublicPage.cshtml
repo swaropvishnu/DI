@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html>
+<head >
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Director of Industries</title>
+    @Styles.Render("~/Content/PublicPage")
+    @Styles.Render("~/Content/cssBlank")
+    <script src="~/scripts/jquery-3.2.1.js"></script>
+    <script src="~/scripts/jquery-3.2.1.min.js"></script>
+    <link href="~/Content/assets/global/plugins/bootstrap/css/bootstrap.css" rel="stylesheet" />
+</head>
+
+@* #88bdf3 *@
+<body style="background-color:#5C9BD1">
+    <header class="header-two-bars">
+        <div class="header-first-bar">
+            <div class="header-limiter">
+                <h1><a href="#">Director of Industries<span></span></a></h1>
+                <nav>
+                    <a href="#"> Main Page </a>
+                    <a href="#" class="selected">Home</a>
+                    <a href="#">Reports</a>
+                    <a href="#">Roles</a>
+                </nav>
+                <a href="#" class="logout-button">Logout</a>
+            </div>
+        </div>
+        <div class="header-second-bar">
+            <div class="header-limiter">
+                <h2><a href="#" style="font-family: monospacepace;font-weight: 800 !important;font-size: 18px;">विभिन्न योजनाओ हेतु प्रार्थना पत्र </a></h2>
+                <nav>
+                    <a href="#" ><i class="fa fa-comments-o hide"></i>  </a>
+                    <a href="#" ><i class="fa fa-file-text hide"></i>  </a>
+                    <a href="#"><i class="fa fa-group hide"></i>  </a>
+                    <a href="#" ><i class="fa fa-cogs hide"></i>  </a>
+                </nav>
+            </div>
+        </div>
+    </header>
+   @* //#e9faff *@
+    <div style="margin:0 auto; width:1200px;background-color:#fff !important;">
+        <div style="border: 1px ;
+    background-color: #eef1f5;
+    padding: 0px;    
+    height: 690px;
+    display:block;
+    padding-top:10px;margin-top:15px;border: 1px solid #ddd;
+    box-shadow: 0 0 4px #ddd;
+    border-radius: 6px 6px; ">
+            @RenderBody()
+
+
+        </div> 
+    </div>
+   @*@Scripts.Render("~/Content/PublicMain1")
+    @Scripts.Render("~/Content/PublicMain2")
+    @Scripts.Render("~/Content/PublicMain3")*@
+</body>
+</html>
+

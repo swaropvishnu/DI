@@ -1,0 +1,640 @@
+﻿@model DI.Models.IndustrialEstateApplicant
+@{
+    ViewBag.Title = "AllotmentPlot";
+    Layout = "~/Views/Shared/_PublicPage.cshtml";
+}
+<style>
+    .Mandatory {
+        color: red !important;
+    }
+
+    .white {
+        color: #000;
+        background-color: #fff;
+    }
+
+    .btn-facebook {
+        color: #ffffff;
+        -webkit-text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+        text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+        background-color: #2b4b90;
+        *background-color: #133783;
+        background-image: -moz-linear-gradient(top, #3b5998, #133783);
+        background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#3b5998), to(#133783));
+        background-image: -webkit-linear-gradient(top, #3b5998, #133783);
+        background-image: -o-linear-gradient(top, #3b5998, #133783);
+        background-image: linear-gradient(to bottom, #3b5998, #133783);
+        background-repeat: repeat-x;
+        border-color: #133783 #133783 #091b40;
+        border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff3b5998', endColorstr='#ff133783', GradientType=0);
+        filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+    }
+
+        .btn-facebook:hover,
+        .btn-facebook:focus,
+        .btn-facebook:active,
+        .btn-facebook.active,
+        .btn-facebook.disabled,
+        .btn-facebook[disabled] {
+            color: #ffffff;
+            background-color: #133783 !important;
+            *background-color: #102e6d !important;
+        }
+
+        .btn-facebook:active,
+        .btn-facebook.active {
+            background-color: #0d2456 \9 !important;
+        }
+
+    .panel-heading {
+        text-align: center;
+        background-color: #295888 !important;
+        color: #fff !important;
+    }
+
+    .panel01 {
+        padding: 10px;
+    }
+
+    .panel02 {
+        border: 1px solid #d2d0d0;
+        padding: 10px;
+    }
+
+    .panel03 {
+        padding: 10px;
+    }
+
+    input:focus, textarea:focus, select:focus {
+        outline: none !important;
+        border-color: #38af05 !important;
+        box-shadow: 0 0 10px #38af05 !important;
+    }
+</style>
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<script src="~/scripts/jquery-3.2.1.min.js"></script>
+<script src="~/scripts/bootstrap.min.js"></script>
+<link href="~/Content/jquery-ui.css" rel="stylesheet" />
+
+<script src="~/Content/plugins/jquery-ui.js"></script>
+<div class="portlet box green ">
+    <div class="portlet-title">
+        <div class="caption">
+            <i class="fa fa-user"></i><b>Application For Land Allotment</b>
+        </div>
+    </div>
+    <div class="div_border">
+        <div class="col-md-12" >
+            <div class="div_margin" align="center">
+                    <span class="div_text">
+                        Please suggest your plot requirements  or prefrences of your choice from available plots.<br>
+                    </span>
+                </div>
+                <div class="">
+                    <div class="div_background">
+                        <div class="=div_">
+                            <div class="col-md-9 col-sm-6 col-xs-12">
+                                <div class="row">
+
+                                    <div class="form-group">
+
+                                        <div class="div_padding">
+                                            <div class="col-md-6 col-sm-6 col-xs-6 font-bold">
+                                                <span class="span_text">Regional Office</span>
+                                                @Html.DropDownListFor(m => m.zone, new List<SelectListItem> { new SelectListItem { Text = "--चयन करे--", Value = "-1" } }, new { @id = "ddlzone", @class = "form-control" })
+                                            </div>
+                                            <div class="col-md-6 col-sm-6 col-xs-6 font-bold">
+                                                <span class="span_text">Industrial Area</span>
+                                                @Html.DropDownListFor(m => m.Industrialarea, new List<SelectListItem> { new SelectListItem { Text = "--चयन करे--", Value = "-1" } }, new { @id = "ddlIndustrialarea", @class = "form-control" })
+                                            </div>
+                                        </div>
+                                            <div class="clearfix"></div>
+                                            <hr class="myhrline">
+                                        </div>
+                                    <style>
+                                        .myul-tabs a:after {
+                                            display: none;
+                                        }
+
+                                        .myul-tabs {
+                                            margin-left: 0 !important;
+                                            padding-left: 0;
+                                            margin-top: 5px;
+                                        }
+
+                                            .myul-tabs a:before {
+                                                display: none;
+                                            }
+                                    </style>
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <a href="#sub_menu_SkipLink" class="div_hidden" style="position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden;">Skip Navigation Links</a>
+                                        <div id="sub_menu" class="div_flot_left">
+                                            <ul class="level1 nav nav-pills myul-tabs static label_Ul" tabindex="0" role="menubar">
+                                                <li role="menuitem" class="static label_Ul"><a class="level1 static" href="#" onclick="__doPostBack('sub_menu','0')" tabindex="-1">Plot Preferences</a></li>
+
+                                            </ul>
+                                        </div><div style="clear: left;"></div><a id="sub_menu_SkipLink"></a>
+                                        <div class="clearfix"></div>
+                                        <div class="div_border">
+
+                                            <div class="form-group" style="padding: 7px 0;">
+                                                <div>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 font-bold">
+                                                        <span class="span_text">Choose plot preference from the available plots</span><br>
+                                                        (You can choose any three preferences)
+                                                    </div>
+                                                    <div class="clearfix"></div>
+                                                    <div class="col-md-4 col-sm-2 col-xs-2">
+                                                        P1 <input name="txtp1" type="text" id="txtp1" disabled="disabled" class="dropdown_background aspNetDisabled  margin-left-z input-sm similar-select1 lable_">
+                                                    </div>
+                                                    <div class="col-md-4 col-sm-2 col-xs-2">
+                                                        P2 <input name="txtp2" type="text" id="txtp2" disabled="disabled" class="dropdown_background aspNetDisabled  margin-left-z input-sm similar-select1 lable_">
+                                                    </div>
+                                                    <div class="col-md-4 col-sm-2 col-xs-2">
+                                                        P3 <input name="txtp3" type="text" id="txtp3" disabled="disabled" class="dropdown_background aspNetDisabled  margin-left-z input-sm similar-select1 lable_">
+                                                    </div>
+
+                                                    <div class="clearfix"></div>
+                                                    <hr class="myhrline">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" style="padding: 7px 0; background: #ececec;">
+
+                                        <div class="form-group">
+                                            <div class="col-md-12 col-sm-12 col-xs-12 font-bold">
+                                                <span class="note-block span_text">
+                                                    Dear Investor, We have saved your preferences. you are kindly requested to view the deposit estimates based on your selections by clicking on Get Estimated Cost.The allotment rate mentioned here is tentative and allotment shall be made at rate prevailing on date of issue of Regular Letter of Allotment. In case, because of any circumstances of non-availability of plots as per your selection UPSIDC may proposed the other options opted by you. Please select anyone of your choice to proceed further.
+                                                </span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            @*<div style="display:none;">
+                                                <div class="col-md-3 col-sm-3 col-xs-3 font-bold">
+                                                    <input id="Preference1" type="radio" name="GrpPref" value="Preference1"> Based on Enter Plot Size
+                                                </div>
+                                                <div class="col-md-3 col-sm-3 col-xs-3 font-bold">
+                                                    <input id="txtPreference2" type="radio" name="GrpPref" value="Preference2"> Based on P1
+                                                </div>
+                                                <div class="col-md-3 col-sm-3 col-xs-3 font-bold">
+                                                    <input id="txtPreference2" type="radio" name="GrpPref" value="Preference3"> Based on P2
+                                                </div>
+                                                <div class="col-md-3 col-sm-3 col-xs-3 font-bold">
+                                                    <input id="txtPreference2" type="radio" name="GrpPref" value="Preference4"> Based on P3
+                                                </div>
+                                                <div class="col-md-12 col-sm-12 col-xs-12 text-right">
+
+                                                </div>
+                                            </div>*@
+                                        </div>
+                                        <div class="clearfix"></div>
+                                        <hr class="myhrline">
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            @*<input type="button"  name="btnSave" value="Proceed" onclick="return InputValidation();" id="btnSave" class="btn-primary btn-sm ey-bg pull-right" >*@
+                                            <button type="button" class="btn-primary btn-sm ey-bg pull-right"  onclick="funMod()">Proceed</button>
+                                            @*<input type="submit" name="hidbtn" value="btnSave" id="hidbtn" style="display:none;">*@
+                                            @*data-backdrop="static" data-keyboard="false"*@
+                                            @*data-toggle="modal" data-target="#myModal"*@ 
+                                        </div>
+                                    </div>
+
+                                    @*<input type="button" id="btnPlotModal" style="margin: 10px 5px; display: none;" class="btn btn-sm btn-primary pull-right" value="List Of Vacant Plot" data-toggle="modal" data-target="#PlotModal" data-backdrop="static"><div class="clearfix"></div>*@
+                                </div>
+                            </div>
+                        </div>
+                            <div class="col-md-3 col-sm-6 col-xs-12" style="border: 1px solid #ccc;margin: 0 0 6px 0;background: #ececec;border-left: 3px solid #ccc;min-height: 340px;">
+
+                                <div id="GridHeader" class="panel-heading">List of available plots</div>
+                                <table class="table table-striped table-bordered table-hover table-checkable" id="table">
+                                    <thead>
+
+                                        <tr role="row" class="heading">
+
+                                            <th width="10%"> Sr.No. </th>
+                                            <th width="15%"> Plot No </th>
+                                            <th width="15%"> Ploat Area </th>
+                                            <th width="15%"> Select </th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody id="body"></tbody>
+                                </table>
+
+                            </div>
+                        </div>
+
+                    </div>
+</div>
+        <div class="clearfix"></div>
+        <div class="panel-heading font-bold">Deposite Details Based on your Choice</div>
+        <div style="border: 1px solid #ccc;">
+
+        </div>
+
+    </div>
+
+    </div>
+
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" onclick="funclose()">&times;</button>
+                <h2><i class="icon-book-open">&nbsp;&nbsp;&nbsp;<label>Registration </label>  </i></h2>
+            </div>
+            <div class="modal-body">
+                <form>
+                    @*<div class="panel-primary">
+
+
+                        </div>*@
+                    <div class="col-sm-12 panel02">
+                       
+                        <div class="row">
+                            <div class="col-sm-6 form-group">
+                                <label id="lblname">Name<span class="Mandatory">*</span></label>
+                                @Html.TextBoxFor(m => m.estate_applicant_name, new { @class = "form-control", @id = "txtName", @placeholder = "नाम ", @Maxlength = 40 })
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <label id="lbldob">Date Of Birth<span class="Mandatory">*</span></label>
+                                @Html.EditorFor(model => model.inputdob, new { htmlAttributes = new { @class = "form-control", @onkeypress = "return IsNumeric(event);", @Value = "", @placeholder = "dd/mm/yy", @id = "txtDOB", @Maxlength = "10" } })
+                                @Html.ValidationMessageFor(model => model.dob, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 form-group">
+                                <label id="lblfather">Father's Name<span class="Mandatory">*</span></label>
+                                @Html.TextBoxFor(m => m.father_name , new { @class = "form-control", @id = "txtHusband_father_name", @placeholder = "पिता/पति का नाम ", @Maxlength = 40 })
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <label id="lbladhar">Aadhaar  No<span class="Mandatory">*</span></label>
+                                @Html.TextBoxFor(m => m.aadhar_no, new { @class = "form-control", @id = "txtAdhar_card_No", @placeholder = "आधार कार्ड नं0 ", @onkeypress = "return IsNumeric(event);", @Maxlength = 12 })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 form-group">
+                                <label id="lblphone">Phone Number<span class="Mandatory">*</span></label>
+                                @Html.TextBoxFor(m => m.mobile, new { @class = "form-control", @id = "txtMobile_No", @placeholder = "मोबाइल नं0", @onkeypress = "return IsNumeric(event);", @Maxlength = 10 })
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <label id="lblemail">Email Address</label>
+                                @Html.TextBoxFor(m => m.email, new { @class = "form-control", @id = "txtEmailID", @placeholder = "ई-मेल आई0डी0 (यदि हो तो)", @onblur = "return validateEmail(this)", @Maxlength = "40" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label id="lbladress">Address<span class="Mandatory">*</span></label>
+                            @Html.TextAreaFor(m => m.address, new { @class = "form-control", @id = "txtCurrentAddress", @placeholder = "पत्र व्यवहार का पता", @Maxlength = 45 })
+                        </div>
+                        @*<div class="row">
+                                <div class="col-sm-4 form-group">
+                                    <label>City</label>
+                                    <input type="text" placeholder="Enter City Name Here.." class="form-control">
+                                </div>
+                                <div class="col-sm-4 form-group">
+                                    <label>State</label>
+                                    <input type="text" placeholder="Enter State Name Here.." class="form-control">
+                                </div>
+                                <div class="col-sm-4 form-group">
+                                    <label>Zip</label>
+                                    <input type="text" placeholder="Enter Zip Code Here.." class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Address</label>
+                                <textarea placeholder="Enter Address Here.." rows="3" class="form-control"></textarea>
+                            </div>*@
+                        @*<div class="row">
+                                <div class="col-sm-6 form-group">
+                                    <label>Title</label>
+                                    <input type="text" placeholder="Enter Designation Here.." class="form-control">
+                                </div>
+                                <div class="col-sm-6 form-group">
+                                    <label>Company</label>
+                                    <input type="text" placeholder="Enter Company Name Here.." class="form-control">
+                                </div>
+                            </div>*@
+                        <button type="button" class="btn btn-lg btn-info" onclick="Save()">Submit</button>
+                    </div>
+                </form>
+            </div>
+            @*
+                <div class="modal-body">
+                    <p>Some text in the modal.</p>
+                </div>*@
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" onclick="funclose()">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            type: "post",
+            url: "/User/Getzone",
+            data: {},
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+                $('#ddlzone').empty();
+                var ddlComapnyType = "";
+                //var district = '';
+                for (var i = 0; i < data.length; i++) {
+                    ddlComapnyType = ddlComapnyType + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                }
+                //district = district + '</select>';
+                //alert(district);
+                $('#ddlzone').append(ddlComapnyType);
+            }
+        });
+        $('#ddlzone').change(function () {
+
+            //  alert("done");
+            $.ajax({
+                type: "post",
+                url: "/User/GetEstate",
+                data: { ID: $('#ddlzone').val() },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    $('#ddlIndustrialarea').empty();
+                    var IndustrialArea = "";
+                    //var district = '';
+                    for (var i = 0; i < data.length; i++) {
+                        IndustrialArea = IndustrialArea + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                    }
+                    //district = district + '</select>';
+                    //alert(district);
+                    $('#ddlIndustrialarea').append(IndustrialArea);
+                    $('#body').empty();
+                    document.getElementById('txtp1').value = "";
+                    document.getElementById('txtp2').value = "";
+                    document.getElementById('txtp3').value = "";
+                }
+            });
+        });
+        $('#ddlIndustrialarea').change(function () {
+
+            //  alert("done");
+            $.ajax({
+                type: "post",
+                url: "/User/Getplot",
+                data: { EstateCode: $('#ddlIndustrialarea').val() },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    $('#body').empty();
+                    $('#body').html(data);
+                    document.getElementById('txtp1').value = "";
+                    document.getElementById('txtp2').value = "";
+                    document.getElementById('txtp3').value = "";
+                }
+            });
+        });
+    });
+    function funplot(id,chk)
+    {
+        var plotcode = '';
+        if (document.getElementById('txtp1').value == "")
+        {
+            document.getElementById('txtp1').value = id
+           
+        }
+        else if (document.getElementById('txtp2').value == "") {
+            document.getElementById('txtp2').value = id
+        }
+        else if (document.getElementById('txtp3').value == "") {
+            document.getElementById('txtp3').value = id
+        }
+        else {
+            alert("Sorry only three plot select");
+            $('#' + chk).prop('checked', false);
+            return;
+        }
+    }
+    function funMod()
+    {
+        if (document.getElementById('txtp1').value == "" && document.getElementById('txtp2').value == "" && document.getElementById('txtp3').value == "")
+        {
+            alert("please select plot");
+        }
+        else {
+            $("#myModal").css("display", "block");
+            $("#myModal").addClass("in");
+        }
+    }
+    function funclose() {
+        $("#myModal").css("display", "none");
+        $("#myModal").removeClass("in");
+    }
+    function Save() {
+        try {
+            $('#lblname').removeAttr('style');
+            $('#lblfather').removeAttr('style');
+            $('#lbladhar').removeAttr('style');
+            $('#lblphone').removeAttr('style');
+            $('#lbldob').removeAttr('style');
+            $('#lbladress').removeAttr('style');
+            
+            if (document.getElementById("txtName").value == "") {
+                document.getElementById("txtName").focus();
+                $('#lblname').css('color', 'red');
+                alert("नाम");
+                return;
+            }
+            if (document.getElementById("txtDOB").value == "") {
+                document.getElementById("txtDOB").focus();
+                $('#lbldob').css('color', 'red');
+                alert("जन्म की तारीख");
+                return;
+            }
+            if (document.getElementById("txtHusband_father_name").value == "") {
+                document.getElementById("txtHusband_father_name").focus();
+                $('#lblfather').css('color', 'red');
+                alert("पिता/पति का नाम");
+                return;
+            }
+            if (document.getElementById("txtAdhar_card_No").value == "") {
+                document.getElementById("txtAdhar_card_No").focus();
+                $('#lbladhar ').css('color', 'red');
+                alert("आधार कार्ड नं0 ");
+                return;
+            }
+            else {
+                var ad = document.getElementById("txtAdhar_card_No").value;
+                if (ad.length != 12) {
+                    $('#lbladhar ').css('color', 'red');
+                    alert("आधार कार्ड नं0 ");
+                    return;
+                }
+            }
+            if (document.getElementById("txtMobile_No").value == "") {
+                document.getElementById("txtMobile_No").focus();
+                $('#lblphone').css('color', 'red');
+                alert("मोबाइल नं0 ");
+                return;
+            }
+            else {
+                var ad = document.getElementById("txtMobile_No").value;
+
+                if (ad.length != 10) {
+                    $('#lblphone ').css('color', 'red');
+                    alert("मोबाइल नं0 ");
+                    return;
+                }
+            }
+            if (document.getElementById("txtCurrentAddress").value == "") {
+                document.getElementById("txtCurrentAddress").focus();
+                $('#lbladress').css('color', 'red');
+                alert("पत्र व्यवहार का पता");
+                return;
+            }
+            var dob = $("#txtDOB").val();
+            var now = new Date();
+            var birthdate = dob.split("/");
+            var born = new Date(birthdate[2], birthdate[1] - 1, birthdate[0]);
+            age = get_age(born, now);
+            console.log(birthdate[2] + " : " + birthdate[1] + " : " + birthdate[0]);
+            console.log(age);
+            if (age <= 18) {
+                $('#lbldob').css('color', 'red');
+                document.getElementById("txtDOB").focus();
+                alert(" Age should be greater then or equal to 18");
+                return;
+            }
+            if (age >= 40) {
+                $('#lbldob').css('color', 'red');
+                document.getElementById("txtDOB").focus();
+                alert(" Age should be smaller then or equal to 40");
+                return false;
+            }
+            var Objform = {
+                "estate_applicant_code": "-1",
+                "estate_applicant_name": document.getElementById("txtName").value,
+                "inputdob": document.getElementById("txtDOB").value,
+                "aadhar_no": document.getElementById("txtAdhar_card_No").value,
+                "father_name": document.getElementById("txtHusband_father_name").value,
+                "address": document.getElementById("txtCurrentAddress").value,
+                "mobile": document.getElementById("txtMobile_No").value,
+                "email": document.getElementById("txtEmailID").value == "" ? " " : document.getElementById("txtEmailID").value,
+                "district_code_census": "-1",
+                "tehsil_code_census": "-1",
+                "block_code": "-1",
+                "village_code": "-1",
+            }
+            var Objform2 = {
+                "request_code": "-1",
+                "request_no": " ",
+                "division_code": document.getElementById("ddlzone").value,
+                "industrial_estate_code": document.getElementById("ddlIndustrialarea").value,
+            }
+            var plot=[];
+            if (document.getElementById("txtp1").value != "") {
+                plot.push({ plot_code: document.getElementById("txtp1").value })
+            }
+            if (document.getElementById("txtp2").value != "") {
+                plot.push({ plot_code: document.getElementById("txtp2").value })
+            }
+            if (document.getElementById("txtp3").value != "") {
+                plot.push({ plot_code: document.getElementById("txtp3").value })
+            }
+            $.ajax({
+                url: '/User/InsertUpdatePlotApplicant',
+                data: JSON.stringify({ objER: Objform2, objRP: plot, objApp: Objform }),
+                type: 'POST',
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    alert(data);
+                    if (data == "Date of Birth must be dd/mm/yyyy format") {
+                        $('#lbldob').css('color', 'red');
+                        document.getElementById("txtDOB").focus();
+                    }
+                    else if (data == "Record Save..") {
+                        $('#body').empty();
+                        document.getElementById('txtp1').value = "";
+                        document.getElementById('txtp2').value = "";
+                        document.getElementById('txtp3').value = "";
+                        document.getElementById("txtName").value = "";
+                        $('#ddlIndustrialarea').val(-1);
+                        $('#ddlzone').val(-1);
+                        document.getElementById("txtDOB").value = "";
+                        document.getElementById("txtAdhar_card_No").value = "";
+                        document.getElementById("txtHusband_father_name").value = "";
+                        document.getElementById("txtCurrentAddress").value = "";
+                        document.getElementById("txtMobile_No").value = "";
+                        document.getElementById("txtEmailID").value = "";
+                        $('#lblname').removeAttr('style');
+                        $('#lblfather').removeAttr('style');
+                        $('#lbladhar').removeAttr('style');
+                        $('#lblphone').removeAttr('style');
+                        $('#lbldob').removeAttr('style');
+                        $('#lbladress').removeAttr('style');
+                        $("#myModal").css("display", "none");
+                        $("#myModal").removeClass("in");
+                    }
+                }
+            });
+        } catch (e) {
+            alert(e);
+        }
+        
+    }
+    var specialKeys = new Array();
+    specialKeys.push(47); // for Forward Slash(/)
+    specialKeys.push(8); //Backspace
+    specialKeys.push(9); // Tab
+    specialKeys.push(46); // for .
+    specialKeys.push(37); // for left Arrow
+    specialKeys.push(39); // for Right Arrow
+    function IsNumeric(e) {
+        var keyCode = e.which ? e.which : e.keyCode
+        var ret = ((keyCode >= 48 && keyCode <= 57) || specialKeys.indexOf(keyCode) != -1); // For Decimal To All Number
+        if (ret == false) {
+            alert("Only numaric value allwed.");
+        }
+        return ret;
+    }
+    function validateEmail(txt) {
+        var emailText = txt.value;
+        var pattern = /^[a-zA-Z0-9\-_]+(\.[a-zA-Z0-9\-_]+)*@@[a-z0-9]+(\-[a-z0-9]+)*(\.[a-z0-9]+(\-[a-z0-9]+)*)*\.[a-z]{2,4}$/;
+        if (pattern.test(emailText)) {
+            return true;
+        } else {
+            txt.value = "";
+            alert('Bad email address: ' + emailText);
+            return false;
+        }
+    }
+</script>
+<script>
+    var d = new Date();
+    var year = d.getFullYear() - 18;
+    d.setFullYear(year);
+    function get_age(born, now) {
+        var birthday = new Date(now.getFullYear(), born.getMonth(), born.getDate());
+        if (now >= birthday)
+            return now.getFullYear() - born.getFullYear();
+        else
+            return now.getFullYear() - born.getFullYear() - 1;
+    }
+    $(document).ready(function () {
+
+        $("#txtDOB").datepicker({
+
+            dateFormat: "dd/mm/yy",
+            changeMonth: true,
+            changeYear: true,
+            maxDate: year,
+            minDate: "-100Y",
+            yearRange: '-100:' + year + '',
+            defaultDate: d
+        });
+    });
+</script>

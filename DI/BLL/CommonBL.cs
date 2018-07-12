@@ -86,5 +86,25 @@ namespace DI.BLL
                 throw;
             }
         }
+
+        //internal static string Details_Established_industrialBal(IndustrialAreaMasterModal Objform)
+        //{
+        //    try
+        //    {
+        //        CommonDA CommonDA = new CommonDA();
+        //        return CommonDA.Details_Established_industrialDal(Objform);
+        //    }
+        //    catch
+        //    {
+        //        throw;
+        //    }
+        //}
+        public static DateTime Setdate(string Cdate)
+        {
+            char[] a = { ',' };
+            string[] date = Cdate.Split('/');
+            DateTime dt = new DateTime(int.Parse(date[2].ToString()), int.Parse(date[1].ToString()), int.Parse(date[0].ToString()));
+            return dt;
+        }
     }
 }

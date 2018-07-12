@@ -1,0 +1,1074 @@
+﻿@model DI.Models.IndustrialEstateApplicant
+@{
+    ViewBag.Title = "PlotApplicantWizard";
+    Layout = "~/Views/Shared/UserLayout.cshtml";
+}
+<style>
+    .disabled {
+        pointer-events: none !important;
+        cursor: default !important;
+    }
+</style>
+@using (Html.BeginForm("PlotApplicantWizard", "User", FormMethod.Post, new { @class = "", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+<div class="portlet light " id="form_wizard_1">
+    <div class="portlet-title">
+        <div class="caption">
+            <i class=" icon-layers font-red"></i>
+            <span class="caption-subject font-red bold uppercase">
+                औद्योगिक आस्थानों में आवंटियों की प्रविष्टि 
+                <span class="step-title"> चरण 1 of 4 </span>
+            </span>
+        </div>
+        
+    </div>
+    <div class="portlet-body form">
+        <form class="form-horizontal" action="#" id="submit_form" method="POST" novalidate="novalidate">
+            <div class="form-wizard">
+                <div class="form-body">
+                    <ul class="nav nav-pills nav-justified steps">
+                        <li class="active" id="litab1">
+                            <a href="#tab1" data-toggle="tab" class="step" aria-expanded="true">
+                                <span class="number"> 1 </span>
+                                <span class="desc">
+                                    <i class="fa fa-check"></i> प्रोफाइल सेटअप 
+                                </span>
+                            </a>
+                        </li>
+                        <li id="litab2">
+                            <a href="#tab2" data-toggle="tab" class="step">
+                                <span class="number"> 2 </span>
+                                <span class="desc">
+                                    <i class="fa fa-check"></i>औद्योगिकी सेटअप
+                                </span>
+                            </a>
+                        </li>
+                        <li id="litab3">
+                            <a href="#tab3" data-toggle="tab" class="step active">
+                                <span class="number"> 3 </span>
+                                <span class="desc">
+                                    <i class="fa fa-check"></i> भूखंड का विवरण
+                                </span>
+                            </a>
+                        </li>
+                        <li id="litab4">
+                            <a href="#tab4" data-toggle="tab" class="step">
+                                <span class="number"> 4 </span>
+                                <span class="desc">
+                                    <i class="fa fa-check"></i> दस्तावेज़
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                    <div id="bar" class="progress progress-striped" role="progressbar">
+                        <div class="progress-bar progress-bar-success" style="width: 0%;" id="divpross"> </div>
+                    </div>
+                    <div class="tab-content">
+                        <div class="alert alert-danger display-none">
+                            <button class="close" data-dismiss="alert"></button> You have some form errors. Please check below.
+                        </div>
+                        <div class="alert alert-success display-none">
+                            <button class="close" data-dismiss="alert"></button> Your form validation is successful!
+                        </div>
+                        <div class="tab-pane active" id="tab1">
+                            <h3 class="block">अपने कंपनी का विवरण प्रदान करें</h3>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-12 " style="text-align:left" id="lblcomtype">कंपनी का प्रकार <span class="Mandatory">*</span></label>
+                                        <div class="col-md-12">
+                                            @Html.DropDownListFor(m => m.ComapnyType, new List<SelectListItem>(), new { @id = "ddlComapnyType", @class = "form-control" })
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/span-->
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-12" style="text-align:left" id="lblcompname">कंपनी का नाम<span class="Mandatory">*</span></label>
+                                        <div class="col-md-12">
+                                            @*<input type="text" class="form-control" placeholder="शेड क्रमांक">*@
+                                            @Html.TextBoxFor(m => m.company_name, new { @class = "form-control", @id = "txtCompanyName", @placeholder = "कंपनी का नाम", @Maxlength = "30" })
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/span-->
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-12" style="text-align:left" id="lblpan"> पैन <span class="Mandatory">*</span> </label>
+                                        <div class="col-md-12">
+                                            @*<input type="text" class="form-control" placeholder="शेड का नाम">*@
+                                            @Html.TextBoxFor(m => m.panno, new { @class = "form-control", @id = "txtPanCard", @placeholder = "पैन", @Maxlength = "15" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/span-->
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-12" style="text-align:left" id="lblcin"> CIN सं० <span class="Mandatory">*</span> </label>
+                                        <div class="col-md-12">
+                                            @*<input type="text" class="form-control" placeholder="क्षेत्रफल">*@
+                                            @Html.TextBoxFor(m => m.cinno, new { @class = "form-control", @id = "txtCIN", @placeholder = "CIN सं०", @Maxlength = "15" })
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/span-->
+                            </div>
+                            <!--/row-->
+
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-12 " style="text-align:left" id="lblperson">मुख्य व्यक्ति का नाम  <span class="Mandatory">*</span></label>
+                                        <div class="col-md-12">
+                                            @*<input type="text" class="form-control" placeholder="आस्थान का नाम">*@
+                                            @Html.TextBoxFor(m => m.estate_applicant_name, new { @class = "form-control", @id = "txtAlloteeName", @placeholder = "मुख्य व्यक्ति", @Maxlength = "30" })
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/span-->
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-12" style="text-align:left" id="lblAddress">पता<span class="Mandatory">*</span></label>
+                                        <div class="col-md-12">
+                                            @*<input type="text" class="form-control" placeholder="शेड क्रमांक">*@
+                                            @Html.TextBoxFor(m => m.address, new { @class = "form-control", @id = "txtaddress", @placeholder = "पता", @Maxlength = "40" })
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/span-->
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-12" style="text-align:left" id="lbldist"> जनपद <span class="Mandatory">*</span> </label>
+                                        <div class="col-md-12">
+                                            @*@Html.DropDownListFor(m => m.DistrictNames, Model.DistrictNames, new { @id = "ddlDistrict", @class = "form-control" })*@
+                                            @Html.DropDownListFor(m => m.TehsilName, new List<SelectListItem> { new SelectListItem { Text = "--चयन करे--", Value = "-1" } }, new { @id = "ddlDistrict", @class = "form-control" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/span-->
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-12" style="text-align:left"> तहसील </label>
+                                        <div class="col-md-12">
+                                            @Html.DropDownListFor(m => m.TehsilName, new List<SelectListItem> { new SelectListItem { Text = "--चयन करे--", Value = "-1" } }, new { @id = "ddlTehsil", @class = "form-control" })
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/span-->
+                            </div>
+                            <!--/row-->
+
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-12 " style="text-align:left">ब्लॉक  </label>
+                                        <div class="col-md-12">
+                                            @Html.DropDownListFor(m => m.BlockName, new List<SelectListItem> { new SelectListItem { Text = "--चयन करे--", Value = "-1" } }, new { @id = "ddlBlock", @class = "form-control" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/span-->
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-12" style="text-align:left">ग्राम</label>
+                                        <div class="col-md-12">
+                                            @Html.DropDownListFor(m => m.VillageName, new List<SelectListItem> { new SelectListItem { Text = "--चयन करे--", Value = "-1" } }, new { @id = "ddlVillage", @class = "form-control" })
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/span-->
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-12" style="text-align:left" id="lblmob"> मोबाइल <span class="Mandatory">*</span>  </label>
+                                        <div class="col-md-12">
+                                            @*<input type="text" class="form-control" placeholder="शेड का नाम">*@
+                                            @Html.TextBoxFor(m => m.mobile, new { @class = "form-control", @id = "txtMobile", @placeholder = "मोबाइल", @onkeypress = "return IsNumeric(event);", @Maxlength = "10" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/span-->
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-12" style="text-align:left"> ईमेल  </label>
+                                        <div class="col-md-12">
+                                            @*<input type="text" class="form-control" placeholder="क्षेत्रफल">*@
+                                            @Html.TextBoxFor(m => m.email, new { @class = "form-control", @id = "txtemail", @placeholder = "ईमेल", @onblur = "return validateEmail(this)", @Maxlength = "30" })
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/span-->
+                            </div>
+
+                            @*<div class="form-group">
+                                <label class="control-label col-md-3">
+                                    कंपनी का प्रकार
+                                    <span class="required" aria-required="true"> * </span>
+                                </label>
+                                <div class="col-md-4">
+                                    <select class="form-control">
+                                        <option value="-1">select</option>
+                                        <option value="1">demo1</option>
+                                        <option value="2">demo2</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">
+                                    कंपनी का नाम
+                                    <span class="required" aria-required="true"> * </span>
+                                </label>
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(m => m.company_name, new { @class = "form-control", @id = "txtCompanyName", @placeholder = "कंपनी का नाम" })
+
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">
+                                    पैन
+                                    <span class="required" aria-required="true"> * </span>
+                                </label>
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(m => m.panno, new { @class = "form-control", @id = "txtPanCard", @placeholder = "पैन" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">
+                                    CIN सं०
+                                    <span class="required" aria-required="true"> * </span>
+                                </label>
+                                <div class="col-md-4">
+                                    @*<input type="text" class="form-control" name="email">
+                                    @Html.TextBoxFor(m => m.cinno, new { @class = "form-control", @id = "txtCIN", @placeholder = "क्षेत्रफल" })
+
+
+                                    
+                                </div>
+                            </div>*@
+                        </div>
+                        <div class="tab-pane" id="tab2">
+                            <h3 class="block">अपने प्रोफाइल विवरण प्रदान करें</h3>
+                            @*<div class="form-group">
+                                <label class="control-label col-md-3">
+                                    मुख्य व्यक्ति का नाम
+                                    <span class="required" aria-required="true"> * </span>
+                                </label>
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(m => m.estate_applicant_name, new { @class = "form-control", @id = "txtAlloteeName", @placeholder = "आस्थान का नाम" })
+
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">
+                                    पता
+                                    <span class="required" aria-required="true"> * </span>
+                                </label>
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(m => m.address, new { @class = "form-control", @id = "txtPlot", @placeholder = "पता" })
+
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">
+                                    जनपद
+                                    <span class="required" aria-required="true"> * </span>
+                                </label>
+                                <div class="col-md-4">
+                                    <select class="form-control">
+                                        <option value="-1">select</option>
+                                        <option value="1">demo1</option>
+                                        <option value="2">demo2</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">
+                                    तहसील
+                                    <span class="required" aria-required="true"> * </span>
+                                </label>
+                                <div class="col-md-4">
+                                    <select class="form-control">
+                                        <option value="-1">select</option>
+                                        <option value="1">demo1</option>
+                                        <option value="2">demo2</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">
+                                    ब्लॉक
+                                    <span class="required" aria-required="true"> * </span>
+                                </label>
+                                <div class="col-md-4">
+                                    <select class="form-control">
+                                        <option value="-1">select</option>
+                                        <option value="1">demo1</option>
+                                        <option value="2">demo2</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">ग्राम</label>
+                                <div class="col-md-4">
+                                    <select class="form-control">
+                                        <option value="-1">select</option>
+                                        <option value="1">demo1</option>
+                                        <option value="2">demo2</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">मोबाइल</label>
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(m => m.mobile, new { @class = "form-control", @id = "txtMobile", @placeholder = "मोबाइल" })
+
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                            <label class="control-label col-md-3">ईमेल </label>
+                            <div class="col-md-4">
+                                @Html.TextBoxFor(m => m.mobile, new { @class = "form-control", @id = "txtMobile", @placeholder = "ईमेल " })
+
+
+                            </div>
+                        </div>*@
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-12 " style="text-align:left" id="lblIndustrytype">औद्योगिकी का प्रकार  <span class="Mandatory">*</span> </label>
+                                        <div class="col-md-12">
+                                            @Html.DropDownListFor(m => m.IndustryType, new List<SelectListItem>(), new { @id = "ddlIndustryType", @class = "form-control" })
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/span-->
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-12" style="text-align:left" id="lblestimate">अनुमानित लागत (लाख में) <span class="Mandatory">*</span></label>
+                                        <div class="col-md-12">
+                                            @*<input type="text" class="form-control" placeholder="शेड क्रमांक">*@
+                                            @Html.TextBoxFor(m => m.estimated_cost, new { @class = "form-control", @id = "txtEstimatedCost", @placeholder = "अनुमानित लागत", @onkeypress = "return IsNumeric(event);", @Maxlength = "8" })
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/span-->
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-12" style="text-align:left" id="lblProjectedEmployment"> अनुमानित रोजगार (सं० में)  <span class="Mandatory">*</span> </label>
+                                        <div class="col-md-12">
+                                            @*<input type="text" class="form-control" placeholder="शेड का नाम">*@
+                                            @Html.TextBoxFor(m => m.projected_employment, new { @class = "form-control", @id = "txtProjectedEmployment", @placeholder = "अनुमानित रोजगार", @onkeypress = "return IsNumeric(event);", @Maxlength = "5" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/span-->
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-12" style="text-align:left" id="lblestimate_time"> अनुमानित समय (माह में) <span class="Mandatory">*</span> </label>
+                                        <div class="col-md-12">
+                                            @*<input type="text" class="form-control" placeholder="क्षेत्रफल">*@
+                                            @Html.TextBoxFor(m => m.estimate_time, new { @class = "form-control", @id = "txtEstimateTime", @placeholder = "अनुमानित समय ", @onkeypress = "return IsNumeric(event);", @Maxlength = "3" })
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/span-->
+                            </div>
+                            <!--/row-->
+
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-12 " style="text-align:left" id="lblrelated_work_experience">सम्बंधित कार्यानुभव (माह में)  <span class="Mandatory">*</span> </label>
+                                        <div class="col-md-12">
+                                            @*<input type="text" class="form-control" placeholder="आस्थान का नाम">*@
+                                            @Html.TextBoxFor(m => m.related_work_experience, new { @class = "form-control", @id = "txtRelatedWorkExperience", @placeholder = "सम्बंधित कार्यानुभव", @onkeypress = "return IsNumeric(event);", @Maxlength = "3" })
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/span-->
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-12" style="text-align:left" id="lblCoveredArea">ढका क्षेत्र (% में ) <span class="Mandatory">*</span> </label>
+                                        <div class="col-md-12">
+                                            @*<input type="text" class="form-control" placeholder="शेड क्रमांक">*@
+                                            @Html.TextBoxFor(m => m.covered_area, new { @class = "form-control", @id = "txtCoveredArea", @placeholder = "ढका क्षेत्र", @onkeypress = "return IsNumeric(event);", @Maxlength = "2" })
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/span-->
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-12" style="text-align:left" id="lblUnCoveredArea"> खुला क्षेत्र (% में ) <span class="Mandatory">*</span>  </label>
+                                        <div class="col-md-12">
+                                            @*<input type="text" class="form-control" placeholder="शेड का नाम">*@
+                                            @Html.TextBoxFor(m => m.uncovered_area, new { @class = "form-control", @id = "txtUnCoveredArea", @placeholder = "खुला क्षेत्र ", @onkeypress = "return IsNumeric(event);", @Maxlength = "2" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/span-->
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-12" style="text-align:left" id="lblLandInvestment"> भूमि में निवेश मूल्य (लाख में) <span class="Mandatory">*</span> </label>
+                                        <div class="col-md-12">
+                                            @*<input type="text" class="form-control" placeholder="क्षेत्रफल">*@
+                                            @Html.TextBoxFor(m => m.land_investment, new { @class = "form-control", @id = "txtLandInvestment", @placeholder = "भूमि में निवेश मूल्य ", @onkeypress = "return IsNumeric(event);", @Maxlength = "8" })
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/span-->
+                            </div>
+                            <!--/row-->
+
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-12 " style="text-align:left" id="lblBuildingInvestment">ईमारत में लागत (लाख में)  <span class="Mandatory">*</span></label>
+                                        <div class="col-md-12">
+                                            @*<input type="text" class="form-control" placeholder="आस्थान का नाम">*@
+                                            @Html.TextBoxFor(m => m.building_investment, new { @class = "form-control", @id = "txtBuildingInvestment", @placeholder = "ईमारत में लागत", @onkeypress = "return IsNumeric(event);", @Maxlength = "8" })
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/span-->
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-12" style="text-align:left" id="lblEquipmentInvestment">मशीन एवं उपकरण लागत <span class="Mandatory">*</span></label>
+                                        <div class="col-md-12">
+                                            @*<input type="text" class="form-control" placeholder="शेड क्रमांक">*@
+                                            @Html.TextBoxFor(m => m.equipment_investment, new { @class = "form-control", @id = "txtEquipmentInvestment", @placeholder = "मशीन एवं उपकरण लागत", @onkeypress = "return IsNumeric(event);", @Maxlength = "8" })
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/span-->
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-12" style="text-align:left" id="lblproperty_cost"> संपत्ति में लागत   <span class="Mandatory">*</span> </label>
+                                        <div class="col-md-12">
+                                            @*<input type="text" class="form-control" placeholder="शेड का नाम">*@
+                                            @Html.TextBoxFor(m => m.property_cost, new { @class = "form-control", @id = "txtproperty_cost", @placeholder = "संपत्ति में लागत", @onkeypress = "return IsNumeric(event);", @Maxlength = "8" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/span-->
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-12" style="text-align:left" id="lblOtherInvestment"> अन्य लागत  <span class="Mandatory">*</span></label>
+                                        <div class="col-md-12">
+                                            @*<input type="text" class="form-control" placeholder="क्षेत्रफल">*@
+                                            @Html.TextBoxFor(m => m.other_investment, new { @class = "form-control", @id = "txtOtherInvestment", @placeholder = "अन्य लागत", @onkeypress = "return IsNumeric(event);", @Maxlength = "8" })
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/span-->
+                            </div>
+
+                           
+                        </div>
+                        <div class="tab-pane" id="tab3">
+                            <h3 class="block">औद्योगिक विवरण </h3>
+                            <div class="row">
+                                <table class="table table-striped table-bordered table-hover table-checkable" id="table">
+                                    <thead>
+
+                                        <tr role="row" class="heading">
+
+                                            <th width="10%"> क्र० सं० </th>
+                                            <th width="15%"> आस्थान का नाम </th>
+                                            <th width="15%"> प्रकार </th>
+                                            <th width="15%"> सं० </th>
+                                            <th width="10%"> आवंटन सं०</th>
+                                            <th width="10%"> </th>
+
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="tab4">
+                            <h3 class="form-section" style="font-weight:bolder">दस्तावेज़ अपलोड करें</h3>
+                            <div class="row">
+                                <div class="col-md-6 col-sm-6 col-xs-12 text-center col-50">
+                                    <div class="myborder" style="border:1px solid #ccc;">
+                                        <div class="panel-heading">फोटो </div>
+                                        <div style="height:200px;padding:5px;">
+                                            <img id="output" src="../no_image.png" alt="image" class="images-01" width="200px" height="150px">
+
+                                            @*<button  onclick="funupload">Upload</button>*@
+
+                                        </div><br>
+                                        <div style="border:1px solid #ccc;padding:5px;">
+
+                                            <input type="file" id="FileUpload1" class="form-control" onchange="loadPayFile(event, 'FileUpload1', 'I', document.getElementById('hfapplicant_code').value, 'output')" />
+
+                                            <input type="hidden" id="hfPpath" />
+
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-12 text-center col-50">
+                                    <div class="myborder" style="border:1px solid #ccc;">
+                                        <div class="panel-heading">हस्ताक्षर</div>
+                                        <div style="height:200px;padding:5px;">
+                                            <img id="Img1" src="../no_image.png" alt="image" class="images-01" width="200px" height="150px">
+
+
+
+                                        </div><br>
+                                        <div style="border:1px solid #ccc;padding:5px;">
+                                            <input type="file" id="FileUpload2" class="form-control" onchange="loadPayFile(event, 'FileUpload2', 'S', document.getElementById('hfapplicant_code').value, 'Img1')" />
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+
+                            </div>
+                            <div class="portlet box ">
+                                <div class="portlet-title">
+
+
+                                </div>
+                                <div class="portlet-body flip-scroll">
+                                    <table class="table table-bordered table-striped table-condensed flip-content">
+                                        <thead class="flip-content">
+                                            <tr>
+                                                <th width="5%"> Sr.No </th>
+                                                <th> Document </th>
+                                                <th> Action </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td> 1 </td>
+                                                <td> निर्धारित प्रारूप पर पूर्ण रूप से भरा हुआ प्रार्थना-पत्र</td>
+                                                <td> <input type="file" id="FileUpload3" class="form-control" onchange="loadPayFile(event,'FileUpload3','F',document.getElementById('hfapplicant_code').value),'-1'" /> </td>
+
+
+
+                                            </tr>
+                                            <tr>
+                                                <td> 2 </td>
+                                                <td> आधार कार्ड की स्व प्रमाणित छाया प्रति। </td>
+                                                <td><input type="file" id="FileUpload4" class="form-control" onchange="loadPayFile(event, 'FileUpload4', 'A', document.getElementById('hfapplicant_code').value), '-1'" /></td>
+
+
+
+                                            </tr>
+                                            <tr>
+                                                <td> 3 </td>
+                                                <td> परियोजना रिपोर्ट जिसके प्रत्येक पृश्ठ पर अभ्यर्थी के हस्ताक्षर होगे।</td>
+                                                <td> <input type="file" id="FileUpload5" class="form-control" onchange="loadPayFile(event, 'FileUpload5', 'P', document.getElementById('hfapplicant_code').value), '-1'" /> </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td> 4 </td>
+                                                <td> बैक पास बुक अद्यतन एन्ट्री सहित छाया प्रति।</td>
+                                                <td> <input type="file" id="FileUpload6" class="form-control" onchange="loadPayFile(event, 'FileUpload6', 'B', document.getElementById('hfapplicant_code').value), '-1'" /> </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td> 6 </td>
+                                                <td>
+                                                    उपरोक्त सभी विवरण (योजना से सम्बन्धित) के साथ नोटरी द्वारा प्रमाणित षपथ-पत्र।
+                                                </td>
+                                                <td> <input type="file" id="FileUpload7" class="form-control" onchange="loadPayFile(event, 'FileUpload7', 'H', document.getElementById('hfapplicant_code').value), '-1'" /> </td>
+
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <div class="row">
+                        <div class="col-md-offset-3 col-md-9">
+                            <a href="javascript:;" class="btn default button-previous disabled" style="display: none;">
+                                <i class="fa fa-angle-left"></i> Back
+                            </a>
+                            <a href="javascript:;" class="btn btn-outline green button-next" onclick="myfunction()">
+                                Continue
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                            <a href="javascript:;" class="btn green button-submit" style="display: none;">
+                                Submit
+                                <i class="fa fa-check"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            type: "post",
+            url: "/IndustrialAreaMaster/GetCompanyType",
+            data: {},
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+
+                var ddlComapnyType = "";
+                //var district = '';
+                for (var i = 0; i < data.length; i++) {
+                    ddlComapnyType = ddlComapnyType + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                }
+                //district = district + '</select>';
+                //alert(district);
+                $('#ddlComapnyType').append(ddlComapnyType);
+                $('#ddlComapnyType').val($('#hfddlcompanytype').val());
+            }
+        });
+
+        $.ajax({
+            type: "post",
+            url: "/IndustrialAreaMaster/GetIndustrytype",
+            data: {},
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+
+                var ddlComapnyType = "";
+                //var district = '';
+                for (var i = 0; i < data.length; i++) {
+                    ddlComapnyType = ddlComapnyType + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                }
+                //district = district + '</select>';
+                //alert(district);
+                $('#ddlIndustryType').append(ddlComapnyType);
+                $('#ddlIndustryType').val($('#hfddlIndustryType').val());
+            }
+        });
+        $.ajax({
+            type: "post",
+            url: "/IndustrialAreaMaster/GetDistrict",
+            data: {},
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+                $('#ddlDistrict').empty();
+                var ddlComapnyType = "";
+                //var district = '';
+                for (var i = 0; i < data.length; i++) {
+                    ddlComapnyType = ddlComapnyType + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                }
+                //district = district + '</select>';
+                //alert(district);
+                $('#ddlDistrict').append(ddlComapnyType);
+                $('#ddlDistrict').val($('#hfddlDistrict').val());
+                $.ajax({
+                    type: "post",
+                    url: "/IndustrialAreaMaster/GetTehsil",
+                    data: { DistID: $('#hfddlDistrict').val() },
+                    datatype: "json",
+                    traditional: true,
+                    success: function (data) {
+                        $('#ddlTehsil').empty();
+                        var district = "";
+                        //var district = '';
+                        for (var i = 0; i < data.length; i++) {
+                            district = district + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                        }
+                        //district = district + '</select>';
+                        //alert(district);
+                        $('#ddlTehsil').append(district);
+                        $('#ddlTehsil').val($('#hfddlTehsil').val());
+                    }
+                });
+
+                $.ajax({
+                    type: "post",
+                    url: "/IndustrialAreaMaster/GetBlock",
+                    data: { TehID: $('#hfddlTehsil').val() },
+                    datatype: "json",
+                    traditional: true,
+                    success: function (data) {
+                        $('#ddlBlock').empty();
+                        var block = '';
+                        // var district = "<select id='ddlTehsil'>";
+                        //var block = '';
+                        for (var i = 0; i < data.length; i++) {
+                            block = block + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                        }
+                        //  district = district + '</select>';
+                        //alert(district);
+                        $('#ddlBlock').append(block);
+                        $('#ddlBlock').val($('#hfddlBlock').val());
+                    }
+                });
+                $.ajax({
+                    type: "post",
+                    url: "/IndustrialAreaMaster/GetVillage",
+                    data: { BlockID: $('#hfddlBlock').val() },
+                    datatype: "json",
+                    traditional: true,
+                    success: function (data) {
+                        $('#ddlVillage').empty();
+                        var village = "";
+                        //var village = '';
+                        for (var i = 0; i < data.length; i++) {
+                            village = village + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                        }
+                        //  district = district + '</select>';
+                        //alert(district);
+                        $('#ddlVillage').append(village);
+                        $('#ddlVillage').val($('#hfddlVillage').val());
+                    }
+                });
+            }
+        });
+       
+        $('#ddlDistrict').change(function () {
+
+            //  alert("done");
+            $.ajax({
+                type: "post",
+                url: "/IndustrialAreaMaster/GetTehsil",
+                data: { DistID: $('#ddlDistrict').val() },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    $('#ddlTehsil').empty();
+                    var district = "";
+                    //var district = '';
+                    for (var i = 0; i < data.length; i++) {
+                        district = district + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                    }
+                    //district = district + '</select>';
+                    //alert(district);
+                    $('#ddlTehsil').append(district);
+                }
+            });
+        });
+        $('#ddlTehsil').change(function () {
+            //alert($('#ddlTehsil').val());
+            $.ajax({
+                type: "post",
+                url: "/IndustrialAreaMaster/GetBlock",
+                data: { TehID: $('#ddlTehsil').val() },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    $('#ddlBlock').empty();
+                    var block = '';
+                    // var district = "<select id='ddlTehsil'>";
+                    //var block = '';
+                    for (var i = 0; i < data.length; i++) {
+                        block = block + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                    }
+                    //  district = district + '</select>';
+                    //alert(district);
+                    $('#ddlBlock').append(block);
+                }
+            });
+        });
+        $('#ddIndustrialEstate').change(function () {
+            //alert($('#ddlTehsil').val());
+            $.ajax({
+                type: "post",
+                url: "/IndustrialAreaMaster/bindshed",
+                data: { IndustrialEstate: $('#ddIndustrialEstate').val() },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    $('#ddlShedName').empty();
+                    var block = '';
+                    // var district = "<select id='ddlTehsil'>";
+                    //var block = '';
+                    for (var i = 0; i < data.length; i++) {
+                        block = block + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                    }
+                    //  district = district + '</select>';
+                    //alert(district);
+                    $('#ddlShedName').append(block);
+                }
+            });
+
+
+            $.ajax({
+                type: "post",
+                url: "/IndustrialAreaMaster/bindplot",
+                data: { IndustrialEstate: $('#ddIndustrialEstate').val() },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    $('#ddlPlotName').empty();
+                    var block = '';
+                    // var district = "<select id='ddlTehsil'>";
+                    //var block = '';
+                    for (var i = 0; i < data.length; i++) {
+                        block = block + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                    }
+                    //  district = district + '</select>';
+                    //alert(district);
+                    $('#ddlPlotName').append(block);
+                }
+            });
+        });
+        $('#ddlBlock').change(function () {
+            $.ajax({
+                type: "post",
+                url: "/IndustrialAreaMaster/GetVillage",
+                data: { BlockID: $('#ddlBlock').val() },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    $('#ddlVillage').empty();
+                    var village = "";
+                    //var village = '';
+                    for (var i = 0; i < data.length; i++) {
+                        village = village + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                    }
+                    //  district = district + '</select>';
+                    //alert(district);
+                    $('#ddlVillage').append(village);
+                }
+            });
+        });
+    });
+
+    function Save() {
+
+        if (document.getElementById("ddlComapnyType").value == "-1") {
+            document.getElementById("ddlComapnyType").focus();
+            $('#lblcomtype').css('color', 'red');
+            alert("कृप्या कंपनी का प्रकार चयन करे");
+            return;
+        }
+        if (document.getElementById("txtCompanyName").value == "") {
+            document.getElementById("txtCompanyName").focus();
+            $('#lblcompname').css('color', 'red');
+            alert("कृप्या कंपनी का नाम  ");
+            return;
+        }
+        if (document.getElementById("txtPanCard").value == "") {
+            document.getElementById("txtPanCard").focus();
+            $('#lblpan').css('color', 'red');
+            alert("कृप्या पैन संख्या भरे ");
+            return;
+        }
+        if (document.getElementById("txtCIN").value == "") {
+            document.getElementById("txtCIN").focus();
+            $('#lblcin').css('color', 'red');
+            alert("कृप्या CIN सं० भरे ");
+            return;
+        }
+        if (document.getElementById("txtAlloteeName").value == "") {
+            document.getElementById("txtAlloteeName").focus();
+            $('#lblperson').css('color', 'red');
+            alert("कृप्या व्यक्ति का नाम भरे ");
+            return;
+        }
+        if (document.getElementById("txtaddress").value == "") {
+            document.getElementById("txtaddress").focus();
+            $('#lblAddress').css('color', 'red');
+            alert("कृप्या पता भरे ");
+            return;
+        }
+        if (document.getElementById("ddlDistrict").value == "-1") {
+            document.getElementById("ddlDistrict").focus();
+            $('#lbldist').css('color', 'red');
+            alert("कृप्या जनपद चयन करे");
+            return;
+        }
+        if (document.getElementById("txtMobile").value == "") {
+            document.getElementById("txtMobile").focus();
+            $('#lblmob').css('color', 'red');
+            alert("कृप्या मोबाइल नंबर  भरे");
+            return;
+        }
+        //if (document.getElementById("txtemail").value == "") {
+        //    document.getElementById("txtemail").focus();
+        //    alert("कृप्या ईमेल भरे");
+        //    return;
+        //}
+        if (document.getElementById("ddlIndustryType").value == "-1") {
+            document.getElementById("ddlIndustryType").focus();
+            $('#lblIndustrytype').css('color', 'red');
+            alert("कृप्या औद्योगिकी का प्रकार चयन करे");
+            return;
+        }
+        if (document.getElementById("txtEstimatedCost").value == "") {
+            document.getElementById("txtEstimatedCost").focus();
+            $('#lblestimate').css('color', 'red');
+            alert("अनुमानित लागत भरे");
+            return;
+        }
+        if (document.getElementById("txtProjectedEmployment").value == "") {
+            document.getElementById("txtProjectedEmployment").focus();
+            $('#lblProjectedEmployment').css('color', 'red');
+            alert("अनुमानित रोजगार भरे");
+            return;
+        }
+        if (document.getElementById("txtEstimateTime").value == "") {
+            document.getElementById("txtEstimateTime").focus();
+            $('#lblestimate_time').css('color', 'red');
+            alert("अनुमानित समय भरे");
+            return;
+        }
+        if (document.getElementById("txtRelatedWorkExperience").value == "") {
+            document.getElementById("txtRelatedWorkExperience").focus();
+            $('#lblrelated_work_experience').css('color', 'red');
+            alert("सम्बंधित कार्यानुभव");
+            return;
+        }
+        if (document.getElementById("txtCoveredArea").value == "") {
+            document.getElementById("txtCoveredArea").focus();
+            $('#lblCoveredArea').css('color', 'red');
+            alert("ढका क्षेत्र ");
+            return;
+        }
+
+        if (document.getElementById("txtUnCoveredArea").value == "") {
+            document.getElementById("txtUnCoveredArea").focus();
+            $('#lblUnCoveredArea').css('color', 'red');
+            alert("खुला  क्षेत्र ");
+            return;
+        }
+
+        if (document.getElementById("txtLandInvestment").value == "") {
+            document.getElementById("txtLandInvestment").focus();
+            $('#lblLandInvestment').css('color', 'red');
+            alert("भूमि में निवेश मूल्य");
+            return;
+        }
+        if (document.getElementById("txtBuildingInvestment").value == "") {
+            document.getElementById("txtBuildingInvestment").focus();
+            $('#lblBuildingInvestment').css('color', 'red');
+            alert("ईमारत में लागत ");
+            return;
+        }
+        if (document.getElementById("txtEquipmentInvestment").value == "") {
+            document.getElementById("txtEquipmentInvestment").focus();
+            $('#lblEquipmentInvestment').css('color', 'red');
+            alert("मशीन एवं उपकरण लागत ");
+            return;
+        }
+        if (document.getElementById("txtproperty_cost").value == "") {
+            document.getElementById("txtproperty_cost").focus();
+            $('#lblproperty_cost').css('color', 'red');
+            alert("संपत्ति में लागत");
+            return;
+        }
+        if (document.getElementById("txtOtherInvestment").value == "") {
+            document.getElementById("txtOtherInvestment").focus();
+            $('#lblOtherInvestment').css('color', 'red');
+            alert("अन्य लागत ");
+            return;
+        }
+        if (document.getElementById("txtgrossprofit").value == "") {
+            document.getElementById("txtgrossprofit").focus();
+            $('#lblgrossprofit').css('color', 'red');
+            alert("सकल लाभ ");
+            return;
+        }
+
+        if ((table.rows.length - 1) <= 0) {
+            alert("कृप्या आस्थान के भूखंड एवं शेड का विवरण भरे");
+            $('#lbh3l').css('color', 'red');
+
+            return;
+        }
+
+        var IsSmoke = $('#chkIsproducesmoke').bootstrapSwitch('state'); //$("#Accessibility_location_available_notYes").is(":checked");
+        var Iselsectric = $('#chkIsElectricity').bootstrapSwitch('state'); //$("#Accessibility_location_available_notYes").is(":checked");
+        var Istelephone = $('#chkIsTelephone').bootstrapSwitch('state'); //$("#Accessibility_location_available_notYes").is(":checked");
+
+        try {
+
+            var plot = [];
+            var shed = [];
+            if ((table.rows.length - 1) > 0) {
+                for (i = 0; i < table.rows.length - 1; i++) {
+                    if (document.getElementById("hfShedtype" + (i + 1) + "").value == "P") {
+                        plot.push({ plot_code: document.getElementById("hfShedName" + (i + 1) + "").value, industrial_estate_code: document.getElementById("hfIndustrialEstate" + (i + 1) + "").value, allotmentno: document.getElementById("txtAlotmentNo" + (i + 1) + "").value })
+                    }
+                    else {
+                        shed.push({ shed_code: document.getElementById("hfShedName" + (i + 1) + "").value, industrial_estate_code: document.getElementById("hfIndustrialEstate" + (i + 1) + "").value, allotmentno: document.getElementById("txtAlotmentNo" + (i + 1) + "").value })
+                    }
+
+                }
+            }
+            var IEA = {
+                "allotee_code": document.getElementById("hfallotee_code").value,
+                "allotee_name": document.getElementById("txtAlloteeName").value,
+                "company_name": document.getElementById("txtCompanyName").value,
+                "panno": document.getElementById("txtPanCard").value,
+                "cinno": document.getElementById("txtCIN").value,
+                "address": document.getElementById("txtaddress").value,
+                "district_code_census": document.getElementById("ddlDistrict").value,
+                "tehsil_code_census": document.getElementById("ddlTehsil").value,
+                "block_code": document.getElementById("ddlBlock").value,
+                "village_code": document.getElementById("ddlVillage").value,
+                "mobile": document.getElementById("txtMobile").value,
+                "email": document.getElementById("txtemail").value,
+                "industrytype_code_diff": document.getElementById("ddlIndustryType").value,
+                "companytype_code": document.getElementById("ddlComapnyType").value,
+                "estimated_cost": document.getElementById("txtEstimatedCost").value,
+                "projected_employment": document.getElementById("txtProjectedEmployment").value,
+                "estimate_time": document.getElementById("txtEstimateTime").value,
+                "related_work_experience": document.getElementById("txtRelatedWorkExperience").value,
+                "uncovered_area": document.getElementById("txtUnCoveredArea").value,
+                "covered_area": document.getElementById("txtCoveredArea").value,
+                "land_investment": document.getElementById("txtLandInvestment").value,
+                "other_investment": document.getElementById("txtOtherInvestment").value,
+                "building_investment": document.getElementById("txtBuildingInvestment").value,
+                "equipment_investment": document.getElementById("txtEquipmentInvestment").value,
+                "property_cost": document.getElementById("txtproperty_cost").value,
+                "is_produce_smoke": IsSmoke,//.document.getElementById("ddlIndustryType").value,
+                "is_electricity": Iselsectric,// document.getElementById("ddlIndustryType").value,
+                "is_telephone": Istelephone,//document.getElementById("ddlIndustryType").value,
+                "grossprofit": document.getElementById("txtgrossprofit").value,
+            }
+            $.ajax({
+                url: '/IndustrialAreaMaster/InsertUpdateEstateAllotee',
+                data: JSON.stringify({ IEA: IEA, L01: plot, L02: shed, Sptype: false }),
+                type: 'POST',
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    alert(data);
+                    location.reload();
+                }
+            });
+        }
+        catch (e) {
+            alert(e.message);
+
+        }
+
+    }
+</script>
+}

@@ -316,8 +316,18 @@ namespace DI.Models
                    s = value;
             }
         }
-        
 
+        public short yojanacode
+        {
+            get
+            {
+                return short.Parse(tbl_Session.Rows[0]["yojana_code"].ToString());
+            }
+            set
+            {
+                tbl_Session.Rows[0]["yojana_code"] = value;
+            }
+        }
 
 
 

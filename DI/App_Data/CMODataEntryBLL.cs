@@ -83,15 +83,18 @@ namespace DI
             {
                 sdr = SqlHelper.ExecuteReader(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName);
             }
-            
+            distNames.Insert(0, new SelectListItem { Text = "--चयन करे--", Value = "-1" });
             while (sdr.Read())
             {
                 distNames.Add(new SelectListItem
                 {
+
                     Text = sdr["ValueText"].ToString(),
                     Value = sdr["ValueId"].ToString()
                 });
+                
             }
+            
             sdr.Close();
         }
 

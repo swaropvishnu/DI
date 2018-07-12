@@ -1,4 +1,4 @@
-/* ========================================================================
+﻿/* ========================================================================
  * bootstrap-switch - v3.3.2
  * http://www.bootstrap-switch.org
  * ========================================================================
@@ -695,8 +695,8 @@
       radioAllOff: false,
       onColor: "primary",
       offColor: "default",
-      onText: "ON",
-      offText: "OFF",
+      onText: "हाँ",
+      offText: "नहीं",
       labelText: "&nbsp;",
       handleWidth: "auto",
       labelWidth: "auto",

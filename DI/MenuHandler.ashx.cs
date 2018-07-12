@@ -16,22 +16,45 @@ namespace DI
         public void ProcessRequest(HttpContext context)  
         {  
             
-            var list = new List<Menu>();  
-            var dr = UserDtl.GetMenuData2(UserSession.LoggedInUser.UserId);
-                while (dr.Read())  
-                {  
-                    var menu = new Menu  
-                    {  
-                        ID = Convert.ToInt32(dr["MenuID"]),  
+            var list = new List<Menu>();
+            if (UserSession.LoggedInUser.UserLevel=="6" )
+            {
+                var dr = UserDtl.GetMenuData2(UserSession.LoggedInUser.UserId);
+                while (dr.Read())
+                {
+                    var menu = new Menu
+                    {
+                        ID = Convert.ToInt32(dr["MenuID"]),
                         Text = dr["Text"].ToString(),
-                        parentId = dr["parentId"] != DBNull.Value ? Convert.ToInt32(dr["parentId"]) : (int?)null, 
+                        parentId = dr["parentId"] != DBNull.Value ? Convert.ToInt32(dr["parentId"]) : (int?)null,
                         //parentId = Convert.ToInt32(dr["orderby"]),// != DBNull.Value ? Convert.ToInt32(dr["parentId"]) : (int?)null,  
                         NavURL = dr["NavURL"].ToString(),
                         Icon = dr["Icon"].ToString(),
-                        isActive = Convert.ToBoolean(dr["orderby"])  
-                    };  
-                    list.Add(menu);  
-                }  
+                        isActive = Convert.ToBoolean(dr["orderby"])
+                    };
+                    list.Add(menu);
+                }
+            }
+            else if (UserSession.LoggedInUser.UserLevel == "30")
+            {
+                var dr = DAL.CommonDA.GetApplicantMenuData(UserSession.LoggedInUser.UserName, UserSession.LoggedInUser.yojanacode);
+                while (dr.Read())
+                {
+                    var menu = new Menu
+                    {
+                        ID = Convert.ToInt32(dr["MenuID"]),
+                        Text = dr["Text"].ToString(),
+                        parentId = dr["parentId"] != DBNull.Value ? Convert.ToInt32(dr["parentId"]) : (int?)null,
+                        //parentId = Convert.ToInt32(dr["orderby"]),// != DBNull.Value ? Convert.ToInt32(dr["parentId"]) : (int?)null,  
+                        NavURL = dr["NavURL"].ToString(),
+                        Icon = dr["Icon"].ToString(),
+                        isActive = Convert.ToBoolean(dr["orderby"])
+                    };
+                    list.Add(menu);
+                }
+            }
+           
+                
              
             var mainList = GetMenuTree(list, null);  
    

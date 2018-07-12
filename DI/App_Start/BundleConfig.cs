@@ -33,6 +33,13 @@ namespace DI
                       "~/Content/plugins/bootstrap/css/bootstrap.min.css",
                       "~/Content/plugins/simple-line-icons/simple-line-icons.min.css"));
 
+
+            bundles.Add(new StyleBundle("~/Content/PublicPage").Include(
+                      "~/Content/demo.css",
+                      "~/Content/header-second-bar.css",
+                      "~/Content/assets/pages/css/login-3.min.css"));
+
+
             bundles.Add(new StyleBundle("~/Content/cssLog").Include(
                       "~/Content/assets/global/plugins/font-awesome/css/font-awesome.min.css",
                       "~/Content/assets/global/plugins/simple-line-icons/simple-line-icons.min.css",
@@ -51,11 +58,17 @@ namespace DI
                       "~/Content/assets/global/plugins/simple-line-icons/simple-line-icons.min.css",
                       "~/Content/assets/global/plugins/bootstrap/css/bootstrap.min.css",
                       "~/Content/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css",
+                      "~/Content/assets/global/plugins/datatables/datatables.min.css",
+                      "~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css",
+                      "~/Content/assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css",
+                      "~/Content/assets/global/plugins/fancybox/source/jquery.fancybox.css",
                       "~/Content/assets/global/css/components-md.min.css",
                       "~/Content/assets/global/css/plugins-md.min.css",
                       "~/Content/assets/layouts/layout2/css/layout.min.css",
                       "~/Content/assets/layouts/layout2/css/themes/blue.min.css",
-                      "~/Content/assets/layouts/layout2/css/custom.min.css"));
+                      "~/Content/assets/layouts/layout2/css/custom.min.css",
+                      "~/Content/assets/global/plugins/select2/css/select2.min.css",
+                      "~/Content/assets/global/plugins/select2/css/select2-bootstrap.min.css"));
 
             bundles.Add(new StyleBundle("~/Content/cssError").Include(
                       "~/Content/assets/global/plugins/font-awesome/css/font-awesome.min.css",
@@ -215,6 +228,31 @@ namespace DI
             bundles.Add(new ScriptBundle("~/bundles/gmap3").Include(
                      "~/Scripts/gmap3.js"));
 
+
+            bundles.Add(new ScriptBundle("~/Content/PublicMain1").Include(
+                //"~/Scripts/jquery-{version}.js",
+                "~/Content/plugins/jquery.min.js",
+                "~/Content/assets/global/plugins/bootstrap/js/bootstrap.min.js",
+                "~/Content/assets/global/plugins/js.cookie.min.js",
+                "~/Content/assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js",
+                "~/Content/assets/global/plugins/jquery.blockui.min.js",
+                "~/Content/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js"));
+
+            bundles.Add(new ScriptBundle("~/Content/PublicMain2").Include(
+                "~/Content/assets/global/plugins/jquery-validation/js/jquery.validate.min.js"));
+
+            bundles.Add(new ScriptBundle("~/Content/PublicMain3").Include(
+                "~/Content/assets/global/plugins/datatables/datatables.min.js",
+                "~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js",
+                "~/Content/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js",
+                "~/Content/assets/global/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js",
+                "~/Content/assets/global/plugins/fancybox/source/jquery.fancybox.pack.js",
+                "~/Content/assets/global/plugins/jquery-validation/js/additional-methods.min.js",
+                "~/Content/assets/global/plugins/backstretch/jquery.backstretch.min.js",
+                "~/Content/assets/global/plugins/select2/js/select2.full.min.js",
+                "~/Content/assets/pages/scripts/ecommerce-products.min.js",
+                "~/Content/assets/global/scripts/app.min.js",
+                "~/Content/assets/pages/scripts/login.min.js"));
 
             BundleTable.EnableOptimizations = false;
 

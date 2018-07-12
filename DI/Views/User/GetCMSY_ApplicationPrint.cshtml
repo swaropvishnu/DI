@@ -1,0 +1,328 @@
+﻿@{
+    ViewBag.Title = "GetCMSY_ApplicationPrint";
+    Layout = "~/Views/Shared/UserLayout.cshtml";
+}
+@using System.Data;
+@using DI.Models;
+@using DI.DAL;
+@using DI.BLL;
+@{
+    DataSet ds = new DataSet();
+    ds = new CommonDA().GetApplicantinfo(-1, -1, UserSession.LoggedInUserName);
+
+    var imag = "";
+    if (ds!=null)
+    {
+        if (ds.Tables[2]!=null)
+        {
+            if (ds.Tables[2].Rows.Count>0)
+            {
+                 imag = "<img " + "src='" + "data:image/jpg;base64," + Convert.ToBase64String((Byte[])(ds.Tables[2].Rows[0]["image"]), 0) + "' style='width:225px'/>";
+
+            }
+        }
+
+    }
+
+
+}
+<style>
+    img {
+        page-break-inside: avoid;
+    }
+
+    .img-rounded {
+        border-radius: 6px;
+        Height: 100px;
+        Width: 109px;
+    }
+</style>
+<script type="text/javascript">
+      window.history.forward();
+</script>
+<script language="javascript" type="text/javascript">
+        function printDiv(divID) {
+            //Get the HTML of div
+            var divElements = document.getElementById(divID).innerHTML;
+            //Get the HTML of whole page
+            var oldPage = document.body.innerHTML;
+
+            //Reset the page's HTML with div's HTML only
+            document.body.innerHTML =
+               "<html><head><title></title></head><body>" +
+                "<div align='center' style='margin-left:1%;margin-right:1%;width:100%;'>" +
+
+               divElements + "</div></body>";
+
+            //Print Page
+            window.print();
+
+            //Restore orignal HTML
+            document.body.innerHTML = oldPage;
+        }
+</script>
+          <div style="background-color:white ;">
+    <div style="margin-left:79%; ">
+        <button type="button" class="btn green" onclick="javascript:printDiv('reportdiv')" style="margin-left:5%;margin-right:5%;" id="btnprint">Print</button>
+
+    </div>
+    <div class="row">
+
+        @using (Html.BeginForm("Get_Data_MYSY", "IndustrialAreaMaster", FormMethod.Post, new { @class = "", enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+         
+            <div id="reportdiv">
+                <br />
+
+                <br />
+@if (ds != null)
+{
+    if (ds.Tables[0] != null)
+    {
+        if (ds.Tables[0].Rows.Count > 0)
+        {
+            //for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+            {
+                <h4 class="title" align="center"style="font-weight:bold;text-decoration: underline">कार्यालय - ज़िला  उद्योग एवं  उद्यम प्रोत्साहन केन्द्र : </h4>
+                <h5 class="category" align="center" style="font-weight:bold;"> पता:</h5>
+
+                <h5 class="category" align="left" style="font-weight:bold;">&nbsp;&nbsp;&nbsp;&nbsp;प्रार्थना पत्र  क्रमांक:</h5>
+                <br />
+                <h4 class="title" align="center" style="font-weight:bold;text-decoration: underline">  मुख्यमंत्री युवा स्वरोजगार योजना, उत्तर प्रदेश</h4>
+                <br />
+                <h5 class="category" align="center" style="font-weight:bold;">प्रार्थना पत्र</h5>
+                <table class="table-responsive tblcss" id="Letter" border="1" style="width:80%" align="center">
+                   
+                    <tr>
+                        <td></td>
+                        
+                    </tr>
+                    <tr>
+                        <td width="2%">1.</td>
+                        <td width="30%" valign="bottom" style="font-size:17px; margin-left:12%">&nbsp;&nbsp; नाम :</td>
+                        <td width="50%" style="font-size:17px" colspan="2" valign="bottom">&nbsp;&nbsp;@ds.Tables[0].Rows[0]["applicant_name"].ToString().Trim()</td>
+                        <td style="font-size:17px" rowspan="9" valign="bottom">
+                            <div class="center-align">@Html.Raw(imag)</div>
+                           
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>2.</td>
+                        <td style="font-size:17px" width="30%" valign="bottom">&nbsp;&nbsp;जन्मतिथि</td>
+                        <td style="font-size:17px" valign="bottom">&nbsp;&nbsp;@ds.Tables[0].Rows[0]["dob"].ToString().Trim()</td>
+
+                    </tr>
+
+                    <tr>
+                        <td>3.</td>
+                        <td style="font-size:17px">&nbsp;&nbsp;आधार कार्ड नं0</td>
+                        <td style="font-size:17px" valign="bottom">&nbsp;&nbsp;@ds.Tables[0].Rows[0]["adhar_No"].ToString().Trim()</td>
+                    </tr>
+
+                    <tr>
+                        <td>4.</td>
+                        <td style="font-size:17px">&nbsp;&nbsp;पिता/पति का नाम</td>
+
+                        <td style="font-size:17px" valign="bottom">&nbsp;&nbsp;@ds.Tables[0].Rows[0]["father_Name"].ToString().Trim()</td>
+                    </tr>
+
+                    <tr>
+                        <td>5.</td>
+                        <td style="font-size:17px">&nbsp;&nbsp;पत्र व्यवहार का पता</td>
+                        <td style="font-size:17px" valign="bottom">&nbsp;&nbsp;@ds.Tables[0].Rows[0]["current_address"].ToString().Trim()</td>
+
+                    </tr>
+
+                    <tr>
+                        <td>6.</td>
+                        <td style="font-size:17px">&nbsp;&nbsp; स्थाई पता </td>
+                        <td style="font-size:17px" valign="bottom">&nbsp;&nbsp;@ds.Tables[0].Rows[0]["permanent_address"].ToString().Trim()</td>
+                    </tr>
+
+                    <tr>
+                        <td>7.</td>
+                        <td style="font-size:17px">&nbsp;&nbsp;प्रस्तावित कार्यालय का पता</td>
+                        <td style="font-size:17px" valign="bottom"></td>
+                    </tr>
+                    <tr>
+                        <td>8.</td>
+                        <td style="font-size:17px">&nbsp;&nbsp;मोबाइल नं0</td>
+                        <td style="font-size:17px" valign="bottom">&nbsp;&nbsp;@ds.Tables[0].Rows[0]["mobile_no"].ToString().Trim()</td>
+                    </tr>
+                    <tr>
+                        <td>9.</td>
+                        <td style="font-size:17px">&nbsp;&nbsp;ई-मेल आई0डी0 (यदि हो तो)</td>
+                        <td style="font-size:17px" valign="bottom">&nbsp;&nbsp;@ds.Tables[0].Rows[0]["email"].ToString().Trim()</td>
+                    </tr>
+
+
+
+                </table>
+                <table class="table-responsive tblcss" id="Letter" border="1" style="width:80%" align="center">
+                    <tr>
+                        <td width="2%" height="50px">10.</td>
+                        <td width="20%" style="font-size:20px; font-weight:bold;">&nbsp;&nbsp;परिवार का विवरण </td>
+                        <td width="50%" style="font-size:20px; font-weight:bold;">&nbsp;&nbsp;नाम </td>
+                        <td width="10%" style="font-size:20px; font-weight:bold">&nbsp;&nbsp;उम्र</td>
+                        <td width="20%" style="font-size:20px; font-weight:bold">&nbsp;&nbsp;कार्य</td>
+                        
+                    </tr>
+                    <tr>
+                        <td style="font-size:17px"></td>
+                        <td style="font-size:17px">&nbsp;&nbsp;पिता</td>
+                        <td style="font-size:17px">&nbsp;&nbsp;@ds.Tables[0].Rows[0]["father_Name"].ToString().Trim()</td>
+                        <td style="font-size:17px">&nbsp;&nbsp;</td>
+                        <td style="font-size:17px">&nbsp;&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td style="font-size:17px"></td>
+                        <td style="font-size:17px">&nbsp;&nbsp;माता</td>
+                        <td style="font-size:17px">&nbsp;&nbsp;</td>
+                        <td style="font-size:17px">&nbsp;&nbsp;</td>
+                        <td style="font-size:17px">&nbsp;&nbsp;</td>
+                    </tr>
+
+                    <tr>
+                        <td style="font-size:17px"></td>
+                        <td style="font-size:17px">&nbsp;&nbsp;भाई/बहन</td>
+                        <td style="font-size:17px">&nbsp;&nbsp;</td>
+                        <td style="font-size:17px">&nbsp;&nbsp;</td>
+                        <td style="font-size:17px">&nbsp;&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td style="font-size:17px"></td>
+                        <td style="font-size:17px"&nbsp;&nbsp;>बच्चों का नाम</td>
+                        <td style="font-size:17px"&nbsp;&nbsp;></td>
+                        <td style="font-size:17px"&nbsp;&nbsp;></td>
+                        <td style="font-size:17px"&nbsp;&nbsp;></td>
+                    </tr>
+                </table>
+                <table class="table-responsive tblcss" id="Letter" border="1" style="width:80%" align="center">
+                    <tr>
+                        <td width="2%">11.</td>
+                        <td style="font-size:17px" width="30%">&nbsp;&nbsp;पेंशन  कार्ड सं0</td>
+                        <td style="font-size:17px" colspan="8">&nbsp;&nbsp;@ds.Tables[0].Rows[0]["pansion_card_no"].ToString().Trim()</td>
+                    </tr>
+                    <tr>
+                        <td width="2%">12.</td>
+                        <td style="font-size:17px" width="30%">&nbsp;&nbsp;परिवार की वार्षिक आय</td>
+                        <td style="font-size:17px" colspan="8">&nbsp;&nbsp;@ds.Tables[0].Rows[0]["family_income"].ToString().Trim()</td>
+                    </tr>
+                    <tr>
+                        <td width="2%">13.</td>
+                        <td style="font-size:17px" width="30%">&nbsp;&nbsp;परियोजना का नाम</td>
+                        <td style="font-size:17px" colspan="2" width="10%">&nbsp;&nbsp;उत्पात</td>
+                        <td style="font-size:17px" colspan="2">&nbsp;&nbsp;@ds.Tables[0].Rows[0]["project_name"].ToString().Trim()</td>
+                        <td style="font-size:17px" colspan="2" width="10%">&nbsp;&nbsp;सेवा</td>
+                        <td style="font-size:17px" colspan="2">&nbsp;&nbsp;</td>
+                    </tr>
+
+                    <tr>
+                        <td width="2%">14.</td>
+                        <td style="font-size:17px" width="30%">&nbsp;&nbsp;परियोजना लागत</td>
+                        <td style="font-size:17px" colspan="8">&nbsp;&nbsp;(परियोजना संलगन करें )&nbsp;&nbsp;@ds.Tables[0].Rows[0]["project_cost"].ToString().Trim()</td>
+                    </tr>
+                    <tr>
+                        <td width="2%"></td>
+                        <td style="font-size:17px" width="30%">&nbsp;&nbsp;प्लान्ट एवं मशीनरी</td>
+                        <td style="font-size:17px" colspan="8">&nbsp;&nbsp;रु० @ds.Tables[0].Rows[0]["machinery_cost"].ToString().Trim()</td>
+                    </tr>
+                    <tr>
+                        <td width="2%"></td>
+                        <td style="font-size:17px" width="30%">&nbsp;&nbsp;एक चक कार्यशील पूँजी</td>
+                        <td style="font-size:17px" colspan="8">&nbsp;&nbsp;रु० &nbsp;&nbsp;@ds.Tables[0].Rows[0]["working_capital"].ToString().Trim()</td>
+                    </tr>
+                    <tr>
+                        <td width="2%"></td>
+                        <td style="font-size:17px" width="30%">&nbsp;&nbsp;योग </td>
+                        <td style="font-size:17px" colspan="8">&nbsp;&nbsp;रु० </td>
+                    </tr>
+
+                    <tr>
+                        <td width="2%">15.</td>
+                        <td style="font-size:17px" width="30%">&nbsp;&nbsp;निकटतम बैक शाखा  का नाम <br />&nbsp;&nbsp;(शहरी क्षेत्रो हेतु)</td>
+                        <td style="font-size:17px" colspan="8">&nbsp;&nbsp; रु० &nbsp;&nbsp;@ds.Tables[0].Rows[0]["branch_name"].ToString().Trim()</td>
+                    </tr>
+                    <tr>
+                        <td width="2%">16.</td>
+                        <td style="font-size:17px" width="30%">&nbsp;&nbsp;सर्विस शाखा का नाम  <br />(ग्रामीण क्षेत्रों हेतु)</td>
+                        <td style="font-size:17px" colspan="8">&nbsp;&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td width="2%">17.</td>
+                        <td style="font-size:17px" width="30%">&nbsp;&nbsp;परियोजना का नाम</td>
+                        <td style="font-size:17px" colspan="2" width="10%">&nbsp;&nbsp;5%</td>
+                        <td style="font-size:17px" colspan="2">&nbsp;&nbsp;&nbsp;&nbsp;रु०</td>
+                        <td style="font-size:17px" colspan="2" width="10%">&nbsp;&nbsp;10%</td>
+                        <td style="font-size:17px" colspan="2">&nbsp;&nbsp;रु०</td>
+                    </tr>
+                    <tr>
+                        <td width="2%">18.</td>
+                        <td style="font-size:17px" width="30%">&nbsp;&nbsp;बैक शाखा में जमा धनराशी</td>
+                        <td style="font-size:17px" colspan="8">&nbsp;&nbsp;रु० &nbsp;&nbsp;@ds.Tables[0].Rows[0]["deposit_amt"].ToString().Trim()</td>
+                    </tr>
+                    <tr>
+                        <td width="2%">19.</td>
+                        <td style="font-size:17px" width="30%">&nbsp;&nbsp;बैक शाखा का नाम</td>
+                        <td style="font-size:17px" colspan="8">&nbsp;&nbsp;@ds.Tables[0].Rows[0]["branch_name"].ToString().Trim()</td>
+                    </tr>
+                    <tr>
+                        <td width="2%">20.</td>
+                        <td  style="font-size:17px" width="30%">&nbsp;&nbsp;बैक खाता सं0  व  आईएफएससी कोड</td>
+                        <td style="font-size:17px" colspan="8">&nbsp;&nbsp;@ds.Tables[0].Rows[0]["bank_account_no"].ToString().Trim() / (@ds.Tables[0].Rows[0]["ifsc_code"].ToString().Trim()) </td>
+                    </tr>
+                    <tr>
+                        <td width="2%">21.</td>
+                        <td style="font-size:17px" width="30%">&nbsp;&nbsp;यदि विशिष्ट श्रेणी लाभार्थी है , तो  प्रमाणपत्र की  <br /> स्वप्रमाणित छाया प्रति </td>
+                        <td style="font-size:17px" colspan="8"></td>
+                    </tr>
+                   
+                 
+                </table>
+                <table class="table-responsive tblcss" id="Letter" border="0" style="width:80%" align="center">
+
+                    <tr>
+                        <td style="font-size:15px"><br />
+<br />
+
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;               प्रमाणित किया जाता  है कि  उपरोक्त सभी सूचनाये मेरी व्यक्तिगत  जानकारी के  अनुसार  सही है कोई तथ्य  छिपाया  नहीं गया है योजना की सभी  शर्तो को संलग्न  में  लिया गया है <br /> मै  सभी  शर्तो को स्वीकार  करता  हूँ  प्राथना  पत्र  के  साथ लगाये गये संलग्ननो  को जांच  कर मेरे द्वारा ही संलग्न किया  गया  है
+                        </td>
+                       </tr></table>
+
+                <table id="example1" style="width:80%; margin-left:70%; text-align:justify" align="left">
+
+                    <tr style="background-color:#39b4dd">
+
+                    <tr><td style="padding-left:50px;border: none;font-size:20px;font-weight:bold;">हस्ताक्षर - </td> </tr>
+
+                    <tr><td style="border: none;"></td></tr>
+                    <tr><td style="padding-left:50px;height:40px;border: none;font-size:20px; font-weight:bold;">नाम          -</td></tr>
+
+
+
+                    <tr><td style="border: none;"></td></tr>
+
+                    <tr><td style="padding-left:50px;height:40px;border: none;font-size: 20px; font-weight:bold;">पता  - </td></tr>
+
+
+
+
+                    <tbody>
+                        <tr></tr>
+                    </tbody>
+                </table>
+
+            }
+        }
+    }
+
+}
+            </div>
+        }
+
+                
+    </div>
+
+</div>

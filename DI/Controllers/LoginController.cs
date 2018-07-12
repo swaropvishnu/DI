@@ -10,6 +10,7 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Security.Principal;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -17,16 +18,22 @@ using System.Web.Security;
 
 namespace DI.Controllers
 {
-    
-   
     public class LoginController : Controller
     {
+        CMYSS_Applicant CM = new CMYSS_Applicant();
+ 
         // GET: Login
         public ActionResult Login()
         {
+            string salt = CreateSalt(5);
+            Session["salt"] = salt.ToString();
             return View();
         }
-
+        public ActionResult TestView()
+        {
+           
+            return View();
+        }
         public ActionResult LogOut()
         {
             try
@@ -61,37 +68,43 @@ namespace DI.Controllers
 
         //
         // POST: /Account/Login
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpPost]        
+        [AllowAnonymous]
         public ActionResult Login(LoginModal Model)
         {
-            //if (this.IsCaptchaValid("Captcha is not valid"))
+            
             if (Model.CaptchaText == HttpContext.Session["captchastring"].ToString())
             {
                 // Ensure we have a valid viewModel to work with
                 //if (!ModelState.IsValid)
                 //    return View(Model);
-
                 string salt = CreateSalt(5);
+
                 string usrname = Model.UserName;
                 string password = Model.Password;
                 DataSet ds = new DataSet();
-                ds = UserDtl.VerifyUser(usrname);
-                //btnlogin.Attributes.Add("onclick", "return HashPwdwithSalt('" + salt.ToString() + "');");
+                ds = UserDtl.VerifyUser(usrname);                
                 if (ds != null)
                 {
-                    string psw = ds.Tables[0].Rows[0]["Password"].ToString();
-                    bool isLogin = CompareHashValue(Model.Password, Model.UserName, psw, salt);
+                    string psw = ds.Tables[0].Rows[0]["Password"].ToString();                    
                     if (ds.Tables[0].Rows.Count > 0 && ds.Tables[0].Rows.Count == 1)
                     {
 
-                        string hashed_pwd = FormsAuthentication.HashPasswordForStoringInConfigFile(psw.ToString().ToLower() + salt, "md5");
-                        string userpwd = FormsAuthentication.HashPasswordForStoringInConfigFile(Model.Password.ToLower() + salt, "md5");
-                        //if (hashed_pwd.ToString().ToLower().Equals(userpwd.ToString().ToLower()))
-                        if (isLogin)
+                        string hashed_pwd = CalculateHash(psw.ToString().ToLower() + Session["salt"].ToString());
+                        if (hashed_pwd.ToString().ToLower().Equals(Model.Password.ToLower()))
                         {
-                            Session["tbl_Session"] = ds.Tables[0];
-                            return RedirectToAction("Index", "Dashboard");
+                            if (ds.Tables[0].Rows[0]["UserLevel"].ToString().Trim()=="6")
+                            {
+                                Session["tbl_Session"] = ds.Tables[0];
+                                FormsAuthentication.SetAuthCookie(usrname, Model.RememberMe);
+                                return RedirectToAction("Index", "Dashboard");
+                            }
+                            else
+                            {
+                                ViewBag.ErrMessage = "Invalid Username or Password.";
+                                return RedirectToAction("Login", "Login");
+                            }
+
                         }
                         else
                         {
@@ -123,6 +136,7 @@ namespace DI.Controllers
         public CaptchaImageResult ShowCaptchaImage()
         {
             return new CaptchaImageResult();
+            
         }
 
         /// <summary>
@@ -136,36 +150,10 @@ namespace DI.Controllers
         /// 
 
 
-        #region --> Comapare HASH Value
-        public static bool CompareHashValue(string password, string username, string OldHASHValue, string SALT)
-        {
-            try
-            {
-                string expectedHashString = Get_HASH_SHA512(password, SALT);
-                string hashed_pwd = FormsAuthentication.HashPasswordForStoringInConfigFile(OldHASHValue.ToLower() + SALT, "md5");
-                return (hashed_pwd == expectedHashString);
-            }
-            catch
-            {
-                return false;
-            }
-        }
-        #endregion
+        
 
         #region --> Generate HASH Using SHA512
-        public static string Get_HASH_SHA512(string password, string _salt)
-        {
-            try
-            {
-                string type_pwd = FormsAuthentication.HashPasswordForStoringInConfigFile(password, "md5");
-                string type_pwd_salt = FormsAuthentication.HashPasswordForStoringInConfigFile(type_pwd.ToLower() + _salt, "md5");
-                return type_pwd_salt;
-            }
-            catch
-            {
-                return string.Empty;
-            }
-        }
+        
         #endregion
         private string CreateSalt(int size) //Generate the salt via Randon Number Genertor cryptography
         {
@@ -175,7 +163,17 @@ namespace DI.Controllers
             return Convert.ToBase64String(buff);
         }
 
+        private string CalculateHash(string input)
+        {
+            using (var algorithm = SHA256.Create()) //or MD5 SHA512 etc.
+            {
+                var hashedBytes = algorithm.ComputeHash(Encoding.UTF8.GetBytes(input));
 
+                return BitConverter.ToString(hashedBytes).Replace("-", "").ToLower();
+            }
+        }
+
+        
 
 
 
@@ -250,7 +248,7 @@ namespace DI.Controllers
 
         //POST: Logout
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult Logout()
         {
             try
@@ -297,8 +295,8 @@ namespace DI.Controllers
                     string psw = ds.Tables[0].Rows[0]["Password"].ToString();
                     string lpsw = ds.Tables[0].Rows[0]["OldPassWord"].ToString();
 
-                    string pwd_salt = FormsAuthentication.HashPasswordForStoringInConfigFile(ChangePwd.OldPassword_CHG.ToString(), "md5");
-                    string type_pwd_salt = FormsAuthentication.HashPasswordForStoringInConfigFile(ChangePwd.NewPassword_CHG.ToString(), "md5");
+                    string pwd_salt = FormsAuthentication.HashPasswordForStoringInConfigFile(ChangePwd.OldPassword_CHG.ToString(), "sha256");
+                    string type_pwd_salt = FormsAuthentication.HashPasswordForStoringInConfigFile(ChangePwd.NewPassword_CHG.ToString(), "sha256");
 
                     string hashed_pwd = pwd_salt;
                     string hashed_newpwd = type_pwd_salt;
@@ -388,12 +386,144 @@ namespace DI.Controllers
             
             return View(objUserData);
         }
-
-
         public ActionResult Error()
 
         {
             return View();
-        }        
+        }
+        
+        public ActionResult RegistrationLogin()
+        {
+            return View();
+        }
+        public ActionResult Registration_Login()
+        {
+            string salt = CreateSalt(5);
+            Session["salt"] = salt.ToString();
+            List<SelectListItem> Scheme = new List<SelectListItem>();
+            CMODataEntryBLL.bindDropDownHnGrid("proc_Detail", Scheme, "y", "", "");
+            CM.Scheme = Scheme;
+            return View(CM);
+        }
+
+        public JsonResult InsertUpdateCMYSS_Applicant(CMYSS_Applicant Objform)
+        {
+            try
+            {
+                try
+                {
+                    DateTime dt = BLL.CommonBL.Setdate(Objform.inputdob);
+                    Objform.dob = dt;
+                }
+                catch (Exception)
+                {
+
+                    return Json("Date of Birth must be dd/mm/yyyy format", JsonRequestBehavior.AllowGet);
+                }
+
+                Objform.steps = "0";
+                string[] dobTime = Objform.inputdob.ToString().Split(' ');
+                string[] dob = dobTime[0].Split('/');
+                string Mobchar = Objform.mobile_no.Substring(0, 2);
+                List<CMYSS_Applicant_Doc> objdoc = new List<CMYSS_Applicant_Doc>();
+                List<CMYSS_Applicant_Family> objFamily = new List<CMYSS_Applicant_Family>();
+                Objform.Password= FormsAuthentication.HashPasswordForStoringInConfigFile(dob[2].ToString().Trim()+ dob[1].ToString().Trim()+ Mobchar+ dob[0].ToString().Trim(), "sha256");
+                string str = new DAL.CommonDA().InsertUpdateCMYSS_Applicant(Objform, objdoc, objFamily, false);
+                if (str.Contains("Save") && str.Contains("/"))
+                {
+                    string[] Msg = str.Split('/');
+
+                    return Json(Msg[0] + "\n" + "User Name :" + Msg[1] + "\n" + "Password :" + dob[2].ToString().Trim() + dob[1].ToString().Trim() + Mobchar + dob[0].ToString().Trim(), JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(str, JsonRequestBehavior.AllowGet);
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+        public JsonResult Applicant_Login(LoginModal Model)
+        {
+            if (Model.CaptchaText == HttpContext.Session["captchastring"].ToString())
+            {
+                string salt = CreateSalt(5);
+                string usrname = Model.UserName;
+                string password = Model.Password;
+
+                DataSet ds = new DataSet();
+                ds = UserDtl.VerifyApplicant(usrname,Model.yojana_code);
+                if (ds != null)
+                {
+                    string psw = ds.Tables[0].Rows[0]["Password"].ToString();
+                    if (ds.Tables[0].Rows.Count > 0 && ds.Tables[0].Rows.Count == 1)
+                    {
+
+                        string hashed_pwd = CalculateHash(psw.ToString().ToLower() + Session["salt"].ToString());
+                        if (hashed_pwd.ToString().ToLower().Equals(Model.Password.ToLower()))
+                        {
+                            if (ds.Tables[0].Rows[0]["UserLevel"].ToString().Trim() == "30")
+                            {
+                                Session["tbl_Session"] = ds.Tables[0];
+                                FormsAuthentication.SetAuthCookie(usrname, Model.RememberMe);
+                                if (ds.Tables[0].Rows[0]["yojana_code"].ToString() == "1")
+                                {
+                                    return Json("1", JsonRequestBehavior.AllowGet);
+                                    
+                                }
+                                else if (ds.Tables[0].Rows[0]["yojana_code"].ToString() == "5")
+                                {
+                                    return Json("5", JsonRequestBehavior.AllowGet);
+
+                                }
+                                else
+                                {
+                                    return Json("Invalid Username or Password.", JsonRequestBehavior.AllowGet);
+
+                                }
+                                return Json("Sucess", JsonRequestBehavior.AllowGet);
+                                //return RedirectToAction("CMYSS_Applicant", "User");
+                            }
+                            else
+                            {
+                                ViewBag.ErrMessage = "Invalid Username or Password.";
+                                return Json("Invalid Username or Password.", JsonRequestBehavior.AllowGet);
+                            }
+
+                        }
+                        else
+                        {
+                            //Login Fail
+                            TempData["ErrorMSG"] = "Access Denied! Wrong Credential";
+                            return Json("Access Denied! Wrong Credential", JsonRequestBehavior.AllowGet);
+                            //return RedirectToAction("Login", "Login");
+                        }
+                    }
+                    else
+                    {
+                        ViewBag.ErrMessage = "Invalid Username or Password.";
+                        return Json("Invalid Username or Password.", JsonRequestBehavior.AllowGet);
+                    }
+                }
+                else
+                {
+                    ViewBag.ErrMessage = "Invalid Username or Password.";
+                    return Json("Invalid Username or Password.", JsonRequestBehavior.AllowGet);
+                }
+            }
+            else
+            {
+                ViewBag.ErrMessage = "Error: captcha is not valid.";
+                return Json("Error: captcha is not valid.", JsonRequestBehavior.AllowGet);
+               
+            }
+            
+        }
+
     }
 }
