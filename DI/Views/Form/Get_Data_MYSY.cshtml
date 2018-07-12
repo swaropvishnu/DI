@@ -1,0 +1,314 @@
+﻿
+@{
+    ViewBag.Title = "Get_Data_MYSY";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using System.Data;
+@using DI.Models;
+@using DI.DAL;
+@using DI.BLL;
+
+
+
+<style>
+    img {
+        page-break-inside: avoid;
+    }
+
+    .img-rounded {
+        border-radius: 6px;
+        Height: 100px;
+        Width: 109px;
+    }
+</style>
+
+<script type="text/javascript">
+      window.history.forward();
+</script>
+
+<script language="javascript" type="text/javascript">
+        function printDiv(divID) {
+            //Get the HTML of div
+            var divElements = document.getElementById(divID).innerHTML;
+            //Get the HTML of whole page
+            var oldPage = document.body.innerHTML;
+
+            //Reset the page's HTML with div's HTML only
+            document.body.innerHTML =
+               "<html><head><title></title></head><body>" +
+                "<div align='center' style='margin-left:1%;margin-right:1%;width:100%;'>" +
+
+               divElements + "</div></body>";
+
+            //Print Page
+            window.print();
+
+            //Restore orignal HTML
+            document.body.innerHTML = oldPage;
+        }
+</script>
+
+
+    
+
+          <div style="background-color:white ;">
+    <div style="margin-left:79%; ">
+        <button type="button" class="btn green" onclick="javascript:printDiv('reportdiv')" style="margin-left:5%;margin-right:5%;" id="btnprint">Print</button>
+
+    </div>
+    <div class="row">
+
+
+        @using (Html.BeginForm("Get_Data_MYSY", "IndustrialAreaMaster", FormMethod.Post, new { @class = "", enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+
+
+            <div id="reportdiv">
+                <h4 class="title" align="center">कार्यालय - ज़िला  उद्योग एवं  उद्यम प्रोत्साहन केन्द्र : </h4>
+                <h5 class="category" align="center"> पता:</h5>
+
+                <h5 class="category" align="left">&nbsp;&nbsp;&nbsp;&nbsp;प्रार्थना पत्र  क्रमांक:</h5>
+                <br />
+                <h4 class="title" align="center">  मुख्यमंत्री युवा स्वरोजगार योजना, उत्तर प्रदेश</h4>
+                <br />
+                <h5 class="category" align="center">प्रार्थना पत्र</h5>
+                <table class="table-responsive tblcss" id="Letter" border="1" style="width:80%" align="center">
+                    @*<div class="row table-responsive tblcss" border="1" align="center" style="width:80%">
+                            <div class="col-md-1">
+                                1
+                            </div>
+                            <div class="col-md-3">
+                                नाम :
+                            </div>
+                            <div class="col-md-5">
+
+                            </div >
+                            <div class="col-md-3 vl">
+
+                            </div>
+
+                        </div>*@
+                    <tr>
+                        <td></td>
+                        @*<td>Token NO :<br /><br />Token Date : <%=DateTime.Now.ToString("dd/MM/yyyy hh:mm tt") %> </td>
+                            <td aling="right" style="text-align:center;">Patient Photo</br></td>*@
+                    </tr>
+                    <tr>
+                        <td width="2%">1.</td>
+                        <td width="30%" valign="bottom" style="font-size:17px;margin-left:12%">&nbsp;&nbsp; नाम :</td>
+                        <td valign="bottom"></td>
+
+
+                    </tr>
+
+
+                    <tr>
+                        <td>2.</td>
+                        <td style="font-size:17px" width="30%" valign="bottom">&nbsp;&nbsp;जन्मतिथि</td>
+                        <td valign="bottom"></td>
+
+                    </tr>
+                    <tr>
+                        <td>3.</td>
+                        <td style="font-size:17px">&nbsp;&nbsp;आधार कार्ड नं0</td>
+                        <td valign="bottom"></td>
+                    </tr>
+                    <tr>
+                        <td>4.</td>
+                        <td style="font-size:17px">&nbsp;&nbsp;पिता/पति का नाम</td>
+                        <td valign="bottom"></td>
+                    </tr>
+
+                    <tr>
+                        <td>5.</td>
+                        <td style="font-size:17px">&nbsp;&nbsp;पत्र व्यवहार का पता</td>
+                        <td valign="bottom"></td>
+
+                    </tr>
+
+                    <tr>
+                        <td>6.</td>
+                        <td style="font-size:17px">&nbsp;&nbsp; स्थाई पता </td>
+                        <td valign="bottom"></td>
+                    </tr>
+
+                    <tr>
+                        <td>7.</td>
+                        <td style="font-size:17px">&nbsp;&nbsp;प्रस्तावित कार्यालय का पता</td>
+                        <td valign="bottom"></td>
+                    </tr>
+                    <tr>
+                        <td>8.</td>
+                        <td style="font-size:17px">&nbsp;&nbsp;मोबाइल नं0</td>
+                        <td valign="bottom"></td>
+                    </tr>
+                    <tr>
+                        <td>9.</td>
+                        <td style="font-size:17px">&nbsp;&nbsp;ई-मेल आई0डी0 (यदि हो तो)</td>
+                        <td valign="bottom"></td>
+                    </tr>
+
+
+
+                </table>
+                <table class="table-responsive tblcss" id="Letter" border="1" style="width:80%" align="center">
+                    <tr>
+                        <td width="2%">10.</td>
+                        <td style="font-size:20px" width="0%">परिवार का विवरण <br /><br /> </td>
+                        <td style="font-size:20px">नाम </td>
+                        <td style="font-size:20px">उम्र</td>
+                        <td style="font-size:20px">कार्य</td>
+
+                    </tr>
+                    <tr>
+                        <td style="font-size:17px"></td>
+                        <td style="font-size:17px">पिता</td>
+                        <td style="font-size:17px"></td>
+                        <td style="font-size:17px"></td>
+                        <td style="font-size:17px"></td>
+                    </tr>
+                    <tr>
+                        <td style="font-size:17px"></td>
+                        <td style="font-size:17px">माता</td>
+                        <td style="font-size:17px"></td>
+                        <td style="font-size:17px"></td>
+                        <td style="font-size:17px"></td>
+                    </tr>
+
+                    <tr>
+                        <td style="font-size:17px"></td>
+                        <td style="font-size:17px">भाई/बहन</td>
+                        <td style="font-size:17px"></td>
+                        <td style="font-size:17px"></td>
+                        <td style="font-size:17px"></td>
+                    </tr>
+                    <tr>
+                        <td style="font-size:17px"></td>
+                        <td style="font-size:17px">बच्चों का नाम</td>
+                        <td style="font-size:17px"></td>
+                        <td style="font-size:17px"></td>
+                        <td style="font-size:17px"></td>
+                    </tr>
+                </table>
+                <table class="table-responsive tblcss" id="Letter" border="1" style="width:80%" align="center">
+                    <tr>
+                        <td width="2%">11.</td>
+                        <td width="30%">पेंशन  कार्ड सं0</td>
+                        <td colspan="8"></td>
+                    </tr>
+                    <tr>
+                        <td width="2%">12.</td>
+                        <td width="30%">परिवार की वार्षिक आय</td>
+                        <td colspan="8"></td>
+                    </tr>
+                    <tr>
+                        <td width="2%">13.</td>
+                        <td width="30%">परियोजना का नाम</td>
+                        <td colspan="2" width="10%">उत्पात</td>
+                        <td colspan="2"></td>
+                        <td colspan="2" width="10%">सेवा</td>
+                        <td colspan="2"></td>
+                    </tr>
+
+                    <tr>
+                        <td width="2%">14.</td>
+                        <td width="30%">परियोजना लागत</td>
+                        <td colspan="8">(परियोजना संलगन करें )</td>
+                    </tr>
+                    <tr>
+                        <td width="2%"></td>
+                        <td width="30%">प्लान्ट एवं मशीनरी</td>
+                        <td colspan="8">रु०</td>
+                    </tr>
+                    <tr>
+                        <td width="2%"></td>
+                        <td width="30%">एक चक कार्यशील पूँजी</td>
+                        <td colspan="8">रु०</td>
+                    </tr>
+                    <tr>
+                        <td width="2%"></td>
+                        <td width="30%">योग </td>
+                        <td colspan="8">रु०</td>
+                    </tr>
+
+                    <tr>
+                        <td width="2%">15.</td>
+                        <td width="30%">निकटतम बैक शाखा  का नाम <br />(शहरी क्षेत्रो हेतु)</td>
+                        <td colspan="8"></td>
+                    </tr>
+                    <tr>
+                        <td width="2%">16.</td>
+                        <td width="30%">सर्विस शाखा का नाम  <br />(ग्रामीण क्षेत्रों हेतु)</td>
+                        <td colspan="8"></td>
+                    </tr>
+                    <tr>
+                        <td width="2%">17.</td>
+                        <td width="30%">परियोजना का नाम</td>
+                        <td colspan="2" width="10%">5%</td>
+                        <td colspan="2">रु०</td>
+                        <td colspan="2" width="10%">10%</td>
+                        <td colspan="2">रु०</td>
+                    </tr>
+                    <tr>
+                        <td width="2%">18.</td>
+                        <td width="30%">बैक शाखा में जमा धनराशी</td>
+                        <td colspan="8">रु०</td>
+                    </tr>
+                    <tr>
+                        <td width="2%">19.</td>
+                        <td width="30%">बैक शाखा का नाम</td>
+                        <td colspan="8"></td>
+                    </tr>
+                    <tr>
+                        <td width="2%">20.</td>
+                        <td width="30%">बैक खाता सं0  व  आईएफएससी कोड</td>
+                        <td colspan="8"></td>
+                    </tr>
+                    <tr>
+                        <td width="2%">21.</td>
+                        <td width="30%">यदि विशिष्ट श्रेणी लाभार्थी है , तो  प्रमाणपत्र की  <br /> स्वप्रमाणित छाया प्रति </td>
+                        <td colspan="8"></td>
+                    </tr>
+                   
+                 
+                </table>
+                <table class="table-responsive tblcss" id="Letter" border="0" style="width:80%" align="center">
+
+                    <tr>
+                        <td style="font-size:15px"><br />
+<br />
+
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;               प्रमाणित किया जाता  है कि  उपरोक्त सभी सूचनाये मेरी व्यक्तिगत  जानकारी के  अनुसार  सही है कोई तथ्य  छिपाया  नहीं गया है योजना की सभी  शर्तो को संलग्न  में  लिया गया है <br /> मै  सभी  शर्तो को स्वीकार  करता  हूँ  प्राथना  पत्र  के  साथ लगाये गये संलग्ननो  को जांच  कर मेरे द्वारा ही संलग्न किया  गया  है
+                        </td>
+                       </tr></table>
+
+                <table id="example1" style="width:80%; margin-left:70%; text-align:justify" align="left">
+
+                    <tr style="background-color:#39b4dd">
+
+                    <tr><td style="padding-left:50px;border: none;font-size: 20px;">हस्ताक्षर - </td> </tr>
+
+                    <tr><td style="border: none;"></td></tr>
+                    <tr><td style="padding-left:50px;height:40px;border: none;font-size: 20px;">नाम          -</td></tr>
+
+
+
+                    <tr><td style="border: none;"></td></tr>
+
+                    <tr><td style="padding-left:50px;height:40px;border: none;font-size: 20px;">पता  - </td></tr>
+
+
+
+
+                    <tbody>
+                        <tr></tr>
+                    </tbody>
+                </table>
+
+            </div>
+        }
+    </div>
+
+</div>
