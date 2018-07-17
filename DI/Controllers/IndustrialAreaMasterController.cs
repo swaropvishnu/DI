@@ -116,8 +116,6 @@ namespace DI.Controllers
             }
 
         }
-
-
         [HttpPost]
         public ActionResult GetTehsil(string DistID)
         {
@@ -129,16 +127,20 @@ namespace DI.Controllers
         public ActionResult bindshed(string IndustrialEstate)
         {
             List<SelectListItem> shed = new List<SelectListItem>();
-            CMODataEntryBLL.bindDropDownHnGrid("proc_Detail", shed, "sh", IndustrialEstate.ToString(), "");
+            CMODataEntryBLL.bindDropDownHnGrid("proc_Detail", shed, "SV", IndustrialEstate.ToString(), "");
             return Json(shed, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
         public ActionResult bindplot(string IndustrialEstate)
         {
             List<SelectListItem> plot = new List<SelectListItem>();
-            CMODataEntryBLL.bindDropDownHnGrid("proc_Detail", plot, "pl", IndustrialEstate.ToString(), "");
+            CMODataEntryBLL.bindDropDownHnGrid("proc_Detail", plot, "PV", IndustrialEstate.ToString(), "");
             return Json(plot, JsonRequestBehavior.AllowGet);
         }
+
+
+
+
 
         [HttpPost]
         public ActionResult GetBlock(string TehID)
@@ -174,12 +176,8 @@ namespace DI.Controllers
         {
             List<SelectListItem> CompanyType = new List<SelectListItem>();
             CMODataEntryBLL.bindDropDownHnGrid("proc_Detail", CompanyType, "IA", District.ToString().Trim(), "");
-
             return Json(CompanyType, JsonRequestBehavior.AllowGet);
         }
-
-        
-
         public ActionResult AddPlot()
         {
             List<SelectListItem> DistrictName = new List<SelectListItem>();
@@ -187,7 +185,6 @@ namespace DI.Controllers
             AP.DistrictNames = DistrictName;
             return View(AP);
         }
-
         public ActionResult AddShed()
         {
             List<SelectListItem> DistrictName = new List<SelectListItem>();
@@ -195,7 +192,6 @@ namespace DI.Controllers
             As.DistrictNames = DistrictName;
             return View(As);
         }
-
         public ActionResult AddAllotee()
         {
             List<SelectListItem> distNames = new List<SelectListItem>();
@@ -269,10 +265,7 @@ namespace DI.Controllers
             IA.industrytype_code_diff = dt.Rows[0]["industrytype_code_diff"].ToString().Trim();
             return View(IA);
         }
-
-
         public ActionResult EditAllotee(string Code)
-
         {
             string ID = new DI.Crypto().Decrypt(Code);
             DataSet  ds = new DAL.CommonDA().GetEstateeAllotee(long.Parse(ID));
@@ -305,6 +298,8 @@ namespace DI.Controllers
             IEA.is_electricity = ds.Tables[0].Rows[0]["is_electricity"].ToString().Trim() == "1" ? true : false;
             IEA.is_telephone = ds.Tables[0].Rows[0]["is_telephone"].ToString().Trim() == "1" ? true : false;
             IEA.grossprofit = decimal.Parse(ds.Tables[0].Rows[0]["grossprofit"].ToString().Trim());
+            IEA.industrial_estate_code = int.Parse(ds.Tables[0].Rows[0]["industrial_estate_code"].ToString().Trim());
+            IEA.industrial_estate_code_distict = int.Parse(ds.Tables[0].Rows[0]["Estate_district"].ToString().Trim());
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < ds.Tables[1].Rows.Count; i++)
             {
@@ -312,16 +307,15 @@ namespace DI.Controllers
                 sb.Append("<td>"+(i+1)+"</td>");
                 sb.Append("<td><input type='hidden' id='hfIndustrialEstate"+(i+1)+"' name='hfIndustrialEstate' value='"+ ds.Tables[1].Rows[i]["industrial_estate_code"].ToString().Trim() + "'><label>" + ds.Tables[1].Rows[i]["industrial_estate_name"].ToString().Trim() + "</label></td>");
                 sb.Append("<td>"+ ds.Tables[1].Rows[i]["type"].ToString().Trim() +"</td>");
-                sb.Append("<td><input type='hidden' id='hfShedName" + (i + 1) + "' name='hfShedName' value='2'><input type='hidden' id='hfShedtype" + (i + 1) + "' name='hfShedtype' value='"+ ds.Tables[1].Rows[i]["typecode"].ToString().Trim() + "'> <label>"+ ds.Tables[1].Rows[i]["display"].ToString().Trim() + "</label></td>");
-                sb.Append("<td><input type='text' id='txtAlotmentNo" + (i + 1) + "' placeholder='Title' name='txtAlotmentNo' value='"+ ds.Tables[1].Rows[i]["allotmentno"].ToString().Trim() + "' maxlength='8'></td>");
-                sb.Append("<td><input type='submit' value='Delete' class='btn red' id='btnadd' onclick='del("+ (i+1) + ")'></td>");
+                sb.Append("<td><input type='hidden' id='hfShedName" + (i + 1) + "' name='hfShedName' value='" + ds.Tables[1].Rows[i]["plot_code"].ToString().Trim() + "'><input type='hidden' id='hfShedtype" + (i + 1) + "' name='hfShedtype' value='"+ ds.Tables[1].Rows[i]["typecode"].ToString().Trim() + "'> <label>"+ ds.Tables[1].Rows[i]["display"].ToString().Trim() + "</label></td>");
+                sb.Append("<td><input type='text' id='txtAlotmentNo" + (i + 1) + "' placeholder='Title' name='txtAlotmentNo' value='"+ ds.Tables[1].Rows[i]["allotmentno"].ToString().Trim() + "' maxlength='8' disabled='disabled'></td>");
+                sb.Append("<td><input type='submit' value='Delete' class='btn red' disabled='disabled'  id='btnadd' onclick='del(" + (i+1) + ")'></td>");
 
                 sb.Append("</tr>");
             }
             IEA.tablestring = sb.ToString().Trim();
             return View(IEA);
         }
-
         public ActionResult Adddoc_type()
         {
             //List<SelectListItem> doc_type = new List<SelectListItem>();
@@ -347,7 +341,6 @@ namespace DI.Controllers
         {
             return View();
         }
-
         public ActionResult certificate_Letter()
         {
             return View();
@@ -361,6 +354,5 @@ namespace DI.Controllers
         //{
         //    return View();
         //}
-
     }
 }

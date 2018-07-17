@@ -15,419 +15,446 @@
     //var grid = new WebGrid(Model, rowsPerPage: 20);
     DataTable dt = new CommonDA().GetDashBord();
 }
- <!-- END PAGE HEADER-->
-<div class="row widget-row">
-
-    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <a href="@Url.Action("GetIndustrialEstateList", "IndustrialAreaMaster")">
-            <div class="dashboard-stat2 ">
-                <div class="display">
-                    <div class="number">
-                        <h3 class="font-green-sharp">
-                            <span data-counter="counterup" data-value="@dt.Rows[0]["TotalEstate"].ToString().Trim()">@dt.Rows[0]["TotalEstate"].ToString().Trim()</span>
-                            <small class="font-green-sharp"></small>
-                        </h3>
-                        <small>Total Estate</small>
-                    </div>
-                    <div class="icon">
-                        <i class="icon-pie-chart"></i>
-                    </div>
-                </div>
-                <div class="progress-info">
-                    
-                        <div class="progress">
-                            <span style="width: @dt.Rows[0]["PerAllotedEstate"].ToString().Trim()%;" class="progress-bar progress-bar-success green-sharp">
-                                <span class="sr-only">@dt.Rows[0]["PerAllotedEstate"].ToString().Trim()% Estate Alloted</span>
-                            </span>
+@*<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.9/angular.min.js"></script>
+<script type="text/javascript">
+        var app = angular.module('MyApp', [])
+        app.controller('MyController', function ($scope, $http, $window) {
+            $scope.DefaultLabel = "Loading.....";
+            var post = $http({
+                method: "POST",
+                url: "/Home/AjaxMethod",
+                dataType: 'json',
+                data: {},
+                headers: { "Content-Type": "application/json" }
+            });
+            post.success(function (data, status) {
+                //$scope.DefaultLabel = "Please Select";
+                $scope.Customers = data.g1;
+            });
+            post.error(function (data, status) {
+                $window.alert(data.Message);
+            });
+        });
+</script>*@
+@*<script type="text/javascript">
+        var app = angular.module('MyApp', [])
+        app.controller('MyController', function ($scope) {
+            $scope.SetTextBox = function () {
+                $scope.Greetings = "Hello Mudassar!";
+            }
+        });
+</script>*@
+ <!-- END PAGE HEADER--> 
+    <div class="row widget-row">
+        <div ng-app="MyApp" ng-controller="MyController">
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <a href="@Url.Action("GetIndustrialEstateList", "IndustrialAreaMaster")">
+                    <div class="dashboard-stat2 ">
+                        <div class="display">
+                            <div class="number">
+                                <h3 class="font-green-sharp">
+                                    <span data-counter="counterup" data-value="@dt.Rows[0]["TotalEstate"].ToString().Trim()">@dt.Rows[0]["TotalEstate"].ToString().Trim()</span>
+                                    <small class="font-green-sharp"></small>
+                                </h3>
+                                <small>Total Estate</small>
+                            </div>
+                            <div class="icon">
+                                <i class="icon-pie-chart"></i>
+                            </div>
                         </div>
-                    
+                        <div class="progress-info">
 
-                    <div class="status">
-                        <div class="status-title"> Estate Alloted </div>
-                        <div class="status-number">@dt.Rows[0]["PerAllotedEstate"].ToString().Trim()% </div>
+                            <div class="progress">
+                                <span style="width: @dt.Rows[0]["PerAllotedEstate"].ToString().Trim()%;" class="progress-bar progress-bar-success green-sharp">
+                                    <span class="sr-only">@dt.Rows[0]["PerAllotedEstate"].ToString().Trim()% Estate Alloted</span>
+                                </span>
+                            </div>
+
+
+                            <div class="status">
+                                <div class="status-title"> Estate Alloted </div>
+                                <div class="status-number">@dt.Rows[0]["PerAllotedEstate"].ToString().Trim()% </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                </a>
+                <!-- BEGIN WIDGET THUMB -->
+                @*<a href="@Url.Action("GetIndustrialEstateList", "IndustrialAreaMaster")">
+                    <div class="widget-thumb widget-bg-color-white text-uppercase margin-bottom-20 ">
+                        <h4 class="widget-thumb-heading">Industrial Estates</h4>
+                        <div class="widget-thumb-wrap">
+                            <i class="widget-thumb-icon bg-green icon-bulb"></i>
+                            <div class="widget-thumb-body">
+                                <span class="widget-thumb-subtitle">No.</span>
+                                <span class="widget-thumb-body-stat" data-counter="counterup" data-value="@dt.Rows[0]["TotalEstate"].ToString().Trim()">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>*@
+                <!-- END WIDGET THUMB -->
             </div>
-            </a>
-            <!-- BEGIN WIDGET THUMB -->
-            @*<a href="@Url.Action("GetIndustrialEstateList", "IndustrialAreaMaster")">
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <!-- BEGIN WIDGET THUMB -->
+                <a href="@Url.Action("GetIndustrialEstateList", "IndustrialAreaMaster", new {Industry = "Small_Scale"})">
+                    <div class="dashboard-stat2 ">
+                        <div class="display">
+                            <div class="number">
+                                <h3 class="font-blue-sharp">
+                                    <span data-counter="counterup" data-value="@dt.Rows[0]["TotalSmallEstate"].ToString().Trim()">@dt.Rows[0]["TotalSmallEstate"].ToString().Trim()</span>
+                                    <small class="font-blue-sharp"></small>
+                                </h3>
+                                <small>Total Small Estate</small>
+                            </div>
+                            <div class="icon">
+                                <i class="icon-pie-chart"></i>
+                            </div>
+                        </div>
+                        <div class="progress-info">
+
+
+                            <div class="progress">
+                                <span style="width: @dt.Rows[0]["PerAllotedSmallEstate"].ToString().Trim()%;" class="progress-bar progress-bar-success blue-sharp">
+                                    <span class="sr-only">@dt.Rows[0]["PerAllotedSmallEstate"].ToString().Trim()% Small Estate Alloted</span>
+                                </span>
+                            </div>
+
+
+                            <div class="status">
+                                <div class="status-title">Small Estate Alloted </div>
+                                <div class="status-number">@dt.Rows[0]["PerAllotedSmallEstate"].ToString().Trim()% </div>
+                            </div>
+                        </div>
+                    </div>
+                    @*<div class="widget-thumb widget-bg-color-white text-uppercase margin-bottom-20 ">
+                        <h4 class="widget-thumb-heading">Small Industry  Estate</h4>
+                        <div class="widget-thumb-wrap">
+                            <i class="widget-thumb-icon bg-red icon-layers"></i>
+                            <div class="widget-thumb-body">
+                                <span class="widget-thumb-subtitle">No.</span>
+                                <span class="widget-thumb-body-stat" data-counter="counterup" data-value="@dt.Rows[0]["TotalSmallEstate"].ToString().Trim()">0</span>
+                            </div>
+                        </div>
+                    </div>*@
+                </a>
+                <!-- END WIDGET THUMB -->
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <!-- BEGIN WIDGET THUMB -->
+                <a href="@Url.Action("GetIndustrialEstateList", "IndustrialAreaMaster", new {Industry = "Large_Scale"})">
+                    <div class="dashboard-stat2 ">
+                        <div class="display">
+                            <div class="number">
+                                <h3 class="font-purple-soft">
+                                    <span data-counter="counterup" data-value="@dt.Rows[0]["TotalLargeEstate"].ToString().Trim()">@dt.Rows[0]["TotalSmallEstate"].ToString().Trim()</span>
+                                    <small class="font-purple-soft"></small>
+                                </h3>
+                                <small>Total Large Estate</small>
+                            </div>
+                            <div class="icon">
+                                <i class="icon-pie-chart"></i>
+                            </div>
+                        </div>
+                        <div class="progress-info">
+                            <div class="progress">
+                                <span style="width: @dt.Rows[0]["PerAllotedLargeEstate"].ToString().Trim()%;" class="progress-bar progress-bar-success purple-soft">
+                                    <span class="sr-only">@dt.Rows[0]["PerAllotedLargeEstate"].ToString().Trim()% Small Estate Alloted</span>
+                                </span>
+                            </div>
+                            <div class="status">
+                                <div class="status-title">Large Estate Alloted </div>
+                                <div class="status-number">@dt.Rows[0]["PerAllotedLargeEstate"].ToString().Trim()% </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </a>
+                @*<a href="@Url.Action("GetIndustrialEstateList", "IndustrialAreaMaster", new {Industry = "Large_Scale"})">
                 <div class="widget-thumb widget-bg-color-white text-uppercase margin-bottom-20 ">
-                    <h4 class="widget-thumb-heading">Industrial Estates</h4>
+                    <h4 class="widget-thumb-heading"> Large Industry Estate</h4>
                     <div class="widget-thumb-wrap">
-                        <i class="widget-thumb-icon bg-green icon-bulb"></i>
+                        <i class="widget-thumb-icon bg-purple icon-screen-desktop"></i>
                         <div class="widget-thumb-body">
                             <span class="widget-thumb-subtitle">No.</span>
-                            <span class="widget-thumb-body-stat" data-counter="counterup" data-value="@dt.Rows[0]["TotalEstate"].ToString().Trim()">0</span>
+                            <span class="widget-thumb-body-stat" data-counter="counterup" data-value="@dt.Rows[0]["TotalLargeEstate"].ToString().Trim()">0</span>
                         </div>
                     </div>
                 </div>
-            </a>*@
-            <!-- END WIDGET THUMB -->
-</div>
-    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <!-- BEGIN WIDGET THUMB -->
-        <a href="@Url.Action("GetIndustrialEstateList", "IndustrialAreaMaster", new {Industry = "Small_Scale"})">
-            <div class="dashboard-stat2 ">
-                <div class="display">
-                    <div class="number">
-                        <h3 class="font-blue-sharp">
-                            <span data-counter="counterup" data-value="@dt.Rows[0]["TotalSmallEstate"].ToString().Trim()">@dt.Rows[0]["TotalSmallEstate"].ToString().Trim()</span>
-                            <small class="font-blue-sharp"></small>
-                        </h3>
-                        <small>Total Small Estate</small>
-                    </div>
-                    <div class="icon">
-                        <i class="icon-pie-chart"></i>
-                    </div>
-                </div>
-                <div class="progress-info">
-                   
-                        
-                        <div class="progress">
-                            <span style="width: @dt.Rows[0]["PerAllotedSmallEstate"].ToString().Trim()%;" class="progress-bar progress-bar-success blue-sharp">
-                                <span class="sr-only">@dt.Rows[0]["PerAllotedSmallEstate"].ToString().Trim()% Small Estate Alloted</span>
-                            </span>
+                </a>*@
+                <!-- END WIDGET THUMB -->
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+
+                <!-- BEGIN WIDGET THUMB -->
+                <a href="@Url.Action("Getplot", "IndustrialAreaMaster")">
+                    <div class="widget-thumb widget-bg-color-white text-uppercase margin-bottom-20 ">
+                        <h4 class="widget-thumb-heading">Total Plot</h4>
+                        <div class="widget-thumb-wrap">
+                            <i class="widget-thumb-icon bg-blue icon-bar-chart"></i>
+                            <div class="widget-thumb-body">
+                                @*<span class="widget-thumb-subtitle">No.</span>*@
+                                <span class="widget-thumb-body-stat" data-counter="counterup" data-value="@dt.Rows[0]["TotalPlot"].ToString().Trim()">0</span>
+                            </div>
                         </div>
-                    
+                    </div>
+                </a>
+                <!-- END WIDGET THUMB -->
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <!-- BEGIN WIDGET THUMB -->
+                <a href="@Url.Action("Getshed", "IndustrialAreaMaster"  )">
+                    <div class="widget-thumb widget-bg-color-white text-uppercase margin-bottom-20 ">
+                        <h4 class="widget-thumb-heading">Total Shed</h4>
+                        <div class="widget-thumb-wrap">
+                            <i class="widget-thumb-icon bg-blue icon-bar-chart"></i>
+                            <div class="widget-thumb-body">
+                                @*<span class="widget-thumb-subtitle">No.</span>*@
+                                <span class="widget-thumb-body-stat" data-counter="counterup" data-value="@dt.Rows[0]["TotalShed"].ToString().Trim()">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                <!-- END WIDGET THUMB -->
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <!-- BEGIN WIDGET THUMB -->
+                <a href="@Url.Action("Getplot", "IndustrialAreaMaster", new { status = "UnAssigned" })">
+                    <div class="widget-thumb widget-bg-color-white text-uppercase margin-bottom-20 ">
+                        <h4 class="widget-thumb-heading">Vacant Plot</h4>
+                        <div class="widget-thumb-wrap">
+                            <i class="widget-thumb-icon bg-blue icon-bar-chart"></i>
+                            <div class="widget-thumb-body">
+                                @*<span class="widget-thumb-subtitle">No.</span>*@
+                                <span class="widget-thumb-body-stat" data-counter="counterup" data-value="@dt.Rows[0]["TotalVacantPlot"].ToString().Trim()">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                <!-- END WIDGET THUMB -->
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
 
-                    <div class="status">
-                        <div class="status-title">Small Estate Alloted </div>
-                        <div class="status-number">@dt.Rows[0]["PerAllotedSmallEstate"].ToString().Trim()% </div>
+                <!-- BEGIN WIDGET THUMB -->
+                <a href="@Url.Action("Getplot", "IndustrialAreaMaster", new { status = "Assigned" })">
+                    <div class="widget-thumb widget-bg-color-white text-uppercase margin-bottom-20 ">
+                        <h4 class="widget-thumb-heading">Alloted Plot</h4>
+                        <div class="widget-thumb-wrap">
+                            <i class="widget-thumb-icon bg-blue icon-bar-chart"></i>
+                            <div class="widget-thumb-body">
+                                @*<span class="widget-thumb-subtitle">No.</span>*@
+                                <span class="widget-thumb-body-stat" data-counter="counterup" data-value="@dt.Rows[0]["TotalAllotedPlot"].ToString().Trim()">0</span>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                </a>
+                <!-- END WIDGET THUMB -->
             </div>
-            @*<div class="widget-thumb widget-bg-color-white text-uppercase margin-bottom-20 ">
-                <h4 class="widget-thumb-heading">Small Industry  Estate</h4>
-                <div class="widget-thumb-wrap">
-                    <i class="widget-thumb-icon bg-red icon-layers"></i>
-                    <div class="widget-thumb-body">
-                        <span class="widget-thumb-subtitle">No.</span>
-                        <span class="widget-thumb-body-stat" data-counter="counterup" data-value="@dt.Rows[0]["TotalSmallEstate"].ToString().Trim()">0</span>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <!-- BEGIN WIDGET THUMB -->
+                <a href="@Url.Action("GetShed", "IndustrialAreaMaster", new { status = "UnAssigned" })">
+                    <div class="widget-thumb widget-bg-color-white text-uppercase margin-bottom-20 ">
+                        <h4 class="widget-thumb-heading">Vacant Shed</h4>
+                        <div class="widget-thumb-wrap">
+                            <i class="widget-thumb-icon bg-blue icon-bar-chart"></i>
+                            <div class="widget-thumb-body">
+                                @*<span class="widget-thumb-subtitle">No.</span>*@
+                                <span class="widget-thumb-body-stat" data-counter="counterup" data-value="@dt.Rows[0]["TotalVacantShed"].ToString().Trim()">0</span>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>*@
-            </a>
-            <!-- END WIDGET THUMB -->
-</div>
-    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <!-- BEGIN WIDGET THUMB -->
-        <a href="@Url.Action("GetIndustrialEstateList", "IndustrialAreaMaster", new {Industry = "Large_Scale"})">
-            <div class="dashboard-stat2 ">
-                <div class="display">
-                    <div class="number">
-                        <h3 class="font-purple-soft">
-                            <span data-counter="counterup" data-value="@dt.Rows[0]["TotalLargeEstate"].ToString().Trim()">@dt.Rows[0]["TotalSmallEstate"].ToString().Trim()</span>
-                            <small class="font-purple-soft"></small>
-                        </h3>
-                        <small>Total Large Estate</small>
-                    </div>
-                    <div class="icon">
-                        <i class="icon-pie-chart"></i>
-                    </div>
-                </div>
-                <div class="progress-info">
-                    <div class="progress">
-                        <span style="width: @dt.Rows[0]["PerAllotedLargeEstate"].ToString().Trim()%;" class="progress-bar progress-bar-success purple-soft">
-                            <span class="sr-only">@dt.Rows[0]["PerAllotedLargeEstate"].ToString().Trim()% Small Estate Alloted</span>
-                        </span>
-                    </div>
-                    <div class="status">
-                        <div class="status-title">Large Estate Alloted </div>
-                        <div class="status-number">@dt.Rows[0]["PerAllotedLargeEstate"].ToString().Trim()% </div>
-                    </div>
-                </div>
+                </a>
+                <!-- END WIDGET THUMB -->
             </div>
-           
-        </a>
-        @*<a href="@Url.Action("GetIndustrialEstateList", "IndustrialAreaMaster", new {Industry = "Large_Scale"})">
-            <div class="widget-thumb widget-bg-color-white text-uppercase margin-bottom-20 ">
-                <h4 class="widget-thumb-heading"> Large Industry Estate</h4>
-                <div class="widget-thumb-wrap">
-                    <i class="widget-thumb-icon bg-purple icon-screen-desktop"></i>
-                    <div class="widget-thumb-body">
-                        <span class="widget-thumb-subtitle">No.</span>
-                        <span class="widget-thumb-body-stat" data-counter="counterup" data-value="@dt.Rows[0]["TotalLargeEstate"].ToString().Trim()">0</span>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <!-- BEGIN WIDGET THUMB -->
+                <a href="@Url.Action("GetShed", "IndustrialAreaMaster", new { status = "Assigned" })">
+                    <div class="widget-thumb widget-bg-color-white text-uppercase margin-bottom-20 ">
+                        <h4 class="widget-thumb-heading">Alloted Shed</h4>
+                        <div class="widget-thumb-wrap">
+                            <i class="widget-thumb-icon bg-blue icon-bar-chart"></i>
+                            <div class="widget-thumb-body">
+                                @*<span class="widget-thumb-subtitle">No.</span>*@
+                                <span class="widget-thumb-body-stat" data-counter="counterup" data-value="@dt.Rows[0]["TotalAllotedShed"].ToString().Trim()">0</span>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                </a>
+                <!-- END WIDGET THUMB -->
             </div>
-            </a>*@
-            <!-- END WIDGET THUMB -->
-</div>
-    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-       
-        <!-- BEGIN WIDGET THUMB -->
-        <a href="@Url.Action("Getplot", "IndustrialAreaMaster")">
-            <div class="widget-thumb widget-bg-color-white text-uppercase margin-bottom-20 ">
-                <h4 class="widget-thumb-heading">Total Plot</h4>
-                <div class="widget-thumb-wrap">
-                    <i class="widget-thumb-icon bg-blue icon-bar-chart"></i>
-                    <div class="widget-thumb-body">
-                        @*<span class="widget-thumb-subtitle">No.</span>*@
-                        <span class="widget-thumb-body-stat" data-counter="counterup" data-value="@dt.Rows[0]["TotalPlot"].ToString().Trim()">0</span>
-                    </div>
-                </div>
-            </div>
-        </a>
-        <!-- END WIDGET THUMB -->
-    </div>
-    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <!-- BEGIN WIDGET THUMB -->
-        <a href="@Url.Action("Getshed", "IndustrialAreaMaster"  )">
-            <div class="widget-thumb widget-bg-color-white text-uppercase margin-bottom-20 ">
-                <h4 class="widget-thumb-heading">Total Shed</h4>
-                <div class="widget-thumb-wrap">
-                    <i class="widget-thumb-icon bg-blue icon-bar-chart"></i>
-                    <div class="widget-thumb-body">
-                        @*<span class="widget-thumb-subtitle">No.</span>*@
-                        <span class="widget-thumb-body-stat" data-counter="counterup" data-value="@dt.Rows[0]["TotalShed"].ToString().Trim()">0</span>
-                    </div>
-                </div>
-            </div>
-        </a>
-        <!-- END WIDGET THUMB -->
-    </div>
-    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <!-- BEGIN WIDGET THUMB -->
-        <a href="@Url.Action("Getplot", "IndustrialAreaMaster", new { status = "UnAssigned" })">
-            <div class="widget-thumb widget-bg-color-white text-uppercase margin-bottom-20 ">
-                <h4 class="widget-thumb-heading">Vacant Plot</h4>
-                <div class="widget-thumb-wrap">
-                    <i class="widget-thumb-icon bg-blue icon-bar-chart"></i>
-                    <div class="widget-thumb-body">
-                        @*<span class="widget-thumb-subtitle">No.</span>*@
-                        <span class="widget-thumb-body-stat" data-counter="counterup" data-value="@dt.Rows[0]["TotalVacantPlot"].ToString().Trim()">0</span>
-                    </div>
-                </div>
-            </div>
-        </a>
-        <!-- END WIDGET THUMB -->
-    </div>
-    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
 
-        <!-- BEGIN WIDGET THUMB -->
-        <a href="@Url.Action("Getplot", "IndustrialAreaMaster", new { status = "Assigned" })">
-            <div class="widget-thumb widget-bg-color-white text-uppercase margin-bottom-20 ">
-                <h4 class="widget-thumb-heading">Alloted Plot</h4>
-                <div class="widget-thumb-wrap">
-                    <i class="widget-thumb-icon bg-blue icon-bar-chart"></i>
-                    <div class="widget-thumb-body">
-                        @*<span class="widget-thumb-subtitle">No.</span>*@
-                        <span class="widget-thumb-body-stat" data-counter="counterup" data-value="@dt.Rows[0]["TotalAllotedPlot"].ToString().Trim()">0</span>
-                    </div>
-                </div>
-            </div>
-        </a>
-        <!-- END WIDGET THUMB -->
-    </div>
-    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <!-- BEGIN WIDGET THUMB -->
-        <a href="@Url.Action("GetShed", "IndustrialAreaMaster", new { status = "UnAssigned" })">
-            <div class="widget-thumb widget-bg-color-white text-uppercase margin-bottom-20 ">
-                <h4 class="widget-thumb-heading">Vacant Shed</h4>
-                <div class="widget-thumb-wrap">
-                    <i class="widget-thumb-icon bg-blue icon-bar-chart"></i>
-                    <div class="widget-thumb-body">
-                        @*<span class="widget-thumb-subtitle">No.</span>*@
-                        <span class="widget-thumb-body-stat" data-counter="counterup" data-value="@dt.Rows[0]["TotalVacantShed"].ToString().Trim()">0</span>
-                    </div>
-                </div>
-            </div>
-        </a>
-        <!-- END WIDGET THUMB -->
-    </div>
-    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <!-- BEGIN WIDGET THUMB -->
-        <a href="@Url.Action("GetShed", "IndustrialAreaMaster", new { status = "Assigned" })">
-            <div class="widget-thumb widget-bg-color-white text-uppercase margin-bottom-20 ">
-                <h4 class="widget-thumb-heading">Alloted Shed</h4>
-                <div class="widget-thumb-wrap">
-                    <i class="widget-thumb-icon bg-blue icon-bar-chart"></i>
-                    <div class="widget-thumb-body">
-                        @*<span class="widget-thumb-subtitle">No.</span>*@
-                        <span class="widget-thumb-body-stat" data-counter="counterup" data-value="@dt.Rows[0]["TotalAllotedShed"].ToString().Trim()">0</span>
-                    </div>
-                </div>
-            </div>
-        </a>
-        <!-- END WIDGET THUMB -->
-    </div>
-</div>
-<div class="row">
-    <div class="col-lg-6 col-xs-12 col-sm-12">
-        <div class="portlet light ">
-            <div class="portlet-title">
-                <div class="caption">
-                    <span class="caption-subject bold uppercase font-dark">Industrial Estates Location</span>
-                    <span class="caption-helper">Locations...</span>
-                </div>
-                <div class="actions">
-                    <a class="btn btn-circle btn-icon-only btn-default" href="#">
-                        <i class="icon-cloud-upload"></i>
-                    </a>
-                    <a class="btn btn-circle btn-icon-only btn-default" href="#">
-                        <i class="icon-wrench"></i>
-                    </a>
-                    <a class="btn btn-circle btn-icon-only btn-default" href="#">
-                        <i class="icon-trash"></i>
-                    </a>
-                    <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="#"> </a>
-                </div>
-            </div>
-            <div class="portlet-body">
-                <div id="dashboard_amchart_2" class="mapChart"></div>
-            </div>
         </div>
     </div>
-    <div class="col-lg-6 col-xs-12 col-sm-12">
-        <div class="portlet light ">
-            <div class="portlet-title">
-                <div class="caption ">
-                    <span class="caption-subject font-dark bold uppercase">Industrial Estates Status</span>
-                    <span class="caption-helper">distance stats...</span>
-                </div>
-                <div class="actions">
-                    <div class="btn-group">
-                        <a class="btn green-haze btn-outline btn-circle btn-sm" href="javascript:;" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-                            Actions
-                            <i class="fa fa-angle-down"></i>
+    <div class="row">
+        <div class="col-lg-6 col-xs-12 col-sm-12">
+            <div class="portlet light ">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <span class="caption-subject bold uppercase font-dark">Industrial Estates Location</span>
+                        <span class="caption-helper">Locations...</span>
+                    </div>
+                    <div class="actions">
+                        <a class="btn btn-circle btn-icon-only btn-default" href="#">
+                            <i class="icon-cloud-upload"></i>
                         </a>
-                        <ul class="dropdown-menu pull-right">
-                            <li>
-                                <a href="javascript:;"> Option 1</a>
-                            </li>
-                            <li class="divider"> </li>
-                            <li>
-                                <a href="javascript:;">Option 2</a>
-                            </li>
-                            <li>
-                                <a href="javascript:;">Option 3</a>
-                            </li>
-                            <li>
-                                <a href="javascript:;">Option 4</a>
-                            </li>
-                        </ul>
+                        <a class="btn btn-circle btn-icon-only btn-default" href="#">
+                            <i class="icon-wrench"></i>
+                        </a>
+                        <a class="btn btn-circle btn-icon-only btn-default" href="#">
+                            <i class="icon-trash"></i>
+                        </a>
+                        <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="#"> </a>
                     </div>
                 </div>
-            </div>
-            <div class="portlet-body">
-                <div id="dashboard_amchart_4" class="CSSAnimationChart"></div>
+                <div class="portlet-body">
+                    <div id="dashboard_amchart_2" class="mapChart"></div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
-
-
-<div class="row">
-    <div class="col-lg-6 col-xs-12 col-sm-12">
-        <div class="portlet light ">
-            <div class="portlet-title">
-                <div class="caption">
-                    <i class="icon-cursor font-dark hide"></i>
-                    <span class="caption-subject font-dark bold uppercase">General Stats</span>
+        <div class="col-lg-6 col-xs-12 col-sm-12">
+            <div class="portlet light ">
+                <div class="portlet-title">
+                    <div class="caption ">
+                        <span class="caption-subject font-dark bold uppercase">Industrial Estates Status</span>
+                        <span class="caption-helper">distance stats...</span>
+                    </div>
+                    <div class="actions">
+                        <div class="btn-group">
+                            <a class="btn green-haze btn-outline btn-circle btn-sm" href="javascript:;" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                                Actions
+                                <i class="fa fa-angle-down"></i>
+                            </a>
+                            <ul class="dropdown-menu pull-right">
+                                <li>
+                                    <a href="javascript:;"> Option 1</a>
+                                </li>
+                                <li class="divider"> </li>
+                                <li>
+                                    <a href="javascript:;">Option 2</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;">Option 3</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;">Option 4</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
-                <div class="actions">
-                    <a href="javascript:;" class="btn btn-sm btn-circle red easy-pie-chart-reload">
-                        <i class="fa fa-repeat"></i> Reload
-                    </a>
-                </div>
-            </div>
-            <div class="portlet-body">
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="easy-pie-chart">
-                            <div class="number transactions" data-percent="55">
-                                <span>+55</span>%
-                            </div>
-                            <a class="title" href="javascript:;">
-                                Transactions
-                                <i class="icon-arrow-right"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="margin-bottom-10 visible-sm"> </div>
-                    <div class="col-md-4">
-                        <div class="easy-pie-chart">
-                            <div class="number visits" data-percent="85">
-                                <span>+85</span>%
-                            </div>
-                            <a class="title" href="javascript:;">
-                                New Visits
-                                <i class="icon-arrow-right"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="margin-bottom-10 visible-sm"> </div>
-                    <div class="col-md-4">
-                        <div class="easy-pie-chart">
-                            <div class="number bounce" data-percent="46">
-                                <span>-46</span>%
-                            </div>
-                            <a class="title" href="javascript:;">
-                                Bounce
-                                <i class="icon-arrow-right"></i>
-                            </a>
-                        </div>
-                    </div>
+                <div class="portlet-body">
+                    <div id="dashboard_amchart_4" class="CSSAnimationChart"></div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-lg-6 col-xs-12 col-sm-12">
-        <div class="portlet light ">
-            <div class="portlet-title">
-                <div class="caption">
-                    <i class="icon-equalizer font-dark hide"></i>
-                    <span class="caption-subject font-dark bold uppercase">Server Stats</span>
-                    <span class="caption-helper">monthly stats...</span>
-                </div>
-                <div class="tools">
-                    <a href="" class="collapse"> </a>
-                    <a href="#portlet-config" data-toggle="modal" class="config"> </a>
-                    <a href="" class="reload"> </a>
-                    <a href="" class="remove"> </a>
-                </div>
-            </div>
-            <div class="portlet-body">
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="sparkline-chart">
-                            <div class="number" id="sparkline_bar5"></div>
-                            <a class="title" href="javascript:;">
-                                Network
-                                <i class="icon-arrow-right"></i>
-                            </a>
-                        </div>
+    <div class="row">
+        <div class="col-lg-6 col-xs-12 col-sm-12">
+            <div class="portlet light ">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="icon-cursor font-dark hide"></i>
+                        <span class="caption-subject font-dark bold uppercase">General Stats</span>
                     </div>
-                    <div class="margin-bottom-10 visible-sm"> </div>
-                    <div class="col-md-4">
-                        <div class="sparkline-chart">
-                            <div class="number" id="sparkline_bar6"></div>
-                            <a class="title" href="javascript:;">
-                                CPU Load
-                                <i class="icon-arrow-right"></i>
-                            </a>
-                        </div>
+                    <div class="actions">
+                        <a href="javascript:;" class="btn btn-sm btn-circle red easy-pie-chart-reload">
+                            <i class="fa fa-repeat"></i> Reload
+                        </a>
                     </div>
-                    <div class="margin-bottom-10 visible-sm"> </div>
-                    <div class="col-md-4">
-                        <div class="sparkline-chart">
-                            <div class="number" id="sparkline_line"></div>
-                            <a class="title" href="javascript:;">
-                                Load Rate
-                                <i class="icon-arrow-right"></i>
-                            </a>
+                </div>
+                <div class="portlet-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="easy-pie-chart">
+                                <div class="number transactions" data-percent="55">
+                                    <span>+55</span>%
+                                </div>
+                                <a class="title" href="javascript:;">
+                                    Transactions
+                                    <i class="icon-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="margin-bottom-10 visible-sm"> </div>
+                        <div class="col-md-4">
+                            <div class="easy-pie-chart">
+                                <div class="number visits" data-percent="85">
+                                    <span>+85</span>%
+                                </div>
+                                <a class="title" href="javascript:;">
+                                    New Visits
+                                    <i class="icon-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="margin-bottom-10 visible-sm"> </div>
+                        <div class="col-md-4">
+                            <div class="easy-pie-chart">
+                                <div class="number bounce" data-percent="46">
+                                    <span>-46</span>%
+                                </div>
+                                <a class="title" href="javascript:;">
+                                    Bounce
+                                    <i class="icon-arrow-right"></i>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="col-lg-6 col-xs-12 col-sm-12">
+            <div class="portlet light ">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="icon-equalizer font-dark hide"></i>
+                        <span class="caption-subject font-dark bold uppercase">Server Stats</span>
+                        <span class="caption-helper">monthly stats...</span>
+                    </div>
+                    <div class="tools">
+                        <a href="" class="collapse"> </a>
+                        <a href="#portlet-config" data-toggle="modal" class="config"> </a>
+                        <a href="" class="reload"> </a>
+                        <a href="" class="remove"> </a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="sparkline-chart">
+                                <div class="number" id="sparkline_bar5"></div>
+                                <a class="title" href="javascript:;">
+                                    Network
+                                    <i class="icon-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="margin-bottom-10 visible-sm"> </div>
+                        <div class="col-md-4">
+                            <div class="sparkline-chart">
+                                <div class="number" id="sparkline_bar6"></div>
+                                <a class="title" href="javascript:;">
+                                    CPU Load
+                                    <i class="icon-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="margin-bottom-10 visible-sm"> </div>
+                        <div class="col-md-4">
+                            <div class="sparkline-chart">
+                                <div class="number" id="sparkline_line"></div>
+                                <a class="title" href="javascript:;">
+                                    Load Rate
+                                    <i class="icon-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
+  
+    <!-- END CONTENT BODY -->
 
-
-               
-<!-- END CONTENT BODY -->
-       
 
 
 

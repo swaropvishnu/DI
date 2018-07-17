@@ -53,6 +53,8 @@
                                             @Html.HiddenFor(m => m.village_code, new { @id = "hfddlVillage" })
                                             @Html.HiddenFor(m => m.allotee_code, new { @id = "hfallotee_code" })
                                             @Html.HiddenFor(m => m.industrytype_code_diff, new { @id = "hfddlIndustryType" })
+                                            @Html.HiddenFor(m => m.industrial_estate_code, new { @id = "hfindustrial_estate_code" })
+                                            @Html.HiddenFor(m => m.industrial_estate_code_distict, new { @id = "hfindustrial_estate_code_distict" })
 
                                         </div>
                                     </div>
@@ -541,6 +543,7 @@
                     //alert(district);
                     $('#ddlComapnyType').append(ddlComapnyType);
                     $('#ddlComapnyType').val($('#hfddlcompanytype').val());
+
                 }
             });
 
@@ -675,31 +678,102 @@
                     //district = district + '</select>';
                     //alert(district);
                     $('#ddlDistrict2').append(ddlComapnyType);
-                   
+                  
+                    $('#ddlDistrict2').val($('#hfindustrial_estate_code_distict').val());
+                 
+
+                   // $('#ddIndustrialEstate').val($('#hfindustrial_estate_code').val());
+                    $("#ddlDistrict2").attr("disabled", "disabled");
                    
                 }
+                
             });
-            $('#ddlDistrict2').change(function () {
-                //  alert("done");
-                $.ajax({
-                    type: "post",
-                    url: "/IndustrialAreaMaster/GetEstate",
-                    data: { District: $('#ddlDistrict2').val() },
-                    datatype: "json",
-                    traditional: true,
-                    success: function (data) {
-                        $('#ddIndustrialEstate').empty();
-                        var district = "";
-                        //var district = '';
-                        for (var i = 0; i < data.length; i++) {
-                            district = district + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
-                        }
-                        //district = district + '</select>';
-                        //alert(district);
-                        $('#ddIndustrialEstate').append(district);
+            $.ajax({
+                type: "post",
+                url: "/IndustrialAreaMaster/GetEstate",
+                data: { District: $('#hfindustrial_estate_code_distict').val() },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    $('#ddIndustrialEstate').empty();
+                    var district = "";
+                    //var district = '';
+                    for (var i = 0; i < data.length; i++) {
+                        district = district + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
                     }
-                });
+                    //district = district + '</select>';
+                    //alert(district);
+                    $('#ddIndustrialEstate').append(district);
+                    $('#ddIndustrialEstate').val($('#hfindustrial_estate_code').val());
+                    $("#ddIndustrialEstate").attr("disabled", "disabled");
+                }
             });
+            $.ajax({
+                type: "post",
+                url: "/IndustrialAreaMaster/bindshed",
+                data: { IndustrialEstate: $('#hfindustrial_estate_code').val() },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    $('#ddlShedName').empty();
+                    var block = '';
+                    // var district = "<select id='ddlTehsil'>";
+                    //var block = '';
+                    for (var i = 0; i < data.length; i++) {
+                        block = block + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                    }
+                    //  district = district + '</select>';
+                    //alert(district);
+                    $('#ddlShedName').append(block);
+                }
+            });
+
+
+            $.ajax({
+                type: "post",
+                url: "/IndustrialAreaMaster/bindplot",
+                data: { IndustrialEstate: $('#hfindustrial_estate_code').val() },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    $('#ddlPlotName').empty();
+                    var block = '';
+                    // var district = "<select id='ddlTehsil'>";
+                    //var block = '';
+                    for (var i = 0; i < data.length; i++) {
+                        block = block + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                    }
+                    //  district = district + '</select>';
+                    //alert(district);
+                    $('#ddlPlotName').append(block);
+                }
+            });
+
+
+           // var hfindustrial_estate_code = $('#hfindustrial_estate_code').val();
+           // $('#ddIndustrialEstate').val(hfindustrial_estate_code);
+            //$("#ddIndustrialEstate").attr("disabled", "disabled");
+            //$('#ddlDistrict2').change(function () {
+            //    //  alert("done");
+            //    $.ajax({
+            //        type: "post",
+            //        url: "/IndustrialAreaMaster/GetEstate",
+            //        data: { District: $('#ddlDistrict2').val() },
+            //        datatype: "json",
+            //        traditional: true,
+            //        success: function (data) {
+            //            $('#ddIndustrialEstate').empty();
+            //            var district = "";
+            //            //var district = '';
+            //            for (var i = 0; i < data.length; i++) {
+            //                district = district + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+            //            }
+            //            //district = district + '</select>';
+            //            //alert(district);
+            //            $('#ddIndustrialEstate').append(district);
+            //        }
+            //    });
+            //});
             $('#ddlDistrict').change(function () {
 
                 //  alert("done");
@@ -744,49 +818,47 @@
                     }
                 });
             });
-            $('#ddIndustrialEstate').change(function () {
-                //alert($('#ddlTehsil').val());
-                $.ajax({
-                    type: "post",
-                    url: "/IndustrialAreaMaster/bindshed",
-                    data: { IndustrialEstate: $('#ddIndustrialEstate').val() },
-                    datatype: "json",
-                    traditional: true,
-                    success: function (data) {
-                        $('#ddlShedName').empty();
-                        var block = '';
-                        // var district = "<select id='ddlTehsil'>";
-                        //var block = '';
-                        for (var i = 0; i < data.length; i++) {
-                            block = block + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
-                        }
-                        //  district = district + '</select>';
-                        //alert(district);
-                        $('#ddlShedName').append(block);
-                    }
-                });
-
-
-                $.ajax({
-                    type: "post",
-                    url: "/IndustrialAreaMaster/bindplot",
-                    data: { IndustrialEstate: $('#ddIndustrialEstate').val() },
-                    datatype: "json",
-                    traditional: true,
-                    success: function (data) {
-                        $('#ddlPlotName').empty();
-                        var block = '';
-                        // var district = "<select id='ddlTehsil'>";
-                        //var block = '';
-                        for (var i = 0; i < data.length; i++) {
-                            block = block + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
-                        }
-                        //  district = district + '</select>';
-                        //alert(district);
-                        $('#ddlPlotName').append(block);
-                    }
-                });
-            });
+            //$('#ddIndustrialEstate').change(function () {
+            //    //alert($('#ddlTehsil').val());
+            //    $.ajax({
+            //        type: "post",
+            //        url: "/IndustrialAreaMaster/bindshed",
+            //        data: { IndustrialEstate: $('#ddIndustrialEstate').val() },
+            //        datatype: "json",
+            //        traditional: true,
+            //        success: function (data) {
+            //            $('#ddlShedName').empty();
+            //            var block = '';
+            //            // var district = "<select id='ddlTehsil'>";
+            //            //var block = '';
+            //            for (var i = 0; i < data.length; i++) {
+            //                block = block + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+            //            }
+            //            //  district = district + '</select>';
+            //            //alert(district);
+            //            $('#ddlShedName').append(block);
+            //        }
+            //    });
+            //    $.ajax({
+            //        type: "post",
+            //        url: "/IndustrialAreaMaster/bindplot",
+            //        data: { IndustrialEstate: $('#ddIndustrialEstate').val() },
+            //        datatype: "json",
+            //        traditional: true,
+            //        success: function (data) {
+            //            $('#ddlPlotName').empty();
+            //            var block = '';
+            //            // var district = "<select id='ddlTehsil'>";
+            //            //var block = '';
+            //            for (var i = 0; i < data.length; i++) {
+            //                block = block + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+            //            }
+            //            //  district = district + '</select>';
+            //            //alert(district);
+            //            $('#ddlPlotName').append(block);
+            //        }
+            //    });
+            //});
             $('#ddlBlock').change(function () {
                 $.ajax({
                     type: "post",
@@ -985,7 +1057,7 @@
                     "block_code": document.getElementById("ddlBlock").value,
                     "village_code": document.getElementById("ddlVillage").value,
                     "mobile": document.getElementById("txtMobile").value,
-                    "email": document.getElementById("txtemail").value,
+                    "email": document.getElementById("txtemail").value==""?" ":document.getElementById("txtemail").value,
                     "industrytype_code_diff": document.getElementById("ddlIndustryType").value,
                     "companytype_code": document.getElementById("ddlComapnyType").value,
                     "estimated_cost": document.getElementById("txtEstimatedCost").value,
@@ -1003,6 +1075,7 @@
                     "is_electricity":Iselsectric,// document.getElementById("ddlIndustryType").value,
                     "is_telephone": Istelephone,//document.getElementById("ddlIndustryType").value,
                     "grossprofit": document.getElementById("txtgrossprofit").value,
+                    "industrial_estate_code": document.getElementById("hfindustrial_estate_code").value,
                 }
                 $.ajax({
                     url: '/IndustrialAreaMaster/InsertUpdateEstateAllotee',
@@ -1053,7 +1126,7 @@
             }
             cell5.innerHTML = "<input type='text' id='txtAlotmentNo" + (table.rows.length - 1) + "' placeholder='Title' name='txtAlotmentNo' value='" + AlotmentNo + "' maxlength='8' />";
             cell6.innerHTML = "<input type='submit' value='Delete' class='btn red' id='btnadd' onclick='del(" + (table.rows.length - 1) + ")'>";
-            document.getElementById("ddIndustrialEstate").value = "-1";
+           
             document.getElementById("ddlPlotName").value = "-1";
             document.getElementById('ddlShedName').value = "-1";
             document.getElementById('txtAlotmentNo').value = "";

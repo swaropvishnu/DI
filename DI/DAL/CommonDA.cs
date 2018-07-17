@@ -428,6 +428,7 @@ namespace DI.DAL
                 cmd.Parameters.AddWithValue("u_user_ip", this.IpAddress);
                 cmd.Parameters.AddWithValue("u_mac", this.MacAddress);
                 cmd.Parameters.AddWithValue("Sptype", @Sptype);
+                cmd.Parameters.AddWithValue("industrial_estate_code", IEA.industrial_estate_code);
                 cmd.Parameters.AddWithValue("Msg", "");
                 cmd.Parameters["Msg"].Size = 256;
                 cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
@@ -489,6 +490,12 @@ namespace DI.DAL
                         }
                     }
                 }
+                else
+                {
+                    transaction.Rollback();
+                    message = "transaction fail";
+                    return message;
+                }
                 transaction.Commit();
             }
             catch (Exception ex1)
@@ -523,6 +530,12 @@ namespace DI.DAL
                 cmd.Parameters.AddWithValue("Plot_Desc", AP.Plot_Desc);
                 cmd.Parameters.AddWithValue("Plot_Allottee_Desc", AP.Plot_Allottee_Desc);
                 cmd.Parameters.AddWithValue("IsDel", IsDel);
+                cmd.Parameters.AddWithValue("CUserID", @UserSession.LoggedInUser.UserName);
+                cmd.Parameters.AddWithValue("@CUserIP", this.IpAddress);
+                cmd.Parameters.AddWithValue("@CMac", this.MacAddress);
+                cmd.Parameters.AddWithValue("@UMac", this.MacAddress);
+                cmd.Parameters.AddWithValue("@UUserID", @UserSession.LoggedInUser.UserName);
+                cmd.Parameters.AddWithValue("@UUserIP", this.IpAddress);
                 cmd.Parameters.AddWithValue("Msg", "");
                 cmd.Parameters["Msg"].Size = 256;
                 cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
@@ -667,6 +680,12 @@ namespace DI.DAL
                 cmd.Parameters.AddWithValue("IsShed_Disputed", AS.IsShed_Disputed == true ? 'Y' : 'N');
                 cmd.Parameters.AddWithValue("Shed_Desc", AS.Shed_Desc);
                 cmd.Parameters.AddWithValue("Shed_Allottee_Desc", AS.Shed_Allottee_Desc);
+                cmd.Parameters.AddWithValue("CUserID", @UserSession.LoggedInUser.UserName);
+                cmd.Parameters.AddWithValue("@CUserIP", this.IpAddress);
+                cmd.Parameters.AddWithValue("@CMac", this.MacAddress);
+                cmd.Parameters.AddWithValue("@UMac", this.MacAddress);
+                cmd.Parameters.AddWithValue("@UUserID", @UserSession.LoggedInUser.UserName);
+                cmd.Parameters.AddWithValue("@UUserIP", this.IpAddress);
                 cmd.Parameters.AddWithValue("IsDel", IsDel);
                 cmd.Parameters.AddWithValue("Msg", "");
                 cmd.Parameters["Msg"].Size = 256;
@@ -1047,7 +1066,6 @@ namespace DI.DAL
             con.Close();
             return message;
         }
-
         public string InsertUpdateCMYSS_Applicantdoc2(DataTable dt)
         {
             string message = "Save";
@@ -1066,13 +1084,12 @@ namespace DI.DAL
                             cmd = new SqlCommand();
                             cmd.Connection = con;
                             cmd.CommandType = CommandType.StoredProcedure;
-                            cmd.CommandText = "[Proc_InsertApplicantDoc]";
+                            cmd.CommandText = "[Proc_InsertRegistrationDoc]";
                             cmd.CommandTimeout = 3600;
-                            cmd.Parameters.AddWithValue("applicant_code", dt.Rows[j]["applicant_code"].ToString().Trim());
+                            cmd.Parameters.AddWithValue("registration_code", dt.Rows[j]["applicant_code"].ToString().Trim());
                             cmd.Parameters.AddWithValue("@doc", dt.Rows[j]["doc"]);// 
                             cmd.Parameters.AddWithValue("@doc_type", dt.Rows[j]["doc_type"].ToString().Trim());
                             cmd.Parameters.AddWithValue("@doc_content_type", dt.Rows[j]["doc_content_type"].ToString().Trim());
-
                             cmd.Parameters.AddWithValue("IsFirst", j == 0 ? true : false);
                             cmd.Parameters.AddWithValue("@user_Id", @UserSession.LoggedInUser.UserName);
                             cmd.Parameters.AddWithValue("@user_ip", this.IpAddress);
@@ -1103,9 +1120,6 @@ namespace DI.DAL
             con.Close();
             return message;
         }
-
-
-
         public string InsertUpdateCMYSS_Applicantdoc3(DataTable dt)
         {
             string message = "Save";
@@ -1123,7 +1137,6 @@ namespace DI.DAL
                 cmd.CommandTimeout = 3600;
                 cmd.Parameters.AddWithValue("applicant_code", dt.Rows[0]["applicant_code"].ToString().Trim());
                 cmd.Parameters.AddWithValue("@tbl_applicant_doc", dt);
-
                 // cmd.Parameters.AddWithValue("IsFirst", j == 0 ? true : false);
                 cmd.Parameters.AddWithValue("@user_Id", @UserSession.LoggedInUser.UserName);
                 cmd.Parameters.AddWithValue("@user_ip", this.IpAddress);
@@ -1136,7 +1149,6 @@ namespace DI.DAL
                 cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
                 cmd.Transaction = transaction;
                 cmd.ExecuteNonQuery();
-
                 message = cmd.Parameters["Msg"].Value.ToString();
 
                 transaction.Commit();
@@ -1149,7 +1161,6 @@ namespace DI.DAL
             con.Close();
             return message;
         }
-
         public string InsertUpdateCMYSS_Applicant(CMYSS_Applicant Objform, List<CMYSS_Applicant_Doc> objdoc, List<CMYSS_Applicant_Family> objFamily, bool @sptype)
         {
             string message = "";
@@ -1163,11 +1174,11 @@ namespace DI.DAL
                 SqlCommand cmd = new SqlCommand();
                 cmd.Connection = con;
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.CommandText = "[Proc_InsertUpdateApplicant]";
+                cmd.CommandText = "[Proc_InsertUpdateRegistration]";
                 cmd.CommandTimeout = 3600;
-                cmd.Parameters.AddWithValue("applicant_code", Objform.@applicant_code);
-                cmd.Parameters["applicant_code"].Direction = ParameterDirection.InputOutput;
-                cmd.Parameters["applicant_code"].Size = 256;
+                cmd.Parameters.AddWithValue("registration_code", Objform.@applicant_code);
+                cmd.Parameters["registration_code"].Direction = ParameterDirection.InputOutput;
+                cmd.Parameters["registration_code"].Size = 256;
                 cmd.Parameters.AddWithValue("@yojana_code", Objform.@yojana_code);
                 cmd.Parameters.AddWithValue("@applicant_name", Objform.@applicant_name);
                 cmd.Parameters.AddWithValue("@adhar_no", Objform.@adhar_no);
@@ -1215,7 +1226,7 @@ namespace DI.DAL
                 cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
                 cmd.Transaction = transaction;
                 cmd.ExecuteNonQuery();
-                applicant_code = int.Parse(cmd.Parameters["applicant_code"].Value.ToString());
+                applicant_code = int.Parse(cmd.Parameters["registration_code"].Value.ToString());
                 message = cmd.Parameters["Msg"].Value.ToString();
                 if (message.Contains("Save"))
                 {
@@ -1233,9 +1244,9 @@ namespace DI.DAL
                                 cmd = new SqlCommand();
                                 cmd.Connection = con;
                                 cmd.CommandType = CommandType.StoredProcedure;
-                                cmd.CommandText = "[Proc_InsertApplicantFamilyDetails]";
+                                cmd.CommandText = "[Proc_InsertRegistrationFamilyDetails]";
                                 cmd.CommandTimeout = 3600;
-                                cmd.Parameters.AddWithValue("@applicant_code", applicant_code);
+                                cmd.Parameters.AddWithValue("@registration_code", applicant_code);
                                 cmd.Parameters.AddWithValue("@relation_code", objFamily[i].@relation_code);
                                 cmd.Parameters.AddWithValue("@person_name", objFamily[i].@person_name);
                                 cmd.Parameters.AddWithValue("@age", objFamily[i].@age);
@@ -1258,20 +1269,17 @@ namespace DI.DAL
                                 cmd = new SqlCommand();
                                 cmd.Connection = con;
                                 cmd.CommandType = CommandType.StoredProcedure;
-                                cmd.CommandText = "[Proc_InsertApplicantDoc]";
+                                cmd.CommandText = "[Proc_InsertRegistrationDoc]";
                                 cmd.CommandTimeout = 3600;
-                                cmd.Parameters.AddWithValue("applicant_code", applicant_code);
+                                cmd.Parameters.AddWithValue("@registration_code", applicant_code);
                                 cmd.Parameters.AddWithValue("doc_path", objdoc[j].doc);
                                 cmd.Parameters.AddWithValue("@doc_type", objdoc[j].doc_type);
-
                                 cmd.Parameters.AddWithValue("IsFirst", j == 0 ? true : false);
                                 cmd.Parameters.AddWithValue("Msg", "");
                                 cmd.Parameters["Msg"].Size = 256;
                                 cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
                                 cmd.Transaction = transaction;
                                 cmd.ExecuteNonQuery();
-
-
                             }
                         }
                     }
@@ -1286,8 +1294,6 @@ namespace DI.DAL
             con.Close();
             return message;
         }
-
-
         public string InsertUpdateCMYSS_Applicantfamily(List<CMYSS_Applicant_Family> objFamily)
         {
             string message = "Save";
@@ -1307,9 +1313,9 @@ namespace DI.DAL
                                 cmd = new SqlCommand();
                                 cmd.Connection = con;
                                 cmd.CommandType = CommandType.StoredProcedure;
-                                cmd.CommandText = "[Proc_InsertApplicantFamilyDetails]";
+                                cmd.CommandText = "[Proc_InsertRegistrationFamilyDetails]";
                                 cmd.CommandTimeout = 3600;
-                                cmd.Parameters.AddWithValue("@applicant_code", objFamily[i].applicant_code);
+                                cmd.Parameters.AddWithValue("@registration_code", objFamily[i].applicant_code);
                                 cmd.Parameters.AddWithValue("@relation_code", objFamily[i].@relation_code);
                                 cmd.Parameters.AddWithValue("@person_name", objFamily[i].@person_name);
                                 cmd.Parameters.AddWithValue("@age", objFamily[i].@age);
@@ -1362,20 +1368,19 @@ namespace DI.DAL
             con.Close();
             return message;
         }
-
-        public DataSet GetApplicantinfo(long applicant_code, short yojana_code, string applicant_user_name)
+        public DataSet GetApplicantinfo(long registration_code, short scheme_code, string user_name)
         {
             DataSet ds = new DataSet();
             con.Open();
             try
             {
-                SqlCommand cmd = new SqlCommand();
+                SqlCommand cmd = new SqlCommand(); 
                 cmd.Connection = con;
-                cmd.CommandText = "[Proc_GetApplicant]";
+                cmd.CommandText = "[Proc_GetRegistrationDetails]";
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("applicant_code ", applicant_code);
-                cmd.Parameters.AddWithValue("@yojana_code", yojana_code);
-                cmd.Parameters.AddWithValue("@applicant_user_name", applicant_user_name);
+                cmd.Parameters.AddWithValue("@registration_code ", registration_code);
+                cmd.Parameters.AddWithValue("@scheme_code", scheme_code);
+                cmd.Parameters.AddWithValue("@user_name", user_name);
                 SqlDataAdapter da = new SqlDataAdapter();
                 da.SelectCommand = cmd;
                 da.Fill(ds);
@@ -1387,7 +1392,6 @@ namespace DI.DAL
             con.Close();
             return ds;
         }
-
         public DataSet GetApplicant(long applicant_code, short yojana_code, string applicant_user_name)
         {
             DataSet ds = new DataSet();
@@ -1412,7 +1416,6 @@ namespace DI.DAL
             con.Close();
             return ds;
         }
-
         public string InsertApplicantDoc(List<CMYSS_Applicant_Doc> objdoc)
         {
             string message = "Save";
@@ -1431,9 +1434,9 @@ namespace DI.DAL
                             cmd = new SqlCommand();
                             cmd.Connection = con;
                             cmd.CommandType = CommandType.StoredProcedure;
-                            cmd.CommandText = "[Proc_InsertApplicantDoc]";
+                            cmd.CommandText = "[Proc_InsertRegistrationDoc]";
                             cmd.CommandTimeout = 3600;
-                            cmd.Parameters.AddWithValue("applicant_code", objdoc[j].applicant_code);
+                            cmd.Parameters.AddWithValue("@registration_code", objdoc[j].applicant_code);
                             cmd.Parameters.AddWithValue("doc_path", objdoc[j].doc);
                             cmd.Parameters.AddWithValue("@doc_type", objdoc[j].doc_type);
                             cmd.Parameters.AddWithValue("IsFirst", j == 0 ? true : false);
@@ -1446,7 +1449,6 @@ namespace DI.DAL
                             {
                                 message = cmd.Parameters["Msg"].Value.ToString();
                             }
-
                         }
                     }
                 }
@@ -1460,7 +1462,6 @@ namespace DI.DAL
             con.Close();
             return message;
         }
-
         public string Plot_Applicant(estate_request objER, List<requested_plot> objRP, IndustrialEstateApplicant objApp, bool Sptype)
         {
             string message = "";
@@ -1599,8 +1600,6 @@ namespace DI.DAL
             con.Close();
             return message;
         }
-
-
         #endregion
         #region Master
         internal string InsertUpdate_doc_type(Doc_type DI)
@@ -1676,7 +1675,6 @@ namespace DI.DAL
             return dt;
         }
         #endregion
-
         public DataSet GetPramarPatar(long applicant_code)
         {
             DataSet ds = new DataSet();
@@ -1699,7 +1697,6 @@ namespace DI.DAL
             con.Close();
             return ds;
         }
-
         public DataSet Getapplicant_Letter(long applicant_code)
         {
             DataSet ds = new DataSet();
@@ -1722,6 +1719,5 @@ namespace DI.DAL
             con.Close();
             return ds;
         }
-
     }
 }

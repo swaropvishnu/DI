@@ -321,11 +321,11 @@ namespace DI.Models
         {
             get
             {
-                return short.Parse(tbl_Session.Rows[0]["yojana_code"].ToString());
+                return short.Parse(tbl_Session.Rows[0]["scheme_code"].ToString());
             }
             set
             {
-                tbl_Session.Rows[0]["yojana_code"] = value;
+                tbl_Session.Rows[0]["scheme_code"] = value;
             }
         }
 

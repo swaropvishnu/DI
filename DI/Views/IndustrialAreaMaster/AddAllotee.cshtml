@@ -73,7 +73,7 @@
                                             <label class="control-label col-md-12" style="text-align:left" id="lblpan"> पैन <span class="Mandatory">*</span> </label>
                                             <div class="col-md-12">
                                                 @*<input type="text" class="form-control" placeholder="शेड का नाम">*@
-                                                @Html.TextBoxFor(m => m.panno, new { @class = "form-control", @id = "txtPanCard", @placeholder = "पैन", @Maxlength = "15" })
+                                                @Html.TextBoxFor(m => m.panno, new { @class = "form-control", @id = "txtPanCard", @placeholder = "पैन", @Maxlength = "10" })
                                             </div>
                                         </div>
                                     </div>
@@ -596,6 +596,8 @@
                         //district = district + '</select>';
                         //alert(district);
                         $('#ddlTehsil').append(district);
+                        $('#ddlBlock').val("-1");
+                        $('#ddlVillage').val("-1");
                     }
                 });
             });
@@ -618,6 +620,7 @@
                         //district = district + '</select>';
                         //alert(district);
                         $('#ddIndustrialEstate').append(district);
+                       
                     }
                 });
             });
@@ -641,6 +644,8 @@
                         //  district = district + '</select>';
                         //alert(district);
                         $('#ddlBlock').append(block);
+                      
+                        $('#ddlVillage').val("-1");
                     }
                 });
             });
@@ -727,6 +732,16 @@
                 alert("कृप्या पैन संख्या भरे ");
                 return;
             }
+            else {
+                var ad = document.getElementById("txtPanCard").value;
+
+                if (ad.length != 10) {
+                    $('#lblpan ').css('color', 'red');
+                    alert("कृप्या पैन संख्या भरे ");
+                    return;
+                }
+            }
+
             if (document.getElementById("txtCIN").value == "") {
                 document.getElementById("txtCIN").focus();
                 $('#lblcin').css('color', 'red');
@@ -757,6 +772,16 @@
                 alert("कृप्या मोबाइल नंबर  भरे");
                 return;
             }
+            else {
+                var ad = document.getElementById("txtMobile").value;
+
+                if (ad.length != 10) {
+                    $('#lblmob ').css('color', 'red');
+                    alert("मोबाइल नं0 ");
+                    return;
+                }
+            }
+
             //if (document.getElementById("txtemail").value == "") {
             //    document.getElementById("txtemail").focus();
             //    alert("कृप्या ईमेल भरे");
@@ -842,7 +867,6 @@
                 alert("सकल लाभ ");
                 return;
             }
-
             if ((table.rows.length - 1) <= 0) {
                 alert("कृप्या आस्थान के भूखंड एवं शेड का विवरण भरे");
                 $('#lbh3l').css('color', 'red');
@@ -852,9 +876,7 @@
             var IsSmoke = $('#chkIsproducesmoke').bootstrapSwitch('state'); //$("#Accessibility_location_available_notYes").is(":checked");
             var Iselsectric = $('#chkIsElectricity').bootstrapSwitch('state'); //$("#Accessibility_location_available_notYes").is(":checked");
             var Istelephone = $('#chkIsTelephone').bootstrapSwitch('state'); //$("#Accessibility_location_available_notYes").is(":checked");
-
             try {
-
                 var plot = [];
                 var shed = [];
                 if ((table.rows.length - 1) > 0)
@@ -867,7 +889,6 @@
                         else {
                             shed.push({ shed_code: document.getElementById("hfShedName" + (i + 1) + "").value, industrial_estate_code: document.getElementById("hfIndustrialEstate" + (i + 1) + "").value, allotmentno: document.getElementById("txtAlotmentNo" + (i + 1) + "").value })
                         }
-
                     }
                 }
                 var IEA = {
@@ -882,7 +903,7 @@
                     "block_code": document.getElementById("ddlBlock").value,
                     "village_code": document.getElementById("ddlVillage").value,
                     "mobile": document.getElementById("txtMobile").value,
-                    "email": document.getElementById("txtemail").value,
+                    "email": document.getElementById("txtemail").value == "" ? " " : document.getElementById("txtemail").value,
                     "industrytype_code_diff": document.getElementById("ddlIndustryType").value,
                     "companytype_code": document.getElementById("ddlComapnyType").value,
                     "estimated_cost": document.getElementById("txtEstimatedCost").value,
@@ -900,6 +921,7 @@
                     "is_electricity":Iselsectric,// document.getElementById("ddlIndustryType").value,
                     "is_telephone": Istelephone,//document.getElementById("ddlIndustryType").value,
                     "grossprofit": document.getElementById("txtgrossprofit").value,
+                    "industrial_estate_code": document.getElementById("ddIndustrialEstate").value,
                 }
                 $.ajax({
                     url: '/IndustrialAreaMaster/InsertUpdateEstateAllotee',
@@ -980,14 +1002,24 @@
             }
             cell5.innerHTML = "<input type='text' id='txtAlotmentNo" + (table.rows.length - 1) + "' placeholder='Title' name='txtAlotmentNo' value='" + AlotmentNo + "' maxlength='8' />";
             cell6.innerHTML = "<input type='submit' value='Delete' class='btn red' id='btnadd' onclick='del(" + (table.rows.length - 1) + ")'>";
-            document.getElementById("ddIndustrialEstate").value = "-1";
+           
             document.getElementById("ddlPlotName").value = "-1";
             document.getElementById('ddlShedName').value = "-1";
             document.getElementById('txtAlotmentNo').value = "";
+            $("#ddIndustrialEstate").attr("disabled", "disabled");
+            $("#ddlDistrict2").attr("disabled", "disabled");
+           
+
+
         }
         function del(id) {
+            var table = document.getElementById("table");
+           
             document.getElementById("table").deleteRow(id);
-
+            if (table.rows.length - 1 <= 0) {
+                $("#ddlDistrict2").removeAttr("disabled", "disabled");
+                $("#ddIndustrialEstate").removeAttr("disabled", "disabled");
+            }
         }
         var specialKeys = new Array();
         specialKeys.push(47); // for Forward Slash(/)

@@ -471,12 +471,12 @@ namespace DI.Controllers
                             {
                                 Session["tbl_Session"] = ds.Tables[0];
                                 FormsAuthentication.SetAuthCookie(usrname, Model.RememberMe);
-                                if (ds.Tables[0].Rows[0]["yojana_code"].ToString() == "1")
+                                if (ds.Tables[0].Rows[0]["scheme_code"].ToString() == "1")
                                 {
                                     return Json("1", JsonRequestBehavior.AllowGet);
                                     
                                 }
-                                else if (ds.Tables[0].Rows[0]["yojana_code"].ToString() == "5")
+                                else if (ds.Tables[0].Rows[0]["scheme_code"].ToString() == "5")
                                 {
                                     return Json("5", JsonRequestBehavior.AllowGet);
 

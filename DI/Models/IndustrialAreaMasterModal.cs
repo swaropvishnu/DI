@@ -155,7 +155,8 @@ namespace DI.Models
         public string u_user_ip { get; set; }
         public string u_mac { get; set; }
         public string tablestring { get; set; } // Use for edit
-       
+        public int industrial_estate_code { get; set; }
+        public int industrial_estate_code_distict { get; set; }// for edit purpose
     }
     public class  IndustrialEstateAlloteePlot 
     {

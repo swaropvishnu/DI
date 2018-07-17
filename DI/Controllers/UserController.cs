@@ -50,8 +50,8 @@ namespace DI.Controllers
                         {
                             CM.applicant_name = ds.Tables[0].Rows[0]["applicant_name"].ToString().Trim();
                             CM.inputdob = ds.Tables[0].Rows[0]["dob"].ToString().Trim();
-                            CM.applicant_code = long.Parse(ds.Tables[0].Rows[0]["applicant_code"].ToString().Trim());
-                            CM.yojana_code = short.Parse(ds.Tables[0].Rows[0]["yojana_code"].ToString().Trim());
+                            CM.applicant_code = long.Parse(ds.Tables[0].Rows[0]["registration_code"].ToString().Trim());
+                            CM.yojana_code = short.Parse(ds.Tables[0].Rows[0]["scheme_code"].ToString().Trim());
                             CM.adhar_no = ds.Tables[0].Rows[0]["adhar_no"].ToString().Trim();
                             CM.Husband_father_name = ds.Tables[0].Rows[0]["father_name"].ToString().Trim();
                             CM.current_address = ds.Tables[0].Rows[0]["current_address"].ToString().Trim();
@@ -105,7 +105,6 @@ namespace DI.Controllers
                             CM.manufacturing = ds.Tables[0].Rows[0]["manufacturing"].ToString().Trim();
                             CM.services = ds.Tables[0].Rows[0]["services"].ToString().Trim();
                             CM.steps = ds.Tables[0].Rows[0]["steps"].ToString().Trim();
-
                         }
                     }
                 }
@@ -113,10 +112,8 @@ namespace DI.Controllers
             }
             catch (Exception)
             {
-
                 return View(CM);
             }
-
         }
         public JsonResult InsertUpdateCMYSS_Applicant(CMYSS_Applicant Objform, List<CMYSS_Applicant_Doc> objdoc, List<CMYSS_Applicant_Family> objFamily, bool @sptype)
         {
@@ -141,15 +138,12 @@ namespace DI.Controllers
             {
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
-
         }
 
         public JsonResult InsertUpdateCMYSS_Applicantfamily(List<CMYSS_Applicant_Family> objFamily)
         {
             try
             {
-
-
                 string str = new DAL.CommonDA().InsertUpdateCMYSS_Applicantfamily(objFamily);
                 return Json(str, JsonRequestBehavior.AllowGet);
             }
@@ -157,7 +151,6 @@ namespace DI.Controllers
             {
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
-
         }
         [HttpPost]
         public ActionResult Uploadfile()
@@ -179,8 +172,6 @@ namespace DI.Controllers
                         //string filename = Path.GetFileName(Request.Files[i].FileName);
                         HttpPostedFileBase file = files[i];
                         // byte[] doc = new byte[file.ContentLength];
-
-
                         Byte[] img = null;
                         if (file != null && file.ContentLength > 0)
                         {   /*****IMG-DB-CODE******/
@@ -190,7 +181,6 @@ namespace DI.Controllers
                             //objUserData.UserImage = img;
                         }//
                         // objUserData.UserId = UserSession.LoggedInUserId.ToString();
-
                         if (Request.Browser.Browser.ToUpper() == "IE" || Request.Browser.Browser.ToUpper() == "INTERNETEXPLORER")
                         {
                             string[] testfiles = file.FileName.Split(new char[] { '\\' });
@@ -232,10 +222,6 @@ namespace DI.Controllers
                             {
                                 return Json("only .pdf/.docx /.doc/.xls/.xlsx/.jpg/jpeg/.png  files upload");
                             }
-                        
-
-
-
                     }
                     return Json("File Uploaded Successfully!");
                 }
@@ -312,7 +298,6 @@ namespace DI.Controllers
         {
             try
             {
-               
                 if (Session["Doc"]!=null)
                 {
                     DataTable dt = (DataTable)Session["Doc"];
@@ -320,28 +305,22 @@ namespace DI.Controllers
                     {
                         if (dt.Rows.Count ==7)
                         {
-                           
                             string msg = new DAL.CommonDA().InsertUpdateCMYSS_Applicantdoc2(dt);
                             if (msg.Contains("Save"))
                             {
                                 Session["Doc"] = null;
                             }
-                            
                             return Json(msg, JsonRequestBehavior.AllowGet);
-
                         }
                         else
                         {
-                            
                             return Json("Please upload all documents", JsonRequestBehavior.AllowGet);
-
                         }
                     }
                     else
                     {
                         Session["Doc"] = null;
                         return Json("Session Expire Please refresh page", JsonRequestBehavior.AllowGet);
-
                     }
                 }
                 else
@@ -354,10 +333,8 @@ namespace DI.Controllers
             }
             catch (Exception ex)
             {
-
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
-
 
         }
 
