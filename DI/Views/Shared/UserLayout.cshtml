@@ -1,13 +1,8 @@
-﻿
-@{
+﻿@{
     Layout = null;
-  
 }
-
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
     <meta charset="utf-8" />
     <title>Industries</title>
@@ -16,7 +11,6 @@
     <meta content="Director of Industries" name="description" />
     <meta content="" name="author" />
     <!-- BEGIN GLOBAL MANDATORY STYLES -->
-    
     @Styles.Render("~/Content/cssBlank")
     @Styles.Render("~/Content/cssDash")
     @Styles.Render("~/Content/ReportCss")
@@ -24,16 +18,14 @@
     @Scripts.Render("~/bundles/bootstrapBlank")
     @Scripts.Render("~/bundles/bootstrapDash")
     @Scripts.Render("~/bundles/ReportJs")
-    @Scripts.Render("~/bundles/gmap3")
+    @*@Scripts.Render("~/bundles/gmap3")*@
     @*@(Html.GoogleMap().ScriptRegistrar())*@
     <script>
       $.gmap3({
         key: 'AIzaSyBOYfwN5dgGQislPPsZMYcEt2EE98N5O4A'
       });
-
     </script>
     <script>
-
     document.onkeypress = function (event) {
         event = (event || window.event);
         if (event.keyCode == 123) {
@@ -64,10 +56,8 @@
         }
          .Mandatory {
             color:red !important;
-           
         }
     </style>
-
 </head>
 <!-- END HEAD -->
 <body class="page-header-fixed page-sidebar-closed-hide-logo page-container-bg-solid page-md" oncontextmenu="return false;">
@@ -190,7 +180,7 @@
                         <li class="dropdown dropdown-user">
                             <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
                                 <img alt="" class="img-circle" src="@UserSession.ProfilePhoto" />
-                                <span class="username username-hide-on-mobile"> @UserSession.LoggedInUserName.ToString() </span>
+                                <span class="username username-hide-on-mobile"> @UserSession.LoggedInName.ToString() </span>
                                 <i class="fa fa-angle-down"></i>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-default">
@@ -245,14 +235,8 @@
                 <!-- DOC: Set data-keep-expand="true" to keep the submenues expanded -->
                 <!-- DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed -->
                 <ul class="page-sidebar-menu  page-header-fixed page-sidebar-menu-hover-submenu " id="Sidemenu12" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200"></ul>
-
-
                 <!-- END SIDEBAR MENU -->
             </div>
-
-
-
-
             <!-- END SIDEBAR -->
         </div>
         <!-- END SIDEBAR -->
@@ -260,8 +244,6 @@
         <div class="page-content-wrapper">
             <!-- BEGIN CONTENT BODY -->
             <div class="page-content">
-
-
                 <!-- END PAGE HEADER-->
                 @*<div class="note note-info">*@
                 @*<p> A black page template with a minimal dependency assets to use as a base for any custom page you create </p>*@
@@ -278,7 +260,6 @@
     </a>
     <div class="page-quick-sidebar-wrapper" data-close-on-body-click="false">
         <div class="page-quick-sidebar">
-
             <div class="tab-content">
                 <div class="tab-pane active page-quick-sidebar-chat" id="quick_sidebar_tab_1">
                     @* side menu bar removed *@
@@ -714,10 +695,6 @@
                             </li>
                             <li>
                                 Notify On SMTP Error
-
-
-
-
                                 <input type="checkbox" class="make-switch" checked data-size="small" data-on-color="warning" data-on-text="ON" data-off-color="default" data-off-text="OFF">
                             </li>
                         </ul>
@@ -778,12 +755,7 @@
                 <span aria-hidden="true" class="quick-nav-bg"></span>
             </nav>*@
         <div class="quick-nav-overlay"></div>
-
     </div>
-
-
     @RenderSection("scripts", required: false)
-
-
 </body>
 </html>

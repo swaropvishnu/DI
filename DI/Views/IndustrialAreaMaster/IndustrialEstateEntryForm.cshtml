@@ -18,15 +18,6 @@
             changeYear: true
         });
     });
-    //$(document).ready(function () {
-    //    try {
-    //        $("input[type='text']").each(function () {
-    //            $(this).attr("autocomplete", "no");
-    //        });
-    //    }
-    //    catch (e)
-    //    { }
-    //});
 </script>
 <!-- BEGIN SAMPLE FORM PORTLET-->
 <div class="portlet light ">
@@ -298,9 +289,7 @@
                     <!-- END FORM-->
                 </div>
             </div>
-
             <script type="text/javascript">
-
                 $(document).ready(function () {
                     $.ajax({
                         type: "post",
@@ -339,6 +328,8 @@
                                 //district = district + '</select>';
                                 //alert(district);
                                 $('#ddlTehsil').append(district);
+                                $('#ddlBlock').val("-1");
+                                $('#ddlVillage').val("-1");
                             }
                         });
                     });
@@ -362,6 +353,8 @@
                                 //  district = district + '</select>';
                                 //alert(district);
                                 $('#ddlBlock').append(block);
+                               
+                                $('#ddlVillage').val("-1");
                             }
                         });
                     });
@@ -387,9 +380,6 @@
                         });
                     });
                 });
-
-
-
                 var specialKeys = new Array();
                 specialKeys.push(47); // for Forward Slash(/)
                 specialKeys.push(8); //Backspace

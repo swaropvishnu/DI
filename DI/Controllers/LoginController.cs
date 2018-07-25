@@ -21,7 +21,6 @@ namespace DI.Controllers
     public class LoginController : Controller
     {
         CMYSS_Applicant CM = new CMYSS_Applicant();
- 
         // GET: Login
         public ActionResult Login()
         {
@@ -31,7 +30,6 @@ namespace DI.Controllers
         }
         public ActionResult TestView()
         {
-           
             return View();
         }
         public ActionResult LogOut()
@@ -41,17 +39,13 @@ namespace DI.Controllers
                 // First we clean the authentication ticket like always
                 //required NameSpace: using System.Web.Security;
                 FormsAuthentication.SignOut();
-
                 // Second we clear the principal to ensure the user does not retain any authentication
                 //required NameSpace: using System.Security.Principal;
                 HttpContext.User = new GenericPrincipal(new GenericIdentity(string.Empty), null);
-
                 Session.Clear();
                 System.Web.HttpContext.Current.Session.RemoveAll();
-
                 // Last we redirect to a controller/action that requires authentication to ensure a redirect takes place
                 // this clears the Request.IsAuthenticated flag since this triggers a new request
-
                 Session.Abandon(); // it will clear the session at the end of request
                 return RedirectToAction("Login", "Login");
             }
@@ -64,8 +58,6 @@ namespace DI.Controllers
                 Session.Abandon();
             }
         }
-
-
         //
         // POST: /Account/Login
         [HttpPost]        
@@ -79,7 +71,6 @@ namespace DI.Controllers
                 //if (!ModelState.IsValid)
                 //    return View(Model);
                 string salt = CreateSalt(5);
-
                 string usrname = Model.UserName;
                 string password = Model.Password;
                 DataSet ds = new DataSet();
@@ -132,13 +123,10 @@ namespace DI.Controllers
                 return RedirectToAction("Login", "Login");
             }
         }
-
         public CaptchaImageResult ShowCaptchaImage()
         {
             return new CaptchaImageResult();
-            
         }
-
         /// <summary>
         /// 
         /// 
@@ -148,10 +136,6 @@ namespace DI.Controllers
         /// <param name="rememberMe"></param>
         /// <returns></returns>
         /// 
-
-
-        
-
         #region --> Generate HASH Using SHA512
         
         #endregion
@@ -162,7 +146,6 @@ namespace DI.Controllers
             rng.GetBytes(buff);
             return Convert.ToBase64String(buff);
         }
-
         private string CalculateHash(string input)
         {
             using (var algorithm = SHA256.Create()) //or MD5 SHA512 etc.
@@ -172,20 +155,12 @@ namespace DI.Controllers
                 return BitConverter.ToString(hashedBytes).Replace("-", "").ToLower();
             }
         }
-
-        
-
-
-
         ///////////////////////
-
-
         [SessionExpireFilterAttribute]
         public ActionResult FirstTimeLogin()
         {
             return View();
         }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult FirstTimeLogin(LoginModal IstTimeLogin)
@@ -199,24 +174,18 @@ namespace DI.Controllers
                 {
                     string psw = ds.Tables[0].Rows[0]["Password"].ToString();
                     string lpsw = ds.Tables[0].Rows[0]["OldPassWord"].ToString();
-
                     string type_pwd_salt = FormsAuthentication.HashPasswordForStoringInConfigFile(IstTimeLogin.NewPassword.ToString(), "md5");
-
                     string hashed_pwd = IstTimeLogin.OldPassword;
                     string hashed_newpwd = type_pwd_salt;
-
-
                     if ((lpsw.ToLower().Equals(hashed_newpwd.ToLower())) == true)
                     {
                         ViewBag.ErrMessage = "Your new password should not match with last old password ?";
                         return RedirectToAction("Login", "FirstTimeLogin");
                     }
-
                     if ((psw.ToLower().Equals(hashed_newpwd.ToLower())) == false)
                     {
                         if (psw.ToLower().Equals(hashed_pwd.ToLower()))
                         {
-
                             string hashed_pwdNew = type_pwd_salt;
                             string res = UserDtl.Userpasswordchange(UserSession.LoggedInUserName, hashed_pwdNew.ToLower(), hashed_pwd.ToLower());
                             //ScriptManager.RegisterStartupScript(this, this.GetType(), "redirect", "alert('" + res + "'); window.location='/EPDS2017/logout.aspx';", true);
@@ -245,7 +214,6 @@ namespace DI.Controllers
                 return RedirectToAction("Login", "Login");
             }
         }
-
         //POST: Logout
         [HttpPost]
         [Authorize]
@@ -256,14 +224,11 @@ namespace DI.Controllers
                 // First we clean the authentication ticket like always
                 //required NameSpace: using System.Web.Security;
                 FormsAuthentication.SignOut();
-
                 // Second we clear the principal to ensure the user does not retain any authentication
                 //required NameSpace: using System.Security.Principal;
                 HttpContext.User = new GenericPrincipal(new GenericIdentity(string.Empty), null);
-
                 Session.Clear();
                 System.Web.HttpContext.Current.Session.RemoveAll();
-
                 // Last we redirect to a controller/action that requires authentication to ensure a redirect takes place
                 // this clears the Request.IsAuthenticated flag since this triggers a new request
                 //return RedirectToLocal();
@@ -274,7 +239,6 @@ namespace DI.Controllers
                 throw;
             }
         }
-
         [SessionExpireFilterAttribute]
         public ActionResult ChangePassword()
         {
@@ -294,25 +258,20 @@ namespace DI.Controllers
                 {
                     string psw = ds.Tables[0].Rows[0]["Password"].ToString();
                     string lpsw = ds.Tables[0].Rows[0]["OldPassWord"].ToString();
-
                     string pwd_salt = FormsAuthentication.HashPasswordForStoringInConfigFile(ChangePwd.OldPassword_CHG.ToString(), "sha256");
                     string type_pwd_salt = FormsAuthentication.HashPasswordForStoringInConfigFile(ChangePwd.NewPassword_CHG.ToString(), "sha256");
 
                     string hashed_pwd = pwd_salt;
                     string hashed_newpwd = type_pwd_salt;
-
-
                     if ((lpsw.ToLower().Equals(hashed_newpwd.ToLower())) == true)
                     {
                         ViewBag.ErrMessage = "Your new password should not match with last old password ?";
                         //return RedirectToAction("Index", "Default");
                     }
-
                     if ((psw.ToLower().Equals(hashed_newpwd.ToLower())) == false)
                     {
                         if (psw.ToLower().Equals(hashed_pwd.ToLower()))
                         {
-
                             string hashed_pwdNew = type_pwd_salt;
                             string res = UserDtl.Userpasswordchange(UserSession.LoggedInUserName, hashed_pwdNew.ToLower(), hashed_pwd.ToLower());
                             //ScriptManager.RegisterStartupScript(this, this.GetType(), "redirect", "alert('" + res + "'); window.location='/EPDS2017/logout.aspx';", true);
@@ -341,22 +300,17 @@ namespace DI.Controllers
                 ViewBag.ErrMessage = "Invalid Username or Password.";
                 //return RedirectToAction("FirstTimeLogin", "Login");
             }
-
             return View();
         }
-
         [SessionExpireFilterAttribute]
         public ActionResult ProfileUpdate()
         {
-            
             LoginModal objUserData = new LoginModal();
             objUserData.UserId =UserSession.LoggedInUserId.ToString();
-            
             objUserData = CommonBL.GetUserDetail(objUserData);
             ViewBag.Base64String = "data:image/png;base64," + Convert.ToBase64String(objUserData.UserImage, 0);
             return View(objUserData);
         }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         [SessionExpireFilterAttribute]
@@ -382,16 +336,12 @@ namespace DI.Controllers
             {
                 ViewBag.AlertUpdate = "Failed To Update Profile..";
             }
-
-            
             return View(objUserData);
         }
         public ActionResult Error()
-
         {
             return View();
         }
-        
         public ActionResult RegistrationLogin()
         {
             return View();
@@ -417,23 +367,20 @@ namespace DI.Controllers
                 }
                 catch (Exception)
                 {
-
                     return Json("Date of Birth must be dd/mm/yyyy format", JsonRequestBehavior.AllowGet);
                 }
-
                 Objform.steps = "0";
                 string[] dobTime = Objform.inputdob.ToString().Split(' ');
                 string[] dob = dobTime[0].Split('/');
-                string Mobchar = Objform.mobile_no.Substring(0, 2);
+                //string Mobchar = Objform.mobile_no.Substring(0, 2);
                 List<CMYSS_Applicant_Doc> objdoc = new List<CMYSS_Applicant_Doc>();
                 List<CMYSS_Applicant_Family> objFamily = new List<CMYSS_Applicant_Family>();
-                Objform.Password= FormsAuthentication.HashPasswordForStoringInConfigFile(dob[2].ToString().Trim()+ dob[1].ToString().Trim()+ Mobchar+ dob[0].ToString().Trim(), "sha256");
-                string str = new DAL.CommonDA().InsertUpdateCMYSS_Applicant(Objform, objdoc, objFamily, false);
+                Objform.Password= FormsAuthentication.HashPasswordForStoringInConfigFile(dob[2].ToString().Trim()+ dob[1].ToString().Trim()+ dob[0].ToString().Trim(), "sha256");
+                string str = new DAL.CommonDA().InsertUpdateCMYSS_Applicant(Objform, objdoc, objFamily, "1");
                 if (str.Contains("Save") && str.Contains("/"))
                 {
                     string[] Msg = str.Split('/');
-
-                    return Json(Msg[0] + "\n" + "User Name :" + Msg[1] + "\n" + "Password :" + dob[2].ToString().Trim() + dob[1].ToString().Trim() + Mobchar + dob[0].ToString().Trim(), JsonRequestBehavior.AllowGet);
+                    return Json(Msg[0] + "\n" + "User Name :" + Msg[1] + "\n" + "Password :" + dob[2].ToString().Trim() + dob[1].ToString().Trim()  + dob[0].ToString().Trim(), JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
@@ -447,7 +394,6 @@ namespace DI.Controllers
             }
 
         }
-
         public JsonResult Applicant_Login(LoginModal Model)
         {
             if (Model.CaptchaText == HttpContext.Session["captchastring"].ToString())
@@ -455,7 +401,6 @@ namespace DI.Controllers
                 string salt = CreateSalt(5);
                 string usrname = Model.UserName;
                 string password = Model.Password;
-
                 DataSet ds = new DataSet();
                 ds = UserDtl.VerifyApplicant(usrname,Model.yojana_code);
                 if (ds != null)
@@ -463,7 +408,6 @@ namespace DI.Controllers
                     string psw = ds.Tables[0].Rows[0]["Password"].ToString();
                     if (ds.Tables[0].Rows.Count > 0 && ds.Tables[0].Rows.Count == 1)
                     {
-
                         string hashed_pwd = CalculateHash(psw.ToString().ToLower() + Session["salt"].ToString());
                         if (hashed_pwd.ToString().ToLower().Equals(Model.Password.ToLower()))
                         {
@@ -484,9 +428,8 @@ namespace DI.Controllers
                                 else
                                 {
                                     return Json("Invalid Username or Password.", JsonRequestBehavior.AllowGet);
-
                                 }
-                                return Json("Sucess", JsonRequestBehavior.AllowGet);
+                               // return Json("Sucess", JsonRequestBehavior.AllowGet);
                                 //return RedirectToAction("CMYSS_Applicant", "User");
                             }
                             else
@@ -494,7 +437,6 @@ namespace DI.Controllers
                                 ViewBag.ErrMessage = "Invalid Username or Password.";
                                 return Json("Invalid Username or Password.", JsonRequestBehavior.AllowGet);
                             }
-
                         }
                         else
                         {
@@ -520,10 +462,7 @@ namespace DI.Controllers
             {
                 ViewBag.ErrMessage = "Error: captcha is not valid.";
                 return Json("Error: captcha is not valid.", JsonRequestBehavior.AllowGet);
-               
             }
-            
         }
-
     }
 }

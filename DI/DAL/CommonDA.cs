@@ -334,10 +334,10 @@ namespace DI.DAL
                 cmd.Parameters.AddWithValue("IndustrialEstateName", m06.IndustrialEstateName);
                 cmd.Parameters.AddWithValue("Establishment", m06.Establishment);
                 cmd.Parameters.AddWithValue("Address", m06.Address);
-                cmd.Parameters.AddWithValue("DisID", m06.DistrictCode);
-                cmd.Parameters.AddWithValue("TehSilID", m06.TehsilCode);
-                cmd.Parameters.AddWithValue("BlocID", m06.BlockCode);
-                cmd.Parameters.AddWithValue("@VillageID", m06.VillageCode);
+                cmd.Parameters.AddWithValue("DisID", m06.DistrictCode==-1?0: m06.DistrictCode);
+                cmd.Parameters.AddWithValue("TehSilID", m06.TehsilCode == -1 ? 0 : m06.TehsilCode);
+                cmd.Parameters.AddWithValue("BlocID", m06.BlockCode == -1 ? 0 : m06.BlockCode);
+                cmd.Parameters.AddWithValue("@VillageID", m06.VillageCode == -1 ? 0 : m06.VillageCode);
                 cmd.Parameters.AddWithValue("PinCode", m06.PinCode == null ? "" : m06.PinCode);
                 cmd.Parameters.AddWithValue("@AreaPerSqfeet", m06.AreaPerSqfeet);
                 cmd.Parameters.AddWithValue("@RatePerSqFeet", m06.RatePerSqFeet);
@@ -372,7 +372,12 @@ namespace DI.DAL
                 transaction.Rollback();
                 message = ex1.Message;
             }
-            con.Close();
+            finally
+            {
+
+                con.Close();
+                con.Dispose();
+            }
             return message;
         }
 
@@ -398,10 +403,10 @@ namespace DI.DAL
                 cmd.Parameters.AddWithValue("panno", IEA.@panno);
                 cmd.Parameters.AddWithValue("cinno", IEA.@cinno);
                 cmd.Parameters.AddWithValue("address", IEA.@address);
-                cmd.Parameters.AddWithValue("district_code_census", IEA.@district_code_census);
-                cmd.Parameters.AddWithValue("tehsil_code_census", IEA.@tehsil_code_census);
-                cmd.Parameters.AddWithValue("block_code", IEA.@block_code);
-                cmd.Parameters.AddWithValue("village_code", IEA.@village_code);
+                cmd.Parameters.AddWithValue("district_code_census", IEA.@district_code_census==-1?0: IEA.@district_code_census);
+                cmd.Parameters.AddWithValue("tehsil_code_census", IEA.@tehsil_code_census == -1 ? 0 : IEA.@tehsil_code_census);
+                cmd.Parameters.AddWithValue("block_code", IEA.@block_code == -1 ? 0 : IEA.@block_code);
+                cmd.Parameters.AddWithValue("village_code", IEA.@village_code == -1 ? 0 : IEA.@village_code);
                 cmd.Parameters.AddWithValue("mobile", IEA.@mobile);
                 cmd.Parameters.AddWithValue("email", IEA.@email);
                 cmd.Parameters.AddWithValue("industrytype_code_diff", IEA.industrytype_code_diff);
@@ -503,7 +508,12 @@ namespace DI.DAL
                 transaction.Rollback();
                 message = ex1.Message;
             }
-            con.Close();
+            finally
+            {
+
+                con.Close();
+                con.Dispose();
+            }
             return message;
         }
 
@@ -549,7 +559,12 @@ namespace DI.DAL
                 transaction.Rollback();
                 message = ex1.Message;
             }
-            con.Close();
+            finally
+            {
+
+                con.Close();
+                con.Dispose();
+            }
             return message;
         }
         public DataTable Getplot(int IndustrialAreaCode, long PlotCode, string PlotSerialNo, string PlotName, DateTime FromDate, DateTime ToDate, string IsPlot_Disputed, string IsPlot_Assigned)
@@ -578,7 +593,12 @@ namespace DI.DAL
             {
                 dt = null;
             }
-            con.Close();
+            finally
+            {
+
+                con.Close();
+                con.Dispose();
+            }
             return dt;
         }
 
@@ -608,7 +628,12 @@ namespace DI.DAL
             {
                 dt = null;
             }
-            con.Close();
+            finally
+            {
+
+                con.Close();
+                con.Dispose();
+            }
             return dt;
         }
 
@@ -631,7 +656,12 @@ namespace DI.DAL
             {
                 dt = null;
             }
-            con.Close();
+            finally
+            {
+
+                con.Close();
+                con.Dispose();
+            }
             return dt;
         }
 
@@ -654,7 +684,12 @@ namespace DI.DAL
             {
                 ds = null;
             }
-            con.Close();
+            finally
+            {
+
+                con.Close();
+                con.Dispose();
+            }
             return ds;
         }
 
@@ -700,7 +735,12 @@ namespace DI.DAL
                 transaction.Rollback();
                 message = ex1.Message;
             }
-            con.Close();
+            finally
+            {
+
+                con.Close();
+                con.Dispose();
+            }
             return message;
         }
 
@@ -736,7 +776,12 @@ namespace DI.DAL
             {
                 dt = null;
             }
-            con.Close();
+            finally
+            {
+
+                con.Close();
+                con.Dispose();
+            }
             return dt;
         }
 
@@ -766,7 +811,12 @@ namespace DI.DAL
             {
                 dt = null;
             }
-            con.Close();
+            finally
+            {
+
+                con.Close();
+                con.Dispose();
+            }
             return dt;
         }
 
@@ -797,7 +847,12 @@ namespace DI.DAL
             {
                 dt = null;
             }
-            con.Close();
+            finally
+            {
+
+                con.Close();
+                con.Dispose();
+            }
             return dt;
         }
         public DataTable GetPlotforSal(int IndustrialEstateCode)
@@ -819,86 +874,91 @@ namespace DI.DAL
             {
                 dt = null;
             }
-            con.Close();
-            return dt;
-        }
-
-        #endregion
-        #region Form
-        internal string InsertUpdateMYSY(AddMYSY Objform)
-        {
-            string result = "";
-            try
-            {
-                con.Open();
-                cmd = new SqlCommand("Proc_InsertUpdate_Swarozgar_yojana", con);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@district_code_census", SqlDbType.Int).Value = Objform.DistCode;
-                cmd.Parameters.AddWithValue("@tehsil_code_census", SqlDbType.Int).Value = Objform.TehsilCode;
-                cmd.Parameters.AddWithValue("@block_code", SqlDbType.Int).Value = Objform.BlockCode;
-                cmd.Parameters.AddWithValue("@village_code", SqlDbType.Int).Value = Objform.VillCode;
-                cmd.Parameters.AddWithValue("@applicant_name", SqlDbType.NVarChar).Value = Objform.applicant_name;
-                cmd.Parameters.AddWithValue("@dob", SqlDbType.DateTime).Value = Objform.dob;
-                cmd.Parameters.AddWithValue("@adhar_no", SqlDbType.VarChar).Value = Objform.adhar_no;
-                cmd.Parameters.AddWithValue("@father_name", SqlDbType.NVarChar).Value = Objform.father_name;
-                cmd.Parameters.AddWithValue("@current_address", SqlDbType.NVarChar).Value = Objform.current_address;
-                cmd.Parameters.AddWithValue("@bank_office_address", SqlDbType.NVarChar).Value = Objform.bank_office_address;
-                cmd.Parameters.AddWithValue("@permanent_address", SqlDbType.NVarChar).Value = Objform.permanent_address;
-                cmd.Parameters.AddWithValue("@mobile_no", SqlDbType.VarChar).Value = Objform.mobile_no;
-                cmd.Parameters.AddWithValue("@email", SqlDbType.VarChar).Value = Objform.email;
-                cmd.Parameters.AddWithValue("@pansion_card_no", SqlDbType.VarChar).Value = Objform.pansion_card_No;
-                cmd.Parameters.AddWithValue("@family_income", SqlDbType.Decimal).Value = Objform.family_income;
-                cmd.Parameters.AddWithValue("@project_name", SqlDbType.NVarChar).Value = Objform.project_name;
-                cmd.Parameters.AddWithValue("@project_cost", SqlDbType.Decimal).Value = Objform.project_cost;
-                cmd.Parameters.AddWithValue("@machinery_cost", SqlDbType.Decimal).Value = Objform.machinery_cost;
-                cmd.Parameters.AddWithValue("@working_capital", SqlDbType.Decimal).Value = Objform.working_capital;
-
-                cmd.Parameters.AddWithValue("@bank_name", SqlDbType.NVarChar).Value = Objform.bank_name;
-                cmd.Parameters.AddWithValue("@self_share", SqlDbType.NVarChar).Value = Objform.self_share;
-                cmd.Parameters.AddWithValue("@deposit_amt", SqlDbType.Decimal).Value = Objform.deposit_amt;
-                //cmd.Parameters.AddWithValue("@Depositbankbranch", SqlDbType.NVarChar).Value = Objform.branch_name;
-                cmd.Parameters.AddWithValue("@branch_name", SqlDbType.NVarChar).Value = Objform.branch_name;
-                cmd.Parameters.AddWithValue("@bank_account_no", SqlDbType.NVarChar).Value = Objform.bank_account_no;
-                cmd.Parameters.AddWithValue("@ifsc_code", SqlDbType.NVarChar).Value = Objform.@ifsc_code;
-                cmd.Parameters.AddWithValue("@c_user_id", SqlDbType.VarChar).Value = Objform.c_user_id;
-                cmd.Parameters.AddWithValue("@c_user_ip", SqlDbType.VarChar).Value = Objform.c_user_ip;
-                cmd.Parameters.AddWithValue("@c_mac", SqlDbType.NVarChar).Value = Objform.c_mac;
-
-                //cmd.Parameters.AddWithValue("@FamilyPersonName", SqlDbType.NVarChar).Value = Objform.FamilyPersonName;
-                //cmd.Parameters.AddWithValue("@FamilyPerson_Age", SqlDbType.Int).Value = Objform.FamilyPerson_Age;
-                //cmd.Parameters.AddWithValue("@FamilyPerson_work", SqlDbType.Int).Value = Objform.FamilyPerson_work;
-                //cmd.Parameters.AddWithValue("@FamilyPerson_Father_Name", SqlDbType.NVarChar).Value = Objform.FamilyPerson_Father_Name;
-                //cmd.Parameters.AddWithValue("@Mother_Name", SqlDbType.NVarChar).Value = Objform.Mother_Name;
-                //cmd.Parameters.AddWithValue("@Mother_Age", SqlDbType.Int).Value = Objform.Mother_Age;
-                //cmd.Parameters.AddWithValue("@Mother_work", SqlDbType.NVarChar).Value = Objform.Mother_work;
-                //cmd.Parameters.AddWithValue("@Family_brother_sister", SqlDbType.NVarChar).Value = Objform.Family_brother_sister;
-                //cmd.Parameters.AddWithValue("@Family_brother_sister_Age", SqlDbType.Int).Value = Objform.Family_brother_sister_Age;
-                //cmd.Parameters.AddWithValue("@Family_brother_sister_Work", SqlDbType.NVarChar).Value = Objform.Family_brother_sister_Work;
-                //cmd.Parameters.AddWithValue("@children_Name", SqlDbType.NVarChar).Value = Objform.children_Name;
-                //cmd.Parameters.AddWithValue("@children_Age", SqlDbType.Int).Value = Objform.children_Age;
-                //cmd.Parameters.AddWithValue("@children_Work", SqlDbType.Int).Value = Objform.children_Work;
-
-
-                cmd.Parameters.AddWithValue("@Mode", SqlDbType.VarChar).Value = Objform.Mode;
-                cmd.ExecuteNonQuery();
-                result = "Success";
-
-            }
-            catch
-            {
-                result = "Failed";
-                throw;
-
-            }
             finally
             {
 
                 con.Close();
                 con.Dispose();
             }
-
-            return result;
+            return dt;
         }
+
+        #endregion
+        #region Form
+        //internal string InsertUpdateMYSY(AddMYSY Objform)
+        //{
+        //    string result = "";
+        //    try
+        //    {
+        //        con.Open();
+        //        cmd = new SqlCommand("Proc_InsertUpdate_Swarozgar_yojana", con);
+        //        cmd.CommandType = CommandType.StoredProcedure;
+        //        cmd.Parameters.AddWithValue("@district_code_census", SqlDbType.Int).Value = Objform.DistCode;
+        //        cmd.Parameters.AddWithValue("@tehsil_code_census", SqlDbType.Int).Value = Objform.TehsilCode;
+        //        cmd.Parameters.AddWithValue("@block_code", SqlDbType.Int).Value = Objform.BlockCode;
+        //        cmd.Parameters.AddWithValue("@village_code", SqlDbType.Int).Value = Objform.VillCode;
+        //        cmd.Parameters.AddWithValue("@applicant_name", SqlDbType.NVarChar).Value = Objform.applicant_name;
+        //        cmd.Parameters.AddWithValue("@dob", SqlDbType.DateTime).Value = Objform.dob;
+        //        cmd.Parameters.AddWithValue("@adhar_no", SqlDbType.VarChar).Value = Objform.adhar_no;
+        //        cmd.Parameters.AddWithValue("@father_name", SqlDbType.NVarChar).Value = Objform.father_name;
+        //        cmd.Parameters.AddWithValue("@current_address", SqlDbType.NVarChar).Value = Objform.current_address;
+        //        cmd.Parameters.AddWithValue("@bank_office_address", SqlDbType.NVarChar).Value = Objform.bank_office_address;
+        //        cmd.Parameters.AddWithValue("@permanent_address", SqlDbType.NVarChar).Value = Objform.permanent_address;
+        //        cmd.Parameters.AddWithValue("@mobile_no", SqlDbType.VarChar).Value = Objform.mobile_no;
+        //        cmd.Parameters.AddWithValue("@email", SqlDbType.VarChar).Value = Objform.email;
+        //        cmd.Parameters.AddWithValue("@pansion_card_no", SqlDbType.VarChar).Value = Objform.pansion_card_No;
+        //        cmd.Parameters.AddWithValue("@family_income", SqlDbType.Decimal).Value = Objform.family_income;
+        //        cmd.Parameters.AddWithValue("@project_name", SqlDbType.NVarChar).Value = Objform.project_name;
+        //        cmd.Parameters.AddWithValue("@project_cost", SqlDbType.Decimal).Value = Objform.project_cost;
+        //        cmd.Parameters.AddWithValue("@machinery_cost", SqlDbType.Decimal).Value = Objform.machinery_cost;
+        //        cmd.Parameters.AddWithValue("@working_capital", SqlDbType.Decimal).Value = Objform.working_capital;
+
+        //        cmd.Parameters.AddWithValue("@bank_name", SqlDbType.NVarChar).Value = Objform.bank_name;
+        //        cmd.Parameters.AddWithValue("@self_share", SqlDbType.NVarChar).Value = Objform.self_share;
+        //        cmd.Parameters.AddWithValue("@deposit_amt", SqlDbType.Decimal).Value = Objform.deposit_amt;
+        //        //cmd.Parameters.AddWithValue("@Depositbankbranch", SqlDbType.NVarChar).Value = Objform.branch_name;
+        //        cmd.Parameters.AddWithValue("@branch_name", SqlDbType.NVarChar).Value = Objform.branch_name;
+        //        cmd.Parameters.AddWithValue("@bank_account_no", SqlDbType.NVarChar).Value = Objform.bank_account_no;
+        //        cmd.Parameters.AddWithValue("@ifsc_code", SqlDbType.NVarChar).Value = Objform.@ifsc_code;
+        //        cmd.Parameters.AddWithValue("@c_user_id", SqlDbType.VarChar).Value = Objform.c_user_id;
+        //        cmd.Parameters.AddWithValue("@c_user_ip", SqlDbType.VarChar).Value = Objform.c_user_ip;
+        //        cmd.Parameters.AddWithValue("@c_mac", SqlDbType.NVarChar).Value = Objform.c_mac;
+
+        //        //cmd.Parameters.AddWithValue("@FamilyPersonName", SqlDbType.NVarChar).Value = Objform.FamilyPersonName;
+        //        //cmd.Parameters.AddWithValue("@FamilyPerson_Age", SqlDbType.Int).Value = Objform.FamilyPerson_Age;
+        //        //cmd.Parameters.AddWithValue("@FamilyPerson_work", SqlDbType.Int).Value = Objform.FamilyPerson_work;
+        //        //cmd.Parameters.AddWithValue("@FamilyPerson_Father_Name", SqlDbType.NVarChar).Value = Objform.FamilyPerson_Father_Name;
+        //        //cmd.Parameters.AddWithValue("@Mother_Name", SqlDbType.NVarChar).Value = Objform.Mother_Name;
+        //        //cmd.Parameters.AddWithValue("@Mother_Age", SqlDbType.Int).Value = Objform.Mother_Age;
+        //        //cmd.Parameters.AddWithValue("@Mother_work", SqlDbType.NVarChar).Value = Objform.Mother_work;
+        //        //cmd.Parameters.AddWithValue("@Family_brother_sister", SqlDbType.NVarChar).Value = Objform.Family_brother_sister;
+        //        //cmd.Parameters.AddWithValue("@Family_brother_sister_Age", SqlDbType.Int).Value = Objform.Family_brother_sister_Age;
+        //        //cmd.Parameters.AddWithValue("@Family_brother_sister_Work", SqlDbType.NVarChar).Value = Objform.Family_brother_sister_Work;
+        //        //cmd.Parameters.AddWithValue("@children_Name", SqlDbType.NVarChar).Value = Objform.children_Name;
+        //        //cmd.Parameters.AddWithValue("@children_Age", SqlDbType.Int).Value = Objform.children_Age;
+        //        //cmd.Parameters.AddWithValue("@children_Work", SqlDbType.Int).Value = Objform.children_Work;
+
+
+        //        cmd.Parameters.AddWithValue("@Mode", SqlDbType.VarChar).Value = Objform.Mode;
+        //        cmd.ExecuteNonQuery();
+        //        result = "Success";
+
+        //    }
+        //    catch
+        //    {
+        //        result = "Failed";
+        //        throw;
+
+        //    }
+        //    finally
+        //    {
+
+        //        con.Close();
+        //        con.Dispose();
+        //    }
+
+        //    return result;
+        //}
 
 
         public DataTable GetMYSY(AddMYSY Objform)
@@ -1010,6 +1070,7 @@ namespace DI.DAL
             {
                 return null;
             }
+           
         }
         public string InsertUpdateCMYSS_Applicantdoc(List<CMYSS_Applicant_Doc> objdoc)
         {
@@ -1063,7 +1124,12 @@ namespace DI.DAL
                 transaction.Rollback();
                 message = ex1.Message;
             }
-            con.Close();
+            finally
+            {
+
+                con.Close();
+                con.Dispose();
+            }
             return message;
         }
         public string InsertUpdateCMYSS_Applicantdoc2(DataTable dt)
@@ -1117,7 +1183,12 @@ namespace DI.DAL
                 transaction.Rollback();
                 message = ex1.Message;
             }
-            con.Close();
+            finally
+            {
+
+                con.Close();
+                con.Dispose();
+            }
             return message;
         }
         public string InsertUpdateCMYSS_Applicantdoc3(DataTable dt)
@@ -1158,10 +1229,15 @@ namespace DI.DAL
                 transaction.Rollback();
                 message = ex1.Message;
             }
-            con.Close();
+            finally
+            {
+
+                con.Close();
+                con.Dispose();
+            }
             return message;
         }
-        public string InsertUpdateCMYSS_Applicant(CMYSS_Applicant Objform, List<CMYSS_Applicant_Doc> objdoc, List<CMYSS_Applicant_Family> objFamily, bool @sptype)
+        public string InsertUpdateCMYSS_Applicant(CMYSS_Applicant Objform, List<CMYSS_Applicant_Doc> objdoc, List<CMYSS_Applicant_Family> objFamily, string  @sptype)
         {
             string message = "";
             long applicant_code = -1;
@@ -1185,26 +1261,26 @@ namespace DI.DAL
                 cmd.Parameters.AddWithValue("@dob", Objform.@dob);
                 cmd.Parameters.AddWithValue("@father_name", Objform.@Husband_father_name);
                 cmd.Parameters.AddWithValue("@current_address", Objform.@current_address);
-                cmd.Parameters.AddWithValue("@proposed_office_address", Objform.proposed_office_address == null ? "" : Objform.proposed_office_address);
+                //cmd.Parameters.AddWithValue("@proposed_office_address", Objform.proposed_office_address == null ? "" : Objform.proposed_office_address);
                 cmd.Parameters.AddWithValue("@permanent_address", Objform.@permanent_address == null ? "" : Objform.permanent_address);
                 cmd.Parameters.AddWithValue("@mobile_no", Objform.@mobile_no);
                 cmd.Parameters.AddWithValue("@email", Objform.@email);
-                cmd.Parameters.AddWithValue("@pansion_card_no", Objform.pansion_card_No == null ? "" : Objform.pansion_card_No);
-                cmd.Parameters.AddWithValue("@project_name", Objform.@project_name == null ? "" : Objform.project_name);
-                cmd.Parameters.AddWithValue("@family_income", Objform.@family_income);
-                cmd.Parameters.AddWithValue("@project_cost", Objform.@project_cost);
-                cmd.Parameters.AddWithValue("@machinery_cost", Objform.@machinery_cost);
-                cmd.Parameters.AddWithValue("@working_capital", Objform.@working_capital);
-                cmd.Parameters.AddWithValue("@bank_name", Objform.@bank_name == null ? "" : Objform.bank_name);
-                cmd.Parameters.AddWithValue("@self_share", Objform.@self_share);
-                cmd.Parameters.AddWithValue("@deposit_amt", Objform.@deposit_amt);
-                cmd.Parameters.AddWithValue("@branch_name", Objform.@branch_name == null ? "" : Objform.branch_name);
-                cmd.Parameters.AddWithValue("@bank_account_no", Objform.@bank_account_no == null ? "" : Objform.bank_account_no);
-                cmd.Parameters.AddWithValue("@ifsc_code", Objform.@ifsc_code == null ? "" : Objform.ifsc_code);
-                cmd.Parameters.AddWithValue("@district_code_census", Objform.@DistCode);
-                cmd.Parameters.AddWithValue("@tehsil_code_census", Objform.@TehsilCode);
-                cmd.Parameters.AddWithValue("@block_code", Objform.@BlockCode);
-                cmd.Parameters.AddWithValue("@village_code", Objform.@VillCode);
+                //cmd.Parameters.AddWithValue("@pansion_card_no", Objform.pansion_card_No == null ? "" : Objform.pansion_card_No);
+                //cmd.Parameters.AddWithValue("@project_name", Objform.@project_name == null ? "" : Objform.project_name);
+                //cmd.Parameters.AddWithValue("@family_income", Objform.@family_income);
+                //cmd.Parameters.AddWithValue("@project_cost", Objform.@project_cost);
+                //cmd.Parameters.AddWithValue("@machinery_cost", Objform.@machinery_cost);
+                //cmd.Parameters.AddWithValue("@working_capital", Objform.@working_capital);
+                //cmd.Parameters.AddWithValue("@bank_name", Objform.@bank_name == null ? "" : Objform.bank_name);
+                //cmd.Parameters.AddWithValue("@self_share", Objform.@self_share);
+                //cmd.Parameters.AddWithValue("@deposit_amt", Objform.@deposit_amt);
+                //cmd.Parameters.AddWithValue("@branch_name", Objform.@branch_name == null ? "" : Objform.branch_name);
+                //cmd.Parameters.AddWithValue("@bank_account_no", Objform.@bank_account_no == null ? "" : Objform.bank_account_no);
+                //cmd.Parameters.AddWithValue("@ifsc_code", Objform.@ifsc_code == null ? "" : Objform.ifsc_code);
+                cmd.Parameters.AddWithValue("@district_code_census", Objform.@DistCode == -1 ? 0 : Objform.@DistCode);
+                cmd.Parameters.AddWithValue("@tehsil_code_census", Objform.@TehsilCode == -1 ? 0 : Objform.@TehsilCode);
+                cmd.Parameters.AddWithValue("@block_code", Objform.@BlockCode == -1 ? 0 : Objform.@BlockCode);
+                cmd.Parameters.AddWithValue("@village_code", Objform.@VillCode == -1 ? 0 : Objform.@VillCode);
                 cmd.Parameters.AddWithValue("UserName", "");
                 cmd.Parameters["UserName"].Direction = ParameterDirection.InputOutput;
                 cmd.Parameters["UserName"].Size = 256;
@@ -1216,11 +1292,11 @@ namespace DI.DAL
                 cmd.Parameters.AddWithValue("u_user_ip", this.IpAddress);
                 cmd.Parameters.AddWithValue("u_mac", this.MacAddress);
                 cmd.Parameters.AddWithValue("Sptype", @sptype);
-                cmd.Parameters.AddWithValue("@Steps", Objform.steps);
-                cmd.Parameters.AddWithValue("@manufacturing", Objform.manufacturing);
-                cmd.Parameters.AddWithValue("@services", Objform.services);
-                cmd.Parameters.AddWithValue("@Is_village_bank", Objform.Is_village_bank);
-                cmd.Parameters.AddWithValue("@service_branch", Objform.service_branch);
+               // cmd.Parameters.AddWithValue("@Steps", Objform.steps);
+                //cmd.Parameters.AddWithValue("@manufacturing", Objform.manufacturing);
+                //cmd.Parameters.AddWithValue("@services", Objform.services);
+                //cmd.Parameters.AddWithValue("@Is_village_bank", Objform.Is_village_bank);
+                //cmd.Parameters.AddWithValue("@service_branch", Objform.service_branch);
                 cmd.Parameters.AddWithValue("Msg", "");
                 cmd.Parameters["Msg"].Size = 256;
                 cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
@@ -1235,6 +1311,43 @@ namespace DI.DAL
 
                 if (applicant_code != -1)
                 {
+                    cmd = new SqlCommand();
+                    cmd.Connection = con;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandText = "[Proc_InsertUpdateMYSY]";
+                    cmd.CommandTimeout = 3600;
+                    cmd.Parameters.AddWithValue("@registration_code", applicant_code);
+                    cmd.Parameters.AddWithValue("@yojana_code", Objform.@yojana_code);
+                    cmd.Parameters.AddWithValue("@proposed_office_address", Objform.proposed_office_address == null ? "" : Objform.proposed_office_address);
+                    cmd.Parameters.AddWithValue("@pansion_card_no", Objform.pansion_card_No == null ? "" : Objform.pansion_card_No);
+                    cmd.Parameters.AddWithValue("@project_name", Objform.@project_name == null ? "" : Objform.project_name);
+                    cmd.Parameters.AddWithValue("@family_income", Objform.@family_income);
+                    cmd.Parameters.AddWithValue("@project_cost", Objform.@project_cost);
+                    cmd.Parameters.AddWithValue("@machinery_cost", Objform.@machinery_cost);
+                    cmd.Parameters.AddWithValue("@working_capital", Objform.@working_capital);
+                    cmd.Parameters.AddWithValue("@bank_code", Objform.bank_code);
+                    cmd.Parameters.AddWithValue("@self_share", Objform.@self_share);
+                    cmd.Parameters.AddWithValue("@deposit_amt", Objform.@deposit_amt);
+                    cmd.Parameters.AddWithValue("@branch_code", Objform.@branch_code );
+                    cmd.Parameters.AddWithValue("@bank_account_no", Objform.@bank_account_no == null ? "" : Objform.bank_account_no);
+                    cmd.Parameters.AddWithValue("@ifsc", Objform.@ifsc == null ? "" : Objform.@ifsc);
+                    cmd.Parameters.AddWithValue("@Steps", Objform.steps);
+                    cmd.Parameters.AddWithValue("@manufacturing", Objform.manufacturing);
+                    cmd.Parameters.AddWithValue("@services", Objform.services);
+                    cmd.Parameters.AddWithValue("@Is_village_bank", Objform.Is_village_bank);
+                    cmd.Parameters.AddWithValue("@service_branch", Objform.service_branch);
+                    cmd.Parameters.AddWithValue("c_user_id", "");
+                    cmd.Parameters.AddWithValue("c_user_ip", this.IpAddress);
+                    cmd.Parameters.AddWithValue("c_mac", this.MacAddress);
+                    cmd.Parameters.AddWithValue("u_user_id", "");
+                    cmd.Parameters.AddWithValue("u_user_ip", this.IpAddress);
+                    cmd.Parameters.AddWithValue("u_mac", this.MacAddress);
+                    cmd.Parameters.AddWithValue("@sptype", @sptype);
+                    cmd.Parameters.AddWithValue("Msg", "");
+                    cmd.Parameters["Msg"].Size = 256;
+                    cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
+                    cmd.Transaction = transaction;
+                    cmd.ExecuteNonQuery();
                     if (objFamily != null)
                     {
                         if (objFamily.Count > 0)
@@ -1284,6 +1397,11 @@ namespace DI.DAL
                         }
                     }
                 }
+                else
+                {
+                    transaction.Rollback();
+                    message = "Sorry transaction fail";
+                }
                 transaction.Commit();
             }
             catch (Exception ex1)
@@ -1291,10 +1409,15 @@ namespace DI.DAL
                 transaction.Rollback();
                 message = ex1.Message;
             }
-            con.Close();
+            finally
+            {
+
+                con.Close();
+                con.Dispose();
+            }
             return message;
         }
-        public string InsertUpdateCMYSS_Applicantfamily(List<CMYSS_Applicant_Family> objFamily)
+        public string InsertUpdateCMYSS_Applicantfamily(List<CMYSS_Applicant_Family> objFamily, string PensionCard, decimal family_income)
         {
             string message = "Save";
             string UserName = "";
@@ -1320,6 +1443,8 @@ namespace DI.DAL
                                 cmd.Parameters.AddWithValue("@person_name", objFamily[i].@person_name);
                                 cmd.Parameters.AddWithValue("@age", objFamily[i].@age);
                                 cmd.Parameters.AddWithValue("@workingfield", objFamily[i].@workingfield);
+                                cmd.Parameters.AddWithValue("@pansion_card_no", PensionCard);
+                                cmd.Parameters.AddWithValue("@family_income", family_income);
                                 cmd.Parameters.AddWithValue("IsFirst", i == 0 ? true : false);
                                 cmd.Parameters.AddWithValue("Msg", "");
                                 cmd.Parameters["Msg"].Size = 256;
@@ -1365,7 +1490,12 @@ namespace DI.DAL
                 transaction.Rollback();
                 message = ex1.Message;
             }
-            con.Close();
+            finally
+            {
+
+                con.Close();
+                con.Dispose();
+            }
             return message;
         }
         public DataSet GetApplicantinfo(long registration_code, short scheme_code, string user_name)
@@ -1376,7 +1506,7 @@ namespace DI.DAL
             {
                 SqlCommand cmd = new SqlCommand(); 
                 cmd.Connection = con;
-                cmd.CommandText = "[Proc_GetRegistrationDetails]";
+                cmd.CommandText = "[Proc_GetRegistrationDetails_MYSY]";
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@registration_code ", registration_code);
                 cmd.Parameters.AddWithValue("@scheme_code", scheme_code);
@@ -1389,7 +1519,12 @@ namespace DI.DAL
             {
                 ds = null;
             }
-            con.Close();
+            finally
+            {
+
+                con.Close();
+                con.Dispose();
+            }
             return ds;
         }
         public DataSet GetApplicant(long applicant_code, short yojana_code, string applicant_user_name)
@@ -1413,7 +1548,12 @@ namespace DI.DAL
             {
                 ds = null;
             }
-            con.Close();
+            finally
+            {
+
+                con.Close();
+                con.Dispose();
+            }
             return ds;
         }
         public string InsertApplicantDoc(List<CMYSS_Applicant_Doc> objdoc)
@@ -1459,7 +1599,12 @@ namespace DI.DAL
                 transaction.Rollback();
                 message = ex1.Message;
             }
-            con.Close();
+            finally
+            {
+
+                con.Close();
+                con.Dispose();
+            }
             return message;
         }
         public string Plot_Applicant(estate_request objER, List<requested_plot> objRP, IndustrialEstateApplicant objApp, bool Sptype)
@@ -1537,10 +1682,10 @@ namespace DI.DAL
                     cmd.Parameters.AddWithValue("panno", objApp.panno == null ? "" : objApp.panno);
                     cmd.Parameters.AddWithValue("cinno", objApp.cinno == null ? "" : objApp.cinno);
                     cmd.Parameters.AddWithValue("address", objApp.address);
-                    cmd.Parameters.AddWithValue("district_code_census", objApp.district_code_census);
-                    cmd.Parameters.AddWithValue("tehsil_code_census", objApp.tehsil_code_census);
-                    cmd.Parameters.AddWithValue("block_code", objApp.block_code);
-                    cmd.Parameters.AddWithValue("village_code", objApp.village_code);
+                    cmd.Parameters.AddWithValue("district_code_census", objApp.district_code_census == -1 ? 0 : objApp.district_code_census);
+                    cmd.Parameters.AddWithValue("tehsil_code_census", objApp.tehsil_code_census == -1 ? 0 : objApp.tehsil_code_census);
+                    cmd.Parameters.AddWithValue("block_code", objApp.block_code == -1 ? 0 : objApp.block_code);
+                    cmd.Parameters.AddWithValue("village_code", objApp.village_code == -1 ? 0 : objApp.village_code);
                     cmd.Parameters.AddWithValue("mobile", objApp.mobile);
                     cmd.Parameters.AddWithValue("email", objApp.email);
                     cmd.Parameters.AddWithValue("industrytype_code_diff", objApp.industrytype_code_diff == null ? "" : objApp.industrytype_code_diff);
@@ -1597,7 +1742,12 @@ namespace DI.DAL
                 transaction.Rollback();
                 message = ex1.Message;
             }
-            con.Close();
+            finally
+            {
+
+                con.Close();
+                con.Dispose();
+            }
             return message;
         }
         #endregion
@@ -1671,7 +1821,12 @@ namespace DI.DAL
             {
                 dt = null;
             }
-            con.Close();
+            finally
+            {
+
+                con.Close();
+                con.Dispose();
+            }
             return dt;
         }
         #endregion
@@ -1694,7 +1849,12 @@ namespace DI.DAL
             {
                 ds = null;
             }
-            con.Close();
+            finally
+            {
+
+                con.Close();
+                con.Dispose();
+            }
             return ds;
         }
         public DataSet Getapplicant_Letter(long applicant_code)
@@ -1716,7 +1876,12 @@ namespace DI.DAL
             {
                 ds = null;
             }
-            con.Close();
+            finally
+            {
+
+                con.Close();
+                con.Dispose();
+            }
             return ds;
         }
     }

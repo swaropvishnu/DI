@@ -21,8 +21,6 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-
-
                 <div class="portlet light bordered">
                     <div class="portlet-title">
                         <div class="caption">
@@ -42,17 +40,13 @@
                         <form action="#" class="form-horizontal">
                             <div class="form-body" style="padding: 0px !important">
                                 @*<h3 class="form-section">Info</h3>*@
-
-
                                 <!--/row-->
-
                                 <div class="row">
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label class="control-label col-md-12 " style="text-align:left" id="lblcomtype">कंपनी का प्रकार <span class="Mandatory">*</span></label>
                                             <div class="col-md-12">
                                                 @Html.DropDownListFor(m => m.ComapnyType, new List<SelectListItem>(), new { @id = "ddlComapnyType", @class = "form-control" })
-
                                             </div>
                                         </div>
                                     </div>
@@ -944,12 +938,12 @@
         }
         function funadd()
         {
-            if (document.getElementById('ddIndustrialEstate').value=="-1") {
+            if (document.getElementById('ddIndustrialEstate').value == "-1")
+            {
                 document.getElementById('ddIndustrialEstate').focus();
                 alert("आस्थान का नाम चयन करे");
                 return;
             }
-
             var IndustrialEstate=  document.getElementById('ddIndustrialEstate').value.trim();
             var IndustrialEstate2 = $('#ddIndustrialEstate').find('option:selected').text();;
             var ISshed = $("#hfrbttype").val();
@@ -957,7 +951,6 @@
             var plot2 = $('#ddlPlotName').find('option:selected').text();
             var shed = document.getElementById('ddlShedName').value.trim();
             var shed2 = $('#ddlShedName').find('option:selected').text();
-
             if (ISshed == "S")
             {
                 if (document.getElementById('ddlShedName').value=="-1") {
@@ -978,7 +971,6 @@
                 alert("आवंटन सं० भरे");
                 return;
             }
-
             var AlotmentNo = document.getElementById('txtAlotmentNo').value.trim();
             var table = document.getElementById("table");
             var row = table.insertRow((table.rows.length - 1) + 1);
@@ -1002,15 +994,11 @@
             }
             cell5.innerHTML = "<input type='text' id='txtAlotmentNo" + (table.rows.length - 1) + "' placeholder='Title' name='txtAlotmentNo' value='" + AlotmentNo + "' maxlength='8' />";
             cell6.innerHTML = "<input type='submit' value='Delete' class='btn red' id='btnadd' onclick='del(" + (table.rows.length - 1) + ")'>";
-           
             document.getElementById("ddlPlotName").value = "-1";
             document.getElementById('ddlShedName').value = "-1";
             document.getElementById('txtAlotmentNo').value = "";
             $("#ddIndustrialEstate").attr("disabled", "disabled");
             $("#ddlDistrict2").attr("disabled", "disabled");
-           
-
-
         }
         function del(id) {
             var table = document.getElementById("table");

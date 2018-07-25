@@ -122,12 +122,13 @@ namespace DI.Models
     public class Plant_mahinery
     {
         public string applicant_name { get; set; }
+        public string registration_code { get; set; }
         public string adhar_no { get; set; }
         public string father_name { get; set; }
         public string office_address { get; set; }
         public string address { get; set; }
         public string mobile_no { get; set; }
-        public string Utpat_name { get; set; }
+        public string manufacturing { get; set; }
         public string Marketingsystem { get; set; }
 
     }

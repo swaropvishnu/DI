@@ -16,7 +16,6 @@ namespace DI.Models
         public int BlockCode { get; set; }
         public int VillCode { get; set; }
         public string inputdob { get; set; }
-      
         public DateTime dob { get; set; }
         [Display(Name = "Date Of Birth")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
@@ -36,12 +35,12 @@ namespace DI.Models
         public Decimal project_cost { get; set; }
         public Decimal machinery_cost { get; set; }
         public Decimal working_capital { get; set; }
-        public string bank_name { get; set; }
+        public short bank_code { get; set; }
         public Decimal self_share { get; set; }
         public Decimal deposit_amt { get; set; }
-        public string branch_name { get; set; }
+        public short branch_code { get; set; }
         public string bank_account_no { get; set; }
-        public string ifsc_code { get; set; }
+        public string ifsc { get; set; }
         public string Mode { get; set; }
         public string c_user_id { get; set; }
         public string c_user_ip { get; set; }
@@ -72,6 +71,8 @@ namespace DI.Models
         public string stepsActive { get; set; }
         public string Is_village_bank { get; set; }
         public string service_branch { get; set; }
+        public string OtherRelation { get; set; }
+        public bool chkfamily { get; set; }
     }
     public class CMYSS_Applicant_Family
     {
@@ -79,7 +80,7 @@ namespace DI.Models
         public string  @relation_code { get; set; }
         public string @person_name { get; set; }
         public int @age { get; set; }
-        public int @workingfield { get; set; }
+        public string  @workingfield { get; set; }
        
     }
     public class CMYSS_Applicant_Doc
@@ -105,7 +106,7 @@ namespace DI.Models
         public long plot_code { get; set; }
         public long request_code { get; set; }
     }
-    public class IndustrialEstateApplicant
+    public class IndustrialEstateApplicant 
     {
         public IList<SelectListItem> zone { get; set; }
         public IList<SelectListItem> Industrialarea { get; set; }
@@ -170,6 +171,25 @@ namespace DI.Models
         public byte[] @doc { get; set; }
         public string @doc_content_type { get; set; }
         public string @doc_type { get; set; }
+
+    }
+    public class Plant_Machinery
+    {
+        public string applicant_name { get; set; }
+        public string registration_code { get; set; }
+        public string adhar_no { get; set; }
+        public string father_name { get; set; }
+        public string office_address { get; set; }
+        public string address { get; set; }
+        public string mobile_no { get; set; }
+        public string manufacturing { get; set; }
+        public string Marketingsystem { get; set; }
+        public decimal fixed_deposite { get; set; }
+        public decimal working_capital { get; set; }
+        public decimal project_cost { get; set; }
+        public decimal total_Production { get; set; }
+        public decimal approx_sale { get; set; }
+        public decimal profit { get; set; }
 
     }
 }

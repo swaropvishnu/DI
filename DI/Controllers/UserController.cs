@@ -33,7 +33,23 @@ namespace DI.Controllers
         }
         public ActionResult PlantAndMachinery_EntryForm()
         {
-            return View();
+
+            Plant_Machinery PM = new Plant_Machinery();
+            if (@UserSession.LoggedInUserName != null)
+                {
+                    DataSet ds = new DAL.CommonDA().GetApplicantinfo(-1, -1, @UserSession.LoggedInUserName);
+                    PM.address = ds.Tables[0].Rows[0]["permanent_address"].ToString().Trim();
+                    PM.adhar_no = ds.Tables[0].Rows[0]["adhar_no"].ToString().Trim();
+                    PM.applicant_name = ds.Tables[0].Rows[0]["applicant_name"].ToString().Trim();
+                    PM.father_name = ds.Tables[0].Rows[0]["father_name"].ToString().Trim();
+                    PM.mobile_no = ds.Tables[0].Rows[0]["mobile_no"].ToString().Trim();
+                    PM.office_address = ds.Tables[0].Rows[0]["proposed_office_address"].ToString().Trim();
+                    PM.manufacturing = ds.Tables[0].Rows[0]["manufacturing"].ToString().Trim();
+                   
+            }
+
+
+            return View(PM);
         }
         //CMYSS_Applicant ad = new CMYSS_Applicant(); PlantAndMachinery_EntryForm
         public ActionResult CMYS_SchemeEntryForm()
@@ -65,43 +81,75 @@ namespace DI.Controllers
                             CM.project_cost = decimal.Parse(ds.Tables[0].Rows[0]["project_cost"].ToString().Trim());
                             CM.machinery_cost = decimal.Parse(ds.Tables[0].Rows[0]["machinery_cost"].ToString().Trim());
                             CM.working_capital = decimal.Parse(ds.Tables[0].Rows[0]["working_capital"].ToString().Trim());
-                            CM.bank_name = ds.Tables[0].Rows[0]["bank_name"].ToString().Trim();
+                            //CM.bank_code = ds.Tables[0].Rows[0]["bank_name"].ToString().Trim();
                             CM.self_share = decimal.Parse(ds.Tables[0].Rows[0]["self_share"].ToString().Trim());
                             CM.deposit_amt = decimal.Parse(ds.Tables[0].Rows[0]["deposit_amt"].ToString().Trim());
-                            CM.branch_name = ds.Tables[0].Rows[0]["branch_name"].ToString().Trim();
+                          //  CM.branch_name = ds.Tables[0].Rows[0]["branch_name"].ToString().Trim();
                             CM.bank_account_no = ds.Tables[0].Rows[0]["bank_account_no"].ToString().Trim();
-                            CM.ifsc_code = ds.Tables[0].Rows[0]["ifsc_code"].ToString().Trim();
-                            CM.DistCode= int.Parse( ds.Tables[0].Rows[0]["district_code_census"].ToString().Trim());
-                            CM.TehsilCode  = int.Parse( ds.Tables[0].Rows[0]["tehsil_code_census"].ToString().Trim());
-                            CM.BlockCode = int.Parse(ds.Tables[0].Rows[0]["block_code"].ToString().Trim()); ;
-                            CM.VillCode = int.Parse(ds.Tables[0].Rows[0]["village_code"].ToString().Trim());
+                           // CM.ifsc_code = ds.Tables[0].Rows[0]["ifsc_code"].ToString().Trim();
+                            CM.DistCode = int.Parse(ds.Tables[0].Rows[0]["district_code_census"].ToString().Trim())==0?-1: int.Parse(ds.Tables[0].Rows[0]["district_code_census"].ToString().Trim());
+                            CM.TehsilCode = int.Parse(ds.Tables[0].Rows[0]["tehsil_code_census"].ToString().Trim())==0?-1: int.Parse(ds.Tables[0].Rows[0]["tehsil_code_census"].ToString().Trim());
+                            CM.BlockCode = int.Parse(ds.Tables[0].Rows[0]["block_code"].ToString().Trim())==0?-1: int.Parse(ds.Tables[0].Rows[0]["block_code"].ToString().Trim()); ;
+                            CM.VillCode = int.Parse(ds.Tables[0].Rows[0]["village_code"].ToString().Trim())==0?-1: int.Parse(ds.Tables[0].Rows[0]["village_code"].ToString().Trim());
+                            StringBuilder str = new StringBuilder();
                             if (ds.Tables[1] != null && ds.Tables[1].Rows.Count > 0)
                             {
-                                if (ds.Tables[1].Rows[0]["relation_code"].ToString().Trim() == "F")
+                                DataTable dtFather = ds.Tables[1].Select("relation_code='F'").CopyToDataTable();
+                                DataTable dtMother = ds.Tables[1].Select("relation_code='M'").CopyToDataTable();
+                                DataTable dtOther = ds.Tables[1].Select("relation_code<>'M' AND relation_code<>'F'").CopyToDataTable();
+                                if (dtFather != null)
                                 {
-                                    CM.Father_Name = ds.Tables[1].Rows[0]["person_name"].ToString().Trim();
-                                    CM.Father_Age = int.Parse(ds.Tables[1].Rows[0]["age"].ToString().Trim());
-                                    CM.Father_work = ds.Tables[1].Rows[0]["workingfield"].ToString().Trim();
+                                    if (dtFather.Rows.Count > 0)
+                                    {
+                                        CM.Father_Name = dtFather.Rows[0]["person_name"].ToString().Trim();
+                                        CM.Father_Age = int.Parse(dtFather.Rows[0]["age"].ToString().Trim());
+                                        CM.Father_work = dtFather.Rows[0]["workingfield"].ToString().Trim();
+                                        CM.chkfamily = true;
+                                    }
+
                                 }
-                                if (ds.Tables[1].Rows[0]["relation_code"].ToString().Trim() == "M")
+                                if (dtMother != null)
                                 {
-                                    CM.Mother_Name = ds.Tables[0].Rows[0]["person_name"].ToString().Trim();
-                                    CM.Mother_Age = int.Parse(ds.Tables[0].Rows[0]["age"].ToString().Trim());
-                                    CM.Mother_work = ds.Tables[0].Rows[0]["workingfield"].ToString().Trim();
+                                    if (dtMother.Rows.Count > 0)
+                                    {
+                                        CM.Mother_Name = dtMother.Rows[0]["person_name"].ToString().Trim();
+                                        CM.Mother_Age = int.Parse(dtMother.Rows[0]["age"].ToString().Trim());
+                                        CM.Mother_work = dtMother.Rows[0]["workingfield"].ToString().Trim();
+                                    }
                                 }
-                                if (ds.Tables[1].Rows[0]["relation_code"].ToString().Trim() == "R")
+
+                                if (dtOther != null)
                                 {
-                                    CM.brother_sister_Name = ds.Tables[0].Rows[0]["person_name"].ToString().Trim();
-                                    CM.brother_sister_Age = int.Parse(ds.Tables[0].Rows[0]["age"].ToString().Trim());
-                                    CM.brother_sister_Work = ds.Tables[0].Rows[0]["workingfield"].ToString().Trim();
+                                    if (dtOther.Rows.Count > 0)
+                                    {
+
+                                        for (int i = 0; i < dtOther.Rows.Count; i++)
+                                        {
+                                            str.Append("<tr>");
+                                            str.Append("<td>" + (i + 1) + "</td>");
+                                            str.Append("<td><input type='hidden' id='hfRelation_Code" + (i + 1) + "' name='hfRelation_Code' value='" + dtOther.Rows[i]["relation_code"].ToString().Trim() + "'><label>" + dtOther.Rows[i]["relation"].ToString().Trim() + "</label></td>");
+                                            str.Append("<td><input type='text' id='txtName" + (i + 1) + "' placeholder='Title' name='txtName' value='" + dtOther.Rows[i]["person_name"].ToString().Trim() + "' maxlength='50'></td>");
+                                            str.Append("<td><input type='text' id='txtAge" + (i + 1) + "' placeholder='Title' name='txtAge' value='" + dtOther.Rows[i]["age"].ToString().Trim() + "' maxlength='2'></td>");
+                                            str.Append("<td><input type='text' id='txtWork" + (i + 1) + "' placeholder='Title' name='txtWork' value='" + dtOther.Rows[i]["workingfield"].ToString().Trim() + "' maxlength='50'></td>");
+                                            str.Append("<td><input type='button' value='Delete' class='btn red' id='btnadd' onclick='del(" + (i + 1) + ")'></td>");
+                                            str.Append("</tr>");
+                                        }
+                                    }
                                 }
-                                if (ds.Tables[1].Rows[0]["relation_code"].ToString().Trim() == "N")
-                                {
-                                    CM.children_Name = ds.Tables[0].Rows[0]["person_name"].ToString().Trim();
-                                    CM.children_Age = int.Parse(ds.Tables[0].Rows[0]["age"].ToString().Trim());
-                                    CM.children_Work = ds.Tables[0].Rows[0]["workingfield"].ToString().Trim();
-                                }
+                                //if (ds.Tables[1].Rows[0]["relation_code"].ToString().Trim() == "R")
+                                //{
+                                //    CM.brother_sister_Name = ds.Tables[0].Rows[0]["person_name"].ToString().Trim();
+                                //    CM.brother_sister_Age = int.Parse(ds.Tables[0].Rows[0]["age"].ToString().Trim());
+                                //    CM.brother_sister_Work = ds.Tables[0].Rows[0]["workingfield"].ToString().Trim();
+                                //}
+                                //if (ds.Tables[1].Rows[0]["relation_code"].ToString().Trim() == "N")
+                                //{
+                                //    CM.children_Name = ds.Tables[0].Rows[0]["person_name"].ToString().Trim();
+                                //    CM.children_Age = int.Parse(ds.Tables[0].Rows[0]["age"].ToString().Trim());
+                                //    CM.children_Work = ds.Tables[0].Rows[0]["workingfield"].ToString().Trim();
+                                //}
                             }
+                            CM.OtherRelation = str.ToString().Trim();
                             CM.manufacturing = ds.Tables[0].Rows[0]["manufacturing"].ToString().Trim();
                             CM.services = ds.Tables[0].Rows[0]["services"].ToString().Trim();
                             CM.steps = ds.Tables[0].Rows[0]["steps"].ToString().Trim();
@@ -114,8 +162,11 @@ namespace DI.Controllers
             {
                 return View(CM);
             }
+            finally
+            {
+            }
         }
-        public JsonResult InsertUpdateCMYSS_Applicant(CMYSS_Applicant Objform, List<CMYSS_Applicant_Doc> objdoc, List<CMYSS_Applicant_Family> objFamily, bool @sptype)
+        public JsonResult InsertUpdateCMYSS_Applicant(CMYSS_Applicant Objform, List<CMYSS_Applicant_Doc> objdoc, List<CMYSS_Applicant_Family> objFamily, string  @sptype)
         {
             try
             {
@@ -131,7 +182,7 @@ namespace DI.Controllers
                 }
                 Objform.@Password = "";
 
-                string str = new DAL.CommonDA().InsertUpdateCMYSS_Applicant(Objform, objdoc, objFamily, @sptype);
+                string str = new DAL.CommonDA().InsertUpdateCMYSS_Applicant(Objform, objdoc, objFamily, "2");
                 return Json(str, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -139,12 +190,11 @@ namespace DI.Controllers
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
         }
-
-        public JsonResult InsertUpdateCMYSS_Applicantfamily(List<CMYSS_Applicant_Family> objFamily)
+        public JsonResult InsertUpdateCMYSS_Applicantfamily(List<CMYSS_Applicant_Family> objFamily, string PensionCard, decimal family_income)
         {
             try
             {
-                string str = new DAL.CommonDA().InsertUpdateCMYSS_Applicantfamily(objFamily);
+                string str = new DAL.CommonDA().InsertUpdateCMYSS_Applicantfamily(objFamily, PensionCard, family_income);
                 return Json(str, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -155,10 +205,6 @@ namespace DI.Controllers
         [HttpPost]
         public ActionResult Uploadfile()
         {
-            string doc_cat = "";
-            string doctype = "";
-            string applicant = "";
-            //HttpFileCollectionBase files, string applicant, string doctype, string doc_cat
             if (Request.Files.Count > 0)
             {
                 try
@@ -193,35 +239,32 @@ namespace DI.Controllers
                             fname2 = file.FileName;
                         }
                         string[] ext = fname.Split('.');
-                        
-                            if (ext[1].ToString().Trim() == "pdf" || ext[1].ToString().Trim() == "docx" || ext[1].ToString().Trim() == "doc" || ext[1].ToString().Trim() == "xls" || ext[1].ToString().Trim() == "jpg" || ext[1].ToString().Trim() == "jpeg" || ext[1].ToString().Trim() == "png" || ext[1].ToString().Trim() == "xlsx")
+
+                        if (ext[1].ToString().Trim() == "pdf" || ext[1].ToString().Trim() == "docx" || ext[1].ToString().Trim() == "doc" || ext[1].ToString().Trim() == "xls" || ext[1].ToString().Trim() == "jpg" || ext[1].ToString().Trim() == "jpeg" || ext[1].ToString().Trim() == "png" || ext[1].ToString().Trim() == "xlsx")
+                        {
+                            DataTable dt = new DataTable();
+                            if (Session["Doc"] == null)
                             {
-
-                                DataTable dt = new DataTable();
-                                if (Session["Doc"] == null)
-                                {
-                                    dt.Rows.Add();
-                                    dt.Columns.Add("applicant_code",typeof (long));
-                                    dt.Columns.Add("doc" ,typeof(System.Byte[]));
-                                    dt.Columns.Add("doc_type",typeof(string));
-                                    dt.Columns.Add("doc_content_type",typeof(string));
-
-                                }
-                                else
-                                {
-                                    dt = (DataTable)Session["Doc"];
-                                    dt.Rows.Add();
-                                }
-                                dt.Rows[dt.Rows.Count - 1]["doc"] = img;
-                                dt.Rows[dt.Rows.Count - 1]["doc_content_type"] = ext[1];
-                                Session["Doc"] = dt;
-                                return Json("files upload");
-
+                                dt.Rows.Add();
+                                dt.Columns.Add("applicant_code", typeof(long));
+                                dt.Columns.Add("doc", typeof(System.Byte[]));
+                                dt.Columns.Add("doc_type", typeof(string));
+                                dt.Columns.Add("doc_content_type", typeof(string));
                             }
                             else
                             {
-                                return Json("only .pdf/.docx /.doc/.xls/.xlsx/.jpg/jpeg/.png  files upload");
+                                dt = (DataTable)Session["Doc"];
+                                dt.Rows.Add();
                             }
+                            dt.Rows[dt.Rows.Count - 1]["doc"] = img;
+                            dt.Rows[dt.Rows.Count - 1]["doc_content_type"] = ext[1];
+                            Session["Doc"] = dt;
+                            return Json("files upload");
+                        }
+                        else
+                        {
+                            return Json("only .pdf/.docx /.doc/.xls/.xlsx/.jpg/jpeg/.png  files upload");
+                        }
                     }
                     return Json("File Uploaded Successfully!");
                 }
@@ -229,81 +272,78 @@ namespace DI.Controllers
                 {
                     return Json("Error occurred. Error details: " + ex.Message);
                 }
+                finally
+                {
+                }
             }
             else
             {
                 return Json("No files selected.");
             }
         }
-        //InsertUpdatedoc
-        //[HttpPost]
-        //public ActionResult UploadPdf()
-        //{
-        //    if (Request.Files.Count > 0)
-        //    {
-        //        try
-        //        {
-        //            string fname = "";
-        //            string fname2 = "";
-        //            HttpFileCollectionBase files = Request.Files;
-        //            for (int i = 0; i < files.Count; i++)
-        //            {
-        //               // string path = AppDomain.CurrentDomain.BaseDirectory + "Uploads/";
-        //                //string filename = Path.GetFileName(Request.Files[i].FileName);
-        //                HttpPostedFileBase file = files[i];
-        //                byte[] doc= new byte[file.ContentLength];
-        //                if (Request.Browser.Browser.ToUpper() == "IE" || Request.Browser.Browser.ToUpper() == "INTERNETEXPLORER")
-        //                {
-        //                    string[] testfiles = file.FileName.Split(new char[] { '\\' });
-        //                    fname = testfiles[testfiles.Length - 1];
-        //                    fname2 = testfiles[testfiles.Length - 1];
-        //                }
-        //                else
-        //                {
-        //                    fname = file.FileName;
-        //                    fname2 = file.FileName;
-        //                }
-        //                string[] ext = fname.Split('.');
-        //                if (ext[1].ToString().Trim() == "pdf" || ext[1].ToString().Trim() == "docx" || ext[1].ToString().Trim() == "doc" || ext[1].ToString().Trim() == "xls" || ext[1].ToString().Trim() == "jpg" || ext[1].ToString().Trim() == "jpeg" || ext[1].ToString().Trim() == "png" || ext[1].ToString().Trim() == "xlsx")
-        //                {
-        //                    file.InputStream.Read(doc, 0, file.ContentLength);
-        //                    //fname = Path.Combine(Server.MapPath("~/Uploads/"), fname);
-        //                    //file.SaveAs(fname);
-        //                }
-        //                else
-        //                {
-        //                    return Json("only .pdf/.docx /.doc/.xls/.xlsx/.jpg/jpeg/.png  files upload");
-        //                }
-        //            }
-        //            return Json("File Uploaded Successfully!" + "~/Uploads/" + fname2.Trim());
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            return Json("Error occurred. Error details: " + ex.Message);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        return Json("No files selected.");
-        //    }
-        //}
         public JsonResult Uploadfiledone(string doc_type, string applicant_code)
         {
-            DataTable dt = (DataTable)Session["Doc"];
-            dt.Rows[dt.Rows.Count - 1]["doc_type"] = doc_type;
-            dt.Rows[dt.Rows.Count - 1]["applicant_code"] = applicant_code;
-            return Json("Record Save", JsonRequestBehavior.AllowGet);
+            try
+            {
+                DataTable dt = (DataTable)Session["Doc"];
+                DataTable dt2 = new DataTable();
+                if (dt != null)
+                {
+                    if (dt.Select("doc_type='" + doc_type + "'") != null && dt.Select("doc_type='" + doc_type + "'").Length > 0)
+                    {
+                        dt2 = dt.Select("doc_type='" + doc_type + "'").CopyToDataTable();
+                    }
+                    if (dt2 != null)
+                    {
+                        if (dt2.Rows.Count > 0)
+                        {
+                            List<DataRow> rows_to_remove = new List<DataRow>();
+                            foreach (DataRow row1 in dt.Rows)
+                            {
+                                foreach (DataRow row2 in dt2.Rows)
+                                {
+                                    if (row1["doc_type"].ToString() == row2["doc_type"].ToString())
+                                    {
+                                        rows_to_remove.Add(row1);
+                                    }
+                                }
+                            }
+
+                            foreach (DataRow row in rows_to_remove)
+                            {
+                                dt.Rows.Remove(row);
+                                dt.AcceptChanges();
+                            }
+                        }
+
+                    }
+                    dt.Rows[dt.Rows.Count - 1]["doc_type"] = doc_type;
+                    dt.Rows[dt.Rows.Count - 1]["applicant_code"] = applicant_code;
+                    Session["Doc"] = dt;
+                }
+                return Json("Record Save", JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+            finally
+            {
+            }
+
+
         }
         public JsonResult InsertUpdatedoc2()
         {
             try
             {
-                if (Session["Doc"]!=null)
+                if (Session["Doc"] != null)
                 {
                     DataTable dt = (DataTable)Session["Doc"];
                     if (dt != null)
                     {
-                        if (dt.Rows.Count ==7)
+                        if (dt.Rows.Count >= 7)
                         {
                             string msg = new DAL.CommonDA().InsertUpdateCMYSS_Applicantdoc2(dt);
                             if (msg.Contains("Save"))
@@ -335,38 +375,78 @@ namespace DI.Controllers
             {
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
+            finally
+            {
+            }
 
         }
-
         public ActionResult GetDistrict()
         {
             List<SelectListItem> distNames = new List<SelectListItem>();
             CMODataEntryBLL.bindDropDownHnGrid("proc_Detail", distNames, "ds", "28", "10");
             return Json(distNames, JsonRequestBehavior.AllowGet);
         }
-
         public JsonResult Getplot(int EstateCode)
         {
-            StringBuilder str = new StringBuilder();
-            DataTable dt = new DAL.CommonDA().GetPlotInfo(EstateCode, -1, "", "", BLL.CommonBL.Setdate("01/01/1990"), DateTime.Now, "", "");
-            if (dt != null)
+            try
             {
-                if (dt.Rows.Count > 0)
+                StringBuilder str = new StringBuilder();
+                DataTable dt = new DAL.CommonDA().GetPlotInfo(EstateCode, -1, "", "", BLL.CommonBL.Setdate("01/01/1990"), DateTime.Now, "", "");
+                if (dt != null)
                 {
-                    for (int i = 0; i < dt.Rows.Count; i++)
+                    if (dt.Rows.Count > 0)
                     {
-                        str.Append("<tr>");
-                        str.Append("<td>"+(i+1)+"</td>");
-                        str.Append("<td>"+ dt.Rows[i]["PlotSerial"].ToString().Trim() + "</td>");
-                        str.Append("<td>" + dt.Rows[i]["Plot_Area"].ToString().Trim() + "</td>");
-                        str.Append("<td><input id='Checkbox"+ (i + 1) + "' type='checkbox' onclick='funplot(&#39;" + dt.Rows[i]["PlotSerial"].ToString().Trim() + "&#39;,&#39;Checkbox" + (i + 1) + "&#39;)' /></td>");
-                        str.Append("</tr>");
+                        for (int i = 0; i < dt.Rows.Count; i++)
+                        {
+                            str.Append("<tr>");
+                            str.Append("<td>" + (i + 1) + "</td>");
+                            str.Append("<td>" + dt.Rows[i]["PlotSerial"].ToString().Trim() + "</td>");
+                            str.Append("<td>" + dt.Rows[i]["Plot_Area"].ToString().Trim() + "</td>");
+                            str.Append("<td><input id='Checkbox" + (i + 1) + "' type='checkbox' onclick='funplot(&#39;" + dt.Rows[i]["PlotSerial"].ToString().Trim() + "&#39;,&#39;Checkbox" + (i + 1) + "&#39;)' /></td>");
+                            str.Append("</tr>");
+                        }
                     }
                 }
+                return Json(str.ToString().Trim(), JsonRequestBehavior.AllowGet);
             }
-            return Json(str.ToString().Trim(), JsonRequestBehavior.AllowGet);
+            catch (Exception ex)
+            {
+
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+            finally
+            {
+            }
         }
 
+
+
+        public JsonResult ApplicantImage()
+        {
+            try
+            {
+                string str = "";
+                DataSet ds = new DataSet();
+                ds = new DAL.CommonDA().GetApplicantinfo(-1, -1, UserSession.LoggedInUserName);
+
+                if (ds != null)
+                {
+                    if (ds.Tables[2].Rows.Count > 0)
+                    {
+                        str = ds.Tables[2].Rows[0]["image1"].ToString().Trim();
+                    }
+                }
+                return Json(str.ToString().Trim(), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+            finally
+            {
+            }
+        }
         public ActionResult certificate_Letter()
         {
             return View();
@@ -382,17 +462,13 @@ namespace DI.Controllers
                 // First we clean the authentication ticket like always
                 //required NameSpace: using System.Web.Security;
                 FormsAuthentication.SignOut();
-
                 // Second we clear the principal to ensure the user does not retain any authentication
                 //required NameSpace: using System.Security.Principal;
                 HttpContext.User = new GenericPrincipal(new GenericIdentity(string.Empty), null);
-
                 Session.Clear();
                 System.Web.HttpContext.Current.Session.RemoveAll();
-
                 // Last we redirect to a controller/action that requires authentication to ensure a redirect takes place
                 // this clears the Request.IsAuthenticated flag since this triggers a new request
-
                 Session.Abandon(); // it will clear the session at the end of request
                 return RedirectToAction("Registration_Login", "Login");
             }
@@ -410,6 +486,12 @@ namespace DI.Controllers
         {
             List<SelectListItem> Estate = new List<SelectListItem>();
             CMODataEntryBLL.bindDropDownHnGrid("proc_Detail", Estate, "IE", ID.ToString().Trim(), "");
+            return Json(Estate, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult GetRelation()
+        {
+            List<SelectListItem> Estate = new List<SelectListItem>();
+            CMODataEntryBLL.bindDropDownHnGrid("proc_Detail", Estate, "R", "", "");
             return Json(Estate, JsonRequestBehavior.AllowGet);
         }
         public ActionResult GetZone()
@@ -434,13 +516,13 @@ namespace DI.Controllers
                 }
                 string[] dobTime = objApp.inputdob.ToString().Split(' ');
                 string[] dob = dobTime[0].Split('/');
-               // string pass = FormsAuthentication.HashPasswordForStoringInConfigFile(dob[2].ToString().Trim() + dob[1].ToString().Trim() + dob[0].ToString().Trim(), "sha256");
-                objApp.Password = FormsAuthentication.HashPasswordForStoringInConfigFile(dob[2].ToString().Trim() + dob[1].ToString().Trim()+ dob[0].ToString().Trim()+"234", "sha256");
-                string str = new DAL.CommonDA().Plot_Applicant(objER, objRP, objApp,false);
+                // string pass = FormsAuthentication.HashPasswordForStoringInConfigFile(dob[2].ToString().Trim() + dob[1].ToString().Trim() + dob[0].ToString().Trim(), "sha256");
+                objApp.Password = FormsAuthentication.HashPasswordForStoringInConfigFile(dob[2].ToString().Trim() + dob[1].ToString().Trim() + dob[0].ToString().Trim() + "234", "sha256");
+                string str = new DAL.CommonDA().Plot_Applicant(objER, objRP, objApp, false);
                 if (str.Contains("Save") && str.Contains("/"))
                 {
                     string[] Msg = str.Split('/');
-                    return Json(Msg[0] + "\n" + "User Name :" + Msg[1] + "\n" + "Password :" + dob[2].ToString().Trim() + dob[1].ToString().Trim()  + dob[0].ToString().Trim(), JsonRequestBehavior.AllowGet);
+                    return Json(Msg[0] + "\n" + "User Name :" + Msg[1] + "\n" + "Password :" + dob[2].ToString().Trim() + dob[1].ToString().Trim() + dob[0].ToString().Trim(), JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
@@ -450,6 +532,9 @@ namespace DI.Controllers
             catch (Exception ex)
             {
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+            finally
+            {
             }
 
         }

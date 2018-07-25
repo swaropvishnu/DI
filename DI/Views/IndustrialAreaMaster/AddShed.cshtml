@@ -1,5 +1,4 @@
 ﻿@model DI.Models.AddShed
-
 @{
     ViewBag.Title = "AddShed";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -13,13 +12,10 @@
 @using DI.Models;
 @using DI.DAL;
 @using DI.BLL;
-
 @{
     //var grid = new WebGrid(Model, rowsPerPage: 20);
     DataTable dt = new CommonDA().GetShed(-1, -1, "", "", CommonBL.Setdate("01/01/1990"), DateTime.Now, "", "");
 }
-
-
 @using (Html.BeginForm("AddShed", "IndustrialAreaMaster", FormMethod.Post, new { @class = "", enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
@@ -32,8 +28,6 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-
-
                 <div class="portlet light bordered">
                     <div class="portlet-title">
                         <div class="caption">
@@ -111,7 +105,6 @@
                                     <!--/span-->
                                 </div>
                                 <!--/row-->
-
                                 <div class="row">
                                     <div class="col-md-3">
                                         <div class="form-group">
@@ -119,7 +112,6 @@
                                             <div class="col-md-12">
                                                 @*<input type="checkbox" class="make-switch" data-on-text="हाँ" data-off-text="नहीं">*@
                                                 @Html.CheckBoxFor(m => m.IsShed_Assigned, new { @name = "Alloted_shadeCheckBox", @id = "ShadeAllotedYes", @class = "make-switch" })
-
                                             </div>
                                         </div>
                                     </div>
@@ -130,7 +122,6 @@
                                             <div class="col-md-12">
                                                 @*<input type="checkbox" class="make-switch" data-on-text="हाँ" data-off-text="नहीं">*@
                                                 @Html.CheckBoxFor(m => m.IsShed_Disputed, new { @name = "ShadedisputedCheckBox", @id = "ShadedisputedYes", @class = "make-switch" })
-
                                             </div>
                                         </div>
                                     </div>
@@ -157,7 +148,6 @@
                                     <!--/span-->
                                 </div>
                                 <!--/row-->
-
                             </div>
                             <div class="form-actions">
                                 <div class="row">
@@ -180,14 +170,12 @@
             </div>
         </div>
 </div>
-
         <!-- Begin: life time stats -->
         <div class="portlet light">
             <div class="portlet-title">
                 <div class="caption">
                     <i class="fa fa-th-list"></i>शेडों का संशोधन
                 </div>
-
             </div>
             <div class="portlet-body">
                 <div class="table-container">
@@ -218,7 +206,6 @@
                                 <th width="15%"> शेड&nbsp;का नाम </th>
                                 <th width="10%"> शेड सं० </th>
                                 <th width="10%"> क्षेत्रफल </th>
-
                                 <th width="10%"> आवंटन स्थिति </th>
                                 <th width="10%"> विवाद स्थिति </th>
                                 <th width="10%"> शेड विवरण </th>
@@ -226,8 +213,6 @@
                                 <th width="10%">  </th>
                                 <th width="10%">  </th>
                             </tr>
-
-
                             @if (dt != null)
 {
     if (dt.Rows.Count > 0)
@@ -258,8 +243,6 @@
         }
     }
 }
-
-
                     @*<tr role="row" class="filter">
                             <td> </td>
                             <td>
@@ -342,7 +325,6 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $('#ddlDistrict').change(function () {
-
             //  alert("done");
             $.ajax({
                 type: "post",
@@ -364,8 +346,6 @@
             });
         });
     });
-
-
     function res() {
         location.reload();
     }
@@ -410,7 +390,6 @@
             "IsShed_Disputed": IsShed_Disputed,//document.getElementById("PlotdisputedYes").value,
             "Shed_Desc": document.getElementById("txtShedDetail").value==""?" ":document.getElementById("txtShedDetail").value ,
             "Shed_Allottee_Desc": document.getElementById("txtName_Allottee").value==""?" ":document.getElementById("txtName_Allottee").value ,
-
         }
         $.ajax({
             url: '/IndustrialAreaMaster/InsertUpdateShed',
@@ -443,8 +422,6 @@
         }
         return ret;
     }
-
-
     function edit(ShedCode, tbl_IndustrialAreaCode, ShedSerial,ShedName,Shed_Area, IsShed_Assigned, IsShed_Disputed, Shed_Desc, Shed_Allottee_Desc,district_code_census) {
         document.getElementById("ddlDistrict").value=district_code_census;
         $.ajax({
@@ -465,7 +442,6 @@
                 $('#ddlIndustrialArea').val(tbl_IndustrialAreaCode);
             }
         });
-
         document.getElementById("hfShedCode").value = ShedCode;
         document.getElementById("ddlIndustrialArea").value = tbl_IndustrialAreaCode;
         document.getElementById("txtshed_SNo").value = ShedSerial;
@@ -491,8 +467,6 @@
             $('#ShadedisputedYes').bootstrapSwitch('state', false);
             //document.getElementById("ShadedisputedYes").checked = false;
         }
-
-
         document.getElementById("txtShedDetail").value = Shed_Desc;
         document.getElementById("txtName_Allottee").value = Shed_Allottee_Desc;
         //document.getElementById("btnsave").value = "Update";
@@ -501,12 +475,8 @@
         window.scrollTo(0, x.top); //window.scrollTo() scrolls the page upto certain position....
         //it takes 2 parameters : (x axis cordinate, y axis cordinate);
     }
-
     function del(X) {
-
-
         var M01 = {
-
             "ShedCode": X,
             "IndustrialEstateCode": "-1",
             "ShedSerial": "X",
@@ -516,7 +486,6 @@
             "IsShed_Disputed": "X",//document.getElementById("PlotdisputedYes").value,
             "Shed_Desc": "X",
             "Shed_Allottee_Desc": "X",
-
         }
         $.ajax({
             url: '/IndustrialAreaMaster/InsertUpdateShed',

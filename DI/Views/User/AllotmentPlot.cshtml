@@ -7,12 +7,10 @@
     .Mandatory {
         color: red !important;
     }
-
     .white {
         color: #000;
         background-color: #fff;
     }
-
     .btn-facebook {
         color: #ffffff;
         -webkit-text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
@@ -30,7 +28,6 @@
         filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff3b5998', endColorstr='#ff133783', GradientType=0);
         filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
     }
-
         .btn-facebook:hover,
         .btn-facebook:focus,
         .btn-facebook:active,
@@ -41,31 +38,25 @@
             background-color: #133783 !important;
             *background-color: #102e6d !important;
         }
-
         .btn-facebook:active,
         .btn-facebook.active {
             background-color: #0d2456 \9 !important;
         }
-
     .panel-heading {
         text-align: center;
         background-color: #295888 !important;
         color: #fff !important;
     }
-
     .panel01 {
         padding: 10px;
     }
-
     .panel02 {
         border: 1px solid #d2d0d0;
         padding: 10px;
     }
-
     .panel03 {
         padding: 10px;
     }
-
     input:focus, textarea:focus, select:focus {
         outline: none !important;
         border-color: #38af05 !important;
@@ -76,7 +67,6 @@
 <script src="~/scripts/jquery-3.2.1.min.js"></script>
 <script src="~/scripts/bootstrap.min.js"></script>
 <link href="~/Content/jquery-ui.css" rel="stylesheet" />
-
 <script src="~/Content/plugins/jquery-ui.js"></script>
 <div class="portlet box green ">
     <div class="portlet-title">
@@ -154,17 +144,13 @@
                                                     <div class="col-md-4 col-sm-2 col-xs-2">
                                                         P3 <input name="txtp3" type="text" id="txtp3" disabled="disabled" class="dropdown_background aspNetDisabled  margin-left-z input-sm similar-select1 lable_">
                                                     </div>
-
                                                     <div class="clearfix"></div>
                                                     <hr class="myhrline">
                                                 </div>
                                             </div>
-
                                         </div>
                                     </div>
-
                                     <div class="form-group" style="padding: 7px 0; background: #ececec;">
-
                                         <div class="form-group">
                                             <div class="col-md-12 col-sm-12 col-xs-12 font-bold">
                                                 <span class="note-block span_text">
@@ -231,16 +217,11 @@
         <div class="clearfix"></div>
         <div class="panel-heading font-bold">Deposite Details Based on your Choice</div>
         <div style="border: 1px solid #ccc;">
-
         </div>
-
     </div>
-
     </div>
-
 <div id="myModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
-
         <!-- Modal content-->
         <div class="modal-content">
 
@@ -251,8 +232,6 @@
             <div class="modal-body">
                 <form>
                     @*<div class="panel-primary">
-
-
                         </div>*@
                     <div class="col-sm-12 panel02">
                        
@@ -268,6 +247,7 @@
                             </div>
                         </div>
                         <div class="row">
+
                             <div class="col-sm-6 form-group">
                                 <label id="lblfather">Father's Name<span class="Mandatory">*</span></label>
                                 @Html.TextBoxFor(m => m.father_name , new { @class = "form-control", @id = "txtHusband_father_name", @placeholder = "पिता/पति का नाम ", @Maxlength = 40 })
@@ -584,7 +564,6 @@
         } catch (e) {
             alert(e);
         }
-        
     }
     var specialKeys = new Array();
     specialKeys.push(47); // for Forward Slash(/)

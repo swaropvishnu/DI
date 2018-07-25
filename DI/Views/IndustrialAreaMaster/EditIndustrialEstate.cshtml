@@ -433,6 +433,8 @@
                                 //alert(district);
                                 $('#ddlTehsil').append(district);
                                 $('#ddlTehsil').val($('#hfddlTehsil').val());
+                                $('#ddlBlock').val("-1");
+                                $('#ddlVillage').val("-1");
                             }
                         });
                     });
@@ -457,6 +459,7 @@
                                 //alert(district);
                                 $('#ddlBlock').append(block);
                                 $('#ddlBlock').val($('#hfddlBlock').val());
+                                $('#ddlVillage').val("-1");
                             }
                         });
                     });

@@ -72,7 +72,12 @@
                 background-color: #295888 !important;
                 color: #fff !important;
             }
-
+            .panel-heading2 {
+                text-align: center;
+                background-color: #38af05 !important;
+                color: #fff !important;
+              height:30px
+            }
             .panel01 {
                 padding: 10px;
             }
@@ -91,6 +96,7 @@
                 border-color: #38af05 !important;
                 box-shadow: 0 0 10px #38af05 !important;
             }
+            .pointer {cursor: pointer;}
         </style>
         <script src="~/scripts/sha256.js"></script>
         <script>
@@ -256,7 +262,7 @@
                                         <div class="form-group">
                                             <div class="row">
                                                 <div class="col-lg-3">
-                                                    <label id="lblCaptcha"><img id="image" src="/Login/ShowCaptchaImage" style="margin-top: 8px;" /></label>
+                                                    <label id="lblCaptcha"><img id="image" src="~/Login/ShowCaptchaImage" style="margin-top: 8px;" /></label>
                                                 </div>
                                                 <div class="col-lg-3" style="font-weight:bolder; margin-top: 18px;">
                                                     <a href="#" onclick="javascript:ReloadCaptchaCode();">Refresh</a>
@@ -277,26 +283,23 @@
                                             <button type="button" class="btn green pull-right" onclick="HashPwdwithSalt();"> Login </button>
                                         </div>
 
-
-
-
-
-
-                                        <div class="col-md-6">
-                                            <button type="button" class="btn red-flamingo" data-toggle="modal" data-target="#myModal" data-backdrop="static" data-keyboard="false">New User</button>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label style="color:white">. </label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <a href="javascript:;" id="" style="text-align:right; padding-bottom:inherit">Forgot your password </a>
-                                        </div>
-                                        <div class="forget-password">
-
-                                        </div>
-                                    </fieldset>
+                                        
+                                            @*<div class="col-md-6">
+                                               <p  style="color:#fff">.</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <a href="javascript:;" id="" style="text-align:right; padding-bottom:inherit" >Forgot your password </a>
+                                            </div>*@
+</fieldset>
                                 </form>
+                                
                             </div>
+                            <a href="javascript:;" id="" style="text-align:right; padding-bottom:inherit">Forgot your password </a>
+                            <div class="panel-heading">
+                                <h3 class="panel-title pointer" data-toggle="modal" data-target="#myModal" data-backdrop="static" data-keyboard="false">New User</h3>
+                                @*<button type="button" class="panel-title " data-toggle="modal" data-target="#myModal" data-backdrop="static" data-keyboard="false">New User</button>*@
+                            </div>
+
                         </div>
                         <div class="panel panel-default">
                             <h3><i class="icon-share font-dark"></i> &nbsp;&nbsp;Application Status</h3>
@@ -475,6 +478,29 @@
                                             <input type="text" placeholder="Enter Company Name Here.." class="form-control">
                                         </div>
                                     </div>*@
+                                <div class="portlet-title">
+                                    <div class="caption">
+                                        <i class="icon-layers font-red"></i>
+                                        <span class="caption-subject font-red bold uppercase">
+                                            महत्वपूर्ण
+                                            <span class="step-title"> ध्यान दें </span>
+                                        </span>
+
+                                    </div>
+                                </div>
+                                <div class="row ">
+
+                                    <div class="form-group">
+
+                                        <div class="col-md-2">
+
+                                        </div>
+                                        <div class="col-md-10 bold">
+                                            <p class="font-red"><input type="checkbox" id="chkaadhar" />  मुझे अपना आधार नंबर इस योजना में देने में कोई आपत्ति  नहीं है </p>
+                                        </div>
+
+                                    </div>
+                                </div>
                                 <button type="button" class="btn btn-lg btn-info" onclick="Save()">Submit</button>
                             </div>
                         </form>
@@ -505,6 +531,14 @@
             $('#lblphone').removeAttr('style');
             $('#lbldob').removeAttr('style');
             $('#lbladress').removeAttr('style');
+            if ($('#chkaadhar').prop('checked')) {
+
+            }
+            else {
+                $('#chkaadhar').focus();
+                alert("Please check declaration");
+                return;
+            }
             if (document.getElementById("ddlRegScheme").value == "-1") {
                 document.getElementById("ddlRegScheme").focus();
                 $('#lblscheme').css('color', 'red');

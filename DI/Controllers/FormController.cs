@@ -144,20 +144,20 @@ namespace DI.Controllers
             return Json(villageNames, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult InsertUpdateMYSY(AddMYSY Objform)
-        {
-            try
-            {
-                Objform.Mode = "Insert";
-                string str = new DAL.CommonDA().InsertUpdateMYSY(Objform);
-                return Json(str, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                return Json(ex.Message, JsonRequestBehavior.AllowGet);
-            }
+        //public JsonResult InsertUpdateMYSY(AddMYSY Objform)
+        //{
+        //    try
+        //    {
+        //        Objform.Mode = "Insert";
+        //        string str =""// new DAL.CommonDA().InsertUpdateMYSY(Objform);
+        //        return Json(str, JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Json(ex.Message, JsonRequestBehavior.AllowGet);
+        //    }
 
-        }
+        //}
 
         public ActionResult GetMYSY()
         {
