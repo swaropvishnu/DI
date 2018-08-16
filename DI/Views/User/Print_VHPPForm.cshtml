@@ -1,0 +1,225 @@
+﻿
+@{
+    ViewBag.Title = "Print_VHPPForm";
+    Layout = "~/Views/Shared/UserLayout.cshtml";
+}
+
+@using System.Data;
+@using DI.Models;
+@using DI.DAL;
+@using DI.BLL;
+@{
+    DataSet ds = new DataSet();
+    ds = new CommonDA().GetApplicantinfo_vhpp(-1, -1, UserSession.LoggedInUserName);
+
+    var imag = "";
+    if (ds != null)
+    {
+        if (ds.Tables[0] != null)
+        {
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                imag = "<img " + "src='" + "data:image/" + ds.Tables[0].Rows[0]["doc_content_type"].ToString().Trim() + ";base64," + Convert.ToBase64String((Byte[])(ds.Tables[0].Rows[0]["image"]), 0) + "' style='width:75px ,height:65px'/>";
+            }
+        }
+
+    }
+}
+<style>
+    img {
+        page-break-inside: avoid;
+    }
+
+    .img-rounded {
+        border-radius: 6px;
+        Height: 100px;
+        Width: 109px;
+    }
+</style>
+<script type="text/javascript">
+    window.history.forward();
+</script>
+<script language="javascript" type="text/javascript">
+    function printDiv(divID) {
+        //Get the HTML of div
+        var divElements = document.getElementById(divID).innerHTML;
+        //Get the HTML of whole page
+        var oldPage = document.body.innerHTML;
+        //Reset the page's HTML with div's HTML only
+        document.body.innerHTML =
+           "<html><head><title></title></head><body>" +
+            "<div >" + divElements + "</div></body>";
+        //Print Page
+        window.print();
+        //Restore orignal HTML
+        document.body.innerHTML = oldPage;
+    }
+</script>
+<div style="background-color:white ;">
+    <div style="margin-left:79%; ">
+        <button type="button" class="btn green" onclick="javascript:printDiv('reportdiv')" style="margin-left:5%;margin-right:5%;" id="btnprint">Print</button>
+    </div>
+    <div class="row">
+        @using (Html.BeginForm("Print_VHPPForm", "user", FormMethod.Post, new { @class = "", enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+            <div id="reportdiv">
+                @if (ds != null)
+                {
+                    if (ds.Tables[0] != null)
+                    {
+                        if (ds.Tables[0].Rows.Count > 0)
+                        {
+                            <h4 class="title" align="center" style="font-weight:bold;text-decoration: underline">
+                                विशिष्ट हस्तशिल्प प्रादेशिक पुरस्कार योजना
+                            </h4>
+                            <table class="table-responsive" border="0" style="width:80%" align="center">
+                                <tr>
+                                    <td style="font-size:15px" width:"40%">
+                                        <h5 class="category" align="left" style="font-weight:bold;">प्रार्थना पत्र  क्रमांक: @ds.Tables[0].Rows[0]["user_name"].ToString().Trim()</h5>
+                                    </td>
+                                    <td style="font-size:15px" width:"40%">
+
+                                        <h5 class="category" align="right" style="font-weight:bold;">दिनांक: @ds.Tables[0].Rows[0]["entrydate"].ToString().Trim()</h5>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br />
+                            <table class="table-responsive tblcss" border="1" style="width:80%" align="center">
+
+
+                                <tr>
+                                    <td style="text-align: center;" width="39px">&nbsp;1.</td>
+                                    <td width="30%">&nbsp;&nbsp; शिल्पकार का नाम :</td>
+                                    <td width="50%">&nbsp;&nbsp;@ds.Tables[0].Rows[0]["applicant_name"].ToString().Trim()</td>
+                                    <td rowspan="5">
+                                        <div class="center-align">@Html.Raw(imag)</div>
+
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td style="text-align: center;">2.</td>
+                                    <td>&nbsp;&nbsp;शिल्पकार की आयु</td>
+                                    <td>&nbsp;&nbsp;@ds.Tables[0].Rows[0]["Age"].ToString().Trim()</td>
+
+                                </tr>
+
+                                <tr>
+                                    <td style="text-align: center;">3.</td>
+                                    <td>&nbsp;&nbsp;आधार कार्ड नं0</td>
+                                    <td>&nbsp;&nbsp;@ds.Tables[0].Rows[0]["adhar_No"].ToString().Trim()</td>
+                                </tr>
+
+                                <tr>
+                                    <td style="text-align: center;">4.</td>
+                                    <td>&nbsp;&nbsp;शिल्पकार के पिता/पति का नाम</td>
+
+                                    <td>&nbsp;&nbsp;@ds.Tables[0].Rows[0]["father_Name"].ToString().Trim()</td>
+                                </tr>
+
+                                <tr>
+                                    <td style="text-align: center;">5.</td>
+                                    <td>&nbsp;&nbsp;शिल्पकार का अस्थाई पता</td>
+                                    <td>&nbsp;&nbsp;@ds.Tables[0].Rows[0]["current_address"].ToString().Trim()</td>
+
+                                </tr>
+
+                                <tr>
+                                    <td style="text-align: center;">6.</td>
+                                    <td>&nbsp;&nbsp; शिल्पकार का स्थाई पता</td>
+                                    <td colspan="2">&nbsp;&nbsp;@ds.Tables[0].Rows[0]["permanent_address"].ToString().Trim()</td>
+                                </tr>
+
+                                <tr>
+                                    <td style="text-align: center;">7.</td>
+                                    <td>&nbsp;&nbsp;शिल्पकार का हस्तशिल्पी पहचान पत्र संख्या</td>
+                                    <td colspan="2">&nbsp;&nbsp;@ds.Tables[0].Rows[0]["id_no"].ToString().Trim()</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;">8.</td>
+                                    <td>&nbsp;&nbsp;मोबाइल नं0</td>
+                                    <td colspan="2">&nbsp;&nbsp;@ds.Tables[0].Rows[0]["mobile_no"].ToString().Trim()</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;">9.</td>
+                                    <td>&nbsp;&nbsp;ई-मेल आई0डी0 (यदि हो तो)</td>
+                                    <td colspan="2">&nbsp;&nbsp;@ds.Tables[0].Rows[0]["email"].ToString().Trim()</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;">10.</td>
+                                    <td>&nbsp;&nbsp;शिल्प का नाम</td>
+                                    <td colspan="2">&nbsp;&nbsp;@ds.Tables[0].Rows[0]["craft_name"].ToString().Trim()</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;">11.</td>
+                                    <td>&nbsp;&nbsp;शिल्पकार का गुरू जिससे शिल्पकार्य सीखा है।</td>
+                                    <td colspan="2">&nbsp;&nbsp;@ds.Tables[0].Rows[0]["teacher"].ToString().Trim()</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;">12.</td>
+                                    <td>&nbsp;&nbsp;शिल्पकार द्वारा कब से शिल्पकार्य किया जा रहा है।।</td>
+                                    <td colspan="2">&nbsp;&nbsp;@ds.Tables[0].Rows[0]["architect_experience"].ToString().Trim()</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;">13.</td>
+                                    <td>&nbsp;&nbsp;शिल्पकार को किये जाने का उद्देश्य क्या है।।</td>
+                                    <td colspan="2">&nbsp;&nbsp;@ds.Tables[0].Rows[0]["artwork_subject"].ToString().Trim()</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;">14.</td>
+                                    <td>&nbsp;&nbsp;कलाकृति का नाम।</td>
+                                    <td colspan="2">&nbsp;&nbsp;@ds.Tables[0].Rows[0]["artwork_name"].ToString().Trim()</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;">15.</td>
+                                    <td>&nbsp;&nbsp;कलाकृति का मूल्य (रूपयों में )।</td>
+                                    <td colspan="2">&nbsp;&nbsp;@ds.Tables[0].Rows[0]["artwork_price"].ToString().Trim()</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;">16.</td>
+                                    <td>&nbsp;&nbsp;पुरस्कार हेतु कलाकृति कितने समय में तैयार की गयी।</td>
+                                    <td colspan="2">&nbsp;&nbsp;@ds.Tables[0].Rows[0]["artwork_time"].ToString().Trim()</td>
+                                </tr>
+                            </table>
+                            <br />
+                            <br />
+
+                            <table id="example1" style="width:80%; margin-left:70%; text-align:justify" align="left">
+
+                                <tr style="background-color:#39b4dd">
+                                <tr><td style="padding-left:50px;border:none;font-weight:bold;">प्रार्थी के हस्ताक्षर -</td> </tr>
+                                <tr><td style="border: none;"></td></tr>
+                                <tr><td style="padding-left:50px;height:40px;border:none;font-weight:bold;">नाम - @ds.Tables[0].Rows[0]["applicant_name"].ToString().Trim()</td></tr>
+                                <tr><td style="border: none;"></td></tr>
+                               
+                                <tbody>
+                                    <tr></tr>
+                                </tbody>
+                            </table>
+
+                            <table class="table-responsive" border="0" style="width:80%" align="center">
+                                <tr>
+                                    <td style="font-size:15px;font-weight:bold;" width:"40%" align="left">
+                                        <br />
+
+                                        कार्यालय - ज़िला  उद्योग एवं  उद्यम प्रोत्साहन केन्द्र : कानपुर
+                                    </td>
+                                    <td style="font-size:15px;font-weight:bold;" width:"40%" align="right">
+                                        <br />
+
+
+                                        Powered By NIC
+
+
+                                    </td>
+                                </tr>
+                            </table>
+
+                        }
+                    }
+                }
+            </div>
+        }
+    </div>
+</div>

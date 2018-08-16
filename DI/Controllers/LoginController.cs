@@ -394,74 +394,221 @@ namespace DI.Controllers
             }
 
         }
+        public JsonResult InsertUpdateSPY_Applicant(SPY_Applicant Objform)
+        {
+            try
+            {
+                try
+                {
+                    DateTime dt = BLL.CommonBL.Setdate(Objform.inputdob);
+                    Objform.dob = dt;
+                }
+                catch (Exception)
+                {
+                    return Json("Date of Birth must be dd/mm/yyyy format", JsonRequestBehavior.AllowGet);
+                }
+                Objform.steps = "0";
+                string[] dobTime = Objform.inputdob.ToString().Split(' ');
+                string[] dob = dobTime[0].Split('/');
+                //string Mobchar = Objform.mobile_no.Substring(0, 2);
+                List<CMYSS_Applicant_Doc> objdoc = new List<CMYSS_Applicant_Doc>();
+                List<CMYSS_Applicant_Family> objFamily = new List<CMYSS_Applicant_Family>();
+                Objform.Password = FormsAuthentication.HashPasswordForStoringInConfigFile(dob[2].ToString().Trim() + dob[1].ToString().Trim() + dob[0].ToString().Trim(), "sha256");
+                string str = new DAL.CommonDA().InsertUpdateSPY(Objform, "1");
+                if (str.Contains("Save") && str.Contains("/"))
+                {
+                    string[] Msg = str.Split('/');
+                    return Json(Msg[0] + "\n" + "User Name :" + Msg[1] + "\n" + "Password :" + dob[2].ToString().Trim() + dob[1].ToString().Trim() + dob[0].ToString().Trim(), JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(str, JsonRequestBehavior.AllowGet);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+        public JsonResult InsertUpdateMHPY_Applicant(MHPY_Applicant Objform)
+        {
+            try
+            {
+                try
+                {
+                    DateTime dt = BLL.CommonBL.Setdate(Objform.inputdob);
+                    Objform.dob = dt;
+                }
+                catch (Exception)
+                {
+                    return Json("Date of Birth must be dd/mm/yyyy format", JsonRequestBehavior.AllowGet);
+                }
+                Objform.steps = "0";
+                string[] dobTime = Objform.inputdob.ToString().Split(' ');
+                string[] dob = dobTime[0].Split('/');
+                //string Mobchar = Objform.mobile_no.Substring(0, 2);
+                List<CMYSS_Applicant_Doc> objdoc = new List<CMYSS_Applicant_Doc>();
+                List<CMYSS_Applicant_Family> objFamily = new List<CMYSS_Applicant_Family>();
+                Objform.Password = FormsAuthentication.HashPasswordForStoringInConfigFile(dob[2].ToString().Trim() + dob[1].ToString().Trim() + dob[0].ToString().Trim(), "sha256");
+                string str = new DAL.CommonDA().InsertUpdateMHPY(Objform, "1");
+                if (str.Contains("Save") && str.Contains("/"))
+                {
+                    string[] Msg = str.Split('/');
+                    return Json(Msg[0] + "\n" + "User Name :" + Msg[1] + "\n" + "Password :" + dob[2].ToString().Trim() + dob[1].ToString().Trim() + dob[0].ToString().Trim(), JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(str, JsonRequestBehavior.AllowGet);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+        public JsonResult InsertUpdateVHPP_Applicant(vhpp_Applicant Objform)
+        {
+            try
+            {
+                try
+                {
+                    DateTime dt = BLL.CommonBL.Setdate(Objform.inputdob);
+                    Objform.dob = dt;
+                }
+                catch (Exception)
+                {
+                    return Json("Date of Birth must be dd/mm/yyyy format", JsonRequestBehavior.AllowGet);
+                }
+                Objform.steps = "0";
+                string[] dobTime = Objform.inputdob.ToString().Split(' ');
+                string[] dob = dobTime[0].Split('/');
+                //string Mobchar = Objform.mobile_no.Substring(0, 2);
+                List<CMYSS_Applicant_Doc> objdoc = new List<CMYSS_Applicant_Doc>();
+                List<CMYSS_Applicant_Family> objFamily = new List<CMYSS_Applicant_Family>();
+                Objform.Password = FormsAuthentication.HashPasswordForStoringInConfigFile(dob[2].ToString().Trim() + dob[1].ToString().Trim() + dob[0].ToString().Trim(), "sha256");
+                Objform.architect_experience = BLL.CommonBL.Setdate("01/01/1900");
+                Objform.Artwork_start_date = BLL.CommonBL.Setdate("01/01/1900");
+                Objform.Artwork_to_date = BLL.CommonBL.Setdate("01/01/1900");
+                string str = new DAL.CommonDA().InsertUpdateVHPP(Objform, "1");
+                if (str.Contains("Save") && str.Contains("/"))
+                {
+                    string[] Msg = str.Split('/');
+                    return Json(Msg[0] + "\n" + "User Name :" + Msg[1] + "\n" + "Password :" + dob[2].ToString().Trim() + dob[1].ToString().Trim() + dob[0].ToString().Trim(), JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(str, JsonRequestBehavior.AllowGet);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+
+        }
         public JsonResult Applicant_Login(LoginModal Model)
         {
-            if (Model.CaptchaText == HttpContext.Session["captchastring"].ToString())
+            string[] result = new string[2];
+            try
             {
-                string salt = CreateSalt(5);
-                string usrname = Model.UserName;
-                string password = Model.Password;
-                DataSet ds = new DataSet();
-                ds = UserDtl.VerifyApplicant(usrname,Model.yojana_code);
-                if (ds != null)
+                if (HttpContext.Session["captchastring"]== null)
                 {
-                    string psw = ds.Tables[0].Rows[0]["Password"].ToString();
-                    if (ds.Tables[0].Rows.Count > 0 && ds.Tables[0].Rows.Count == 1)
+                    result[0] = "Fail";
+                    result[1] = "Sorry ,Please Refresh the Page";
+                    return Json(result, JsonRequestBehavior.AllowGet);
+                }
+                if (Model.CaptchaText == HttpContext.Session["captchastring"].ToString())
+                {
+                    string salt = CreateSalt(5);
+                    string usrname = Model.UserName;
+                    string password = Model.Password;
+                    DataSet ds = new DataSet();
+                    ds = UserDtl.VerifyApplicant(usrname, Model.yojana_code);
+                    if (ds != null)
                     {
-                        string hashed_pwd = CalculateHash(psw.ToString().ToLower() + Session["salt"].ToString());
-                        if (hashed_pwd.ToString().ToLower().Equals(Model.Password.ToLower()))
+                        string psw = ds.Tables[0].Rows[0]["Password"].ToString();
+                        if (ds.Tables[0].Rows.Count > 0 && ds.Tables[0].Rows.Count == 1)
                         {
-                            if (ds.Tables[0].Rows[0]["UserLevel"].ToString().Trim() == "30")
+                            string hashed_pwd = CalculateHash(psw.ToString().ToLower() + Session["salt"].ToString());
+                            if (hashed_pwd.ToString().ToLower().Equals(Model.Password.ToLower()))
                             {
-                                Session["tbl_Session"] = ds.Tables[0];
-                                FormsAuthentication.SetAuthCookie(usrname, Model.RememberMe);
-                                if (ds.Tables[0].Rows[0]["scheme_code"].ToString() == "1")
+                                if (ds.Tables[0].Rows[0]["UserLevel"].ToString().Trim() == "30")
                                 {
-                                    return Json("1", JsonRequestBehavior.AllowGet);
-                                    
-                                }
-                                else if (ds.Tables[0].Rows[0]["scheme_code"].ToString() == "5")
-                                {
-                                    return Json("5", JsonRequestBehavior.AllowGet);
+                                    Session["tbl_Session"] = ds.Tables[0];
+                                    FormsAuthentication.SetAuthCookie(usrname, Model.RememberMe);
+                                    result[0] = "Sucess";
+                                    result[1] = "/User/" + ds.Tables[0].Rows[0]["page_name"].ToString();
+                                    return Json(result, JsonRequestBehavior.AllowGet);
+                                    //if (ds.Tables[0].Rows[0]["scheme_code"].ToString() == "1")
+                                    //{
+                                    //    return Json("1", JsonRequestBehavior.AllowGet);
 
+                                    //}
+                                    //else if (ds.Tables[0].Rows[0]["scheme_code"].ToString() == "5")
+                                    //{
+                                    //    return Json("5", JsonRequestBehavior.AllowGet);
+
+                                    //}
+                                    //else
+                                    //{
+                                    //    return Json("Invalid Username or Password.", JsonRequestBehavior.AllowGet);
+                                    //}
+                                    // return Json("Sucess", JsonRequestBehavior.AllowGet);
+                                    //return RedirectToAction("CMYSS_Applicant", "User");
                                 }
                                 else
                                 {
-                                    return Json("Invalid Username or Password.", JsonRequestBehavior.AllowGet);
+                                    result[0] = "Fail";
+                                    result[1] = "Invalid Username or Password.";
+                                    ViewBag.ErrMessage = "Invalid Username or Password.";
+                                    return Json(result, JsonRequestBehavior.AllowGet);
                                 }
-                               // return Json("Sucess", JsonRequestBehavior.AllowGet);
-                                //return RedirectToAction("CMYSS_Applicant", "User");
                             }
                             else
                             {
-                                ViewBag.ErrMessage = "Invalid Username or Password.";
-                                return Json("Invalid Username or Password.", JsonRequestBehavior.AllowGet);
+                                result[0] = "Fail";
+                                result[1] = "Access Denied! Wrong Credential";
+                                TempData["ErrorMSG"] = "Access Denied! Wrong Credential";
+                                return Json(result, JsonRequestBehavior.AllowGet);
+                                //return RedirectToAction("Login", "Login");
                             }
                         }
                         else
                         {
-                            //Login Fail
-                            TempData["ErrorMSG"] = "Access Denied! Wrong Credential";
-                            return Json("Access Denied! Wrong Credential", JsonRequestBehavior.AllowGet);
-                            //return RedirectToAction("Login", "Login");
+                            result[0] = "Fail";
+                            result[1] = "Invalid Username or Password.";
+                            ViewBag.ErrMessage = "Invalid Username or Password.";
+                            return Json(result, JsonRequestBehavior.AllowGet);
                         }
                     }
                     else
                     {
+                        result[0] = "Fail";
+                        result[1] = "Invalid Username or Password.";
                         ViewBag.ErrMessage = "Invalid Username or Password.";
-                        return Json("Invalid Username or Password.", JsonRequestBehavior.AllowGet);
+                        return Json(result, JsonRequestBehavior.AllowGet);
                     }
                 }
                 else
                 {
-                    ViewBag.ErrMessage = "Invalid Username or Password.";
-                    return Json("Invalid Username or Password.", JsonRequestBehavior.AllowGet);
+                    result[0] = "Fail";
+                    result[1] = "Error: captcha is not valid.";
+                    ViewBag.ErrMessage = "Error: captcha is not valid.";
+                    return Json(result, JsonRequestBehavior.AllowGet);
                 }
+            
             }
-            else
+            catch (Exception ex)
             {
-                ViewBag.ErrMessage = "Error: captcha is not valid.";
-                return Json("Error: captcha is not valid.", JsonRequestBehavior.AllowGet);
+                result[0] = "Fail";
+                result[1] = "Sorry ,Please Refresh the Page";
+                ViewBag.ErrMessage = ex.Message;
+                return Json(result, JsonRequestBehavior.AllowGet);
             }
         }
     }

@@ -8,8 +8,7 @@
 @using DI.BLL;
 @{
     DataSet ds = new DataSet();
-    ds = new CommonDA().GetApplicantinfo(-1, -1, UserSession.LoggedInUserName);
-
+    ds = new CommonDA().GetApplicantinfo_MYSY(-1, -1, UserSession.LoggedInUserName);
     var imag = "";
     if (ds != null)
     {
@@ -17,11 +16,9 @@
         {
             if (ds.Tables[3].Rows.Count > 0)
             {
-                imag = "<img " + "src='" + "data:image/"+ ds.Tables[3].Rows[0]["doc_content_type"].ToString().Trim() + ";base64," + Convert.ToBase64String((Byte[])(ds.Tables[3].Rows[0]["image"]), 0) + "' style='width:225px'/>";
-
+                imag = "<img " + "src='" + "data:image/"+ ds.Tables[3].Rows[0]["doc_content_type"].ToString().Trim() + ";base64," + Convert.ToBase64String((Byte[])(ds.Tables[3].Rows[0]["image"]), 0) + "' style='width:75px ,height:65px'/>";
             }
         }
-
     }
 }
 <style>
@@ -37,36 +34,6 @@
 </style>
 <script type="text/javascript">
     window.history.forward();
-    //$(document).ready(function () {
-    //    GetImage();
-    //});
-    //function GetImage() {
-    //    var xmlHTTP = new XMLHttpRequest();
-    //    xmlHTTP.open('GET', '/User/ApplicantImage', true);
-
-    //    // Must include this line - specifies the response type we want
-    //    xmlHTTP.responseType = 'arraybuffer';
-
-    //    xmlHTTP.onload = function (e) {
-
-    //        var arr = new Uint8Array(this.response);
-
-
-    //        // Convert the int array to a binary string
-    //        // We have to use apply() as we are converting an *array*
-    //        // and String.fromCharCode() takes one or more single values, not
-    //        // an array.
-    //        var raw = String.fromCharCode.apply(null, arr);
-
-    //        // This works!!!
-    //        var b64 = btoa(raw);
-    //        var dataURL = "data:image/jpeg;base64," + b64;
-    //        document.getElementById("image").src = dataURL;
-    //    };
-
-    //    xmlHTTP.send();
-    //}
-
 </script>
 <script language="javascript" type="text/javascript">
     function printDiv(divID) {
@@ -77,7 +44,7 @@
         //Reset the page's HTML with div's HTML only
         document.body.innerHTML =
            "<html><head><title></title></head><body>" +
-            "<div align='center' style='margin-left:1%;margin-right:1%;width:100%;'>" + divElements + "</div></body>";
+            "<div >" + divElements + "</div></body>";
         //Print Page
         window.print();
         //Restore orignal HTML
@@ -86,303 +53,261 @@
 </script>
 <div style="background-color:white ;">
     <div style="margin-left:79%; ">
-        <button type="button" class="btn green" onclick="javascript:printDiv('reportdiv')" style="margin-left:5%;margin-right:5%;" id="btnprint">Print</button>
-
-    </div>
+        <button type="button" class="btn green" onclick="javascript:printDiv('reportdiv')" style="margin-left:5%;margin-right:5%;" id="btnprint">Print</button> </div>
     <div class="row">
-
-        @using (Html.BeginForm("Get_Data_MYSY", "IndustrialAreaMaster", FormMethod.Post, new { @class = "", enctype = "multipart/form-data" }))
+        @using (Html.BeginForm("GetCMSY_ApplicationPrint", "user", FormMethod.Post, new { @class = "", enctype = "multipart/form-data" }))
         {
             @Html.AntiForgeryToken()
-
             <div id="reportdiv">
-                <br />
-
-                <br />
                 @if (ds != null)
                 {
                     if (ds.Tables[0] != null)
                     {
                         if (ds.Tables[0].Rows.Count > 0)
                         {
-                            //for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
-                            {
-                                <h4 class="title" align="center" style="font-weight:bold;text-decoration: underline">कार्यालय - ज़िला  उद्योग एवं  उद्यम प्रोत्साहन केन्द्र : </h4>
-                                <h5 class="category" align="center" style="font-weight:bold;"> पता:</h5>
+                                <h4 class="title" align="center" style="font-weight:bold;text-decoration: underline">  मुख्यमंत्री युवा 
+स्वरोजगार योजना, उत्तर प्रदेश</h4>
+<table class="table-responsive" border="0" style="width:80%" align="center">
+    <tr>
+        <td style="font-size:15px" width:"40%">
+            <h5 class="category" align="left" style="font-weight:bold;">प्रार्थना पत्र  क्रमांक: @ds.Tables[0].Rows[0]["user_name"].ToString().Trim()</h5>
+        </td>
+        <td style="font-size:15px" width:"40%">
 
-                                <h5 class="category" align="left" style="font-weight:bold;">&nbsp;&nbsp;&nbsp;&nbsp;प्रार्थना पत्र  क्रमांक:</h5>
-                                <br />
-                                <h4 class="title" align="center" style="font-weight:bold;text-decoration: underline">  मुख्यमंत्री युवा स्वरोजगार योजना, उत्तर प्रदेश</h4>
-                                <br />
-                                <h5 class="category" align="center" style="font-weight:bold;">प्रार्थना पत्र</h5>
-                                <table class="table-responsive tblcss" id="Letter" border="1" style="width:80%" align="center">
+            <h5 class="category" align="right" style="font-weight:bold;">दिनांक: @ds.Tables[0].Rows[0]["entrydate"].ToString().Trim()</h5>
+        </td>
+    </tr>
+</table>
+                <br />
+                <table class="table-responsive tblcss"  border="1" style="width:80%" align="center">
 
-                                    <tr>
-                                        <td></td>
+                    
+                    <tr>
+                        <td style="text-align: center;" width="39px">&nbsp;1.</td>
+                        <td width="30%">&nbsp;&nbsp; नाम :</td>
+                        <td  width="50%" >&nbsp;&nbsp;@ds.Tables[0].Rows[0]["applicant_name"].ToString().Trim()</td>
+                        <td rowspan="5" >
+                            <div class="center-align">@Html.Raw(imag)</div>
 
-                                    </tr>
-                                    <tr>
-                                        <td width="2%">1.</td>
-                                        <td width="30%" valign="bottom" style="font-size:17px; margin-left:12%">&nbsp;&nbsp; नाम :</td>
-                                        <td width="50%" style="font-size:17px" colspan="2" valign="bottom">&nbsp;&nbsp;@ds.Tables[0].Rows[0]["applicant_name"].ToString().Trim()</td>
-                                        <td style="font-size:17px" rowspan="9" valign="bottom">
-                                            <div class="center-align">@Html.Raw(imag)</div>
+                        </td>
+                    </tr>
 
-                                        </td>
-                                    </tr>
+                    <tr>
+                        <td style="text-align: center;">2.</td>
+                        <td >&nbsp;&nbsp;जन्मतिथि</td>
+                        <td >&nbsp;&nbsp;@ds.Tables[0].Rows[0]["dob"].ToString().Trim()</td>
 
-                                    <tr>
-                                        <td>2.</td>
-                                        <td style="font-size:17px" width="30%" valign="bottom">&nbsp;&nbsp;जन्मतिथि</td>
-                                        <td style="font-size:17px" valign="bottom">&nbsp;&nbsp;@ds.Tables[0].Rows[0]["dob"].ToString().Trim()</td>
+                    </tr>
 
-                                    </tr>
+                    <tr>
+                        <td style="text-align: center;">3.</td>
+                        <td>&nbsp;&nbsp;आधार कार्ड नं0</td>
+                        <td >&nbsp;&nbsp;@ds.Tables[0].Rows[0]["adhar_No"].ToString().Trim()</td>
+                    </tr>
 
-                                    <tr>
-                                        <td>3.</td>
-                                        <td style="font-size:17px">&nbsp;&nbsp;आधार कार्ड नं0</td>
-                                        <td style="font-size:17px" valign="bottom">&nbsp;&nbsp;@ds.Tables[0].Rows[0]["adhar_No"].ToString().Trim()</td>
-                                    </tr>
+                    <tr>
+                        <td style="text-align: center;">4.</td>
+                        <td>&nbsp;&nbsp;पिता/पति का नाम</td>
 
-                                    <tr>
-                                        <td>4.</td>
-                                        <td style="font-size:17px">&nbsp;&nbsp;पिता/पति का नाम</td>
+                        <td >&nbsp;&nbsp;@ds.Tables[0].Rows[0]["father_Name"].ToString().Trim()</td>
+                    </tr>
 
-                                        <td style="font-size:17px" valign="bottom">&nbsp;&nbsp;@ds.Tables[0].Rows[0]["father_Name"].ToString().Trim()</td>
-                                    </tr>
+                    <tr>
+                        <td style="text-align: center;">5.</td>
+                        <td>&nbsp;&nbsp;पत्र व्यवहार का पता</td>
+                        <td >&nbsp;&nbsp;@ds.Tables[0].Rows[0]["current_address"].ToString().Trim()</td>
 
-                                    <tr>
-                                        <td>5.</td>
-                                        <td style="font-size:17px">&nbsp;&nbsp;पत्र व्यवहार का पता</td>
-                                        <td style="font-size:17px" valign="bottom">&nbsp;&nbsp;@ds.Tables[0].Rows[0]["current_address"].ToString().Trim()</td>
+                    </tr>
 
-                                    </tr>
+                    <tr>
+                        <td style="text-align: center;">6.</td>
+                        <td>&nbsp;&nbsp; स्थाई पता </td>
+                        <td  colspan="2">&nbsp;&nbsp;@ds.Tables[0].Rows[0]["permanent_address"].ToString().Trim()</td>
+                    </tr>
 
-                                    <tr>
-                                        <td>6.</td>
-                                        <td style="font-size:17px">&nbsp;&nbsp; स्थाई पता </td>
-                                        <td style="font-size:17px" valign="bottom">&nbsp;&nbsp;@ds.Tables[0].Rows[0]["permanent_address"].ToString().Trim()</td>
-                                    </tr>
+                    <tr>
+                        <td style="text-align: center;">7.</td>
+                        <td>&nbsp;&nbsp;प्रस्तावित कार्यालय का पता</td>
+                        <td  colspan="2">&nbsp;&nbsp;@ds.Tables[0].Rows[0]["proposed_office_address"].ToString().Trim()</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center;">8.</td>
+                        <td>&nbsp;&nbsp;मोबाइल नं0</td>
+                        <td  colspan="2">&nbsp;&nbsp;@ds.Tables[0].Rows[0]["mobile_no"].ToString().Trim()</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center;">9.</td>
+                        <td>&nbsp;&nbsp;ई-मेल आई0डी0 (यदि हो तो)</td>
+                        <td  colspan="2">&nbsp;&nbsp;@ds.Tables[0].Rows[0]["email"].ToString().Trim()</td>
+                    </tr>
 
-                                    <tr>
-                                        <td>7.</td>
-                                        <td style="font-size:17px">&nbsp;&nbsp;प्रस्तावित कार्यालय का पता</td>
-                                        <td style="font-size:17px" valign="bottom"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>8.</td>
-                                        <td style="font-size:17px">&nbsp;&nbsp;मोबाइल नं0</td>
-                                        <td style="font-size:17px" valign="bottom">&nbsp;&nbsp;@ds.Tables[0].Rows[0]["mobile_no"].ToString().Trim()</td>
-                                    </tr>
-                                    <tr>
-                                        <td>9.</td>
-                                        <td style="font-size:17px">&nbsp;&nbsp;ई-मेल आई0डी0 (यदि हो तो)</td>
-                                        <td style="font-size:17px" valign="bottom">&nbsp;&nbsp;@ds.Tables[0].Rows[0]["email"].ToString().Trim()</td>
-                                    </tr>
+                    
 
+                </table>
+                <table class="table-responsive tblcss" border="1" style="width:80%" align="center">
 
+                    <tr>
+                        <td style="text-align: center;" width="39px">10.</td>
+                        <td style="font-weight:bold;" width="30%">&nbsp;&nbsp;परिवार का विवरण </td>
+                        <td style="font-weight:bold;">&nbsp;&nbsp;नाम </td>
+                        <td style="font-weight:bold">&nbsp;&nbsp;उम्र</td>
+                        <td style="font-weight:bold">&nbsp;&nbsp;कार्य</td>
 
-                                </table>
-                                <table class="table-responsive tblcss" id="Letter" border="1" style="width:80%" align="center">
-
-                                    <tr>
-                                        <td width="2%" height="50px">()</td>
-                                        <td width="20%" style="font-size:20px; font-weight:bold;">&nbsp;&nbsp;परिवार का विवरण </td>
-                                        <td width="50%" style="font-size:20px; font-weight:bold;">&nbsp;&nbsp;नाम </td>
-                                        <td width="10%" style="font-size:20px; font-weight:bold">&nbsp;&nbsp;उम्र</td>
-                                        <td width="20%" style="font-size:20px; font-weight:bold">&nbsp;&nbsp;कार्य</td>
-
-                                    </tr>
-                                    @if (ds.Tables[1] != null)
+                    </tr>
+                    @if (ds.Tables[1] != null)
+                                {
+                                    if (ds.Tables[1].Rows.Count > 0)
                                     {
-                                        if (ds.Tables[1].Rows.Count > 0)
+                                        for (int i = 0; i < ds.Tables[1].Rows.Count; i++)
                                         {
-                                            for (int i = 0; i < ds.Tables[1].Rows.Count; i++)
-                                            {
-                                                <tr>
-                                                    <td style="font-size:17px"></td>
-                                                    <td style="font-size:17px">@ds.Tables[1].Rows[i]["relation"].ToString().Trim()</td>
-                                                    <td style="font-size:17px">@ds.Tables[1].Rows[i]["person_name"].ToString().Trim()</td>
-                                                    <td style="font-size:17px">@ds.Tables[1].Rows[i]["age"].ToString().Trim()</td>
-                                                    <td style="font-size:17px">@ds.Tables[1].Rows[i]["workingfield"].ToString().Trim()</td>
-                                                </tr>
-                                            }
-                                        }
-                                    }
-
-                                    @*<tr>
-                                            <td style="font-size:17px"></td>
-                                            <td style="font-size:17px">&nbsp;&nbsp;पिता</td>
-                                            <td style="font-size:17px">&nbsp;&nbsp;@ds.Tables[0].Rows[0]["father_Name"].ToString().Trim()</td>
-                                            <td style="font-size:17px">&nbsp;&nbsp;</td>
-                                            <td style="font-size:17px">&nbsp;&nbsp;</td>
-                                        </tr>
-                                        <tr>
-                                            <td style="font-size:17px"></td>
-                                            <td style="font-size:17px">&nbsp;&nbsp;माता</td>
-                                            <td style="font-size:17px">&nbsp;&nbsp;</td>
-                                            <td style="font-size:17px">&nbsp;&nbsp;</td>
-                                            <td style="font-size:17px">&nbsp;&nbsp;</td>
-                                        </tr>
-
-                                        <tr>
-                                            <td style="font-size:17px"></td>
-                                            <td style="font-size:17px">&nbsp;&nbsp;भाई/बहन</td>
-                                            <td style="font-size:17px">&nbsp;&nbsp;</td>
-                                            <td style="font-size:17px">&nbsp;&nbsp;</td>
-                                            <td style="font-size:17px">&nbsp;&nbsp;</td>
-                                        </tr>
-                                        <tr>
-                                            <td style="font-size:17px"></td>
-                                            <td style="font-size:17px"&nbsp;&nbsp;>बच्चों का नाम</td>
-                                            <td style="font-size:17px"&nbsp;&nbsp;></td>
-                                            <td style="font-size:17px"&nbsp;&nbsp;></td>
-                                            <td style="font-size:17px"&nbsp;&nbsp;></td>
-                                        </tr>*@
-                                </table>
-                                <table class="table-responsive tblcss" id="Letter" border="1" style="width:80%" align="center">
+                                <tr>
+                                    <td style="text-align: center;">@(i + 1).</td>
+                                    <td>&nbsp;&nbsp; @ds.Tables[1].Rows[i]["relation"].ToString().Trim()</td>
+                                    <td>&nbsp;&nbsp;@ds.Tables[1].Rows[i]["person_name"].ToString().Trim()</td>
+                                    <td>&nbsp;&nbsp;@ds.Tables[1].Rows[i]["age"].ToString().Trim()</td>
+                                    <td>&nbsp;&nbsp;@ds.Tables[1].Rows[i]["workingfield"].ToString().Trim()</td>
+                                </tr>
+                            }
+                        }
+                    }
+                </table>
+                                <table class="table-responsive tblcss"  border="1" style="width:80%" align="center">
                                     <tr>
-                                        <td width="2%">11.</td>
-                                        <td style="font-size:17px" width="30%">&nbsp;&nbsp;पेंशन  कार्ड सं0</td>
-                                        <td style="font-size:17px" colspan="8">&nbsp;&nbsp;@ds.Tables[0].Rows[0]["pansion_card_no"].ToString().Trim()</td>
+                                        <td  style="text-align: center;" width="39px">11.</td>
+                                        <td width="30%" >&nbsp;&nbsp;पेंशन  कार्ड सं0</td>
+                                        <td  colspan="4">&nbsp;&nbsp;@ds.Tables[0].Rows[0]["pansion_card_no"].ToString().Trim()</td>
                                     </tr>
                                     <tr>
-                                        <td width="2%">12.</td>
-                                        <td style="font-size:17px" width="30%">&nbsp;&nbsp;परिवार की वार्षिक आय</td>
-                                        <td style="font-size:17px" colspan="8">&nbsp;&nbsp;@ds.Tables[0].Rows[0]["family_income"].ToString().Trim()</td>
+                                        <td  style="text-align: center;">12.</td>
+                                        <td  >&nbsp;&nbsp;परिवार की वार्षिक आय</td>
+                                        <td  colspan="4">&nbsp;&nbsp;@ds.Tables[0].Rows[0]["family_income"].ToString().Trim()</td>
                                     </tr>
                                     <tr>
-                                        <td width="2%">13.</td>
-                                        <td style="font-size:17px" width="30%">&nbsp;&nbsp;परियोजना का नाम</td>
-                                        <td style="font-size:17px" colspan="2" width="10%">&nbsp;&nbsp;उत्पात</td>
-                                        <td style="font-size:17px" colspan="2">&nbsp;&nbsp;@ds.Tables[0].Rows[0]["manufacturing"].ToString().Trim()</td>
-                                        <td style="font-size:17px" colspan="2" width="10%">&nbsp;&nbsp;सेवा</td>
-                                        <td style="font-size:17px" colspan="2">&nbsp;&nbsp;@ds.Tables[0].Rows[0]["services"].ToString().Trim()</td>
+                                        <td  style="text-align: center;">13.</td>
+                                        <td  >&nbsp;&nbsp;परियोजना का नाम</td>
+                                        <td   width="10%">&nbsp;&nbsp;उत्पाद</td>
+                                        <td  >&nbsp;&nbsp;@ds.Tables[0].Rows[0]["manufacturing"].ToString().Trim()</td>
+                                        <td   width="10%">&nbsp;&nbsp;सेवा</td>
+                                        <td  >&nbsp;&nbsp;@ds.Tables[0].Rows[0]["services"].ToString().Trim()</td>
                                     </tr>
 
                                     <tr>
-                                        <td width="2%">14.</td>
-                                        <td style="font-size:17px" width="30%">&nbsp;&nbsp;परियोजना लागत</td>
-                                        <td style="font-size:17px" colspan="8">&nbsp;&nbsp;(परियोजना संलगन करें )&nbsp;&nbsp;@ds.Tables[0].Rows[0]["project_cost"].ToString().Trim()</td>
+                                        <td  style="text-align: center;">14.</td>
+                                        <td  >&nbsp;&nbsp;परियोजना लागत</td>
+                                        <td  colspan="4">&nbsp;&nbsp;(परियोजना संलगन करें )&nbsp;&nbsp;@ds.Tables[0].Rows[0]["project_cost"].ToString().Trim()</td>
                                     </tr>
                                     <tr>
-                                        <td width="2%"></td>
-                                        <td style="font-size:17px" width="30%">&nbsp;&nbsp;प्लान्ट एवं मशीनरी</td>
-                                        <td style="font-size:17px" colspan="8">&nbsp;&nbsp;रु० @ds.Tables[0].Rows[0]["machinery_cost"].ToString().Trim()</td>
+                                        <td ></td>
+                                        <td  >&nbsp;&nbsp;प्लान्ट एवं मशीनरी</td>
+                                        <td  colspan="4">&nbsp;&nbsp;रु० @ds.Tables[0].Rows[0]["machinery_cost"].ToString().Trim()</td>
                                     </tr>
                                     <tr>
-                                        <td width="2%"></td>
-                                        <td style="font-size:17px" width="30%">&nbsp;&nbsp;एक चक कार्यशील पूँजी</td>
-                                        <td style="font-size:17px" colspan="8">&nbsp;&nbsp;रु० &nbsp;&nbsp;@ds.Tables[0].Rows[0]["working_capital"].ToString().Trim()</td>
+                                        <td ></td>
+                                        <td  >&nbsp;&nbsp;एक चक कार्यशील पूँजी</td>
+                                        <td  colspan="4">&nbsp;&nbsp;रु० &nbsp;&nbsp;@ds.Tables[0].Rows[0]["working_capital"].ToString().Trim()</td>
                                     </tr>
                                     <tr>
-                                        <td width="2%"></td>
-                                        <td style="font-size:17px" width="30%">&nbsp;&nbsp;योग </td>
-                                        <td style="font-size:17px" colspan="8">&nbsp;&nbsp;रु०  &nbsp;&nbsp;@ds.Tables[0].Rows[0]["Tsum"].ToString().Trim()</td>
+                                        <td ></td>
+                                        <td  >&nbsp;&nbsp;योग </td>
+                                        <td  colspan="4">&nbsp;&nbsp;रु०  &nbsp;&nbsp;@ds.Tables[0].Rows[0]["Tsum"].ToString().Trim()</td>
                                     </tr>
 
                                     <tr>
-                                        <td width="2%">15.</td>
-                                        <td style="font-size:17px" width="30%">&nbsp;&nbsp;निकटतम बैक शाखा  का नाम <br />&nbsp;&nbsp;(शहरी क्षेत्रो हेतु)</td>
-                                        <td style="font-size:17px" colspan="8">&nbsp;&nbsp; रु० &nbsp;&nbsp;@ds.Tables[0].Rows[0]["branch_name"].ToString().Trim()</td>
+                                        <td  style="text-align: center;">15.</td>
+                                        <td>&nbsp;&nbsp;निकटतम बैक शाखा  का नाम &nbsp;&nbsp;(शहरी क्षेत्रो हेतु)</td>
+                                        <td  colspan="4">&nbsp;&nbsp; रु० &nbsp;&nbsp;@ds.Tables[0].Rows[0]["branch_name"].ToString().Trim()</td>
                                     </tr>
                                     <tr>
-                                        <td width="2%">16.</td>
-                                        <td style="font-size:17px" width="30%">&nbsp;&nbsp;सर्विस शाखा का नाम  <br />(ग्रामीण क्षेत्रों हेतु)</td>
-                                        <td style="font-size:17px" colspan="8">&nbsp;&nbsp;</td>
+                                        <td  style="text-align: center;">16.</td>
+                                        <td  >&nbsp;&nbsp;सर्विस शाखा का नाम  <br />(ग्रामीण क्षेत्रों हेतु)</td>
+                                        <td  colspan="4">&nbsp;&nbsp;</td>
                                     </tr>
                                     <tr>
-                                        <td width="2%">17.</td>
-                                        <td style="font-size:17px" width="30%">&nbsp;&nbsp;परियोजना का नाम</td>
-                                        <td style="font-size:17px" colspan="2" width="10%">&nbsp;&nbsp;5%</td>
+                                        <td  style="text-align: center;">17.</td>
+                                        <td  >&nbsp;&nbsp;स्वयं का अंशदान </td>
+                                        <td   width="10%">&nbsp;&nbsp;5%</td>
                                     @if (decimal.Parse(ds.Tables[0].Rows[0]["self_share"].ToString().Trim()) == decimal.Round(decimal.Parse(ds.Tables[0].Rows[0]["self_share5"].ToString().Trim()),2))
                                     {
-                                        <td style="font-size:17px" colspan="2">&nbsp;&nbsp;&nbsp;&nbsp;रु० &nbsp;&nbsp; @ds.Tables[0].Rows[0]["self_share5"].ToString().Trim()</td>
+                                        <td  >&nbsp;&nbsp;&nbsp;&nbsp;रु० &nbsp;&nbsp; @ds.Tables[0].Rows[0]["self_share5"].ToString().Trim()</td>
                                     }
                                     else
                                     {
-                                        <td style="font-size:17px" colspan="2">&nbsp;&nbsp;&nbsp;&nbsp;रु०</td>
+                                        <td  >&nbsp;&nbsp;&nbsp;&nbsp;रु०</td>
                                     }
                                         
-                                        <td style="font-size:17px" colspan="2" width="10%">&nbsp;&nbsp;10%</td>
+                                        <td   width="10%">&nbsp;&nbsp;10%</td>
 
                                       @if (decimal.Parse(ds.Tables[0].Rows[0]["self_share"].ToString().Trim()) == decimal.Round(decimal.Parse(ds.Tables[0].Rows[0]["self_share10"].ToString().Trim()), 2))
                                       {
-                                            <td style="font-size:17px" colspan="2">&nbsp;&nbsp;रु० &nbsp;&nbsp; @ds.Tables[0].Rows[0]["self_share10"].ToString().Trim()</td>
+                                            <td  >&nbsp;&nbsp;रु० &nbsp;&nbsp; @ds.Tables[0].Rows[0]["self_share10"].ToString().Trim()</td>
                                         }
                                         else
                                         {
-                                            <td style="font-size:17px" colspan="2">&nbsp;&nbsp;रु०</td>
+                                            <td  >&nbsp;&nbsp;रु०</td>
                                         }
                                        
                                     </tr>
                                     <tr>
-                                        <td width="2%">18.</td>
-                                        <td style="font-size:17px" width="30%">&nbsp;&nbsp;बैक शाखा में जमा धनराशी</td>
-                                        <td style="font-size:17px" colspan="8">&nbsp;&nbsp;रु० &nbsp;&nbsp;@ds.Tables[0].Rows[0]["deposit_amt"].ToString().Trim()</td>
+                                        <td  style="text-align: center;">18.</td>
+                                        <td  >&nbsp;&nbsp;बैक शाखा में जमा धनराशी</td>
+                                        <td  colspan="4">&nbsp;&nbsp;रु० &nbsp;&nbsp;@ds.Tables[0].Rows[0]["deposit_amt"].ToString().Trim()</td>
                                     </tr>
                                     <tr>
-                                        <td width="2%">19.</td>
-                                        <td style="font-size:17px" width="30%">&nbsp;&nbsp;बैक शाखा का नाम</td>
-                                        <td style="font-size:17px" colspan="8">&nbsp;&nbsp;@ds.Tables[0].Rows[0]["branch_name"].ToString().Trim()</td>
+                                        <td  style="text-align: center;">19.</td>
+                                        <td  >&nbsp;&nbsp;बैक शाखा का नाम</td>
+                                        <td  colspan="4">&nbsp;&nbsp;@ds.Tables[0].Rows[0]["branch_name"].ToString().Trim()</td>
                                     </tr>
                                     <tr>
-                                        <td width="2%">20.</td>
-                                        <td style="font-size:17px" width="30%">&nbsp;&nbsp;बैक खाता सं0  व  आईएफएससी कोड</td>
-                                        <td style="font-size:17px" colspan="8">&nbsp;&nbsp;@ds.Tables[0].Rows[0]["bank_account_no"].ToString().Trim() / (@ds.Tables[0].Rows[0]["ifsc_code"].ToString().Trim()) </td>
+                                        <td  style="text-align: center;">20.</td>
+                                        <td  >&nbsp;&nbsp;बैक खाता सं0  व  आईएफएससी कोड</td>
+                                        <td  colspan="4">&nbsp;&nbsp;@ds.Tables[0].Rows[0]["bank_account_no"].ToString().Trim() / (@ds.Tables[0].Rows[0]["ifsc_code"].ToString().Trim()) </td>
                                     </tr>
-                                    <tr>
-                                        <td width="2%">21.</td>
-                                        <td style="font-size:17px" width="30%">&nbsp;&nbsp;यदि विशिष्ट श्रेणी लाभार्थी है , तो  प्रमाणपत्र की  <br /> स्वप्रमाणित छाया प्रति </td>
-                                        <td style="font-size:17px" colspan="8"></td>
-                                    </tr>
+                                    @*<tr>
+                                        <td  style="text-align: center;">21.</td>
+                                        <td  >&nbsp;&nbsp;यदि विशिष्ट श्रेणी लाभार्थी है , तो  प्रमाणपत्र की  <br /> स्वप्रमाणित छाया प्रति </td>
+                                        <td  colspan="4"></td>
+                                    </tr>*@
 
 
                                 </table>
-                                <table class="table-responsive tblcss" id="Letter" border="0" style="width:80%" align="center">
+                                <table class="table-responsive tblcss"  border="0" style="width:80%" align="center">
 
                                     <tr>
                                         <td style="font-size:15px">
-                                            <br />
-                                            <br />
+                                          
 
                                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;               प्रमाणित किया जाता  है कि  उपरोक्त सभी सूचनाये मेरी व्यक्तिगत  जानकारी के  अनुसार  सही है कोई तथ्य  छिपाया  नहीं गया है योजना की सभी  शर्तो को संलग्न  में  लिया गया है <br /> मै  सभी  शर्तो को स्वीकार  करता  हूँ  प्राथना  पत्र  के  साथ लगाये गये संलग्ननो  को जांच  कर मेरे द्वारा ही संलग्न किया  गया  है
                                         </td>
                                     </tr>
+
+ <tr>
+                                      
+                                    </tr>
+                                </table>
+                                <table class="table-responsive" border="0" style="width:80%" align="center">
+                                    <tr>
+                                        <td style="font-size:15px;font-weight:bold;" width:"40%" align="left">
+                                            <br />
+
+                                            कार्यालय - ज़िला  उद्योग एवं  उद्यम प्रोत्साहन केन्द्र : कानपुर
+                                        </td>
+                                        <td style="font-size:15px;font-weight:bold;" width:"40%" align="right">
+                                            <br />
+
+
+                                            Powered By NIC
+
+
+                                        </td>
+                                    </tr>
+
                                 </table>
 
-                                <table id="example1" style="width:80%; margin-left:70%; text-align:justify" align="left">
-
-                                    <tr style="background-color:#39b4dd">
-
-                                    <tr><td style="padding-left:50px;border: none;font-size:20px;font-weight:bold;">हस्ताक्षर - </td> </tr>
-
-                                    <tr><td style="border: none;"></td></tr>
-                                    <tr><td style="padding-left:50px;height:40px;border: none;font-size:20px; font-weight:bold;">नाम          -</td></tr>
-
-
-
-                                    <tr><td style="border: none;"></td></tr>
-
-                                    <tr><td style="padding-left:50px;height:40px;border: none;font-size: 20px; font-weight:bold;">पता  - </td></tr>
-
-
-
-
-                                    <tbody>
-                                        <tr></tr>
-                                    </tbody>
-                                </table>
-
-                            }
+ 
                         }
                     }
-
                 }
             </div>
         }
-
-
     </div>
-
 </div>

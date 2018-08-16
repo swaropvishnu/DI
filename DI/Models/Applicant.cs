@@ -4,11 +4,12 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-
 namespace DI.Models
 {
     public class CMYSS_Applicant
     {
+        public IList<SelectListItem> bank_name { get; set; }
+        public IList<SelectListItem> branch_name { get; set; }
         public IList<SelectListItem> DistrictNames { get; set; }
         public IList<SelectListItem> Scheme { get; set; }
         public int DistCode { get; set; }
@@ -38,7 +39,8 @@ namespace DI.Models
         public short bank_code { get; set; }
         public Decimal self_share { get; set; }
         public Decimal deposit_amt { get; set; }
-        public short branch_code { get; set; }
+        public int branch_code { get; set; }
+        public string  branch_Address { get; set; }
         public string bank_account_no { get; set; }
         public string ifsc { get; set; }
         public string Mode { get; set; }
@@ -73,6 +75,151 @@ namespace DI.Models
         public string service_branch { get; set; }
         public string OtherRelation { get; set; }
         public bool chkfamily { get; set; }
+    }
+    public class vhpp_Applicant
+    {
+        public IList<SelectListItem> bank_name { get; set; }
+        public IList<SelectListItem> branch_name { get; set; }
+        public IList<SelectListItem> DistrictNames { get; set; }
+        public IList<SelectListItem> Scheme { get; set; }
+        public int DistCode { get; set; }
+        public int TehsilCode { get; set; }
+        public int BlockCode { get; set; }
+        public int VillCode { get; set; }
+        public string inputdob { get; set; }
+        public DateTime dob { get; set; }
+        [Display(Name = "Date Of Birth")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+        public string applicant_name { get; set; }
+        public long @applicant_code { get; set; }
+        public short @yojana_code { get; set; }
+        public string adhar_no { get; set; }
+        public string handicraft_id_no { get; set; }
+        public string Husband_father_name { get; set; }
+        public string current_address { get; set; }
+        public string permanent_address { get; set; }
+        public string mobile_no { get; set; }
+        public string email { get; set; }
+        public short bank_code { get; set; }
+        public int branch_code { get; set; }
+        public string branch_Address { get; set; }
+        public string bank_account_no { get; set; }
+        public string ifsc { get; set; }
+        public string teacher { get; set; }
+        public string Artwork_name { get; set; }
+        public string craft_name { get; set; }
+        public string Artwork_subject { get; set; }
+        public decimal Artwork_price { get; set; }
+        public DateTime Artwork_start_date { get; set; }
+        public DateTime Artwork_to_date { get; set; }
+        public DateTime  architect_experience { get; set; }
+        public string input_Artwork_start_date { get; set; }
+        public string input_Artwork_to_date { get; set; }
+        public string input_architect_experience { get; set; }
+        public int Award_count { get; set; }
+        public int participation_count { get; set; }
+        public string c_user_id { get; set; }
+        public string c_user_ip { get; set; }
+        public DateTime c_time_stamp { get; set; }
+        public string c_mac { get; set; }
+        public string u_user_id { get; set; }
+        public string u_user_ip { get; set; }
+        public DateTime u_time_stamp { get; set; }
+        public string u_mac { get; set; }
+        public string Password { get; set; }
+        public string UserName { get; set; }
+        public string steps { get; set; }
+    }
+    public class SPY_Applicant
+    {
+        public IList<SelectListItem> bank_name { get; set; }
+        public IList<SelectListItem> branch_name { get; set; }
+        public IList<SelectListItem> DistrictNames { get; set; }
+        public IList<SelectListItem> Scheme { get; set; }
+        public int DistCode { get; set; }
+        public int TehsilCode { get; set; }
+        public int BlockCode { get; set; }
+        public int VillCode { get; set; }
+        public string inputdob { get; set; }
+        public DateTime dob { get; set; }
+        [Display(Name = "Date Of Birth")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+        public string applicant_name { get; set; }
+        public string working_craftwork { get; set; }
+        public long @applicant_code { get; set; }
+        public short @yojana_code { get; set; }
+        public string adhar_no { get; set; }
+        public string handicraft_id_no { get; set; }
+        public string Husband_father_name { get; set; }
+        public string current_address { get; set; }
+        public string permanent_address { get; set; }
+        public string mobile_no { get; set; }
+        public string email { get; set; }
+        public short bank_code { get; set; }
+        public int branch_code { get; set; }
+        public string branch_Address { get; set; }
+        public string bank_account_no { get; set; }
+        public string ifsc { get; set; }
+        public string @artisian_no { get; set; }
+        public string @awards { get; set; }
+        public string @handicraft_work { get; set; }
+        public string c_user_id { get; set; }
+        public string c_user_ip { get; set; }
+        public DateTime c_time_stamp { get; set; }
+        public string c_mac { get; set; }
+        public string u_user_id { get; set; }
+        public string u_user_ip { get; set; }
+        public DateTime u_time_stamp { get; set; }
+        public string u_mac { get; set; }
+        public string Password { get; set; }
+        public string UserName { get; set; }
+        public string steps { get; set; }
+    }
+    public class MHPY_Applicant
+    {
+        public IList<SelectListItem> bank_name { get; set; }
+        public IList<SelectListItem> branch_name { get; set; }
+        public IList<SelectListItem> DistrictNames { get; set; }
+        public IList<SelectListItem> Scheme { get; set; }
+        public int DistCode { get; set; }
+        public string @architect_name { get; set; }
+        public int TehsilCode { get; set; }
+        public int BlockCode { get; set; }
+        public int VillCode { get; set; }
+        public string inputdob { get; set; }
+        public DateTime dob { get; set; }
+        [Display(Name = "Date Of Birth")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+        public string applicant_name { get; set; }
+        public long @applicant_code { get; set; }
+        public short @yojana_code { get; set; }
+        public string adhar_no { get; set; }
+        public string handicraft_id_no { get; set; }
+        public decimal @anual_income { get; set; }
+        public string Husband_father_name { get; set; }
+        public string current_address { get; set; }
+        public string permanent_address { get; set; }
+        public string mobile_no { get; set; }
+        public string email { get; set; }
+        public short bank_code { get; set; }
+        public int branch_code { get; set; }
+        public string branch_Address { get; set; }
+        public string bank_account_no { get; set; }
+        public string ifsc { get; set; }
+        public string @artisian_no { get; set; }
+        public string @awards { get; set; }
+        public string @handicraft_work { get; set; }
+        public string c_user_id { get; set; }
+        public string c_user_ip { get; set; }
+        public DateTime c_time_stamp { get; set; }
+        public string c_mac { get; set; }
+        public string u_user_id { get; set; }
+        public string u_user_ip { get; set; }
+        public DateTime u_time_stamp { get; set; }
+        public string u_mac { get; set; }
+        public string Password { get; set; }
+        public string UserName { get; set; }
+        public string steps { get; set; }
     }
     public class CMYSS_Applicant_Family
     {
@@ -183,6 +330,10 @@ namespace DI.Models
         public string address { get; set; }
         public string mobile_no { get; set; }
         public string manufacturing { get; set; }
+        public string @steps { get; set; }
+        public string @machine_name { get; set; }
+        public string machinetable  { get; set; }
+        public string @supplier { get; set; }
         public string Marketingsystem { get; set; }
         public decimal fixed_deposite { get; set; }
         public decimal working_capital { get; set; }
@@ -190,6 +341,23 @@ namespace DI.Models
         public decimal total_Production { get; set; }
         public decimal approx_sale { get; set; }
         public decimal profit { get; set; }
+        public decimal @price { get; set; }
+        public decimal @self_share { get; set; }
+        public decimal @bank_loan { get; set; }
+        public decimal @margin_money { get; set; }
 
+    }
+    public class ifsc
+    {
+        public string  ifsc_code { get; set; }
+        public string bank_code { get; set; }
+        public string branch_code { get; set; }
+        public string branch_name { get; set; }
+        public string address { get; set; }
+       
+    }
+    public class uploadform
+    {
+        public string page { get; set; }
     }
 }

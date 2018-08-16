@@ -77,7 +77,11 @@
                                             <label class="control-label col-md-12" style="text-align:left" id="lblshed">शेड क्रमांक <span class="Mandatory">*</span></label>
                                             <div class="col-md-12">
                                                 @*<input type="text" class="form-control" placeholder="शेड क्रमांक">*@
-                                                @Html.TextBoxFor(m => m.ShedSerial, new { @class = "form-control", @id = "txtshed_SNo", @placeholder = "शेड क्रमांक" })
+                                                @Html.TextBoxFor(m => m.ShedSerial, new { @class = "form-control", @id = "txtshed_SNo", @placeholder = "शेड क्रमांक",
+                                               @onkeypress = "return IsAlphaNumeric(event);",
+                                               @ondrop = "return false;",
+                                               @npaste = "return false;"
+                                           })
                                             </div>
                                         </div>
                                     </div>
@@ -87,7 +91,11 @@
                                             <label class="control-label col-md-12" style="text-align:left" id="lblshedname"> शेड का नाम <span class="Mandatory">*</span></label>
                                             <div class="col-md-12">
                                                 @*<input type="text" class="form-control" placeholder="शेड का नाम">*@
-                                                @Html.TextBoxFor(m => m.ShedName, new { @class = "form-control", @id = "txtshed_Name", @placeholder = "शेड का नाम" })
+                                                @Html.TextBoxFor(m => m.ShedName, new { @class = "form-control", @id = "txtshed_Name", @placeholder = "शेड का नाम",
+                                               @onkeypress = "return IsAlphaNumeric(event);",
+                                               @ondrop = "return false;",
+                                               @npaste = "return false;"
+                                           })
 
                                             </div>
                                         </div>
@@ -98,7 +106,7 @@
                                             <label class="control-label col-md-12" style="text-align:left" id="lblshedarea"> क्षेत्रफल <span class="Mandatory">*</span> </label>
                                             <div class="col-md-12">
                                                 @*<input type="text" class="form-control" placeholder="क्षेत्रफल">*@
-                                                @Html.TextBoxFor(m => m.ShedArea, new { @class = "form-control", @id = "txtArea", @placeholder = "क्षेत्रफल" })
+                                                @Html.TextBoxFor(m => m.ShedArea, new { @class = "form-control", @id = "txtArea", @placeholder = "क्षेत्रफल", @onkeypress = "return IsNumeric(event);", @Maxlength = 10 })
                                             </div>
                                         </div>
                                     </div>
@@ -131,7 +139,12 @@
                                             <label class="control-label col-md-12 " style="text-align:left">शेड का विवरण </label>
                                             <div class="col-md-12">
                                                 @*<input type="text" class="form-control" placeholder="शेड का विवरण">*@
-                                                @Html.TextBoxFor(m => m.Shed_Desc, new { @class = "form-control", @id = "txtShedDetail", @placeholder = "शेड का विवरण" })
+                                                @Html.TextBoxFor(m => m.Shed_Desc, new { @class = "form-control", @id = "txtShedDetail", @placeholder = "शेड का विवरण",
+                                               @onkeypress = "return IsAlphaNumeric(event);",
+                                               @ondrop = "return false;",
+                                               @onpaste = "return false;",
+                                               @Maxlength = "30"
+                                           })
                                             </div>
                                         </div>
                                     </div>
@@ -141,7 +154,12 @@
                                             <label class="control-label col-md-12 " style="text-align:left"> आवंटी का नाम </label>
                                             <div class="col-md-12">
                                                 @*<input type="text" class="form-control" placeholder="आवंटी का नाम">*@
-                                                @Html.TextBoxFor(m => m.Shed_Allottee_Desc, new { @class = "form-control", @id = "txtName_Allottee", @placeholder = "आवंटी का नाम" })
+                                                @Html.TextBoxFor(m => m.Shed_Allottee_Desc, new { @class = "form-control", @id = "txtName_Allottee", @placeholder = "आवंटी का नाम",
+                                               @onkeypress = "return IsAlphaNumeric(event);",
+                                               @ondrop = "return false;",
+                                               @onpaste = "return false;",
+                                               @Maxlength = "30"
+                                           })
                                             </div>
                                         </div>
                                     </div>
@@ -413,7 +431,7 @@
     specialKeys.push(9); // Tab
     specialKeys.push(46); // for .
     specialKeys.push(37); // for left Arrow
-    specialKeys.push(39); // for Right Arrow
+    //specialKeys.push(39); // for Right Arrow
     function IsNumeric(e) {
         var keyCode = e.which ? e.which : e.keyCode
         var ret = ((keyCode >= 48 && keyCode <= 57) || specialKeys.indexOf(keyCode) != -1); // For Decimal To All Number

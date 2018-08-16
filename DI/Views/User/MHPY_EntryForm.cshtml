@@ -1,39 +1,9 @@
-﻿@model DI.Models.CMYSS_Applicant
+﻿
 @{
-    ViewBag.Title = "CMYS_SchemeEntryForm";
+    ViewBag.Title = "MHPY_EntryForm";
     Layout = "~/Views/Shared/UserLayout.cshtml";
-    if (UserSession.LoggedInUserLevelId == null || UserSession.LoggedInUserLevelId != "30")
-    {
-        Response.Redirect("../Login/Registration_Login");
-        return;
-    }
 }
-<style>
-    .disabled {
-        pointer-events: none !important;
-        cursor: default !important;
-    }
-</style>
-
-
-<script>
-    $(document).ready(function () {
-        $("#txtDOB").datepicker({
-            dateFormat: "dd/mm/yy",
-            changeMonth: true,
-            changeYear: true
-        });
-    });
-
-    
-
-    function funopen(url)
-    {
-        window.open(url, '_blank');
-    }
-
-</script>
-@using (Html.BeginForm("CMYS_SchemeEntryForm", "User", FormMethod.Post, new { @class = "", enctype = "multipart/form-data" }))
+@using (Html.BeginForm("MHPY_EntryForm", "User", FormMethod.Post, new { @class = "", enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     <div class="portlet light " id="form_wizard_1">
@@ -41,7 +11,7 @@
             <div class="caption">
                 <i class="icon-layers font-red"></i>
                 <span class="caption-subject font-red bold uppercase">
-                    मुख्यमंत्री युवा स्वरोजगार योजना - प्रार्थना-पत्र
+                    विशिष्ट शिल्पकारों के लिए पंेशन योजना
                     <span class="step-title"> चरण 1 से  4 </span>
                 </span>
             </div>
@@ -65,34 +35,27 @@
                                 <a data-toggle="tab" class="step disabled">
                                     <span class="number"> 2 </span>
                                     <span class="desc">
-                                        <i class="fa fa-check"></i>परिवार
+                                        <i class="fa fa-check"></i>कार्य विवरण
                                     </span>
                                 </a>
                             </li>
+                            
                             <li id="litab3" class="">
                                 <a data-toggle="tab" class="step disabled">
                                     <span class="number"> 3 </span>
-                                    <span class="desc">
-                                        <i class="fa fa-check"></i> परियोजना
-                                    </span>
-                                </a>
-                            </li>
-                            <li id="litab4" class="">
-                                <a data-toggle="tab" class="step disabled">
-                                    <span class="number"> 4 </span>
                                     <span class="desc">
                                         <i class="fa fa-check"></i> बैंक विवरण
                                     </span>
                                 </a>
                             </li>
                             @*<li id="litab5" class="">
-                                <a data-toggle="tab" class="step disabled">
-                                    <span class="number"> 5 </span>
-                                    <span class="desc">
-                                        <i class="fa fa-check"></i> दस्तावेज़
-                                    </span>
-                                </a>
-                            </li>*@
+                                    <a data-toggle="tab" class="step disabled">
+                                        <span class="number"> 5 </span>
+                                        <span class="desc">
+                                            <i class="fa fa-check"></i> दस्तावेज़
+                                        </span>
+                                    </a>
+                                </li>*@
                         </ul>
                         <div id="bar" class="progress progress-striped" role="progressbar">
                             <div class="progress-bar progress-bar-success" style="width: 0%;" id="divpross"> </div>
@@ -113,11 +76,7 @@
                                             <div class="form-group">
                                                 <label class="control-label col-md-12" id="lblname">नाम<span class="Mandatory">*</span></label>
                                                 <div class="col-md-12">
-                                                    @Html.TextBoxFor(m => m.applicant_name, new { @class = "form-control", @id = "txtName", @placeholder = "नाम ", @Maxlength = 20 ,
-                                                   @onkeypress = "return IsAlphaNumeric(event);",
-                                                   @ondrop = "return false;",
-                                                   @npaste = "return false;"
-                                               })
+                                                    @Html.TextBoxFor(m => m.applicant_name, new { @class = "form-control", @id = "txtName", @placeholder = "नाम ", @Maxlength = 20 })
                                                     @Html.HiddenFor(m => m.applicant_code, new { @id = "hfapplicant_code" })
                                                     @Html.HiddenFor(m => m.steps, new { @id = "hfstep" })
                                                     @Html.HiddenFor(m => m.DistCode, new { @id = "hfDistCode" })
@@ -158,11 +117,7 @@
                                             <div class="form-group">
                                                 <label class="control-label col-md-12" id="lblfather">पिता/पति का नाम<span class="Mandatory">*</span></label>
                                                 <div class="col-md-12">
-                                                    @Html.TextBoxFor(m => m.Husband_father_name, new { @class = "form-control", @id = "txtHusband_father_name", @placeholder = "पिता/पति का नाम ", @Maxlength = 20,
-                                                   @onkeypress = "return IsAlphaNumeric(event);",
-                                                   @ondrop = "return false;",
-                                                   @npaste = "return false;"
-                                               })
+                                                    @Html.TextBoxFor(m => m.Husband_father_name, new { @class = "form-control", @id = "txtHusband_father_name", @placeholder = "पिता/पति का नाम ", @Maxlength = 20 })
                                                 </div>
                                             </div>
                                         </div>
@@ -171,11 +126,7 @@
                                             <div class="form-group">
                                                 <label class="control-label col-md-12" id="lbladress">पत्र व्यवहार का पता<span class="Mandatory">*</span></label>
                                                 <div class="col-md-12">
-                                                    @Html.TextBoxFor(m => m.current_address, new { @class = "form-control", @id = "txtCurrentAddress", @placeholder = "पत्र व्यवहार का पता", @Maxlength = 200 ,
-                                                   @onkeypress = "return IsAlphaNumeric(event);",
-                                                   @ondrop = "return false;",
-                                                   @npaste = "return false;"
-                                               })
+                                                    @Html.TextBoxFor(m => m.current_address, new { @class = "form-control", @id = "txtCurrentAddress", @placeholder = "पत्र व्यवहार का पता", @Maxlength = 200 })
                                                 </div>
                                             </div>
                                         </div>
@@ -186,11 +137,7 @@
                                                 <label class="control-label col-md-12" id="lblPeradress">स्थाई पता<span class="Mandatory">*</span></label>
                                                 <div class="col-md-12">
 
-                                                    @Html.TextBoxFor(m => m.permanent_address, new { @class = "form-control", @id = "txtPermanent_Address", @placeholder = "स्थाई पता", @Maxlength = 200,
-                                                   @onkeypress = "return IsAlphaNumeric(event);",
-                                                   @ondrop = "return false;",
-                                                   @npaste = "return false;"
-                                               })
+                                                    @Html.TextBoxFor(m => m.permanent_address, new { @class = "form-control", @id = "txtPermanent_Address", @placeholder = "स्थाई पता", @Maxlength = 200 })
 
                                                 </div>
                                             </div>
@@ -274,8 +221,8 @@
                                     <div class="caption">
                                         &nbsp;&nbsp;&nbsp;<i class="icon-layers font-red"></i>
                                         <span class="caption-subject font-red bold uppercase">
-                                            
-                                             नोटिस &nbsp;&nbsp;&nbsp; <input type="checkbox" id="chkaadhar" checked="checked" />  मुझे इस योजना में अपना आधार नंबर देने में कोई आपत्ति  नहीं है ।
+
+                                            नोटिस &nbsp;&nbsp;&nbsp; <input type="checkbox" id="chkaadhar" checked="checked" />  मुझे इस योजना में अपना आधार नंबर देने में कोई आपत्ति  नहीं है ।
                                             @*<span class="step-title"> ध्यान दें </span>*@
                                         </span>
 
@@ -283,17 +230,17 @@
                                 </div>
                                 @*<div class="row ">
 
-                                    <div class="form-group">
+                                        <div class="form-group">
 
-                                        <div class="col-md-2">
+                                            <div class="col-md-2">
+
+                                            </div>
+                                            <div class="col-md-10 bold">
+                                                <p class="font-red"><input type="checkbox" id="chkaadhar" checked="checked" />  मुझे अपना आधार नंबर इस योजना में देने में कोई आपत्ति  नहीं है </p>
+                                            </div>
 
                                         </div>
-                                        <div class="col-md-10 bold">
-                                            <p class="font-red"><input type="checkbox" id="chkaadhar" checked="checked" />  मुझे अपना आधार नंबर इस योजना में देने में कोई आपत्ति  नहीं है </p>
-                                        </div>
-
-                                    </div>
-                                </div>*@
+                                    </div>*@
                             </div>
                             <div class="tab-pane" id="tab2">
                                 <h3 class="form-section" style="font-weight:bolder">परिवार का विवरण प्रदान करें</h3>
@@ -303,11 +250,7 @@
                                             <label class="control-label col-md-12" id="lblFat">पिता<span class="Mandatory">*</span></label>
                                             <div class="col-md-12">
 
-                                                @Html.TextBoxFor(m => m.Father_Name, new { @class = "form-control", @id = "txtFather_Name", @placeholder = "पिता का नाम", @Maxlength = 50 ,
-                                               @onkeypress = "return IsAlphaNumeric(event);",
-                                               @ondrop = "return false;",
-                                               @npaste = "return false;"
-                                           })
+                                                @Html.TextBoxFor(m => m.Father_Name, new { @class = "form-control", @id = "txtFather_Name", @placeholder = "पिता का नाम", @Maxlength = 50 })
                                                 <span class="help-block"></span>
                                             </div>
                                         </div>
@@ -318,11 +261,7 @@
 
                                             <div class="col-md-12">
 
-                                                @Html.TextBoxFor(m => m.Father_work, new { @class = "form-control", @id = "txtFather_Work", @placeholder = "कार्य", @Maxlength = 50 ,
-                                               @onkeypress = "return IsAlphaNumeric(event);",
-                                               @ondrop = "return false;",
-                                               @npaste = "return false;"
-                                           })
+                                                @Html.TextBoxFor(m => m.Father_work, new { @class = "form-control", @id = "txtFather_Work", @placeholder = "कार्य", @Maxlength = 50 })
                                                 <span class="help-block"></span>
                                             </div>
                                         </div>
@@ -348,11 +287,7 @@
 
                                             <div class="col-md-12">
 
-                                                @Html.TextBoxFor(m => m.Mother_Name, new { @class = "form-control", @id = "txt_Mother_Name", @placeholder = "माता का नाम", @Maxlength = 50 ,
-                                               @onkeypress = "return IsAlphaNumeric(event);",
-                                               @ondrop = "return false;",
-                                               @npaste = "return false;"
-                                           })
+                                                @Html.TextBoxFor(m => m.Mother_Name, new { @class = "form-control", @id = "txt_Mother_Name", @placeholder = "माता का नाम", @Maxlength = 50 })
                                                 <span class="help-block"></span>
                                             </div>
                                         </div>
@@ -364,11 +299,7 @@
 
                                             <div class="col-md-12">
 
-                                                @Html.TextBoxFor(m => m.Mother_work, new { @class = "form-control", @id = "txt_Mother_work", @placeholder = "कार्य", @Maxlength = 50 ,
-                                               @onkeypress = "return IsAlphaNumeric(event);",
-                                               @ondrop = "return false;",
-                                               @npaste = "return false;"
-                                           })
+                                                @Html.TextBoxFor(m => m.Mother_work, new { @class = "form-control", @id = "txt_Mother_work", @placeholder = "कार्य", @Maxlength = 50 })
                                                 <span class="help-block"></span>
                                             </div>
                                         </div>
@@ -391,11 +322,7 @@
 
                                             <div class="col-md-12">
 
-                                                @Html.TextBoxFor(m => m.pansion_card_No, new { @class = "form-control", @id = "txt_pensioncardnumber", @placeholder = "पेंषन कार्ड सं0", @Maxlength = 10 ,
-                                               @onkeypress = "return IsAlphaNumeric(event);",
-                                               @ondrop = "return false;",
-                                               @npaste = "return false;"
-                                           })
+                                                @Html.TextBoxFor(m => m.pansion_card_No, new { @class = "form-control", @id = "txt_pensioncardnumber", @placeholder = "पेंषन कार्ड सं0", @Maxlength = 10 })
 
                                                 <span class="help-block"></span>
                                             </div>
@@ -429,9 +356,7 @@
 
                                             </div>
                                             <div class="col-md-6">
-                                                <input type="text" id="txtrName" value="" Maxlength="50" class="form-control" placeholder="नाम" onkeypress = "return IsAlphaNumeric(event);"
-                                       ondrop = "return false;"
-                                       npaste = "return false;"/>
+                                                <input type="text" id="txtrName" value="" Maxlength="50" class="form-control" placeholder="नाम" />
                                                 @*@Html.TextBoxFor(m => m.brother_sister_Name, new { @class = "form-control", @id = "txt_Family_brother_sister", @placeholder = "भाई या बहन का नाम", @Maxlength = 50 })*@
                                                 <span class="help-block"></span>
                                             </div>
@@ -442,9 +367,7 @@
                                             <label class="control-label col-md-12">कार्य</label>
 
                                             <div class="col-md-12">
-                                                <input type="text" id="txtWork" value="" Maxlength="50" class="form-control" placeholder="कार्य" onkeypress = "return IsAlphaNumeric(event);"
-                                       ondrop = "return false;"
-                                       npaste = "return false;"/>
+                                                <input type="text" id="txtWork" value="" Maxlength="50" class="form-control" placeholder="कार्य" />
                                                 @*@Html.TextBoxFor(m => m.brother_sister_Work, new { @class = "form-control", @id = "txt_brother_sister_Work", @placeholder = "कार्य", @Maxlength = 50 })*@
 
                                                 <span class="help-block"></span>
@@ -499,23 +422,23 @@
                                 </div>
                                 @*<div class="row ">
 
-                                    <div class="form-group">
+                                        <div class="form-group">
 
-                                        <div class="col-md-2">
+                                            <div class="col-md-2">
+
+                                            </div>
+                                            <div class="col-md-10 bold">
+
+
+
+                                                <p class="font-red">
+                                                @Html.CheckBoxFor(m => m.chkfamily, new { @name = "chkfamily", @id = "chkfamily" })
+                                                 मेरे व मेरे परिवार  द्वारा जिस श्रेणी / स्रोत से आय अर्जित की जा रही है उसकी प्रविष्टि  कर दी गयी है  ।  इसके लिए में  पूर्णतया  उत्तरदायी हूँ ।
+                                                </p>
+                                            </div>
 
                                         </div>
-                                        <div class="col-md-10 bold">
-
-                                            
-
-                                            <p class="font-red">
-                                            @Html.CheckBoxFor(m => m.chkfamily, new { @name = "chkfamily", @id = "chkfamily" }) 
-                                             मेरे व मेरे परिवार  द्वारा जिस श्रेणी / स्रोत से आय अर्जित की जा रही है उसकी प्रविष्टि  कर दी गयी है  ।  इसके लिए में  पूर्णतया  उत्तरदायी हूँ ।
-                                            </p>
-                                        </div>
-
-                                    </div>
-                                </div>*@
+                                    </div>*@
                                 @* <div class="row">
                                     <div class="col-md-4">
                                     <div class="form-group">
@@ -563,11 +486,7 @@
                                         <div class="form-group">
                                             <label class="control-label col-md-12" id="lblproject_name">परियोजना का नाम<span class="Mandatory">*</span></label>
                                             <div class="col-md-12">
-                                                @Html.TextBoxFor(m => m.project_name, new { @class = "form-control", @id = "txt_ProjectName", @placeholder = "परियोजना का नाम", @Maxlength = 100 ,
-                                               @onkeypress = "return IsAlphaNumeric(event);",
-                                               @ondrop = "return false;",
-                                               @npaste = "return false;"
-                                           })
+                                                @Html.TextBoxFor(m => m.project_name, new { @class = "form-control", @id = "txt_ProjectName", @placeholder = "परियोजना का नाम", @Maxlength = 100 })
 
                                                 <span class="help-block"></span>
                                             </div>
@@ -577,11 +496,7 @@
                                         <div class="form-group">
                                             <label class="control-label col-md-12" id="lblproposed_office_address">प्रस्तावित कार्यालय का पता<span class="Mandatory">*</span></label>
                                             <div class="col-md-12">
-                                                @Html.TextBoxFor(m => m.proposed_office_address, new { @class = "form-control", @id = "txt_Address", @placeholder = "प्रस्तावित कार्यालय का पता", @Maxlength = 500 ,
-                                               @onkeypress = "return IsAlphaNumeric(event);",
-                                               @ondrop = "return false;",
-                                               @npaste = "return false;"
-                                           })
+                                                @Html.TextBoxFor(m => m.proposed_office_address, new { @class = "form-control", @id = "txt_Address", @placeholder = "प्रस्तावित कार्यालय का पता", @Maxlength = 500 })
 
                                                 <span class="help-block"></span>
                                             </div>
@@ -596,16 +511,8 @@
                                                 <input type="radio" id="rbtservice" name="rbt" value="S" onclick="funrbtservice()"> सेवा
                                             </div>
                                             <div class="col-md-7">
-                                                @Html.TextBoxFor(m => m.manufacturing, new { @class = "form-control", @id = "txt_manufacturing", @placeholder = "उत्पाद", @Maxlength = 50,
-                                               @onkeypress = "return IsAlphaNumeric(event);",
-                                               @ondrop = "return false;",
-                                               @npaste = "return false;"
-                                           })
-                                                @Html.TextBoxFor(m => m.services, new { @class = "form-control hide", @id = "txt_services", @placeholder = "सेवा", @Maxlength = 50,
-                                               @onkeypress = "return IsAlphaNumeric(event);",
-                                               @ondrop = "return false;",
-                                               @npaste = "return false;"
-                                           })
+                                                @Html.TextBoxFor(m => m.manufacturing, new { @class = "form-control", @id = "txt_manufacturing", @placeholder = "उत्पाद", @Maxlength = 50 })
+                                                @Html.TextBoxFor(m => m.services, new { @class = "form-control hide", @id = "txt_services", @placeholder = "सेवा", @Maxlength = 50 })
                                                 <input type="hidden" value="M" id="hfmanu" />
                                             </div>
                                         </div>
@@ -657,16 +564,12 @@
                                         <div class="form-group">
                                             <label class="control-label col-md-12" id="lblifsc_code">आईएफएससी कोड <span class="Mandatory">*</span></label>
                                             <div class="col-md-12">
-                                                @Html.TextBoxFor(m => m.ifsc, new { @class = "form-control", @id = "txt_IFSCCode", @placeholder = "आईएफएससी कोड", @Maxlength = 16,
-                                               @onkeypress = "return IsAlphaNumeric(event);",
-                                               @ondrop = "return false;",
-                                               @npaste = "return false;"
-                                           })
+                                                @Html.TextBoxFor(m => m.ifsc, new { @class = "form-control", @id = "txt_IFSCCode", @placeholder = "आईएफएससी कोड", @Maxlength = 16 })
 
                                                 <span class="help-block"></span>
                                             </div>
                                         </div>
-                                        
+
                                     </div>
                                     <!--/span-->
                                     <div class="col-md-4">
@@ -674,15 +577,15 @@
                                         <div class="form-group">
                                             <label class="control-label col-md-12" id="lblbankname"> बैक का नाम <span class="Mandatory">*</span></label>
                                             <div class="col-md-12">
-                                                @Html.DropDownListFor(m => m.bank_name, new List<SelectListItem> { new SelectListItem { Text = "--चयन करे--", Value = "-1" } }, new { @id = "ddl_bankname", @class = "form-control",@disabled= "disabled" })
+                                                @Html.DropDownListFor(m => m.bank_name, new List<SelectListItem> { new SelectListItem { Text = "--चयन करे--", Value = "-1" } }, new { @id = "ddl_bankname", @class = "form-control", @disabled = "disabled" })
 
-                                                
+
                                                 <span class="help-block"></span>
                                             </div>
                                         </div>
 
 
-                                        
+
                                     </div>
 
                                     <div class="col-md-4">
@@ -697,30 +600,28 @@
                                         </div>
 
 
-                                        
+
 
                                         <!--/span-->
                                     </div>
                                     <!--/row-->
                                 </div>
-
-
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="control-label col-md-12" id="lblBankbranchName">बैक का पता<span class="Mandatory">*</span></label>
                                             <div class="col-md-12">
 
-                                                @Html.TextBoxFor(m => m.branch_Address, new { @class = "form-control", @id = "txt_branch_Address", @onkeypress = "return IsNumeric(event);", @placeholder = "बैक का पता",  @disabled = "disabled" })
+                                                @Html.TextBoxFor(m => m.branch_Address, new { @class = "form-control", @id = "txt_branch_Address", @onkeypress = "return IsNumeric(event);", @placeholder = "बैक का पता", @disabled = "disabled" })
                                                 <span class="help-block"></span>
                                             </div>
                                         </div>
-                                        
-
-                                        
 
 
-                                        
+
+
+
+
                                     </div>
                                     <!--/span-->
                                     <div class="col-md-4">
@@ -736,7 +637,7 @@
                                             <input type="hidden" value="N" id="hfIsVillage" />
                                             <span class="help-block"></span>
                                         </div>
-                                        
+
                                     </div>
                                     <!--/span-->
                                     <!--/span-->
@@ -749,7 +650,7 @@
                                                 <span class="help-block"></span>
                                             </div>
                                         </div>
-                                        
+
                                     </div>
                                     <!--/span-->
                                 </div>
@@ -760,11 +661,7 @@
                                             <label class="control-label col-md-12" id="lblBankAcct">बैक खाता सं0 <span class="Mandatory">*</span></label>
                                             <div class="col-md-12">
 
-                                                @Html.TextBoxFor(m => m.bank_account_no, new { @class = "form-control", @id = "txt_BankAccountNo", @placeholder = "बैक खाता सं0", @Maxlength = 16,
-                                               @onkeypress = "return IsAlphaNumeric(event);",
-                                               @ondrop = "return false;",
-                                               @npaste = "return false;"
-                                           })
+                                                @Html.TextBoxFor(m => m.bank_account_no, new { @class = "form-control", @id = "txt_BankAccountNo", @placeholder = "बैक खाता सं0", @Maxlength = 16 })
                                                 <span class="help-block"></span>
                                             </div>
                                         </div>
@@ -813,29 +710,29 @@
 
 
                                     @*<div class="portlet-title">
-                                        <div class="caption">
+                                            <div class="caption">
 
-                                            <i class="icon-layers font-red"></i>
-                                            <span class="caption-subject font-red bold uppercase">
-                                                महत्वपूर्ण
-                                                <span class="step-title"> ध्यान दें </span>
-                                            </span>
-
-                                        </div>
-                                    </div>
-                                    <div class="row ">
-
-                                        <div class="form-group">
-
-                                            <div class="col-md-2">
+                                                <i class="icon-layers font-red"></i>
+                                                <span class="caption-subject font-red bold uppercase">
+                                                    महत्वपूर्ण
+                                                    <span class="step-title"> ध्यान दें </span>
+                                                </span>
 
                                             </div>
-                                            <div class="col-md-10 bold">
-                                                <p class="font-red"><input type="checkbox" id="chkdeclaration" />    मैं घोषणा करता / करती हूँ की मेरे  द्वारा   दी गयी समस्त सूचना सही है। इसके लिए में  पूर्णतया  उत्तरदायी हूँ ।</p>
-                                            </div>
-
                                         </div>
-                                    </div>*@
+                                        <div class="row ">
+
+                                            <div class="form-group">
+
+                                                <div class="col-md-2">
+
+                                                </div>
+                                                <div class="col-md-10 bold">
+                                                    <p class="font-red"><input type="checkbox" id="chkdeclaration" />    मैं घोषणा करता / करती हूँ की मेरे  द्वारा   दी गयी समस्त सूचना सही है। इसके लिए में  पूर्णतया  उत्तरदायी हूँ ।</p>
+                                                </div>
+
+                                            </div>
+                                        </div>*@
 
 
 
@@ -898,13 +795,13 @@
 
                 <div class="modal-header">
                     <button type="button" class="close" onclick="modalclose()">&times;</button>
-                    <h2><i class="icon-info"></i>&nbsp;&nbsp;&nbsp;<label class=""> महत्वपूर्ण   सूचना   </label>  </h2>
+                    <h2><i class="icon-layers font-red"></i>&nbsp;&nbsp;&nbsp;<label class="font-red"> महत्वपूर्ण   सूचना   </label>  </h2>
                 </div>
                 <div class="modal-body">
                     <form>
-                      <p class="font-red">
-                          कृपया सबमिट बटन क्लिक कर ने से पूर्व  प्रार्थना पत्र की समस्त प्रविष्टि पूर्णतया जांचले । इसके पश्चात प्रार्थना पत्र में  संशोधन संभव नहीं है  ।
-                      </p>
+                        <p class="font-red">
+                            कृपया सबमिट बटन क्लिक कर ने से पूर्व  प्रार्थना पत्र की समस्त प्रविष्टि पूर्णतया जांचले । इसके पश्चात प्रार्थना पत्र में  संशोधन संभव नहीं है  ।
+                        </p>
                     </form>
                 </div>
                 @*
@@ -912,7 +809,7 @@
                         <p>Some text in the modal.</p>
                     </div>*@
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary"  onclick="funbanksave()" >Submit</button>
+                    <button type="button" class="btn btn-primary" onclick="funbanksave()">Submit</button>
                     <button type="button" class="btn btn-danger" onclick="modalclose()">Close</button>
                 </div>
             </div>
@@ -1167,11 +1064,6 @@
                     alert("पिता की उम्र");
                     return;
                 }
-                if (parseInt(document.getElementById("txtFather_Age").value) <= 0) {
-                    document.getElementById("txtFather_Age").focus();
-                    alert("पिता की उम्र");
-                    return;
-                }
                 if (document.getElementById("txt_Mother_Name").value == "") {
                     $('#lblMoth').css('color', 'red');
                     alert("माता का नाम ");
@@ -1182,24 +1074,13 @@
                     alert("माता की उम्र");
                     return;
                 }
-                if (parseInt(document.getElementById("txt_Mother_Age").value) <= 0) {
-                    document.getElementById("txt_Mother_Age").focus();
-                    alert("माता की उम्र");
-                    return;
-                }
                 if (document.getElementById("txt_Family_Income").value == "") {
-                    $('#lblIncome').css('color', 'red');
-                    alert("परिवार की वार्षिक आय");
-                    return;
-                }
-                if (parseInt(document.getElementById("txt_Family_Income").value) <= 0) {
                     $('#lblIncome').css('color', 'red');
                     alert("परिवार की वार्षिक आय");
                     return;
                 }
 
                 var Family = [];
-                var temp = 0;
                 var family_income = document.getElementById('txt_Family_Income').value == "" ? " " : document.getElementById('txt_Family_Income').value;
                 var PensionCard = document.getElementById('txt_pensioncardnumber').value == "" ? "0" : document.getElementById('txt_pensioncardnumber').value;
 
@@ -1217,62 +1098,54 @@
                     for (i = 0; i < table.rows.length - 1; i++) {
                         if (document.getElementById("hfRelation_Code" + (i + 1) + "").value == "") {
                             alert("select relation");
-                            temp = 1;
                             break;
                         }
                         if (document.getElementById("txtName" + (i + 1) + "").value == "") {
                             document.getElementById("txtName" + (i + 1) + "").focus();
                             alert("enter name");
-                            temp = 1;
                             break;
                         }
                         if (document.getElementById("txtAge" + (i + 1) + "").value == "") {
                             document.getElementById("txtAge" + (i + 1) + "").focus();
                             alert("enter Age");
-                            temp = 1;
                             break;
                         }
                         if (parseInt(document.getElementById("txtAge" + (i + 1) + "").value) <= 0) {
                             document.getElementById("txtAge" + (i + 1) + "").focus();
                             alert("enter Age");
-                            temp = 1;
                             break;
                         }
                         if (document.getElementById("txtWork" + (i + 1) + "").value == "") {
                             document.getElementById("txtWork" + (i + 1) + "").focus();
                             alert("enter Work");
-                            temp = 1;
                             break;
                         }
                         Family.push({ relation_code: document.getElementById("hfRelation_Code" + (i + 1) + "").value, person_name: document.getElementById("txtName" + (i + 1) + "").value, age: document.getElementById("txtAge" + (i + 1) + "").value, workingfield: document.getElementById("txtWork" + (i + 1) + "").value, applicant_code: document.getElementById("hfapplicant_code").value })
                     }
                 }
-                if (temp != 1) {
-                    $.ajax({
-                        url: '/User/InsertUpdateCMYSS_Applicantfamily',
-                        data: JSON.stringify({ objFamily: Family, PensionCard: PensionCard, family_income: family_income }),
-                        type: 'POST',
-                        contentType: 'application/json; charset=utf-8',
-                        success: function (data) {
-                            if (data.includes("Save")) {
-                                $("#divpross").css('width', '55%');
-                                $("#litab3").addClass('active');
-                                $("#litab2").removeClass('active');
-                                $("#litab2").addClass('done');
-                                $("#tab3").addClass('active');
-                                $("#tab2").removeClass('active');
-                                $("#btnback").removeClass('hide');
-                                $("#btncont").html('Continue');
-                                // alert(data);
-                            }
-                            else {
-                                alert(data);
-                            }
+                $.ajax({
+                    url: '/User/InsertUpdateCMYSS_Applicantfamily',
+                    data: JSON.stringify({ objFamily: Family, PensionCard: PensionCard, family_income: family_income }),
+                    type: 'POST',
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data) {
+                        if (data.includes("Save")) {
+                            $("#divpross").css('width', '55%');
+                            $("#litab3").addClass('active');
+                            $("#litab2").removeClass('active');
+                            $("#litab2").addClass('done');
+                            $("#tab3").addClass('active');
+                            $("#tab2").removeClass('active');
+                            $("#btnback").removeClass('hide');
+                            $("#btncont").html('Continue');
+                           // alert(data);
                         }
-                    });
-                    return;
-                }
-              
+                        else {
+                            alert(data);
+                        }
+                    }
+                });
+                return;
             }
             else if ($("#tab3").hasClass('active')) {
                 if (document.getElementById("txt_ProjectName").value == "") {
@@ -1436,7 +1309,7 @@
                     document.getElementById("txt_BankAccountNo").focus();
                     alert("बैक खाता सं0 ");
                     return;
-                } 
+                }
 
                 if (document.getElementById("txt_Owndeposit").value == "") {
                     $('#lblOwndeposit').css('color', 'red');
@@ -1450,11 +1323,11 @@
                     alert("स्वयं का अंशदान ");
                     return;
                 }
-               
+
                 $("#myModal").css("display", "block");
                 $("#myModal").addClass("in");
             }
-           
+
         }
     </script>
     <script type="text/javascript">
@@ -1479,10 +1352,8 @@
                         //alert(district);
 
                         $('#ddlTehsil').append(district);
-                        $('#ddlBlock').empty();
-                        $('#ddlBlock').append("<option value=-1>--चयन करे--</option>");
-                        $('#ddlVillage').empty();
-                        $('#ddlVillage').append("<option value=-1>--चयन करे--</option>");
+                        $('#ddlBlock').val(-1);
+                        $('#ddlVillage').val(-1);
                     }
                 });
             });
@@ -1506,9 +1377,7 @@
                         //alert(district);
                         $('#ddlBlock').append(block);
 
-                      
-                        $('#ddlVillage').empty();
-                        $('#ddlVillage').append("<option value=-1>--चयन करे--</option>");
+                        $('#ddlVillage').val(-1);
                     }
                 });
             });
@@ -1574,10 +1443,10 @@
             var cell6 = row.insertCell(5);
             cell1.innerHTML = table.rows.length - 1;
             cell2.innerHTML = "<input type='hidden' id='hfRelation_Code" + (table.rows.length - 1) + "' name='hfRelation_Code' value='" + Relation_Code.trim() + "' /><label>" + Relation + "</label> ";
-            cell3.innerHTML = "<input type='text' id='txtName" + (table.rows.length - 1) + "' placeholder='Title' name='txtName' value='" + Name + "' maxlength='50' onkeypress = 'return IsAlphaNumeric(event);'ondrop = 'return false;'npaste = 'return false;' />";
+            cell3.innerHTML = "<input type='text' id='txtName" + (table.rows.length - 1) + "' placeholder='Title' name='txtName' value='" + Name + "' maxlength='50' />";
 
             cell4.innerHTML = "<input type='text' id='txtAge" + (table.rows.length - 1) + "' placeholder='Title' name='txtAge' value='" + Age + "' maxlength='2' onkeypress = 'return IsNumeric(event);' />";
-            cell5.innerHTML = "<input type='text' id='txtWork" + (table.rows.length - 1) + "' placeholder='Title' name='txtWork' value='" + Work + "' maxlength='50' onkeypress = 'return IsAlphaNumeric(event);'ondrop = 'return false;'npaste = 'return false;' />";
+            cell5.innerHTML = "<input type='text' id='txtWork" + (table.rows.length - 1) + "' placeholder='Title' name='txtWork' value='" + Work + "' maxlength='50' />";
             cell6.innerHTML = "<input type='button' value='Delete' class='btn red' id='btnadd' onclick='del(" + (table.rows.length - 1) + ")'>";
 
             document.getElementById('txtrName').value = "";
@@ -1908,7 +1777,7 @@
                 //        $('#ddl_bankname').val(i.item.bank_code);
                 //        $('#ddl_branch_name').val(i.item.branch_code);
                 //    },
-                
+
                 minLength: 1
             });
         });
@@ -1954,9 +1823,11 @@
         });
 
         //$("#txt_IFSCCode").change(function () {
-        
+
 
 
         //});
     </script>
 }
+
+

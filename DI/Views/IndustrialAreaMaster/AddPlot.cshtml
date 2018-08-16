@@ -80,7 +80,11 @@
                                         <div class="form-group">
                                             <label class="control-label col-md-12" style="text-align:left" id="lblplot">भूखंड क्रमांक<span class="Mandatory">*</span></label>
                                             <div class="col-md-12">
-                                                @Html.TextBoxFor(m => m.PlotSerial, new { @class = "form-control", @id = "txtPlotnumber", @placeholder = "भूखंड क्रमांक", @Maxlength = 15 })
+                                                @Html.TextBoxFor(m => m.PlotSerial, new { @class = "form-control", @id = "txtPlotnumber", @placeholder = "भूखंड क्रमांक", @Maxlength = 15,
+                                               @onkeypress = "return IsAlphaNumeric(event);",
+                                               @ondrop = "return false;",
+                                               @npaste = "return false;"
+                                           })
                                             </div>
                                         </div>
                                     </div>
@@ -89,7 +93,11 @@
                                         <div class="form-group">
                                             <label class="control-label col-md-col-md-12" style="text-align:left; margin-left:20px" id="lblplotname"> भूखंड का नाम <span class="Mandatory">*</span></label>
                                             <div class="col-md-12">
-                                                @Html.TextBoxFor(m => m.PlotName, new { @class = "form-control", @id = "txtPlot_name", @placeholder = "भूखंड का नाम ", @Maxlength = 50 })
+                                                @Html.TextBoxFor(m => m.PlotName, new { @class = "form-control", @id = "txtPlot_name", @placeholder = "भूखंड का नाम ", @Maxlength = 50,
+                                               @onkeypress = "return IsAlphaNumeric(event);",
+                                               @ondrop = "return false;",
+                                               @npaste = "return false;"
+                                           })
                                             </div>
                                         </div>
                                     </div>
@@ -135,7 +143,12 @@
                                         <div class="form-group">
                                             <label class="control-label col-md-12" style="text-align:left">भूखंड का विवरण </label>
                                             <div class="col-md-12">
-                                                @Html.TextBoxFor(m => m.Plot_Desc, new { @class = "form-control", @id = "txtPlotdescription", @placeholder = "भूखंड का विवरण" })
+                                                @Html.TextBoxFor(m => m.Plot_Desc, new { @class = "form-control", @id = "txtPlotdescription", @placeholder = "भूखंड का विवरण" ,
+                                               @onkeypress = "return IsAlphaNumeric(event);",
+                                               @ondrop = "return false;",
+                                               @onpaste = "return false;",
+                                               @Maxlength = "30"
+                                           })
 
                                             </div>
                                         </div>
@@ -145,7 +158,11 @@
                                         <div class="form-group">
                                             <label class="control-label col-md-12" style="text-align:left"> आवंटी का विवरण  </label>
                                             <div class="col-md-12">
-                                                @Html.TextBoxFor(m => m.Plot_Allottee_Desc, new { @class = "form-control", @id = "txtAllotteeDetails", @placeholder = "आवंटी का विवरण" })
+                                                @Html.TextBoxFor(m => m.Plot_Allottee_Desc, new { @class = "form-control", @id = "txtAllotteeDetails", @placeholder = "आवंटी का विवरण" , @onkeypress = "return IsAlphaNumeric(event);",
+                                               @ondrop = "return false;",
+                                               @onpaste = "return false;",
+                                               @Maxlength = "30"
+                                           })
                                             </div>
                                         </div>
                                     </div>
@@ -375,7 +392,7 @@
         specialKeys.push(9); // Tab
         specialKeys.push(46); // for .
         specialKeys.push(37); // for left Arrow
-        specialKeys.push(39); // for Right Arrow
+        //specialKeys.push(39); // for Right Arrow
         function IsNumeric(e) {
             var keyCode = e.which ? e.which : e.keyCode
             var ret = ((keyCode >= 48 && keyCode <= 57) || specialKeys.indexOf(keyCode) != -1); // For Decimal To All Number

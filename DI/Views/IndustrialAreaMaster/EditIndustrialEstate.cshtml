@@ -85,7 +85,11 @@
                                         <label class="control-label col-md-12" id="lblEstate_name">आस्थान का नाम<span class="Mandatory">*</span></label>
                                         <div class="col-md-12">
 
-                                            @Html.TextBoxFor(m => m.IndustrialEstateName, new { @class = "form-control", @placeholder = "आस्थान का नाम", @id = "txtEstablished_industrial" ,@Maxlength = 20 })
+                                            @Html.TextBoxFor(m => m.IndustrialEstateName, new { @class = "form-control", @placeholder = "आस्थान का नाम", @id = "txtEstablished_industrial" ,@Maxlength = 20 ,
+                                           @onkeypress = "return IsAlphaNumeric(event);",
+                                           @ondrop = "return false;",
+                                           @npaste = "return false;"
+                                       })
                                             @Html.HiddenFor(m => m.IndustrialEstateCode, new { @id = "hfIndustrialAreaCode" })
                                           
                                         </div>
@@ -107,7 +111,11 @@
                                     <div class="form-group">
                                         <label class="control-label col-md-12" id="lblEstateaddress">पता<span class="Mandatory">*</span></label>
                                         <div class="col-md-12">
-                                            @Html.TextBoxFor(m => m.Address, new { @class = "form-control", @id = "txtAddress", @placeholder = "पता", @Maxlength = 20 })
+                                            @Html.TextBoxFor(m => m.Address, new { @class = "form-control", @id = "txtAddress", @placeholder = "पता", @Maxlength = 40,
+                                           @onkeypress = "return IsAlphaNumeric(event);",
+                                           @ondrop = "return false;",
+                                           @npaste = "return false;"
+                                       })
                                         </div>
                                     </div>
                                 </div>
@@ -190,7 +198,7 @@
                                     <div class="form-group">
                                         <label class="control-label col-md-12" id="lblEstateplotcount">भूखंड (संख्या)  </label>
                                         <div class="col-md-12">
-                                            @Html.TextBoxFor(m => m.PlotNo, new { @class = "form-control", @id = "txtCurrentlynumbertotaldevelopedlandarea", @placeholder = "भूखंड (संख्या)", @onkeypress = "return IsNumeric(event);", @Maxlength = 3 })
+                                            @Html.TextBoxFor(m => m.PlotNo, new { @class = "form-control", @id = "txtCurrentlynumbertotaldevelopedlandarea", @placeholder = "भूखंड (संख्या)", @onkeypress = "return IsNumeric(event);", @Maxlength = 8 })
                                         </div>
                                     </div>
                                 </div>
@@ -199,7 +207,8 @@
                                     <div class="form-group">
                                         <label class="control-label col-md-12" id="lblEstateshed">शेड (संख्या) </label>
                                         <div class="col-md-12">
-                                            @Html.TextBoxFor(m => m.ShadeNo, new { @class = "form-control", @id = "txttotaldevelopedlandarea_Number_sheds", @onkeypress = "return IsNumeric(event);", @Maxlength = 3 })
+                                            @Html.TextBoxFor(m => m.ShadeNo, new { @class = "form-control", @id = "txttotaldevelopedlandarea_Number_sheds", @onkeypress = "return IsNumeric(event);", @Maxlength = 3 
+                                       })
                                         </div>
                                     </div>
                                 </div>
@@ -213,7 +222,7 @@
                                     <div class="form-group">
                                         <label class="control-label col-md-12" id="lblEstaterail">निकटतम रेलवे स्टेशन से दूरी (कि० मी०)<span class="Mandatory">*</span></label>
                                         <div class="col-md-12">
-                                            @Html.TextBoxFor(m => m.NearestRailwayStationKm, new { @class = "form-control", @id = "txtDistancekilometers_station" , @Maxlength = 8 })
+                                            @Html.TextBoxFor(m => m.NearestRailwayStationKm, new { @class = "form-control", @id = "txtDistancekilometers_station" , @Maxlength = 8  , @onkeypress = "return IsNumeric(event);" })
                                         </div>
                                     </div>
                                 </div>
@@ -222,7 +231,7 @@
                                     <div class="form-group">
                                         <label class="control-label col-md-12" id="lblEstatebus">निकटतम बस स्टेशन से दूरी (कि० मी०) <span class="Mandatory">*</span></label>
                                         <div class="col-md-12">
-                                            @Html.TextBoxFor(m => m.NearestBusStationKM, new { @class = "form-control", @id = "txtAccess_distancenet_bus_stand" , @Maxlength = 8 })
+                                            @Html.TextBoxFor(m => m.NearestBusStationKM, new { @class = "form-control", @id = "txtAccess_distancenet_bus_stand" , @Maxlength = 8, @onkeypress = "return IsNumeric(event);" })
                                             @*<span class="help-block"> This is inline help </span>*@
                                         </div>
                                     </div>
@@ -432,9 +441,11 @@
                                 //district = district + '</select>';
                                 //alert(district);
                                 $('#ddlTehsil').append(district);
-                                $('#ddlTehsil').val($('#hfddlTehsil').val());
-                                $('#ddlBlock').val("-1");
-                                $('#ddlVillage').val("-1");
+                                //$('#ddlTehsil').val($('#hfddlTehsil').val());
+                                $('#ddlBlock').empty();
+                                $('#ddlBlock').append("<option value=-1>--चयन करे--</option>");
+                                $('#ddlVillage').empty();
+                                $('#ddlVillage').append("<option value=-1>--चयन करे--</option>");
                             }
                         });
                     });
@@ -458,8 +469,9 @@
                                 //  district = district + '</select>';
                                 //alert(district);
                                 $('#ddlBlock').append(block);
-                                $('#ddlBlock').val($('#hfddlBlock').val());
-                                $('#ddlVillage').val("-1");
+                               // $('#ddlBlock').val($('#hfddlBlock').val());
+                                $('#ddlVillage').empty();
+                                $('#ddlVillage').append("<option value=-1>--चयन करे--</option>");
                             }
                         });
                     });
@@ -481,7 +493,7 @@
                                 //  district = district + '</select>';
                                 //alert(district);
                                 $('#ddlVillage').append(village);
-                                $('#ddlVillage').val($('#hfddlVillage').val());
+                               // $('#ddlVillage').val($('#hfddlVillage').val());
                             }
                         });
                     });
@@ -496,7 +508,7 @@
                 specialKeys.push(9); // Tab
                 specialKeys.push(46); // for .
                 specialKeys.push(37); // for left Arrow
-                specialKeys.push(39); // for Right Arrow
+            //    specialKeys.push(39); // for Right Arrow
                 function IsNumeric(e) {
                     var keyCode = e.which ? e.which : e.keyCode
                     var ret = ((keyCode >= 48 && keyCode <= 57) || specialKeys.indexOf(keyCode) != -1); // For Decimal To All Number

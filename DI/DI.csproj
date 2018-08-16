@@ -2714,6 +2714,8 @@
     <Content Include="scripts\jquery-3.2.1.min.js" />
     <Content Include="scripts\jquery-3.2.1.slim.js" />
     <Content Include="scripts\jquery-3.2.1.slim.min.js" />
+    <Content Include="scripts\jquery-ui.css" />
+    <Content Include="scripts\jquery-ui.js" />
     <Content Include="scripts\markerclusterer.js" />
     <Content Include="scripts\md5.js" />
     <Content Include="scripts\Menu.js" />
@@ -2827,6 +2829,13 @@
     <Content Include="Views\User\certificate_Letter.cshtml" />
     <Content Include="Views\User\PlotApplicant.cshtml" />
     <Content Include="Views\User\PlantAndMachinery_EntryForm.cshtml" />
+    <Content Include="Views\User\Uploadform.cshtml" />
+    <Content Include="Views\User\SPY_EntryForm.cshtml" />
+    <Content Include="Views\User\MHPY_EntryForm.cshtml" />
+    <Content Include="Views\User\VHPP_Entryform.cshtml" />
+    <Content Include="Views\User\demo.cshtml" />
+    <Content Include="Views\User\Print_VHPPForm.cshtml" />
+    <Content Include="Views\User\VHPPAffidavitPrint.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

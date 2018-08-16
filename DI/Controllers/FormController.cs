@@ -170,20 +170,20 @@ namespace DI.Controllers
             return View();
         }
 
-        public JsonResult InsertUpdateYojona_Master_(Yojona_Master Objform, string sptype)
-        {
-            try
-            {
-                Objform.Mode = sptype;
-                string str = new DAL.CommonDA().InsertYojona_Master(Objform);
-                return Json(str, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                return Json(ex.Message, JsonRequestBehavior.AllowGet);
-            }
+        //public JsonResult InsertUpdateYojona_Master_(Yojona_Master Objform, string sptype)
+        //{
+        //    try
+        //    {
+        //        Objform.Mode = sptype;
+        //        string str = new DAL.CommonDA().InsertYojona_Master(Objform);
+        //        return Json(str, JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Json(ex.Message, JsonRequestBehavior.AllowGet);
+        //    }
 
-        }
+        //}
         public ActionResult Get_Data_MYSY()
         {
             return View();

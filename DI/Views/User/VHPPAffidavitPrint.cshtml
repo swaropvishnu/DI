@@ -1,0 +1,180 @@
+﻿
+@{
+    ViewBag.Title = "VHPPAffidavitPrint";
+    Layout = "~/Views/Shared/UserLayout.cshtml";
+}
+
+@using System.Data;
+@using DI.Models;
+@using DI.DAL;
+@using DI.BLL;
+
+
+@{
+    //var grid = new WebGrid(Model, rowsPerPage: 20);
+    DataSet ds = new DataSet();
+    ds = new CommonDA().GetApplicantinfo_vhpp(-1, -1, UserSession.LoggedInUserName);
+}
+
+<style>
+    img {
+        page-break-inside: avoid;
+    }
+
+    .img-rounded {
+        border-radius: 6px;
+        Height: 100px;
+        Width: 109px;
+    }
+
+    .fillinthebank {
+       /*border-bottom: 4px dotted black;*/
+    }
+</style>
+
+<script type="text/javascript">
+      window.history.forward();
+</script>
+
+<script language="javascript" type="text/javascript">
+        function printDiv(divID) {
+            //Get the HTML of div
+            var divElements = document.getElementById(divID).innerHTML;
+            //Get the HTML of whole page
+            var oldPage = document.body.innerHTML;
+
+            //Reset the page's HTML with div's HTML only
+            document.body.innerHTML =
+               "<html><head><title></title><style>.fillinthebank{border-bottom: 4px dotted black;}</style></head><body>" +
+                "<div align='center' style='margin-left:1%;margin-right:1%;width:100%;font-size:x-large'>" +
+
+               divElements + "</div></body>";
+          //  window.open()
+            //Print Page
+          window.print();
+
+            //Restore orignal HTML
+           document.body.innerHTML = oldPage;
+        }
+</script>
+
+<div style="background-color:white ;">
+    <div style="margin-left:79%; ">
+        <button type="button" class="btn green" onclick="javascript:printDiv('reportdiv')" style="margin-left:5%;margin-right:5%;" id="btnprint">Print</button>
+    </div>
+
+    <div class="row">
+
+        @using (Html.BeginForm("Affidavit_Letter", "IndustrialAreaMaster", FormMethod.Post, new { @class = "", enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div id="reportdiv">
+                <br />
+                <br />
+                <h4 class="title" align="center" style="font-size:x-large;font-weight:bold;text-decoration: underline">स्वप्रमाणित घोषणा पत्र </h4>
+
+                @if (ds != null)
+                {
+                    if (ds.Tables[0] != null)
+                    {
+                        if (ds.Tables[0].Rows.Count > 0)
+                        {
+                            <div>
+                                <table class="table-responsive tblcss" id="Letter" border="0" style="width:80%" align="center">
+                                    <tr>
+                                        <td style="text-align:justify;border: none;text-indent:-15px;font-size:20px">
+                                            <br />
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                                            मैं
+                                            <span class="fillinthebank">
+                                                @ds.Tables[0].Rows[0]["applicant_name"].ToString().Trim()
+                                            </span>(पुत्र/पुत्री/पति)
+                                            <span class="fillinthebank">
+                                                @ds.Tables[0].Rows[0]["father_name"].ToString().Trim()
+                                            </span>
+                                            निवासी
+                                            <span class="fillinthebank">
+                                                @ds.Tables[0].Rows[0]["permanent_address"].ToString().Trim()
+                                            </span>हूॅं। मैं जनपद
+                                            <span class="fillinthebank">
+                                                @ds.Tables[0].Rows[0]["dist_name_u"].ToString().Trim()
+                                            </span>में.....................................................का शिल्पकार हूॅं। मेरा हस्तशिल्पी पहचान पत्र संख्या<span class="fillinthebank">
+    @ds.Tables[0].Rows[0]["id_no"].ToString().Trim()
+</span>है।
+                                            विशिष्ट हस्तशिल्प प्रादेशिक पुरस्कार योजनान्तर्गत वर्ष 2018 - 19 पे्रषित की जाने वाली कलाकृति स्वंय मेरे द्वारा ही बनाई गई है। इसमें परिवार या अन्य बाहरी व्यक्तियों का सहयोग बिल्कुल भी नहीं प्राप्त किया गया है और न ही मेरे द्वारा उक्त पे्रषित किये जाने वाली शिल्प/ कलाकृति मोल क्रय कर रखी गयी है। मेरे द्वारा जमा की जाने वाली कलाकृति मण्डल स्तरीय कार्यालय या आयुक्त एवं निदेशक उद्योग, उत्तर प्रदेश, कानपुर कार्यालय को पे्रषित करते हुये यदि टूट फूट जाती है तो उसका सम्पूर्ण उत्तरदायी स्वंय मेरा होगा और मेरे द्वारा जमा की जाने वाली कलाकृति का दर्शाया गया मूल्य नहीं माॅगा जायेगा।  <br />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align:justify;border: none;font-size:20px">
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                                            विशिष्ट हस्तशिल्प प्रादेशिक पुरस्कार योजनान्तर्गत उक्त शिल्प / क्राप्ट में इससे पूर्व मुझको राज्य स्तरीय हस्तशिल्प पुरस्कार प्राप्त नहीं हुआ है।
+                                            <br />
+                                        </td>
+                                    </tr>
+
+
+                                    <tr>
+                                        <td style="text-align:justify;border: none;font-size:20px">
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            मेरे द्वारा पे्रषित की जाने वाली कलाकृति को स्वतः बनवाकर देखा जा सकता है। मेरे द्वारा उक्त दिये गये कथन पूर्णतया सत्य है। जाॅच कराये जाने में यदि असत्य पाये जाते हैं तो उसका पूर्ण उत्तरदायित्व मेरा मानते हुये मेरे शिल्प को उक्त पुरस्कार योजना से हटाने/ बाहर किये जाने का पूर्ण अधिकार उपायुक्त उद्योग, जिला उद्योग केन्द्र, कार्यालय को है। मेरे द्वारा इस संबंध में किसी प्रकार का कोई भी वाद आदि न्यायालय में दायर नहीं किया जायेगा।
+                                        </td>
+                                    </tr>
+                                    </table>
+                               
+                                <table class=""  border="0" style="width:80%" align="center" >
+                                   <br />
+                                    <tr>
+                                        <td > दिनांक: </td>
+                                        <td> @ds.Tables[0].Rows[0]["date"].ToString().Trim()</td>
+                                       <td></td>
+                                        <td > हस्ताक्षर</td>
+                                    </tr>
+                                    <tr>
+                                        <td > स्थान:</td>
+                                        
+                                        <td>@ds.Tables[0].Rows[0]["dist_name_u"].ToString().Trim()</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td>शिल्पकार का नाम:</td>
+                                        <td >@ds.Tables[0].Rows[0]["applicant_name"].ToString().Trim() ,</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td>स्थाई पता:</td>
+                                        <td >@ds.Tables[0].Rows[0]["permanent_address"].ToString().Trim() ,</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td>अस्थाई पता:</td>
+                                        <td >@ds.Tables[0].Rows[0]["current_address"].ToString().Trim() ,</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td> मोबाईल नम्बर:</td>
+                                        <td >@ds.Tables[0].Rows[0]["mobile_no"].ToString().Trim() ,</td>
+                                    </tr>
+                                </table>
+                                   
+
+                                                                                       
+
+                                   
+                                  
+</div>
+                        }
+                    }
+                }
+            </div>
+        }
+    </div>
+</div>

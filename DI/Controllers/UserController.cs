@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Security.Principal;
@@ -18,12 +19,108 @@ namespace DI.Controllers
         {
             return View();
         }
+        public ActionResult SPY_EntryForm()
+        {
+            SPY_Applicant spy = new SPY_Applicant();
+            try
+            {
+                if (@UserSession.LoggedInUserName != null)
+                {
+                    DataSet ds = new DAL.CommonDA().GetApplicantinfo_spy(-1, -1, @UserSession.LoggedInUserName);
+                    if (ds != null)
+                    {
+                        if (ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+                        {
+                            spy.applicant_name = ds.Tables[0].Rows[0]["applicant_name"].ToString().Trim();
+                            spy.steps = ds.Tables[0].Rows[0]["steps"].ToString().Trim();
+                            spy.inputdob = ds.Tables[0].Rows[0]["dob"].ToString().Trim();
+                            spy.applicant_code = long.Parse(ds.Tables[0].Rows[0]["registration_code"].ToString().Trim());
+                            spy.yojana_code = short.Parse(ds.Tables[0].Rows[0]["scheme_code"].ToString().Trim());
+                            spy.adhar_no = ds.Tables[0].Rows[0]["adhar_no"].ToString().Trim();
+                            spy.Husband_father_name = ds.Tables[0].Rows[0]["father_name"].ToString().Trim();
+                            spy.current_address = ds.Tables[0].Rows[0]["current_address"].ToString().Trim();
+                            spy.permanent_address = ds.Tables[0].Rows[0]["permanent_address"].ToString().Trim();
+                            spy.mobile_no = ds.Tables[0].Rows[0]["mobile_no"].ToString().Trim();
+                            spy.email = ds.Tables[0].Rows[0]["email"].ToString().Trim();
+                            spy.DistCode = int.Parse(ds.Tables[0].Rows[0]["district_code_census"].ToString().Trim()) == 0 ? -1 : int.Parse(ds.Tables[0].Rows[0]["district_code_census"].ToString().Trim());
+                            spy.TehsilCode = int.Parse(ds.Tables[0].Rows[0]["tehsil_code_census"].ToString().Trim()) == 0 ? -1 : int.Parse(ds.Tables[0].Rows[0]["tehsil_code_census"].ToString().Trim());
+                            spy.BlockCode = int.Parse(ds.Tables[0].Rows[0]["block_code"].ToString().Trim()) == 0 ? -1 : int.Parse(ds.Tables[0].Rows[0]["block_code"].ToString().Trim()); ;
+                            spy.VillCode = int.Parse(ds.Tables[0].Rows[0]["village_code"].ToString().Trim()) == 0 ? -1 : int.Parse(ds.Tables[0].Rows[0]["village_code"].ToString().Trim());
+                            spy.artisian_no = ds.Tables[0].Rows[0]["artisian_no"].ToString().Trim();
+                            spy.awards = ds.Tables[0].Rows[0]["awards"].ToString().Trim();
+                            spy.handicraft_work = (ds.Tables[0].Rows[0]["handicraft_work"].ToString().Trim());
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            return View(spy);
+        }
+        public ActionResult VHPP_Entryform()
+        {
+            vhpp_Applicant VH = new vhpp_Applicant();
+            try
+            {
+                if (@UserSession.LoggedInUserName != null)
+                {
+                    DataSet ds = new DAL.CommonDA().GetApplicantinfo_vhpp(-1, -1, @UserSession.LoggedInUserName);
+                    if (ds != null)
+                    {
+                        if (ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+                        {
+                            VH.applicant_name = ds.Tables[0].Rows[0]["applicant_name"].ToString().Trim();
+                            VH.steps = ds.Tables[0].Rows[0]["steps"].ToString().Trim();
+                            VH.inputdob = ds.Tables[0].Rows[0]["dob"].ToString().Trim();
+                            VH.applicant_code = long.Parse(ds.Tables[0].Rows[0]["registration_code"].ToString().Trim());
+                            VH.yojana_code = short.Parse(ds.Tables[0].Rows[0]["scheme_code"].ToString().Trim());
+                            VH.adhar_no = ds.Tables[0].Rows[0]["adhar_no"].ToString().Trim();
+                            VH.Husband_father_name = ds.Tables[0].Rows[0]["father_name"].ToString().Trim();
+                            VH.current_address = ds.Tables[0].Rows[0]["current_address"].ToString().Trim();
+                            VH.permanent_address = ds.Tables[0].Rows[0]["permanent_address"].ToString().Trim();
+                            VH.mobile_no = ds.Tables[0].Rows[0]["mobile_no"].ToString().Trim();
+                            VH.email = ds.Tables[0].Rows[0]["email"].ToString().Trim();
+                            VH.DistCode = int.Parse(ds.Tables[0].Rows[0]["district_code_census"].ToString().Trim()) == 0 ? -1 : int.Parse(ds.Tables[0].Rows[0]["district_code_census"].ToString().Trim());
+                            VH.TehsilCode = int.Parse(ds.Tables[0].Rows[0]["tehsil_code_census"].ToString().Trim()) == 0 ? -1 : int.Parse(ds.Tables[0].Rows[0]["tehsil_code_census"].ToString().Trim());
+                            VH.BlockCode = int.Parse(ds.Tables[0].Rows[0]["block_code"].ToString().Trim()) == 0 ? -1 : int.Parse(ds.Tables[0].Rows[0]["block_code"].ToString().Trim()); ;
+                            VH.VillCode = int.Parse(ds.Tables[0].Rows[0]["village_code"].ToString().Trim()) == 0 ? -1 : int.Parse(ds.Tables[0].Rows[0]["village_code"].ToString().Trim());
+                            VH.handicraft_id_no = ds.Tables[0].Rows[0]["id_no"].ToString().Trim();
+                            VH.input_architect_experience = ds.Tables[0].Rows[0]["architect_experience"].ToString().Trim() == "01/01/1900" ? "" : ds.Tables[0].Rows[0]["architect_experience"].ToString().Trim();
+                            VH.input_Artwork_start_date = ds.Tables[0].Rows[0]["artwork_start_date"].ToString().Trim() == "01/01/1900" ? "" : ds.Tables[0].Rows[0]["artwork_start_date"].ToString().Trim();
+                            VH.input_Artwork_to_date = ds.Tables[0].Rows[0]["artwork_to_date"].ToString().Trim() == "01/01/1900" ? "" : ds.Tables[0].Rows[0]["artwork_to_date"].ToString().Trim();
+                            VH.teacher = ds.Tables[0].Rows[0]["teacher"].ToString().Trim();
+                            VH.participation_count = int.Parse(ds.Tables[0].Rows[0]["participation_count"].ToString().Trim());
+                            VH.Award_count = int.Parse(ds.Tables[0].Rows[0]["award_count"].ToString().Trim());
+                            VH.craft_name = ds.Tables[0].Rows[0]["craft_name"].ToString().Trim();
+                            VH.Artwork_subject = ds.Tables[0].Rows[0]["artwork_subject"].ToString().Trim();
+                        }
+                    }
+                }
+            }
+            catch (Exception EX)
+            {
+
+                throw;
+            }
+            return View(VH);
+        }
         public ActionResult ChangePassword()
+        {
+            return View();
+        }
+        public ActionResult VHPPAffidavitPrint()
         {
             return View();
         }
 
         public ActionResult GetCMSY_ApplicationPrint()
+        {
+            return View();
+        }
+        public ActionResult Print_VHPPForm()
         {
             return View();
         }
@@ -33,23 +130,86 @@ namespace DI.Controllers
         }
         public ActionResult PlantAndMachinery_EntryForm()
         {
-
             Plant_Machinery PM = new Plant_Machinery();
             if (@UserSession.LoggedInUserName != null)
+            {
+                DataSet ds = new DAL.CommonDA().GetApplicantinfo_MYSY(-1, -1, @UserSession.LoggedInUserName);
+                if (ds != null)
                 {
-                    DataSet ds = new DAL.CommonDA().GetApplicantinfo(-1, -1, @UserSession.LoggedInUserName);
-                    PM.address = ds.Tables[0].Rows[0]["permanent_address"].ToString().Trim();
-                    PM.adhar_no = ds.Tables[0].Rows[0]["adhar_no"].ToString().Trim();
-                    PM.applicant_name = ds.Tables[0].Rows[0]["applicant_name"].ToString().Trim();
-                    PM.father_name = ds.Tables[0].Rows[0]["father_name"].ToString().Trim();
-                    PM.mobile_no = ds.Tables[0].Rows[0]["mobile_no"].ToString().Trim();
-                    PM.office_address = ds.Tables[0].Rows[0]["proposed_office_address"].ToString().Trim();
-                    PM.manufacturing = ds.Tables[0].Rows[0]["manufacturing"].ToString().Trim();
-                   
+                    if (ds.Tables[0] != null)
+                    {
+                        if (ds.Tables[0].Rows.Count > 0)
+                        {
+                            PM.address = ds.Tables[0].Rows[0]["permanent_address"].ToString().Trim();
+                            PM.adhar_no = ds.Tables[0].Rows[0]["adhar_no"].ToString().Trim();
+                            PM.applicant_name = ds.Tables[0].Rows[0]["applicant_name"].ToString().Trim();
+                            PM.father_name = ds.Tables[0].Rows[0]["father_name"].ToString().Trim();
+                            PM.mobile_no = ds.Tables[0].Rows[0]["mobile_no"].ToString().Trim();
+                            PM.office_address = ds.Tables[0].Rows[0]["proposed_office_address"].ToString().Trim();
+                            PM.manufacturing = ds.Tables[0].Rows[0]["manufacturing"].ToString().Trim();
+                            PM.registration_code = ds.Tables[0].Rows[0]["registration_code"].ToString().Trim();
+                        }
+                        if (ds.Tables[4] != null)
+                        {
+                            if (ds.Tables[4].Rows.Count > 0)
+                            {
+                                StringBuilder str = new StringBuilder();
+                                for (int i = 0; i < ds.Tables[4].Rows.Count; i++)
+                                {
+                                    str.Append("<tr>");
+                                    str.Append("<td>" + (i + 1) + "</td>");
+                                    str.Append("<td><input type='text' id='txtMachine" + (i + 1) + "' placeholder='Title' name='txtMachine' value='" + ds.Tables[4].Rows[i]["machine_name"].ToString().Trim() + "' maxlength='100'></td>");
+                                    str.Append("<td><input type='text' id='txtcost" + (i + 1) + "' placeholder='Title' name='txtcost' value='" + ds.Tables[4].Rows[i]["price"].ToString().Trim() + "' maxlength='100'></td>");
+                                    str.Append("<td><input type='text' id='txtsupplier" + (i + 1) + "' placeholder='Title' name='txtsupplier' value='" + ds.Tables[4].Rows[i]["supplier"].ToString().Trim() + "' maxlength='100'></td>");
+                                    str.Append("<td><input type='button' value='Delete' class='btn red' id='btnadd' onclick='del(" + (i + 1) + ")'></td>");
+                                    str.Append("</tr>");
+                                }
+
+                                PM.machinetable = str.ToString().Trim();
+                                PM.steps = "1";
+                                PM.fixed_deposite = decimal.Parse(ds.Tables[4].Rows[0]["fixed_deposite"].ToString().Trim());
+                                PM.working_capital = decimal.Parse(ds.Tables[4].Rows[0]["working_capital"].ToString().Trim());
+                                PM.project_cost = decimal.Parse(ds.Tables[4].Rows[0]["project_cost"].ToString().Trim());
+                            }
+                            else
+                            {
+                                PM.steps = "0";
+                            }
+                        }
+                        if (ds.Tables[5] != null)
+                        {
+                            if (ds.Tables[5].Rows.Count > 0)
+                            {
+                                PM.steps = "2";
+                            }
+                        }
+
+                    }
+                }
+
+
             }
 
 
             return View(PM);
+        }
+        public JsonResult Getifsc(string Prefix)
+        {
+            DataTable dt = new DAL.CommonDA().Getifsc(Prefix);
+
+            List<ifsc> SL = new List<ifsc>();
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                ifsc s1 = new ifsc();
+                s1.ifsc_code = dt.Rows[i]["ifsc"].ToString().Trim();
+                s1.bank_code = dt.Rows[i]["bank_code"].ToString().Trim();
+                s1.branch_code = dt.Rows[i]["branch_code"].ToString().Trim();
+                s1.branch_name = dt.Rows[i]["branch_name"].ToString().Trim();
+                s1.address = dt.Rows[i]["address"].ToString().Trim();
+                SL.Add(s1);
+            }
+
+            return Json(SL, JsonRequestBehavior.AllowGet);
         }
         //CMYSS_Applicant ad = new CMYSS_Applicant(); PlantAndMachinery_EntryForm
         public ActionResult CMYS_SchemeEntryForm()
@@ -59,7 +219,7 @@ namespace DI.Controllers
             {
                 if (@UserSession.LoggedInUserName != null)
                 {
-                    DataSet ds = new DAL.CommonDA().GetApplicantinfo(-1, -1, @UserSession.LoggedInUserName);
+                    DataSet ds = new DAL.CommonDA().GetApplicantinfo_MYSY(-1, -1, @UserSession.LoggedInUserName);
                     if (ds != null)
                     {
                         if (ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
@@ -84,19 +244,25 @@ namespace DI.Controllers
                             //CM.bank_code = ds.Tables[0].Rows[0]["bank_name"].ToString().Trim();
                             CM.self_share = decimal.Parse(ds.Tables[0].Rows[0]["self_share"].ToString().Trim());
                             CM.deposit_amt = decimal.Parse(ds.Tables[0].Rows[0]["deposit_amt"].ToString().Trim());
-                          //  CM.branch_name = ds.Tables[0].Rows[0]["branch_name"].ToString().Trim();
+                            CM.steps = ds.Tables[0].Rows[0]["steps"].ToString().Trim();
+                            //  CM.branch_name = ds.Tables[0].Rows[0]["branch_name"].ToString().Trim();
                             CM.bank_account_no = ds.Tables[0].Rows[0]["bank_account_no"].ToString().Trim();
-                           // CM.ifsc_code = ds.Tables[0].Rows[0]["ifsc_code"].ToString().Trim();
-                            CM.DistCode = int.Parse(ds.Tables[0].Rows[0]["district_code_census"].ToString().Trim())==0?-1: int.Parse(ds.Tables[0].Rows[0]["district_code_census"].ToString().Trim());
-                            CM.TehsilCode = int.Parse(ds.Tables[0].Rows[0]["tehsil_code_census"].ToString().Trim())==0?-1: int.Parse(ds.Tables[0].Rows[0]["tehsil_code_census"].ToString().Trim());
-                            CM.BlockCode = int.Parse(ds.Tables[0].Rows[0]["block_code"].ToString().Trim())==0?-1: int.Parse(ds.Tables[0].Rows[0]["block_code"].ToString().Trim()); ;
-                            CM.VillCode = int.Parse(ds.Tables[0].Rows[0]["village_code"].ToString().Trim())==0?-1: int.Parse(ds.Tables[0].Rows[0]["village_code"].ToString().Trim());
+                            // CM.ifsc_code = ds.Tables[0].Rows[0]["ifsc_code"].ToString().Trim();
+                            CM.DistCode = int.Parse(ds.Tables[0].Rows[0]["district_code_census"].ToString().Trim()) == 0 ? -1 : int.Parse(ds.Tables[0].Rows[0]["district_code_census"].ToString().Trim());
+                            CM.TehsilCode = int.Parse(ds.Tables[0].Rows[0]["tehsil_code_census"].ToString().Trim()) == 0 ? -1 : int.Parse(ds.Tables[0].Rows[0]["tehsil_code_census"].ToString().Trim());
+                            CM.BlockCode = int.Parse(ds.Tables[0].Rows[0]["block_code"].ToString().Trim()) == 0 ? -1 : int.Parse(ds.Tables[0].Rows[0]["block_code"].ToString().Trim()); ;
+                            CM.VillCode = int.Parse(ds.Tables[0].Rows[0]["village_code"].ToString().Trim()) == 0 ? -1 : int.Parse(ds.Tables[0].Rows[0]["village_code"].ToString().Trim());
                             StringBuilder str = new StringBuilder();
                             if (ds.Tables[1] != null && ds.Tables[1].Rows.Count > 0)
                             {
                                 DataTable dtFather = ds.Tables[1].Select("relation_code='F'").CopyToDataTable();
                                 DataTable dtMother = ds.Tables[1].Select("relation_code='M'").CopyToDataTable();
-                                DataTable dtOther = ds.Tables[1].Select("relation_code<>'M' AND relation_code<>'F'").CopyToDataTable();
+                                DataTable dtOther = new DataTable();
+                                if (ds.Tables[1].Select("relation_code<>'M' AND relation_code<>'F'") != null && ds.Tables[1].Select("relation_code<>'M' AND relation_code<>'F'").Length > 0)
+                                {
+                                    dtOther = ds.Tables[1].Select("relation_code<>'M' AND relation_code<>'F'").CopyToDataTable();
+                                }
+
                                 if (dtFather != null)
                                 {
                                     if (dtFather.Rows.Count > 0)
@@ -152,7 +318,7 @@ namespace DI.Controllers
                             CM.OtherRelation = str.ToString().Trim();
                             CM.manufacturing = ds.Tables[0].Rows[0]["manufacturing"].ToString().Trim();
                             CM.services = ds.Tables[0].Rows[0]["services"].ToString().Trim();
-                            CM.steps = ds.Tables[0].Rows[0]["steps"].ToString().Trim();
+
                         }
                     }
                 }
@@ -166,7 +332,7 @@ namespace DI.Controllers
             {
             }
         }
-        public JsonResult InsertUpdateCMYSS_Applicant(CMYSS_Applicant Objform, List<CMYSS_Applicant_Doc> objdoc, List<CMYSS_Applicant_Family> objFamily, string  @sptype)
+        public JsonResult InsertUpdateCMYSS_Applicant(CMYSS_Applicant Objform, List<CMYSS_Applicant_Doc> objdoc, List<CMYSS_Applicant_Family> objFamily, string @sptype)
         {
             try
             {
@@ -190,11 +356,84 @@ namespace DI.Controllers
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
         }
+        public JsonResult InsertUpdateVHPP_Applicant(vhpp_Applicant Objform, string @sptype)
+        {
+            try
+            {
+                try
+                {
+                    DateTime dt = BLL.CommonBL.Setdate(Objform.inputdob);
+                    Objform.dob = dt;
+                }
+                catch (Exception)
+                {
+                    return Json("Date of Birth must be dd/mm/yyyy format", JsonRequestBehavior.AllowGet);
+                }
+                try
+                {
+                    DateTime dt1 = BLL.CommonBL.Setdate(Objform.input_architect_experience);
+                    DateTime dt2 = BLL.CommonBL.Setdate(Objform.input_Artwork_start_date);
+                    DateTime dt3 = BLL.CommonBL.Setdate(Objform.input_Artwork_to_date);
+                    Objform.architect_experience = dt1;
+                    Objform.Artwork_start_date = dt2;
+                    Objform.Artwork_to_date = dt3;
+                }
+                catch (Exception)
+                {
+                    return Json("Date must be dd/mm/yyyy format", JsonRequestBehavior.AllowGet);
+                }
+                Objform.@Password = "";
+                string str = new DAL.CommonDA().InsertUpdateVHPP(Objform, "2");
+                return Json(str, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         public JsonResult InsertUpdateCMYSS_Applicantfamily(List<CMYSS_Applicant_Family> objFamily, string PensionCard, decimal family_income)
         {
             try
             {
                 string str = new DAL.CommonDA().InsertUpdateCMYSS_Applicantfamily(objFamily, PensionCard, family_income);
+                return Json(str, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+        }
+        public JsonResult InsertUpdateCMYSS_MachininaryDetails(List<Plant_Machinery> objFamily)
+        {
+            try
+            {
+                if (objFamily.Count <= 0)
+                {
+                    return Json("कृप्या मशीन का विवरण भरे ", JsonRequestBehavior.AllowGet);
+
+                }
+
+                string str = new DAL.CommonDA().InsertUpdateCMYSS_MachininaryDetails(objFamily);
+                return Json(str, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+        public JsonResult InsertRegistrationFinancedetails(List<Plant_Machinery> objFamily)
+        {
+            try
+            {
+                if (objFamily.Count <= 0)
+                {
+                    return Json("कृप्या पूंजी का विवरण भरे ", JsonRequestBehavior.AllowGet);
+
+                }
+                string str = new DAL.CommonDA().InsertRegistrationFinancedetails(objFamily);
                 return Json(str, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -259,7 +498,202 @@ namespace DI.Controllers
                             dt.Rows[dt.Rows.Count - 1]["doc"] = img;
                             dt.Rows[dt.Rows.Count - 1]["doc_content_type"] = ext[1];
                             Session["Doc"] = dt;
-                            return Json("files upload");
+                        }
+                        else
+                        {
+                            return Json("only .pdf/.docx /.doc/.xls/.xlsx/.jpg/jpeg/.png  files upload");
+                        }
+                    }
+                    return Json("File Uploaded Successfully!");
+                }
+                catch (Exception ex)
+                {
+                    return Json("Error occurred. Error details: " + ex.Message);
+                }
+                finally
+                {
+                }
+            }
+            else
+            {
+                return Json("No files selected.");
+            }
+        }
+        public ActionResult Uploadphoto()
+        {
+            if (Request.Files.Count > 0)
+            {
+                try
+                {
+                    string fname = "";
+                    string fname2 = "";
+                    HttpFileCollectionBase files = Request.Files;
+                    for (int i = 0; i < files.Count; i++)
+                    {
+                        HttpPostedFileBase file = files[i];
+                        Byte[] img = null;
+                        if (file != null && file.ContentLength > 0)
+                        {   /*****IMG-DB-CODE******/
+                            int FileSize = file.ContentLength;
+                            img = new Byte[FileSize];
+                            file.InputStream.Read(img, 0, FileSize);
+
+                        }//
+                        if (Request.Browser.Browser.ToUpper() == "IE" || Request.Browser.Browser.ToUpper() == "INTERNETEXPLORER")
+                        {
+                            string[] testfiles = file.FileName.Split(new char[] { '\\' });
+                            fname = testfiles[testfiles.Length - 1];
+                            fname2 = testfiles[testfiles.Length - 1];
+                        }
+                        else
+                        {
+                            fname = file.FileName;
+                            fname2 = file.FileName;
+                        }
+                        string[] ext = fname.Split('.');
+
+                        if (ext[1].ToString().Trim() == "jpg" || ext[1].ToString().Trim() == "jpeg" || ext[1].ToString().Trim() == "png")
+                        {
+                            Bitmap img2 = new Bitmap(file.InputStream);
+                            if (img2.Width != 110 || img2.Height != 140)
+                            {
+                                return Json("Resolution must be 110*140");
+                            }
+                            DataTable dt = new DataTable();
+                            if (Session["Doc"] == null)
+                            {
+                                dt.Rows.Add();
+                                dt.Columns.Add("applicant_code", typeof(long));
+                                dt.Columns.Add("doc", typeof(System.Byte[]));
+                                dt.Columns.Add("doc_type", typeof(string));
+                                dt.Columns.Add("doc_content_type", typeof(string));
+                            }
+                            else
+                            {
+                                dt = RemovedPrevious((DataTable)Session["Doc"], "I");
+                                dt.Rows.Add();
+
+                            }
+                            dt.Rows[dt.Rows.Count - 1]["doc"] = img;
+                            dt.Rows[dt.Rows.Count - 1]["doc_content_type"] = ext[1];
+                            Session["Doc"] = dt;
+                        }
+                        else
+                        {
+                            return Json("only .pdf/.docx /.doc/.xls/.xlsx/.jpg/jpeg/.png  files upload");
+                        }
+                    }
+                    return Json("File Uploaded Successfully!");
+                }
+                catch (Exception ex)
+                {
+                    return Json("Error occurred. Error details: " + ex.Message);
+                }
+                finally
+                {
+                }
+            }
+            else
+            {
+                return Json("No files selected.");
+            }
+        }
+
+        public DataTable RemovedPrevious(DataTable dt, string doc_type)
+        {
+            DataTable dt2 = new DataTable();
+            if (dt != null)
+            {
+                if (dt.Select("doc_type='" + doc_type + "'") != null && dt.Select("doc_type='" + doc_type + "'").Length > 0)
+                {
+                    dt2 = dt.Select("doc_type='" + doc_type + "'").CopyToDataTable();
+                }
+                if (dt2 != null)
+                {
+                    if (dt2.Rows.Count > 0)
+                    {
+                        List<DataRow> rows_to_remove = new List<DataRow>();
+                        foreach (DataRow row1 in dt.Rows)
+                        {
+                            foreach (DataRow row2 in dt2.Rows)
+                            {
+                                if (row1["doc_type"].ToString() == row2["doc_type"].ToString())
+                                {
+                                    rows_to_remove.Add(row1);
+                                }
+                            }
+                        }
+
+                        foreach (DataRow row in rows_to_remove)
+                        {
+                            dt.Rows.Remove(row);
+                            dt.AcceptChanges();
+                        }
+                    }
+
+                }
+
+            }
+            return dt;
+        }
+
+        public ActionResult Uploadsign()
+        {
+            if (Request.Files.Count > 0)
+            {
+                try
+                {
+                    string fname = "";
+                    string fname2 = "";
+                    HttpFileCollectionBase files = Request.Files;
+                    for (int i = 0; i < files.Count; i++)
+                    {
+                        HttpPostedFileBase file = files[i];
+                        Byte[] img = null;
+                        if (file != null && file.ContentLength > 0)
+                        {   /*****IMG-DB-CODE******/
+                            int FileSize = file.ContentLength;
+                            img = new Byte[FileSize];
+                            file.InputStream.Read(img, 0, FileSize);
+
+                        }//
+                        if (Request.Browser.Browser.ToUpper() == "IE" || Request.Browser.Browser.ToUpper() == "INTERNETEXPLORER")
+                        {
+                            string[] testfiles = file.FileName.Split(new char[] { '\\' });
+                            fname = testfiles[testfiles.Length - 1];
+                            fname2 = testfiles[testfiles.Length - 1];
+                        }
+                        else
+                        {
+                            fname = file.FileName;
+                            fname2 = file.FileName;
+                        }
+                        string[] ext = fname.Split('.');
+
+                        if (ext[1].ToString().Trim() == "jpg" || ext[1].ToString().Trim() == "jpeg" || ext[1].ToString().Trim() == "png")
+                        {
+                            Bitmap img2 = new Bitmap(file.InputStream);
+                            if (img2.Width != 140 || img2.Height != 110)
+                            {
+                                return Json("Resolution must be 110*140");
+                            }
+                            DataTable dt = new DataTable();
+                            if (Session["Doc"] == null)
+                            {
+                                dt.Rows.Add();
+                                dt.Columns.Add("applicant_code", typeof(long));
+                                dt.Columns.Add("doc", typeof(System.Byte[]));
+                                dt.Columns.Add("doc_type", typeof(string));
+                                dt.Columns.Add("doc_content_type", typeof(string));
+                            }
+                            else
+                            {
+                                dt = RemovedPrevious((DataTable)Session["Doc"], "S");
+                                dt.Rows.Add();
+                            }
+                            dt.Rows[dt.Rows.Count - 1]["doc"] = img;
+                            dt.Rows[dt.Rows.Count - 1]["doc_content_type"] = ext[1];
+                            Session["Doc"] = dt;
                         }
                         else
                         {
@@ -285,54 +719,26 @@ namespace DI.Controllers
         {
             try
             {
-                DataTable dt = (DataTable)Session["Doc"];
-                DataTable dt2 = new DataTable();
+                DataTable dt = RemovedPrevious((DataTable)Session["Doc"], doc_type);
                 if (dt != null)
                 {
-                    if (dt.Select("doc_type='" + doc_type + "'") != null && dt.Select("doc_type='" + doc_type + "'").Length > 0)
-                    {
-                        dt2 = dt.Select("doc_type='" + doc_type + "'").CopyToDataTable();
-                    }
-                    if (dt2 != null)
-                    {
-                        if (dt2.Rows.Count > 0)
-                        {
-                            List<DataRow> rows_to_remove = new List<DataRow>();
-                            foreach (DataRow row1 in dt.Rows)
-                            {
-                                foreach (DataRow row2 in dt2.Rows)
-                                {
-                                    if (row1["doc_type"].ToString() == row2["doc_type"].ToString())
-                                    {
-                                        rows_to_remove.Add(row1);
-                                    }
-                                }
-                            }
-
-                            foreach (DataRow row in rows_to_remove)
-                            {
-                                dt.Rows.Remove(row);
-                                dt.AcceptChanges();
-                            }
-                        }
-
-                    }
                     dt.Rows[dt.Rows.Count - 1]["doc_type"] = doc_type;
                     dt.Rows[dt.Rows.Count - 1]["applicant_code"] = applicant_code;
                     Session["Doc"] = dt;
+                    return Json("File upload", JsonRequestBehavior.AllowGet);
                 }
-                return Json("Record Save", JsonRequestBehavior.AllowGet);
+                else
+                {
+                    return Json("File not upload", JsonRequestBehavior.AllowGet);
+                }
             }
             catch (Exception ex)
             {
-
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
             finally
             {
             }
-
-
         }
         public JsonResult InsertUpdatedoc2()
         {
@@ -343,7 +749,7 @@ namespace DI.Controllers
                     DataTable dt = (DataTable)Session["Doc"];
                     if (dt != null)
                     {
-                        if (dt.Rows.Count >= 7)
+                        if (dt.Rows.Count >= 4)
                         {
                             string msg = new DAL.CommonDA().InsertUpdateCMYSS_Applicantdoc2(dt);
                             if (msg.Contains("Save"))
@@ -418,16 +824,13 @@ namespace DI.Controllers
             {
             }
         }
-
-
-
         public JsonResult ApplicantImage()
         {
             try
             {
                 string str = "";
                 DataSet ds = new DataSet();
-                ds = new DAL.CommonDA().GetApplicantinfo(-1, -1, UserSession.LoggedInUserName);
+                ds = new DAL.CommonDA().GetApplicantinfo_MYSY(-1, -1, UserSession.LoggedInUserName);
 
                 if (ds != null)
                 {
@@ -450,6 +853,138 @@ namespace DI.Controllers
         public ActionResult certificate_Letter()
         {
             return View();
+        }
+        public ActionResult Uploadform()
+        {
+            uploadform uf = new Models.uploadform();
+            DataSet dt = new DAL.CommonDA().GetScheme_Doc(@UserSession.LoggedInUserName, UserSession.yojanacode);
+            StringBuilder str = new StringBuilder();
+            str.Append("<div class='portlet light ' id='form_wizard_1'>");
+            if (dt != null)
+            {
+                if (dt.Tables[0] != null)
+                {
+                    if (dt.Tables[0].Rows.Count > 0)
+                    {
+                        if (dt.Tables[0].Rows[0]["Status"].ToString().Trim() == "0")
+                        {
+                            str.Append("<div class='portlet-title'>");
+                            str.Append(" <div class='caption'>");
+                            str.Append("<i class='icon-layers font-red'></i>");
+                            str.Append("<span class='caption-subject font-red bold uppercase'>दस्तावेज़ अपलोड करें</span>");
+                            str.Append("</div>");
+                            str.Append("</div>");
+
+                            str.Append("<div class='portlet-body form'>");
+                            str.Append("<form class='form-horizontal' action='#' id='submit_form' method='POST' novalidate='novalidate'>");
+                            str.Append("<div class='form-wizard'>");
+                            str.Append("<div class='form-body'>");
+                            str.Append("<div class='row'>");
+                            if (dt.Tables[0].Select("doc_code='I'")!=null && dt.Tables[0].Select("doc_code='I'").Length>0)
+                            {
+                                str.Append("<div class='col-md-6 col-sm-6 col-xs-12 text-center col-50'>");
+                                str.Append("<div class='myborder' style='border:1px solid #ccc;'>");
+                                str.Append("<div class='panel-heading'>फोटो </div>");
+                                str.Append("<div style='height:200px;padding:5px;'>");
+                                str.Append("<img id='output' src='../no_image.png' alt='image' class='images-01'>");
+                                str.Append("</div>");
+                                str.Append("<span class='font-red'>Size:</span> 20kb");
+                                str.Append("<span class='font-red'>Resolution:</span> 110 X 140");
+                                str.Append("<div style='border:1px solid #ccc;padding:5px;'>");
+                                str.Append("<input type='file' id='FileUpload1' class='form-control' data-min-width='110' data-min-height='140' data-max-width='110' data-max-height='140'   onchange='loadPayFile(event,&#39;FileUpload1&#39;,&#39;I&#39;,&#39;" + dt.Tables[0].Rows[0]["registration_code"].ToString().Trim()+ "&#39;,&#39;output&#39;)' /><input type='hidden' id='hfPpath' /><div class='clearfix'></div>");
+                                str.Append("</div>");
+                                str.Append("</div>");
+                                str.Append("</div>");
+                            }
+                            if (dt.Tables[0].Select("doc_code='S'") != null && dt.Tables[0].Select("doc_code='S'").Length > 0)
+                            {
+                                str.Append("<div class='col-md-6 col-sm-6 col-xs-12 text-center col-50'>");
+                                str.Append("<div class='myborder' style='border:1px solid #ccc;'>");
+                                str.Append("<div class='panel-heading'>हस्ताक्षर</div>");
+                                str.Append("<div style='height:200px;padding:5px;'>");
+                                str.Append("<img id='Img1' src='../no_image.png' alt='image' class='images-01' width='200px' height='150px'></div>");
+                                str.Append("<span class='font-red'>Size:</span> 20kb");
+                                str.Append("<span class='font-red'>Resolution:</span> 140 X 110");
+                                str.Append("<div style='border:1px solid #ccc;padding:5px;'>");
+                                str.Append("<input type='file' id='FileUpload2' class='form-control' onchange='loadPayFile(event,&#39;FileUpload2&#39;,&#39;S&#39;,  &#39;" + dt.Tables[0].Rows[0]["registration_code"].ToString().Trim() + "&#39;,&#39;Img1&#39;)' />");
+                                str.Append("<div class='clearfix'></div>");
+                                str.Append("</div>");
+                                str.Append("</div>");
+                                str.Append("</div>");
+                            }
+                            str.Append("<div class='clearfix'></div></div>");
+                            str.Append("<div class='portlet box '>");
+                            str.Append("<div class='portlet-title'>");
+                            str.Append("</div>");
+                            str.Append("<div class='portlet-body flip-scroll'>");
+                            str.Append("<table class='table table-bordered table-striped table-condensed flip-content'>");
+                            str.Append("<thead class='flip-content'>");
+                            str.Append("<tr>");
+                            str.Append("<th width='5%'> Sr.No </th>");
+                            str.Append("<th> Document </th>");
+                            str.Append("<th> Action </th>");
+                            str.Append("</tr>");
+                            str.Append("</thead>");
+                            str.Append("<tbody>");
+                            for (int i = 0; i < dt.Tables[0].Rows.Count; i++)
+                            {
+                                if (dt.Tables[0].Rows[i]["doc_code"].ToString() != "I" && dt.Tables[0].Rows[i]["doc_code"].ToString() != "S")
+                                {
+                                    str.Append("<tr>");
+                                    str.Append("<td>" + (i + 1) + "</td>");
+                                    str.Append("<td>" + dt.Tables[0].Rows[i]["u_description"].ToString() + "</td>");
+                                    str.Append("<td><input type='file' id='FileUpload" + (i + 3) + "' class='form - control' onchange='loadPayFile(event,  &#39;FileUpload" + (i + 3) + "&#39;, &#39;" + dt.Tables[0].Rows[i]["doc_code"].ToString().Trim() + "&#39;,&#39;" + dt.Tables[0].Rows[i]["registration_code"].ToString().Trim() + "&#39; , &#39;-1&#39;)'/></td>");
+                                    str.Append("</tr>");
+                                }
+                            }
+                            str.Append("</tbody>");
+                            str.Append("</table>");
+                            str.Append("<div class='row'>");
+                            str.Append("<div class='col-md-offset-9 col-md-12'>");
+                            str.Append("<button type = 'button' class='btn btn-outline green button-next' onclick='myfunction()' id='btncont'>Submit<i class='fa fa-angle-right'></i></button>");
+                            str.Append("</div>");
+                            str.Append("</div>");
+                            str.Append("</div>");
+                            str.Append("</div>");
+                            str.Append("</div>");
+                            str.Append("</div>");
+                            str.Append("</form>");
+                            str.Append("</div>");
+                        }
+                        else
+                        {
+                            str.Append("<div class='portlet-title'>");
+                            str.Append("<div class='caption'>");
+                            str.Append(" <i class='icon-layers font-red'></i>");
+                            str.Append(" <span class='caption-subject font-red bold uppercase'>");
+                            str.Append(dt.Tables[0].Rows[0]["scheme_name_u"].ToString().Trim());
+                            str.Append("</span>");
+                            str.Append("</div>");
+                            str.Append("</div>");
+                            str.Append("<div class='tab-pane' id='tab5'>");
+                            if (dt.Tables[1] != null)
+                            {
+                                if (dt.Tables[1].Rows.Count > 0)
+                                {
+                                    for (int i = 0; i < dt.Tables[1].Rows.Count; i++)
+                                    {
+                                        str.Append("<button onclick = 'funopen(&#39;" + dt.Tables[1].Rows[i]["NavUrl"].ToString().Trim() + "&#39;)' class='btn btn-outline green button-next'>" + dt.Tables[1].Rows[i]["Description"].ToString().Trim() + "</button>&nbsp;&nbsp;");
+                                    }
+
+                                }
+                            }
+                            //str.Append("<button onclick = 'funopen('../user/GetCMSY_ApplicationPrint')' class='btn btn - outline green button - next'>Print Application Form</button>");
+                            //str.Append("<button onclick = 'funopen('../user/certificate_Letter')' class='btn btn - outline green button - next'>Print Certificate Letter</button>");
+                            //str.Append("<button onclick = 'funopen('../user/Affidavit_Letter')' class='btn btn - outline green button - next'>Print Affidavit Letter</button>");
+                            str.Append("</div>");
+                        }
+
+                    }
+                }
+            }
+            str.Append("</div>");
+            uf.page = str.ToString().Trim();
+            return View(uf);
         }
         public ActionResult Affidavit_Letter()
         {
@@ -500,6 +1035,22 @@ namespace DI.Controllers
             CMODataEntryBLL.bindDropDownHnGrid("proc_Detail", Zone, "Z", "-1", "");
             return Json(Zone, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult Getbank()
+        {
+            List<SelectListItem> Zone = new List<SelectListItem>();
+            CMODataEntryBLL.bindDropDownHnGrid("proc_Detail", Zone, "Bank", "-1", "");
+            return Json(Zone, JsonRequestBehavior.AllowGet);
+        }
+
+
+        public ActionResult Getbranch()
+        {
+            List<SelectListItem> Zone = new List<SelectListItem>();
+            CMODataEntryBLL.bindDropDownHnGrid("proc_Detail", Zone, "branch", "-1", "");
+            return Json(Zone, JsonRequestBehavior.AllowGet);
+        }
+
         public JsonResult InsertUpdatePlotApplicant(estate_request objER, List<requested_plot> objRP, IndustrialEstateApplicant objApp)
         {
             try

@@ -13,7 +13,7 @@
 @{
     //var grid = new WebGrid(Model, rowsPerPage: 20);
     DataSet ds = new DataSet();
-    ds = new CommonDA().GetApplicantinfo(-1, -1, UserSession.LoggedInUserName);
+    ds = new CommonDA().GetApplicantinfo_MYSY(-1, -1, UserSession.LoggedInUserName);
 }
 
 <style>
@@ -26,6 +26,9 @@
         Height: 100px;
         Width: 109px;
     }
+     .fillinthebank{
+     /*border-bottom: 4px dotted black;*/
+}
 </style>
 
 <script type="text/javascript">
@@ -41,7 +44,7 @@
 
             //Reset the page's HTML with div's HTML only
             document.body.innerHTML =
-               "<html><head><title></title></head><body>" +
+               "<html><head><title></title><style>.fillinthebank{border-bottom: 4px dotted black;}</style></head><body>" +
                 "<div align='center' style='margin-left:1%;margin-right:1%;width:100%;font-size:x-large'>" +
 
                divElements + "</div></body>";
@@ -68,7 +71,7 @@
             <div id="reportdiv">
                 <br />
                 <br />
-                <h4 class="title" align="center" style="font-size:x-large;font-weight:bold;text-decoration: underline">शपथ - पत्र </h4>
+                <h4 class="title" align="center" style="font-size:x-large;font-weight:bold;text-decoration: underline">स्वप्रमाणित घोषणा पत्र </h4>
 
                 @if (ds != null)
                  {
@@ -76,8 +79,7 @@
                      {
                          if (ds.Tables[0].Rows.Count > 0)
                          {
-                            // for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
-                             {
+                            
 
                                 <table class="table-responsive tblcss" id="Letter" border="0" style="width:80%" align="center">
 
@@ -105,23 +107,26 @@
                                         <td style="text-align:justify;border: none;text-indent:-15px;font-size:20px">
                                             <br />
                                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                            मैं @ds.Tables[0].Rows[0]["applicant_name"].ToString().Trim() पुत्र / पुत्री / पत्नी श्री / श्रीमती @ds.Tables[0].Rows[0]["father_name"].ToString().Trim() निवासी @ds.Tables[0].Rows[0]["permanent_address"].ToString().Trim() शपथ पूर्वक घोषणा करता  / करती  हूँ कि :
-                                            <br /><br />
-                                        </td>
+                                            मैं <span class="fillinthebank">
+    @ds.Tables[0].Rows[0]["applicant_name"].ToString().Trim() </span> / पुत्री / पत्नी श्री / श्रीमती <span class="fillinthebank">
+    @ds.Tables[0].Rows[0]["father_name"].ToString().Trim()</span> निवासी <span class="fillinthebank">
+    @ds.Tables[0].Rows[0]["permanent_address"].ToString().Trim() </span> घोषणा करता  / करती  हूँ कि :
+    <br /><br />
+</td>
                                     </tr>
 
                                     <tr>
                                         <td style="font-size:20px" width="80%" valign="bottom">1. मैं एक  बेरोज़गार  युवक / युवती  हूँ |</td>
                                     </tr>
                                     <tr>
-                                        <td style="font-size:20px">2. मेरी  उम्र  दिनांक  :  @ds.Tables[0].Rows[0]["present_date"].ToString().Trim()  को  @ds.Tables[0].Rows[0]["Age"].ToString().Trim() वर्ष  है  तथा  मेरी  जन्म @ds.Tables[0].Rows[0]["dob"].ToString().Trim() तिथि  है |</td>
+                                        <td style="font-size:20px">2. मेरी  उम्र  दिनांक  :  <span class="fillinthebank">@ds.Tables[0].Rows[0]["present_date"].ToString().Trim() </span> को <span class="fillinthebank">@ds.Tables[0].Rows[0]["Age"].ToString().Trim()</span> वर्ष  है  तथा  मेरी  जन्म<span class="fillinthebank"> @ds.Tables[0].Rows[0]["dob"].ToString().Trim()</span> तिथि  है |</td>
                                     </tr>
                                     <tr>
                                         <td style="font-size:20px">3. मेरी  शैक्षिक  योग्यता ........ है |</td>
                                     </tr>
 
                                     <tr>
-                                        <td style="font-size:20px">4. मेरे  परिवार  की वार्षिक  आय रु०  @ds.Tables[0].Rows[0]["family_income"].ToString().Trim()  है |  </td>
+                                        <td style="font-size:20px">4. मेरे  परिवार  की वार्षिक  आय रु० <span class="fillinthebank"> @ds.Tables[0].Rows[0]["family_income"].ToString().Trim()</span>  है |  </td>
                                     </tr>
 
                                     <tr>
@@ -149,14 +154,14 @@
                                     <tr style="background-color:#39b4dd">
                                     <tr><td style="padding-left:50px;font-weight:bold; border: none;font-size: 20px;">हस्ताक्षर - </td> </tr>
                                     <tr><td style="border: none;"></td></tr>
-                                    <tr><td style="padding-left:50px;font-weight:bold;height:40px;border:none;font-size: 20px;">नाम          -@ds.Tables[0].Rows[0]["applicant_name"].ToString().Trim()</td></tr>
+                                    <tr><td style="padding-left:50px;font-weight:bold;height:40px;border:none;font-size: 20px;">नाम          -<span class="fillinthebank">@ds.Tables[0].Rows[0]["applicant_name"].ToString().Trim()</span></td></tr>
                                     <tr><td style="border: none;font-weight:bold;"></td></tr>
-                                    <tr><td style="padding-left:50px;height:40px;border:none;font-size:20px;font-weight:bold;">पता  - @ds.Tables[0].Rows[0]["permanent_address"].ToString().Trim()</td></tr>
+                                    <tr><td style="padding-left:50px;height:40px;border:none;font-size:20px;font-weight:bold;">पता  - <span class="fillinthebank">@ds.Tables[0].Rows[0]["permanent_address"].ToString().Trim()</span></td></tr>
                                     <tbody>
                                         <tr></tr>
                                     </tbody>
                                 </table>
-                             }
+                            
                          }
                      }
                  }

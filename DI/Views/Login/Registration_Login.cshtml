@@ -98,6 +98,29 @@
             }
             .pointer {cursor: pointer;}
         </style>
+
+        <script type="text/javascript">
+        var specialKeys = new Array();
+        specialKeys.push(8); //Backspace
+        specialKeys.push(9); //Tab
+        specialKeys.push(46); //Delete
+        specialKeys.push(36); //Home
+        specialKeys.push(35); //End
+        specialKeys.push(37); //Left
+        specialKeys.push(39); //Right
+       
+        function IsAlphaNumeric(e) {
+            var keyCode = e.keyCode == 0 ? e.charCode : e.keyCode;
+            if (keyCode==32) {
+                return true;
+            }
+            var ret = ((keyCode >= 48 && keyCode <= 57) || (keyCode >= 65 && keyCode <= 90) || (keyCode >= 97 && keyCode <= 122) || (specialKeys.indexOf(e.keyCode) != -1 && e.charCode != e.keyCode));
+           // document.getElementById("error").style.display = ret ? "none" : "inline";
+           // alert("Special Character not allowed");
+            return ret;
+        }
+        </script>
+
         <script src="~/scripts/sha256.js"></script>
         <script>
             $(document).ready(function () {
@@ -115,7 +138,6 @@
             });
             function HashPwdwithSalt() {
                 var salt = '@Session["salt"]';
-
                 if (document.getElementById("ddlScheme1").value == "") {
                     alert("Please select Scheme");
                     return false;
@@ -132,10 +154,9 @@
                     alert("Please fill Captcha");
                     return false;
                 }
-                else if (document.getElementById("txtPassword").value != "") {
-
+                else if (document.getElementById("txtPassword").value != "")
+                {
                     document.getElementById("txtPassword").value = sha256(document.getElementById("txtPassword").value);
-
                     document.getElementById("txtPassword").value =
                       sha256(document.getElementById("txtPassword").value + salt);
                     var Objform = {
@@ -148,16 +169,14 @@
                         url: '/Login/Applicant_Login',
                         data: JSON.stringify({ Model: Objform }),
                         type: 'POST',
-                        contentType: 'application/json; charset=utf-8',
+                        contentType: 'application/json; charset=utf-8', 
                         success: function (data) {
-                            if (data == "1") {
-                                window.open('/User/CMYS_SchemeEntryForm', "_self");
-                            }
-                            else if(data=="5"){
-                                window.open('/User/PlotApplicantWizard', "_self");
+                            if (data[0] == "Sucess")
+                            {
+                                window.open( data[1], "_self");
                             }
                             else {
-                                alert(data);
+                                alert(data[1]);
                                 document.getElementById("txtPassword").value = "";
                                 document.getElementById("txtforcapture").value = "";
                                 ReloadCaptchaCode();
@@ -170,32 +189,24 @@
             function ReloadCaptchaCode() {
                 var xmlHTTP = new XMLHttpRequest();
                 xmlHTTP.open('GET', '/Login/ShowCaptchaImage', true);
-
                 // Must include this line - specifies the response type we want
                 xmlHTTP.responseType = 'arraybuffer';
-
                 xmlHTTP.onload = function (e) {
-
                     var arr = new Uint8Array(this.response);
-
-
                     // Convert the int array to a binary string
                     // We have to use apply() as we are converting an *array*
                     // and String.fromCharCode() takes one or more single values, not
                     // an array.
                     var raw = String.fromCharCode.apply(null, arr);
-
                     // This works!!!
                     var b64 = btoa(raw);
                     var dataURL = "data:image/jpeg;base64," + b64;
                     document.getElementById("image").src = dataURL;
                 };
-
                 xmlHTTP.send();
             }
         </script>
         <link href="~/Content/jquery-ui.css" rel="stylesheet" />
-
         <script src="~/Content/plugins/jquery-ui.js"></script>
         @*<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">*@
         @*<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>*@
@@ -270,10 +281,8 @@
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="" name="txtforcapture" id="txtforcapture" maxlength="6">
-
                                                 </div>
                                             </div>
-
                                         </div>
                                         <div class="form-actions">
                                             <label class="rememberme mt-checkbox mt-checkbox-outline">
@@ -282,8 +291,6 @@
                                             </label>
                                             <button type="button" class="btn green pull-right" onclick="HashPwdwithSalt();"> Login </button>
                                         </div>
-
-                                        
                                             @*<div class="col-md-6">
                                                <p  style="color:#fff">.</p>
                                             </div>
@@ -292,14 +299,12 @@
                                             </div>*@
 </fieldset>
                                 </form>
-                                
                             </div>
                             <a href="javascript:;" id="" style="text-align:right; padding-bottom:inherit">Forgot your password </a>
                             <div class="panel-heading">
                                 <h3 class="panel-title pointer" data-toggle="modal" data-target="#myModal" data-backdrop="static" data-keyboard="false">New User</h3>
                                 @*<button type="button" class="panel-title " data-toggle="modal" data-target="#myModal" data-backdrop="static" data-keyboard="false">New User</button>*@
                             </div>
-
                         </div>
                         <div class="panel panel-default">
                             <h3><i class="icon-share font-dark"></i> &nbsp;&nbsp;Application Status</h3>
@@ -381,14 +386,10 @@
                 </div>
             </div>
         </div>
-
-
         <div id="myModal" class="modal fade" role="dialog">
             <div class="modal-dialog">
-
                 <!-- Modal content-->
                 <div class="modal-content">
-
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                         <h2><i class="icon-book-open">&nbsp;&nbsp;&nbsp;<label>New Registration </label>  </i></h2>
@@ -396,8 +397,6 @@
                     <div class="modal-body">
                         <form>
                             @*<div class="panel-primary">
-
-
                                 </div>*@
                             <div class="col-sm-12 panel02">
                                 @*<div class="caption" id="down">
@@ -418,7 +417,10 @@
                                 <div class="row">
                                     <div class="col-sm-6 form-group">
                                         <label id="lblname">Name<span class="Mandatory">*</span></label>
-                                        @Html.TextBoxFor(m => m.applicant_name, new { @class = "form-control", @id = "txtName", @placeholder = "नाम ", @Maxlength = 40 })
+                                        @Html.TextBoxFor(m => m.applicant_name, new { @class = "form-control", @id = "txtName", @placeholder = "नाम ", @Maxlength = 40,
+                                       @onkeypress = "return IsAlphaNumeric(event);",
+            @ondrop = "return false;" ,@npaste = "return false;"
+                                   })
                                     </div>
                                     <div class="col-sm-6 form-group">
                                         <label id="lbldob">Date Of Birth<span class="Mandatory">*</span></label>
@@ -429,7 +431,11 @@
                                 <div class="row">
                                     <div class="col-sm-6 form-group">
                                         <label id="lblfather">Father's Name<span class="Mandatory">*</span></label>
-                                        @Html.TextBoxFor(m => m.Husband_father_name, new { @class = "form-control", @id = "txtHusband_father_name", @placeholder = "पिता/पति का नाम ", @Maxlength = 40 })
+                                        @Html.TextBoxFor(m => m.Husband_father_name, new { @class = "form-control", @id = "txtHusband_father_name", @placeholder = "पिता/पति का नाम ", @Maxlength = 40,
+                                       @onkeypress = "return IsAlphaNumeric(event);",
+                                       @ondrop = "return false;",
+                                       @npaste = "return false;"
+                                   })
                                     </div>
                                     <div class="col-sm-6 form-group">
                                         <label id="lbladhar">Aadhaar  No<span class="Mandatory">*</span></label>
@@ -448,7 +454,11 @@
                                 </div>
                                 <div class="form-group">
                                     <label id="lbladress">Address<span class="Mandatory">*</span></label>
-                                    @Html.TextAreaFor(m => m.current_address, new { @class = "form-control", @id = "txtCurrentAddress", @placeholder = "पत्र व्यवहार का पता", @Maxlength = 45 })
+                                    @Html.TextAreaFor(m => m.current_address, new { @class = "form-control", @id = "txtCurrentAddress", @placeholder = "पत्र व्यवहार का पता", @Maxlength = 45,
+                                   @onkeypress = "return IsAlphaNumeric(event);",
+                                   @ondrop = "return false;",
+                                   @npaste = "return false;"
+                               })
                                 </div>
                                 @*<div class="row">
                                         <div class="col-sm-4 form-group">
@@ -485,20 +495,15 @@
                                             महत्वपूर्ण
                                             <span class="step-title"> ध्यान दें </span>
                                         </span>
-
                                     </div>
                                 </div>
                                 <div class="row ">
-
                                     <div class="form-group">
-
                                         <div class="col-md-2">
-
                                         </div>
                                         <div class="col-md-10 bold">
                                             <p class="font-red"><input type="checkbox" id="chkaadhar" />  मुझे अपना आधार नंबर इस योजना में देने में कोई आपत्ति  नहीं है </p>
                                         </div>
-
                                     </div>
                                 </div>
                                 <button type="button" class="btn btn-lg btn-info" onclick="Save()">Submit</button>
@@ -513,12 +518,8 @@
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                     </div>
                 </div>
-
             </div>
         </div>
-
-
-
     </body>
 </html>
 <script>
@@ -578,8 +579,6 @@
                     return;
                 }
             }
-
-
             if (document.getElementById("txtMobile_No").value == "") {
                 document.getElementById("txtMobile_No").focus();
                 $('#lblphone').css('color', 'red');
@@ -608,23 +607,24 @@
             var birthdate = dob.split("/");
             var born = new Date(birthdate[2], birthdate[1] - 1, birthdate[0]);
             age = get_age(born, now);
-
             console.log(birthdate[2] + " : " + birthdate[1] + " : " + birthdate[0]);
             console.log(age);
-
             if (age <= 18) {
                 $('#lbldob').css('color', 'red');
                 document.getElementById("txtDOB").focus();
                 alert(" Age should be greater then or equal to 18");
                 return;
             }
-            if (age >= 40) {
-                $('#lbldob').css('color', 'red');
-                document.getElementById("txtDOB").focus();
-                alert(" Age should be smaller then or equal to 40");
-                return false;
+            if (document.getElementById("ddlRegScheme").value == 1) {
+                
+                if (age >= 40) {
+                    $('#lbldob').css('color', 'red');
+                    document.getElementById("txtDOB").focus();
+                    alert(" Age should be smaller then or equal to 40");
+                    return false;
+                }
             }
-
+           
             var Objform = {
                 "applicant_code": "-1",
                 "yojana_code": document.getElementById("ddlRegScheme").value,
@@ -640,40 +640,139 @@
                 "BlockCode": "-1",
                 "VillCode": "-1",
             }
-            $.ajax({
+            if (document.getElementById("ddlRegScheme").value==1) {
+                $.ajax({
 
-                url: '/Login/InsertUpdateCMYSS_Applicant',
-                data: JSON.stringify({ Objform: Objform }),
-                type: 'POST',
-                contentType: 'application/json; charset=utf-8',
-                success: function (data) {
-                    alert(data);
-                    if (data == "Date of Birth must be dd/mm/yyyy format") {
-                        $('#lbldob').css('color', 'red');
-                        document.getElementById("txtDOB").focus();
+                    url: '/Login/InsertUpdateCMYSS_Applicant',
+                    data: JSON.stringify({ Objform: Objform }),
+                    type: 'POST',
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data) {
+                        alert(data);
+                        if (data == "Date of Birth must be dd/mm/yyyy format") {
+                            $('#lbldob').css('color', 'red');
+                            document.getElementById("txtDOB").focus();
+                        }
+                        else {
+                            document.getElementById("ddlRegScheme").value = "-1";
+                            document.getElementById("txtName").value = "";
+                            document.getElementById("txtDOB").value = "";
+                            document.getElementById("txtAdhar_card_No").value = "";
+                            document.getElementById("txtHusband_father_name").value = "";
+                            document.getElementById("txtCurrentAddress").value = "";
+                            document.getElementById("txtMobile_No").value = "";
+                            document.getElementById("txtEmailID").value = "";
+                            $('#lblscheme').removeAttr('style');
+                            $('#lblname').removeAttr('style');
+                            $('#lblfather').removeAttr('style');
+                            $('#lbladhar').removeAttr('style');
+                            $('#lblphone').removeAttr('style');
+                            $('#lbldob').removeAttr('style');
+                            $('#lbladress').removeAttr('style');
+                        }
                     }
-                    else {
-                        document.getElementById("ddlRegScheme").value = "-1";
-                        document.getElementById("txtName").value = "";
-                        document.getElementById("txtDOB").value = "";
-                        document.getElementById("txtAdhar_card_No").value = "";
-                        document.getElementById("txtHusband_father_name").value = "";
-                        document.getElementById("txtCurrentAddress").value = "";
-                        document.getElementById("txtMobile_No").value = "";
-                        document.getElementById("txtEmailID").value = "";
-                        $('#lblscheme').removeAttr('style');
-                        $('#lblname').removeAttr('style');
-                        $('#lblfather').removeAttr('style');
-                        $('#lbladhar').removeAttr('style');
-                        $('#lblphone').removeAttr('style');
-                        $('#lbldob').removeAttr('style');
-                        $('#lbladress').removeAttr('style');
+                });
+            }
+            else if (document.getElementById("ddlRegScheme").value == 8) {
+                $.ajax({
+
+                    url: '/Login/InsertUpdateSPY_Applicant',
+                    data: JSON.stringify({ Objform: Objform }),
+                    type: 'POST',
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data) {
+                        alert(data);
+                        if (data == "Date of Birth must be dd/mm/yyyy format") {
+                            $('#lbldob').css('color', 'red');
+                            document.getElementById("txtDOB").focus();
+                        }
+                        else {
+                            document.getElementById("ddlRegScheme").value = "-1";
+                            document.getElementById("txtName").value = "";
+                            document.getElementById("txtDOB").value = "";
+                            document.getElementById("txtAdhar_card_No").value = "";
+                            document.getElementById("txtHusband_father_name").value = "";
+                            document.getElementById("txtCurrentAddress").value = "";
+                            document.getElementById("txtMobile_No").value = "";
+                            document.getElementById("txtEmailID").value = "";
+                            $('#lblscheme').removeAttr('style');
+                            $('#lblname').removeAttr('style');
+                            $('#lblfather').removeAttr('style');
+                            $('#lbladhar').removeAttr('style');
+                            $('#lblphone').removeAttr('style');
+                            $('#lbldob').removeAttr('style');
+                            $('#lbladress').removeAttr('style');
+                        }
                     }
+                });
+            }
+            else if (document.getElementById("ddlRegScheme").value == 9) {
+                $.ajax({
 
+                    url: '/Login/InsertUpdateMHPY_Applicant',
+                    data: JSON.stringify({ Objform: Objform }),
+                    type: 'POST',
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data) {
+                        alert(data);
+                        if (data == "Date of Birth must be dd/mm/yyyy format") {
+                            $('#lbldob').css('color', 'red');
+                            document.getElementById("txtDOB").focus();
+                        }
+                        else {
+                            document.getElementById("ddlRegScheme").value = "-1";
+                            document.getElementById("txtName").value = "";
+                            document.getElementById("txtDOB").value = "";
+                            document.getElementById("txtAdhar_card_No").value = "";
+                            document.getElementById("txtHusband_father_name").value = "";
+                            document.getElementById("txtCurrentAddress").value = "";
+                            document.getElementById("txtMobile_No").value = "";
+                            document.getElementById("txtEmailID").value = "";
+                            $('#lblscheme').removeAttr('style');
+                            $('#lblname').removeAttr('style');
+                            $('#lblfather').removeAttr('style');
+                            $('#lbladhar').removeAttr('style');
+                            $('#lblphone').removeAttr('style');
+                            $('#lbldob').removeAttr('style');
+                            $('#lbladress').removeAttr('style');
+                        }
+                    }
+                });
+            }
+            else if (document.getElementById("ddlRegScheme").value == 14) {
+                $.ajax({
 
-
-                }
-            });
+                    url: '/Login/InsertUpdateVHPP_Applicant',
+                    data: JSON.stringify({ Objform: Objform }),
+                    type: 'POST',
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data) {
+                        alert(data);
+                        if (data == "Date of Birth must be dd/mm/yyyy format") {
+                            $('#lbldob').css('color', 'red');
+                            document.getElementById("txtDOB").focus();
+                        }
+                        else {
+                            document.getElementById("ddlRegScheme").value = "-1";
+                            document.getElementById("txtName").value = "";
+                            document.getElementById("txtDOB").value = "";
+                            document.getElementById("txtAdhar_card_No").value = "";
+                            document.getElementById("txtHusband_father_name").value = "";
+                            document.getElementById("txtCurrentAddress").value = "";
+                            document.getElementById("txtMobile_No").value = "";
+                            document.getElementById("txtEmailID").value = "";
+                            $('#lblscheme').removeAttr('style');
+                            $('#lblname').removeAttr('style');
+                            $('#lblfather').removeAttr('style');
+                            $('#lbladhar').removeAttr('style');
+                            $('#lblphone').removeAttr('style');
+                            $('#lbldob').removeAttr('style');
+                            $('#lbladress').removeAttr('style');
+                        }
+                    }
+                });
+            }
+           
         } catch (e) {
             alert(e);
         }
@@ -686,7 +785,7 @@
     specialKeys.push(9); // Tab
     specialKeys.push(46); // for .
     specialKeys.push(37); // for left Arrow
-    specialKeys.push(39); // for Right Arrow
+    //specialKeys.push(39); // for Right Arrow
     function IsNumeric(e) {
         var keyCode = e.which ? e.which : e.keyCode
         var ret = ((keyCode >= 48 && keyCode <= 57) || specialKeys.indexOf(keyCode) != -1); // For Decimal To All Number
@@ -827,5 +926,4 @@
     });
 
 </script>
-}
 }

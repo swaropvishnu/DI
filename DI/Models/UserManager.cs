@@ -113,8 +113,7 @@ namespace DI.Models
         {
             get
             {
-                return
-                    tbl_Session.Rows[0]["UserLevel"].ToString();
+                return tbl_Session.Rows[0]["UserLevel"].ToString();
             }
             set { tbl_Session.Rows[0]["UserLevel"] = value; }
         }
