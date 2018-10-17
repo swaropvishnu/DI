@@ -1,0 +1,361 @@
+﻿
+@{
+    ViewBag.Title = "Print_MHPY";
+    Layout = "~/Views/Shared/UserLayout.cshtml";
+}
+
+@using System.Data;
+@using DI.Models;
+@using DI.DAL;
+@using DI.BLL;
+@{
+    DataSet ds = new DataSet();
+    ds = new CommonDA().GetApplicantinfo_mhpy(-1, -1, UserSession.LoggedInUserName);
+    var imag = "";
+    if (ds != null)
+    {
+        if (ds.Tables[1] != null)
+        {
+            if (ds.Tables[1].Rows.Count > 0)
+            {
+                imag = "<img " + "src='" + "data:image/" + ds.Tables[1].Rows[0]["doc_content_type"].ToString().Trim() + ";base64," + Convert.ToBase64String((Byte[])(ds.Tables[1].Rows[0]["image"]), 0) + "' style='width:75px ,height:65px'/>";
+            }
+        }
+    }
+}
+<style>
+    img {
+        page-break-inside: avoid;
+    }
+
+    .img-rounded {
+        border-radius: 6px;
+        Height: 100px;
+        Width: 109px;
+    }
+</style>
+<script type="text/javascript">
+    window.history.forward();
+</script>
+<script language="javascript" type="text/javascript">
+    function printDiv(divID) {
+        //Get the HTML of div
+        var divElements = document.getElementById(divID).innerHTML;
+        //Get the HTML of whole page
+        var oldPage = document.body.innerHTML;
+        //Reset the page's HTML with div's HTML only
+        document.body.innerHTML =
+           "<html><head><title></title></head><body>" +
+            "<div >" + divElements + "</div></body>";
+        //Print Page
+        window.print();
+        //Restore orignal HTML
+        document.body.innerHTML = oldPage;
+    }
+</script>
+<div style="background-color:white ;">
+    <div style="margin-left:79%; ">
+        <button type="button" class="btn green" onclick="javascript:printDiv('reportdiv')" style="margin-left:5%;margin-right:5%;" id="btnprint">Print</button>
+    </div>
+    <div class="row">
+        @using (Html.BeginForm("Print_spy", "user", FormMethod.Post, new { @class = "", enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+            <div id="reportdiv">
+                @if (ds != null)
+                {
+                    if (ds.Tables[0] != null && ds.Tables[1] != null)
+                    {
+                        if (ds.Tables[0].Rows.Count > 0 && ds.Tables[1].Rows.Count > 0)
+                        {
+                            <h4 class="title" align="center" style="font-weight:bold;text-decoration: underline">
+                                ’’मुख्यमंत्री हस्तशिल्प पेंशन योजना’’ का प्रारूप
+                            </h4>
+                            @*<table class="table-responsive" border="0" style="width:80%" align="center">
+                                    <tr>
+                                        <td style="font-size:15px" width:"40%">
+                                            <h5 class="category" align="left" style="font-weight:bold;">प्रार्थना पत्र  क्रमांक: @ds.Tables[0].Rows[0]["user_name"].ToString().Trim()</h5>
+                                        </td>
+                                        <td style="font-size:15px" width:"40%">
+
+                                            <h5 class="category" align="right" style="font-weight:bold;">दिनांक: @ds.Tables[0].Rows[0]["entrydate"].ToString().Trim()</h5>
+                                        </td>
+                                    </tr>
+                                </table>*@
+                            @*<br />*@
+                            <table class="table-responsive tblcss" border="0" style="width:80%" align="center">
+                                <tr>
+
+                                    <td width="80%">
+                                        सेवा में,<br>
+                                        &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; उपायुक्त उद्योग <br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp; जिला उद्योग एवं उद्यम प्रोत्साहन केन्द्र <br>
+                                    </td>
+
+                                    <td rowspan="4">
+                                        <div class="top-align"> @Html.Raw(imag)</div>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+
+
+                                </tr>
+                                <tr>
+                                    <td> </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td></td>
+
+
+                                </tr>
+                                <tr>
+                                    <td></td>
+
+
+                                </tr>
+
+                            </table>
+                            <table class="table-responsive tblcss" border="0" style="width:80%" align="center">
+                                <tr>
+                                    <td><p>महोदय,<br />
+मैं राज्य सरकार द्वारा संचालित ’’मुख्यमंत्री हस्तशिल्प पेंशन योजना’’ का लाभ लेना चाहता/चाहती हॅू जो सूक्ष्म लघु एवं मध्यम उद्यम तथा निर्यात प्रोत्साहन विभाग के उद्योग एवं उद्यम प्रोत्साहन निदेशालय, उ0प्र0 कानपुर द्वारा कार्यान्वित की जा रही हैं। मेरे विवरण निम्नवत् है।
+</p></td>
+                                    <td></td>
+                                </tr>
+                            </table>
+                            <table class="table-responsive tblcss" border="1" style="width:80%" align="center">
+
+                                <tr>
+                                    <td style="text-align: center;" width="39px">&nbsp;1.</td>
+                                    <td width="30%">&nbsp;&nbsp; शिल्पकार का पूरा नाम :</td>
+                                    <td colspan="2">&nbsp;&nbsp;@ds.Tables[0].Rows[0]["applicant_name"].ToString().Trim()</td>
+
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;">2.</td>
+                                    <td>&nbsp;&nbsp;पिता/पति का नाम</td>
+
+                                    <td colspan="2">&nbsp;&nbsp;@ds.Tables[0].Rows[0]["father_Name"].ToString().Trim()</td>
+
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;">3.</td>
+                                    <td>&nbsp;&nbsp;फोनन0/मो0न0/</td>
+                                    <td colspan="2">&nbsp;&nbsp;@ds.Tables[0].Rows[0]["mobile_no"].ToString().Trim()</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;">4.</td>
+                                    <td>&nbsp;&nbsp;ई-मेल आई0डी0 (यदि हो तो)</td>
+                                    <td colspan="2">&nbsp;&nbsp;@ds.Tables[0].Rows[0]["email"].ToString().Trim()</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;">5.</td>
+                                    <td>&nbsp;&nbsp;आधार कार्ड नं0</td>
+                                    <td colspan="2">&nbsp;&nbsp;@ds.Tables[0].Rows[0]["adhar_No"].ToString().Trim()</td>
+                                </tr>
+
+
+                                <tr>
+                                    <td style="text-align: center;">6.</td>
+                                    <td>&nbsp;&nbsp;पत्र व्यवहार का पता</td>
+                                    <td colspan="2">&nbsp;&nbsp;@ds.Tables[0].Rows[0]["current_address"].ToString().Trim()</td>
+
+                                </tr>
+
+                                <tr>
+                                    <td style="text-align: center;">7.</td>
+                                    <td>&nbsp;&nbsp; स्थाई पता </td>
+                                    <td colspan="2">&nbsp;&nbsp;@ds.Tables[0].Rows[0]["permanent_address"].ToString().Trim()</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;">8.</td>
+                                    <td>&nbsp;&nbsp;जन्मतिथि</td>
+                                    <td colspan="2">&nbsp;&nbsp;@ds.Tables[0].Rows[0]["dob"].ToString().Trim()</td>
+
+                                </tr>
+
+
+
+
+                                <tr>
+                                    <td style="text-align: center;">9.</td>
+                                    <td>&nbsp;&nbsp;शिल्प जिसमें कार्यरत हैं</td>
+                                    <td colspan="2">&nbsp;&nbsp;@ds.Tables[0].Rows[0]["handicraft_work"].ToString().Trim()</td>
+                                </tr>
+                                
+                                <tr>
+                                    <td style="text-align: center;">10.</td>
+                                    <td>&nbsp;&nbsp;आर्टीजन कार्ड का विवरण</td>
+                                    <td colspan="2">&nbsp;&nbsp;@ds.Tables[0].Rows[0]["artisian_no"].ToString().Trim()</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;">11.</td>
+                                    <td>&nbsp;&nbsp;वार्षिक आय रू0 में  </td>
+                                    <td colspan="2">&nbsp;&nbsp;@ds.Tables[0].Rows[0]["handicraft_work"].ToString().Trim()</td>
+                                </tr>
+
+                                <tr>
+                                    <td style="text-align: center;">12.</td>
+                                    <td colspan="23">&nbsp;&nbsp;बैंक एकाउन्ट का विवरणः</td>
+
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;"></td>
+                                    <td>&nbsp;&nbsp;बैंकखाता सं0    </td>
+                                    <td colspan="2">&nbsp;&nbsp;@ds.Tables[0].Rows[0]["bank_account_no"].ToString().Trim()</td>
+
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;"></td>
+                                    <td>&nbsp;&nbsp;  बैंक शाखा का नाम एवं पता    </td>
+                                    <td colspan="2">&nbsp;&nbsp;@ds.Tables[0].Rows[0]["BrName"].ToString().Trim() <br /> @ds.Tables[0].Rows[0]["ifsc_address"].ToString().Trim()</td>
+
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;"></td>
+                                    <td>&nbsp;&nbsp;  आई0एफ0सी कोड.    </td>
+                                    <td colspan="2">&nbsp;&nbsp;@ds.Tables[0].Rows[0]["ifsc"].ToString().Trim()</td>
+
+                                </tr>
+
+                            </table>
+                            <table class="table-responsive" border="0" style="width:80%" align="center">
+                                <tr>
+                                    <td style="font-size:15px;font-weight:bold;" width:"40%" align="left">
+                                        <br />
+
+
+                                    </td>
+                                    <td style="font-size:15px;font-weight:bold;" width:"40%" align="right">
+                                        <br />
+
+
+                                        (हस्तशिल्पी के हस्ताक्षर)
+
+                                    </td>
+                                </tr>
+
+                            </table>
+                            <br /><br /><br />
+                            <table class="table-responsive" border="0" style="width:80%" align="center">
+                                <tr>
+                                    <td style="font-size:15px;font-weight:bold;" width:"40%" align="left">
+                                        <br />
+
+                                        कार्यालय - ज़िला  उद्योग एवं  उद्यम प्रोत्साहन केन्द्र : कानपुर
+                                    </td>
+                                    <td style="font-size:15px;font-weight:bold;" width:"40%" align="right">
+                                        <br />
+
+
+                                        Powered By NIC
+
+
+                                    </td>
+                                </tr>
+
+                            </table>
+
+
+                        }
+                        else
+                        {
+                            <div role="dialog">
+                                <div class="modal-dialog">
+
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+
+                                        <div class="modal-header">
+
+                                            <h2><i class="icon-info"></i>&nbsp;&nbsp;&nbsp;<label class=""> सूचना  </label>  </h2>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form>
+                                                <p class="font-red">
+                                                    अपने अभी मुख्यमंत्री हस्तशिल्प पेंशन योजना की सभी प्रविष्टियो एवं दस्तावेज़ अपलोड नहीं की है। कृपया समस्त प्रविष्टियो एवं दस्तावेज़ अपलोड करे ।
+                                                </p>
+
+                                            </form>
+                                        </div>
+                                        @*
+                                            <div class="modal-body">
+                                                <p>Some text in the modal.</p>
+                                            </div>*@
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div role="dialog">
+                            <div class="modal-dialog">
+
+                                <!-- Modal content-->
+                                <div class="modal-content">
+
+                                    <div class="modal-header">
+
+                                        <h2><i class="icon-info"></i>&nbsp;&nbsp;&nbsp;<label class=""> सूचना  </label>  </h2>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form>
+                                            <p class="font-red">
+                                                अपने अभी  मुख्यमंत्री हस्तशिल्प पेंशन योजना की सभी प्रविष्टियो एवं दस्तावेज़ अपलोड नहीं की है। कृपया समस्त प्रविष्टियो एवं दस्तावेज़ अपलोड करे ।
+                                            </p>
+
+                                        </form>
+                                    </div>
+                                    @*
+                                        <div class="modal-body">
+                                            <p>Some text in the modal.</p>
+                                        </div>*@
+
+                                </div>
+
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div role="dialog">
+                        <div class="modal-dialog">
+
+                            <!-- Modal content-->
+                            <div class="modal-content">
+
+                                <div class="modal-header">
+
+                                    <h2><i class="icon-info"></i>&nbsp;&nbsp;&nbsp;<label class=""> सूचना  </label>  </h2>
+                                </div>
+                                <div class="modal-body">
+                                    <form>
+                                        <p class="font-red">
+                                            अपने अभी  मुख्यमंत्री हस्तशिल्प पेंशन योजना की सभी प्रविष्टियो एवं दस्तावेज़ अपलोड नहीं की है। कृपया समस्त प्रविष्टियो एवं दस्तावेज़ अपलोड करे ।
+                                        </p>
+
+                                    </form>
+                                </div>
+                                @*
+                                    <div class="modal-body">
+                                        <p>Some text in the modal.</p>
+                                    </div>*@
+
+                            </div>
+
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</div>
+

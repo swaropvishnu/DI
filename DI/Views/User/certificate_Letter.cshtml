@@ -15,42 +15,44 @@
     img {
         page-break-inside: avoid;
     }
-.img-rounded {
+
+    .img-rounded {
         border-radius: 6px;
         Height: 100px;
         Width: 109px;
     }
- .fillinthebank{
-    /*border-bottom: 4px dotted black;*/
-}
+
+    .fillinthebank {
+        /*border-bottom: 4px dotted black;*/
+    }
 </style>
 <script type="text/javascript">
-      window.history.forward();
+    window.history.forward();
 </script>
 <script language="javascript" type="text/javascript">
-        function printDiv(divID) {
-            //Get the HTML of div
-            var divElements = document.getElementById(divID).innerHTML;
-            //Get the HTML of whole page
-            var oldPage = document.body.innerHTML;
-//Reset the page's HTML with div's HTML only
-            document.body.innerHTML =
-               "<html><head><title></title><style>.fillinthebank{border-bottom: 4px dotted black;}</style></head><body>" +
-                "<div >" +divElements + "</div></body>";
-          //  window.open()
-            //Print Page
-          window.print();
+    function printDiv(divID) {
+        //Get the HTML of div
+        var divElements = document.getElementById(divID).innerHTML;
+        //Get the HTML of whole page
+        var oldPage = document.body.innerHTML;
+        //Reset the page's HTML with div's HTML only
+        document.body.innerHTML =
+           "<html><head><title></title><style>.fillinthebank{border-bottom: 4px dotted black;}</style></head><body>" +
+            "<div >" + divElements + "</div></body>";
+        //  window.open()
+        //Print Page
+        window.print();
 
-            //Restore orignal HTML
-           document.body.innerHTML = oldPage;
-        }
+        //Restore orignal HTML
+        document.body.innerHTML = oldPage;
+    }
 </script>
 <div style="background-color:white ;">
     <div style="margin-left:79%; ">
         <button type="button" class="btn green" onclick="javascript:printDiv('reportdiv')" style="margin-left:5%;margin-right:5%;" id="btnprint">Print</button>
-        </div>
+    </div>
     <div>
-        <div  align="center">
+        <div align="center">
             <div class="row">
                 @using (Html.BeginForm("certificate_Letter", "IndustrialAreaMaster", FormMethod.Post, new { @class = "", enctype = "multipart/form-data" }))
             {
@@ -58,25 +60,27 @@
                     <div id="reportdiv">
                         <h4 class="title" align="center" style="font-size:x-large; font-weight:bold; text-decoration: underline">नई इकाई का प्रमाण - पत्र</h4>
                         @if (ds != null)
-                    {
-                        if (ds.Tables[0] != null)
                         {
-                            if (ds.Tables[0].Rows.Count > 0)
-                            {<table class="table-responsive tblcss" id="Letter" border="0" style="width:80%" align="center">
+                            if (ds.Tables[0] != null && ds.Tables[1] != null && ds.Tables[2] != null && ds.Tables[4] != null && ds.Tables[5] != null)
+                            {
+                                if (ds.Tables[0].Rows.Count > 0 && ds.Tables[1].Rows.Count > 0 && ds.Tables[2].Rows.Count > 0 && ds.Tables[4].Rows.Count > 0 && ds.Tables[5].Rows.Count > 0)
+                                {
+                                    <table class="table-responsive tblcss" id="Letter" border="0" style="width:80%" align="center">
 
-                                            <tr>
-                                                <td style="font-size:20px" >
-                                                    <br />
-                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                    प्रमाणित किया जाता हैं कि मेरे द्वारा प्रस्तावित <span class="fillinthebank">@ds.Tables[0].Rows[0]["project_name"].ToString().Trim()</span>   उद्योग / सेवा उद्योग जो  कार्यस्थल  <span class="fillinthebank">
-    @ds.Tables[0].Rows[0]["permanent_address"].ToString().Trim()</span> में  स्थापित किया जाना प्रस्तावित है |
-                                                    यह भी किया जाता है कि  उपरोक्त प्रस्तावित  उद्योग / सेवा  उद्योग पूर्ण रुपेण नयी  इकाई होगी | इसे स्थापित कर संचालित किये जाने वाली इकाई से  क्षेत्र में  रोजगार सृजन के अवसर प्राप्त होंगे |
-</td>
-                                            </tr>
-                                        </table>
-                                        <br />
-                                        <br />
-                                        <br />
+                            <tr>
+                                <td style="font-size:20px">
+                                    <br />
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    प्रमाणित किया जाता हैं कि मेरे द्वारा प्रस्तावित <span class="fillinthebank">@ds.Tables[0].Rows[0]["project_name"].ToString().Trim()</span>   उद्योग / सेवा उद्योग जो  कार्यस्थल  <span class="fillinthebank">
+                                        @ds.Tables[0].Rows[0]["permanent_address"].ToString().Trim()
+                                    </span> में  स्थापित किया जाना प्रस्तावित है |
+                                    यह भी किया जाता है कि  उपरोक्त प्रस्तावित  उद्योग / सेवा  उद्योग पूर्ण रुपेण नयी  इकाई होगी | इसे स्थापित कर संचालित किये जाने वाली इकाई से  क्षेत्र में  रोजगार सृजन के अवसर प्राप्त होंगे |
+                                </td>
+                            </tr>
+                        </table>
+                        <br />
+                        <br />
+                        <br />
                                         <br />
                                         <br />
                                         <br />
@@ -85,28 +89,118 @@
                                             <tr style="background-color:#39b4dd">
                                             <tr><td style="padding-left:50px;border:none;font-size: 20px;font-weight:bold;">प्रार्थी के हस्ताक्षर -</td> </tr>
                                             <tr><td style="border: none;"></td></tr>
-                                            <tr><td style="padding-left:50px;height:40px;border:none;font-size:20px;font-weight:bold;">नाम -<span class="fillinthebank" >@ds.Tables[0].Rows[0]["applicant_name"].ToString().Trim()</span></td></tr>
+                                            <tr><td style="padding-left:50px;height:40px;border:none;font-size:20px;font-weight:bold;">नाम -<span class="fillinthebank">@ds.Tables[0].Rows[0]["applicant_name"].ToString().Trim()</span></td></tr>
                                             <tr><td style="border: none;"></td></tr>
-                                            <tr><td style="padding-left:50px;height:40px;border: none;font-size: 20px;font-weight:bold;">पिता का नाम   -<span class="fillinthebank" >@ds.Tables[0].Rows[0]["father_name"].ToString().Trim()</span></td></tr>
-                                            <tr><td style="padding-left:50px;height:40px;border: none;font-size: 20px;font-weight:bold;">निवास  का  पता  -<span class="fillinthebank" >@ds.Tables[0].Rows[0]["permanent_address"].ToString().Trim()</span>3</td></tr>
+                                            <tr><td style="padding-left:50px;height:40px;border: none;font-size: 20px;font-weight:bold;">पिता का नाम   -<span class="fillinthebank">@ds.Tables[0].Rows[0]["father_name"].ToString().Trim()</span></td></tr>
+                                            <tr><td style="padding-left:50px;height:40px;border: none;font-size: 20px;font-weight:bold;">निवास  का  पता  -<span class="fillinthebank">@ds.Tables[0].Rows[0]["permanent_address"].ToString().Trim()</span>3</td></tr>
 
                                             <tbody>
                                                 <tr></tr>
                                             </tbody>
                                         </table>
                                 }
+                                else
+                                {
+                                    <div role="dialog">
+                                        <div class="modal-dialog">
+
+                                            <!-- Modal content-->
+                                            <div class="modal-content">
+
+                                                <div class="modal-header">
+
+                                                    <h2><i class="icon-info"></i>&nbsp;&nbsp;&nbsp;<label class=""> सूचना  </label>  </h2>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form>
+                                                        <p class="font-red">
+                                                            अपने अभी युवा स्वरोजगार योजना की सभी प्रविष्टियो एवं दस्तावेज़ अपलोड नहीं की है। कृपया समस्त प्रविष्टियो एवं दस्तावेज़ अपलोड करे ।
+                                                        </p>
+
+                                                    </form>
+                                                </div>
+                                                @*
+                                                    <div class="modal-body">
+                                                        <p>Some text in the modal.</p>
+                                                    </div>*@
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <div role="dialog">
+                                    <div class="modal-dialog">
+
+                                        <!-- Modal content-->
+                                        <div class="modal-content">
+
+                                            <div class="modal-header">
+
+                                                <h2><i class="icon-info"></i>&nbsp;&nbsp;&nbsp;<label class=""> सूचना  </label>  </h2>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form>
+                                                    <p class="font-red">
+                                                        अपने अभी युवा स्वरोजगार योजना की सभी प्रविष्टियो एवं दस्तावेज़ अपलोड नहीं की है। कृपया समस्त प्रविष्टियो एवं दस्तावेज़ अपलोड करे ।
+                                                    </p>
+
+                                                </form>
+                                            </div>
+                                            @*
+                                                <div class="modal-body">
+                                                    <p>Some text in the modal.</p>
+                                                </div>*@
+
+                                        </div>
+
+                                    </div>
+                                </div>
                             }
                         }
-                  
+                        else
+                        {
+                            <div role="dialog">
+                                <div class="modal-dialog">
+
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+
+                                        <div class="modal-header">
+
+                                            <h2><i class="icon-info"></i>&nbsp;&nbsp;&nbsp;<label class=""> सूचना  </label>  </h2>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form>
+                                                <p class="font-red">
+                                                    अपने अभी युवा स्वरोजगार योजना की सभी प्रविष्टियो एवं दस्तावेज़ अपलोड नहीं की है। कृपया समस्त प्रविष्टियो एवं दस्तावेज़ अपलोड करे ।
+                                                </p>
+
+                                            </form>
+                                        </div>
+                                        @*
+                                            <div class="modal-body">
+                                                <p>Some text in the modal.</p>
+                                            </div>*@
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        }
+
+
 
                     </div>
 
 
-            }
+                }
             </div>
 
 
         </div>
     </div>
 </div>
-

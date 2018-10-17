@@ -1,28 +1,23 @@
 ﻿@model DI.Models.CMYSS_Applicant
 @{
     Layout = null;
+    
 }
 <!DOCTYPE html>
-
 @using (Html.BeginForm("Registration_Login", "Login", FormMethod.Post, new { @class = "", enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
-
     <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <title></title>
         @*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
             <!-- jQuery library -->
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
             <!-- Latest compiled JavaScript -->
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>*@
-
         <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
         <script src="~/scripts/jquery-3.2.1.min.js"></script>
         <script src="~/scripts/bootstrap.min.js"></script>
-
         <style>
             .Mandatory {
                 color: red !important;
@@ -72,12 +67,14 @@
                 background-color: #295888 !important;
                 color: #fff !important;
             }
+
             .panel-heading2 {
                 text-align: center;
                 background-color: #38af05 !important;
                 color: #fff !important;
-              height:30px
+                height: 30px;
             }
+
             .panel01 {
                 padding: 10px;
             }
@@ -96,31 +93,31 @@
                 border-color: #38af05 !important;
                 box-shadow: 0 0 10px #38af05 !important;
             }
-            .pointer {cursor: pointer;}
-        </style>
 
-        <script type="text/javascript">
-        var specialKeys = new Array();
-        specialKeys.push(8); //Backspace
-        specialKeys.push(9); //Tab
-        specialKeys.push(46); //Delete
-        specialKeys.push(36); //Home
-        specialKeys.push(35); //End
-        specialKeys.push(37); //Left
-        specialKeys.push(39); //Right
-       
-        function IsAlphaNumeric(e) {
-            var keyCode = e.keyCode == 0 ? e.charCode : e.keyCode;
-            if (keyCode==32) {
-                return true;
+            .pointer {
+                cursor: pointer;
             }
-            var ret = ((keyCode >= 48 && keyCode <= 57) || (keyCode >= 65 && keyCode <= 90) || (keyCode >= 97 && keyCode <= 122) || (specialKeys.indexOf(e.keyCode) != -1 && e.charCode != e.keyCode));
-           // document.getElementById("error").style.display = ret ? "none" : "inline";
-           // alert("Special Character not allowed");
-            return ret;
-        }
+        </style>
+        <script type="text/javascript">
+            var specialKeys = new Array();
+            specialKeys.push(8); //Backspace
+            specialKeys.push(9); //Tab
+            specialKeys.push(46); //Delete
+            specialKeys.push(36); //Home
+            specialKeys.push(35); //End
+            specialKeys.push(37); //Left
+            specialKeys.push(39); //Right
+            function IsAlphaNumeric(e) {
+                var keyCode = e.keyCode == 0 ? e.charCode : e.keyCode;
+                if (keyCode == 32) {
+                    return true;
+                }
+                var ret = ((keyCode >= 48 && keyCode <= 57) || (keyCode >= 65 && keyCode <= 90) || (keyCode >= 97 && keyCode <= 122) || (specialKeys.indexOf(e.keyCode) != -1 && e.charCode != e.keyCode));
+                // document.getElementById("error").style.display = ret ? "none" : "inline";
+                // alert("Special Character not allowed");
+                return ret;
+            }
         </script>
-
         <script src="~/scripts/sha256.js"></script>
         <script>
             $(document).ready(function () {
@@ -154,8 +151,7 @@
                     alert("Please fill Captcha");
                     return false;
                 }
-                else if (document.getElementById("txtPassword").value != "")
-                {
+                else if (document.getElementById("txtPassword").value != "") {
                     document.getElementById("txtPassword").value = sha256(document.getElementById("txtPassword").value);
                     document.getElementById("txtPassword").value =
                       sha256(document.getElementById("txtPassword").value + salt);
@@ -169,11 +165,10 @@
                         url: '/Login/Applicant_Login',
                         data: JSON.stringify({ Model: Objform }),
                         type: 'POST',
-                        contentType: 'application/json; charset=utf-8', 
+                        contentType: 'application/json; charset=utf-8',
                         success: function (data) {
-                            if (data[0] == "Sucess")
-                            {
-                                window.open( data[1], "_self");
+                            if (data[0] == "Sucess") {
+                                window.open(data[1], "_self");
                             }
                             else {
                                 alert(data[1]);
@@ -252,9 +247,9 @@
                                         </div>
                                         <div class="form-group">
 
-<label class="control-label visible-ie8 visible-ie9">Scheme</label>
-                                                @Html.DropDownListFor(m => m.Scheme, Model.Scheme, new { @id = "ddlScheme1", @class = "form-control" })
-                                            </div>
+                                            <label class="control-label visible-ie8 visible-ie9">Scheme</label>
+                                            @Html.DropDownListFor(m => m.Scheme, Model.Scheme, new { @id = "ddlScheme1", @class = "form-control" })
+                                        </div>
                                         <div class="form-group">
                                             <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
                                             <label class="control-label visible-ie8 visible-ie9">Username</label>
@@ -291,13 +286,13 @@
                                             </label>
                                             <button type="button" class="btn green pull-right" onclick="HashPwdwithSalt();"> Login </button>
                                         </div>
-                                            @*<div class="col-md-6">
+                                        @*<div class="col-md-6">
                                                <p  style="color:#fff">.</p>
                                             </div>
                                             <div class="col-md-6">
                                                 <a href="javascript:;" id="" style="text-align:right; padding-bottom:inherit" >Forgot your password </a>
                                             </div>*@
-</fieldset>
+                                    </fieldset>
                                 </form>
                             </div>
                             <a href="javascript:;" id="" style="text-align:right; padding-bottom:inherit">Forgot your password </a>
@@ -404,7 +399,7 @@
                                         <span class="caption-subject font-dark bold uppercase">Registration Form</span>
                                     </div>*@
                                 <div class="row">
-                                    <div class="col-sm-6 form-group">
+                                    <div class="col-sm-12 form-group">
                                         <label id="lblscheme">Scheme<span class="Mandatory">*</span></label>
                                         @*<select id="schema" class="form-control select2-container ">
                                                 <option>Select Schema</option>
@@ -417,9 +412,15 @@
                                 <div class="row">
                                     <div class="col-sm-6 form-group">
                                         <label id="lblname">Name<span class="Mandatory">*</span></label>
-                                        @Html.TextBoxFor(m => m.applicant_name, new { @class = "form-control", @id = "txtName", @placeholder = "नाम ", @Maxlength = 40,
+                                        @Html.TextBoxFor(m => m.applicant_name, new
+                                   {
+                                       @class = "form-control",
+                                       @id = "txtName",
+                                       @placeholder = "नाम ",
+                                       @Maxlength = 40,
                                        @onkeypress = "return IsAlphaNumeric(event);",
-            @ondrop = "return false;" ,@npaste = "return false;"
+                                       @ondrop = "return false;",
+                                       @npaste = "return false;"
                                    })
                                     </div>
                                     <div class="col-sm-6 form-group">
@@ -431,7 +432,12 @@
                                 <div class="row">
                                     <div class="col-sm-6 form-group">
                                         <label id="lblfather">Father's Name<span class="Mandatory">*</span></label>
-                                        @Html.TextBoxFor(m => m.Husband_father_name, new { @class = "form-control", @id = "txtHusband_father_name", @placeholder = "पिता/पति का नाम ", @Maxlength = 40,
+                                        @Html.TextBoxFor(m => m.Husband_father_name, new
+                                   {
+                                       @class = "form-control",
+                                       @id = "txtHusband_father_name",
+                                       @placeholder = "पिता/पति का नाम ",
+                                       @Maxlength = 40,
                                        @onkeypress = "return IsAlphaNumeric(event);",
                                        @ondrop = "return false;",
                                        @npaste = "return false;"
@@ -452,14 +458,37 @@
                                         @Html.TextBoxFor(m => m.email, new { @class = "form-control", @id = "txtEmailID", @placeholder = "ई-मेल आई0डी0 (यदि हो तो)", @onblur = "return validateEmail(this)", @Maxlength = "40" })
                                     </div>
                                 </div>
+
+
+                                <div class="row">
+                                    <div class="col-sm-6 form-group">
+                                        <label id="lblphone">State</label>
+                                        <input type="text" value="Uttar Pradesh" class="form-control" disabled="disabled">
+                                    </div>
+                                    <div class="col-sm-6 form-group">
+                                        <label id="lblDistrict">District<span class="Mandatory">*</span></label>
+
+
+                                        @Html.DropDownListFor(m => m.DistrictNames, new List<SelectListItem> { new SelectListItem { Text = "--चयन करे--", Value = "-1" } }, new { @id = "ddlDistrictNames", @class = "form-control" })
+                                    </div>
+                                </div>
+
+
+
                                 <div class="form-group">
-                                    <label id="lbladress">Address<span class="Mandatory">*</span></label>
-                                    @Html.TextAreaFor(m => m.current_address, new { @class = "form-control", @id = "txtCurrentAddress", @placeholder = "पत्र व्यवहार का पता", @Maxlength = 45,
+                                    <label id="lbladress">Sponsoring Office<span class="Mandatory">*</span></label>
+                                    @Html.TextAreaFor(m => m.sponsoring_office, new
+                               {
+                                   @class = "form-control",
+                                   @id = "txtsponsoring_office",
+                                   @placeholder = "प्रायोजन कार्यालय का पता",
                                    @onkeypress = "return IsAlphaNumeric(event);",
                                    @ondrop = "return false;",
-                                   @npaste = "return false;"
+                                   @npaste = "return false;",
+                                   @disabled= "disabled"
                                })
                                 </div>
+                                @Html.HiddenFor(m => m.sponsoring_office_code, new { @id = "hfsponsoringofficecode", @value = "-1" })
                                 @*<div class="row">
                                         <div class="col-sm-4 form-group">
                                             <label>City</label>
@@ -532,6 +561,7 @@
             $('#lblphone').removeAttr('style');
             $('#lbldob').removeAttr('style');
             $('#lbladress').removeAttr('style');
+            $('#lblDistrict').removeAttr('style');
             if ($('#chkaadhar').prop('checked')) {
 
             }
@@ -595,10 +625,16 @@
                 }
             }
 
-            if (document.getElementById("txtCurrentAddress").value == "") {
-                document.getElementById("txtCurrentAddress").focus();
-                $('#lbladress').css('color', 'red');
-                alert("पत्र व्यवहार का पता");
+            //if (document.getElementById("txtCurrentAddress").value == "") {
+            //    document.getElementById("txtCurrentAddress").focus();
+            //    $('#lbladress').css('color', 'red');
+            //    alert("पत्र व्यवहार का पता");
+            //    return;
+            //}
+            if (document.getElementById("ddlDistrictNames").value == "-1") {
+                document.getElementById("ddlDistrictNames").focus();
+                $('#lblDistrict').css('color', 'red');
+                alert("कृप्या जनपद चयन करे");
                 return;
             }
 
@@ -616,15 +652,24 @@
                 return;
             }
             if (document.getElementById("ddlRegScheme").value == 1) {
-                
-                if (age >= 40) {
+
+                if (age > 40) {
                     $('#lbldob').css('color', 'red');
                     document.getElementById("txtDOB").focus();
                     alert(" Age should be smaller then or equal to 40");
                     return false;
                 }
             }
-           
+            if (document.getElementById("ddlRegScheme").value == 8) {
+
+                if (age <= 50) {
+                    $('#lbldob').css('color', 'red');
+                    document.getElementById("txtDOB").focus();
+                    alert(" Age should be greater then or equal to 50");
+                    return false;
+                }
+            }
+
             var Objform = {
                 "applicant_code": "-1",
                 "yojana_code": document.getElementById("ddlRegScheme").value,
@@ -632,15 +677,16 @@
                 "inputdob": document.getElementById("txtDOB").value,
                 "adhar_no": document.getElementById("txtAdhar_card_No").value,
                 "Husband_father_name": document.getElementById("txtHusband_father_name").value,
-                "current_address": document.getElementById("txtCurrentAddress").value,
+                "sponsoring_office_code": document.getElementById("hfsponsoringofficecode").value,
                 "mobile_no": document.getElementById("txtMobile_No").value,
                 "email": document.getElementById("txtEmailID").value == "" ? " " : document.getElementById("txtEmailID").value,
-                "DistCode": "-1",
+                "DistCode": document.getElementById("ddlDistrictNames").value,
                 "TehsilCode": "-1",
                 "BlockCode": "-1",
                 "VillCode": "-1",
+                "proposed_office_district": document.getElementById("ddlDistrictNames").value,
             }
-            if (document.getElementById("ddlRegScheme").value==1) {
+            if (document.getElementById("ddlRegScheme").value == 1) {
                 $.ajax({
 
                     url: '/Login/InsertUpdateCMYSS_Applicant',
@@ -659,9 +705,11 @@
                             document.getElementById("txtDOB").value = "";
                             document.getElementById("txtAdhar_card_No").value = "";
                             document.getElementById("txtHusband_father_name").value = "";
-                            document.getElementById("txtCurrentAddress").value = "";
+                            document.getElementById("hfsponsoringofficecode").value = "-1";
                             document.getElementById("txtMobile_No").value = "";
                             document.getElementById("txtEmailID").value = "";
+                            document.getElementById("ddlDistrictNames").value = "-1";
+                            document.getElementById("txtsponsoring_office").value = "";
                             $('#lblscheme').removeAttr('style');
                             $('#lblname').removeAttr('style');
                             $('#lblfather').removeAttr('style');
@@ -669,6 +717,8 @@
                             $('#lblphone').removeAttr('style');
                             $('#lbldob').removeAttr('style');
                             $('#lbladress').removeAttr('style');
+                            $('#lblDistrict').removeAttr('style');
+                           
                         }
                     }
                 });
@@ -692,9 +742,11 @@
                             document.getElementById("txtDOB").value = "";
                             document.getElementById("txtAdhar_card_No").value = "";
                             document.getElementById("txtHusband_father_name").value = "";
-                            document.getElementById("txtCurrentAddress").value = "";
+                            document.getElementById("hfsponsoringofficecode").value = "-1";
                             document.getElementById("txtMobile_No").value = "";
                             document.getElementById("txtEmailID").value = "";
+                            document.getElementById("ddlDistrictNames").value = "-1";
+                            document.getElementById("txtsponsoring_office").value = "";
                             $('#lblscheme').removeAttr('style');
                             $('#lblname').removeAttr('style');
                             $('#lblfather').removeAttr('style');
@@ -702,6 +754,7 @@
                             $('#lblphone').removeAttr('style');
                             $('#lbldob').removeAttr('style');
                             $('#lbladress').removeAttr('style');
+                            $('#lblDistrict').removeAttr('style');
                         }
                     }
                 });
@@ -725,9 +778,11 @@
                             document.getElementById("txtDOB").value = "";
                             document.getElementById("txtAdhar_card_No").value = "";
                             document.getElementById("txtHusband_father_name").value = "";
-                            document.getElementById("txtCurrentAddress").value = "";
+                            document.getElementById("hfsponsoringofficecode").value = "-1";
                             document.getElementById("txtMobile_No").value = "";
                             document.getElementById("txtEmailID").value = "";
+                            document.getElementById("ddlDistrictNames").value = "-1";
+                            document.getElementById("txtsponsoring_office").value = "";
                             $('#lblscheme').removeAttr('style');
                             $('#lblname').removeAttr('style');
                             $('#lblfather').removeAttr('style');
@@ -735,6 +790,7 @@
                             $('#lblphone').removeAttr('style');
                             $('#lbldob').removeAttr('style');
                             $('#lbladress').removeAttr('style');
+                            $('#lblDistrict').removeAttr('style');
                         }
                     }
                 });
@@ -758,9 +814,11 @@
                             document.getElementById("txtDOB").value = "";
                             document.getElementById("txtAdhar_card_No").value = "";
                             document.getElementById("txtHusband_father_name").value = "";
-                            document.getElementById("txtCurrentAddress").value = "";
+                            document.getElementById("hfsponsoringofficecode").value = "-1";
                             document.getElementById("txtMobile_No").value = "";
                             document.getElementById("txtEmailID").value = "";
+                            document.getElementById("ddlDistrictNames").value = "-1";
+                            document.getElementById("txtsponsoring_office").value = "";
                             $('#lblscheme').removeAttr('style');
                             $('#lblname').removeAttr('style');
                             $('#lblfather').removeAttr('style');
@@ -768,11 +826,12 @@
                             $('#lblphone').removeAttr('style');
                             $('#lbldob').removeAttr('style');
                             $('#lbladress').removeAttr('style');
+                            $('#lblDistrict').removeAttr('style');
                         }
                     }
                 });
             }
-           
+
         } catch (e) {
             alert(e);
         }
@@ -871,6 +930,47 @@
         else
             return now.getFullYear() - born.getFullYear() - 1;
     }
+    $(document).ready(function () {
+        $.ajax({
+            type: "post",
+            url: "/IndustrialAreaMaster/GetDistrict",
+            data: {},
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+                $('#ddlDistrictNames').empty();
+                var ddlComapnyType = "";
+                //var district = '';
+                for (var i = 0; i < data.length; i++) {
+                    ddlComapnyType = ddlComapnyType + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                }
+                //district = district + '</select>';
+                //alert(district);
+                $('#ddlDistrictNames').append(ddlComapnyType);
+                
+            }
+        });
+    });
+    $('#ddlDistrictNames').change(function () {
+        $.ajax({
+            type: "post",
+            url: "/login/Getsponsoring_office",
+            data: { district_code_census: $('#ddlDistrictNames').val() },
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+               // response($.map(data, function (item) {
+
+                 //   return { label: item.sponsoring_office_code, value: item.address };
+                $('#hfsponsoringofficecode').val(data[0].sponsoring_office_code);
+                $('#txtsponsoring_office').val(data[0].address);
+
+                //}))
+            }
+        });
+
+    });
+
 
 </script>
 <script>
@@ -918,8 +1018,7 @@
     $('#ddlRegScheme').change(function () {
 
         // alert("done");
-        if (document.getElementById("ddlRegScheme").value == "5")
-        {
+        if (document.getElementById("ddlRegScheme").value == "5") {
             window.open('/User/AllotmentPlot', "_self");
             return;
         }

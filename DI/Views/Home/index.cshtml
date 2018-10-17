@@ -1,0 +1,535 @@
+﻿
+@{
+    ViewBag.Title = "index";
+    Layout = "~/Views/Shared/HomeLayout.cshtml";
+}
+
+
+<!-- Banner/Slider -->
+<div id="slider" class="banner banner-slider carousel slide carousel-fade">
+    <!-- Wrapper for Slides -->
+    <div class="carousel-inner">
+        <div class="item active">
+            <!-- Set the first background image using inline CSS below. -->
+            <div class="fill" style="background-image:url('../Content/Homepage/image/c0d1e022-c400-4c1c-9737-fd943dafe024.jpg');">
+                <div class="banner-content">
+                    <div class="container">
+                        <div class="row">
+                            <div class="banner-text al-left pos-left light">
+                                <div class="animated fadeInUp banner-boxed">
+                                    <h2>Simple, cost-efficient mining solutions</h2>
+                                    <p>We deliver mining operations, that maximise plant availability, minimise downtime, and deliver measurable cost savings.</p>
+                                    @*<div class="banner-cta">
+                                            <a class="btn" href="solutions.html">View Services</a>
+                                        </div>*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="item">
+            <!-- Set the second background image using inline CSS below. -->
+            <div class="fill" style="background-image:url('../Content/Homepage/image/ae7fbded-4c73-4e91-936b-88473a0d31b4.jpg');">
+                <div class="banner-content">
+                    <div class="container">
+                        <div class="row">
+                            <div class="banner-text al-left pos-left light">
+                                <div class="animated fadeInUp banner-boxed">
+                                    <h2>Tailored solutions to individual requirements</h2>
+                                    <p>We committed to delivering our clients the highest level of service and innovative solutions that assist them.</p>
+                                    @*<div class="banner-cta">
+                                            <a class="btn" href="solution-single.html">Learn More</a>
+                                        </div>*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Left and right controls -->
+    <a class="left carousel-control" href="#slider" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#slider" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</div>
+<!-- #end Banner/Slider -->
+
+@*<div class="section section-services">
+    
+    <div class="container-fluid">
+        
+        <div class="content row">
+           
+            <!-- Feature Row  -->
+            <div class="feature-service-row row feature-s4 off-text boxed-filled">
+                <div class="col-sm-12">
+                  
+                    <br />
+                    <h2 class="heading-section center">Know about us</h2>
+                </div>
+                    <div class="col-md-3 col-sm-6 col-xs-6 ">
+                        <!-- Feature box -->
+                        
+                            <div class="feature boxed">
+                                
+                                    <a href="solution-single.html">
+                                        <div class="fbox-photo">
+                                            <img src="../Content/Homepage/image/yogiAdityaNath-CM-Keymember.png" alt="" class="image-boxes-title">
+                                        </div>
+                                        <div class="fbox-over">
+                                            <h3 class="title">Shri Yogi Adityanath</h3>
+                                            <div class="fbox-content">
+                                                <p>Hon'ble Chief Minister Uttar Pradesh</p>
+                                                <span class="btn">Learn More</span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                     
+
+
+                        <!-- End Feature box -->
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-xs-6 odd">
+                        <!-- Feature box -->
+                        <div class="feature boxed">
+                            <a href="solution-single.html">
+                                <div class="fbox-photo">
+                                    <img src="../Content/Homepage/image/mg1.jpg" alt="">
+                                </div>
+                                <div class="fbox-over">
+                                    <h3 class="title">Shri Satya Dev Pachauri</h3>
+                                    <div class="fbox-content">
+                                        <p>Hon'ble Minister MSME & Export Promotion Uttar Pradesh</p>
+
+
+
+                                        <em class="fa fa-facebook-official" aria-hidden="true"></em>
+
+                                <em class="fa fa-twitter" aria-hidden="true"></em>
+                                <em class="fa fa-linkedin" aria-hidden="true"></em>
+                                       <span class="btn">Learn More</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <!-- End Feature box -->
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-xs-6 even">
+                        <!-- Feature box -->
+                        <div class="feature boxed">
+                            <a href="solution-single.html">
+                                <div class="fbox-photo">
+                                    <img src="../Content/Homepage/image/mg3.jpg" alt="">
+                                </div>
+                                <div class="fbox-over">
+                                    <h3 class="title">Shri Bhuvnesh Kumar, IAS</h3>
+                                    <div class="fbox-content">
+                                        <p>Secretary MSME & Export Promotion Uttar Pradesh.</p>
+                                        @*<span class="btn">Learn More</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <!-- End Feature box -->
+                    </div>
+
+                    <div class="col-md-3 col-sm-6 col-xs-6 odd">
+                        <!-- Feature box -->
+                        <div class="feature boxed">
+                            <a href="solution-single.html">
+                                <div class="fbox-photo">
+                                    <img src="../Content/Homepage/image/mg2.jpg" alt="">
+                                </div>
+                                <div class="fbox-over">
+                                    <h3 class="title">Shri K. Ravinder Naik, IAS</h3>
+                                    <div class="fbox-content">
+                                        <p>Commissioner & Director Directorate of Industries Kanpur, Uttar Pradesh</p>
+                                        @*<span class="btn">Learn More</span
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <!-- End Feature box -->
+                    </div>
+               
+            </div>
+            <!-- Feture Row  #end -->
+
+        </div>
+    </div>
+    </div>*@
+    <!-- Call Action -->
+    @*<div class="call-action cta-small bg-secondary">
+                <div class="cta-block">
+                    <div class="container">
+                        <div class="content row">
+                            <div class="cta-sameline">
+                                <h3>Curious to know how we can help in your industrial?</h3>
+                                <span class="cta-num">Call <strong><a href="#">800-123-4567</a></strong></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    <img src="~/Content/Homepage/image/naik-a.jpg" />
+            </div>*@
+
+<div class="team">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 msg-common">
+                <div class="msg-box">
+                    <div class="img-box"><img src="../Content/Homepage/image/up_cm.jpg" alt="Shri Yogi Aditya Nath" title="Shri Yogi Aditya Nath"></div>
+                    <div class="msg-content">
+                        <h4>Shri Yogi Adityanath</h4>
+                        <p><br>Hon'ble Chief Minister<br> Uttar Pradesh<br></p>
+                        <div class="icon-box icon-bg circle"><em class="fa fa-facebook"></em></div>
+                        <div class="icon-box icon-bg circle"><em class="fa fa-twitter"></em></div>
+                        <div class="icon-box icon-bg circle"><em class="fa fa-linkedin"></em></div>
+                        <!--<a class="view-msg-btn">View Message</a>-->
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 msg-common">
+                <div class="msg-box">
+                    <div class="img-box"><img src="../Content/Homepage/image/satyadevpachauri.jpg" alt="Shri Satya Dev Pachauri " title="Shri Satya Dev Pachauri "></div>
+                    <div class="msg-content">
+                        <h4>Shri Satya Dev Pachauri</h4>
+                        <p>Hon'ble Minister <br> MSME &amp; Export Promotion<br> Uttar Pradesh<br>
+                        
+                            @*<a style="color: #f9f48c; font-weight: bold;" class="mailid external" href="mailto:sdpachuari1@gmail.com">sdpachuari1@gmail.com </a>*@
+                        </p>
+                        <div class="icon-box icon-bg circle"><em class="fa fa-facebook"></em></div>
+                        <div class="icon-box icon-bg circle"><em class="fa fa-twitter"></em></div>
+                        <div class="icon-box icon-bg circle"><em class="fa fa-linkedin"></em></div>
+                        <!--<a class="view-msg-btn">View Message</a>-->
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 msg-common">
+                <div class="msg-box">
+                    <div class="img-box"><img src="../Content/Homepage/image/sectery.jpg" alt="Secretary" title="Secretary"></div>
+                    <div class="msg-content">
+                        <h4>Shri Bhuvnesh Kumar, IAS</h4>
+                        <p>Secretary<br>MSME &amp; Export Promotion<br> Uttar Pradesh</p>
+                        <div class="icon-box icon-bg circle"><em class="fa fa-facebook"></em></div>
+                        <div class="icon-box icon-bg circle"><em class="fa fa-twitter"></em></div>
+                        <div class="icon-box icon-bg circle"><em class="fa fa-linkedin"></em></div>
+                        <!--<a class="view-msg-btn">View Message</a>-->
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 msg-common">
+                <div class="msg-box">
+                    <div class="img-box"><img src="../Content/Homepage/image/naik-a.jpg" alt="Shri K. Ravindra Naik" title="Shri K. Ravindra Naik, IAS" width="100" height="114"></div>
+                    <div class="msg-content">
+                        <h4>Shri K. Ravinder Naik, IAS</h4>
+                        <p>Commissioner &amp; Director<br> Directorate of Industries <br> Kanpur, Uttar Pradesh</p>
+                        <!--<a class="view-msg-btn">View Message</a></div>-->
+                        <div class="icon-box icon-bg circle"><em class="fa fa-facebook"></em></div>
+                        <div class="icon-box icon-bg circle"><em class="fa fa-twitter"></em></div>
+                        <div class="icon-box icon-bg circle"><em class="fa fa-linkedin"></em></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+    <!-- End Section -->
+    <!-- Content -->
+    <div class="section section-about section-pad">
+        <div class="container">
+            <div class="content row">
+                <h4 class="heading-sm-lead">Welcome to</h4>
+                <h2 class="heading-section with-line">Directorate of Industries</h2>
+                <div class="row">
+                    <div class="col-md-8 res-m-bttm">
+                        @*<p class="lead">We are mining services company with a unique difference.</p>*@
+                        <p>Directorate of Industries is an executive arm of the Department of Industries, engaged in implementation of government policies for all-round development of industries in the state and to make Uttar Pradesh a front runner state in terms of entrepreneur development, providing a conducive environment for industrial production and investment.</p>
+                        <p>Directorate of Industries plays an important role in promoting industrial development and generating employment by implementing programmes and schemes of Government of India and State Government.</p>
+                        <p>
+                            Executive arm of the Industries Department, engaged in implementation of government policies for all-round development of industries in the state and to make Uttar Pradesh a front runner state in terms of entrepreneur development, providing a conducive environment for industrial production and investment.
+                        </p>
+                        <div class="col-md-9"></div> <div class="col-md-3"><a href="#" class="btn btn-outline">Read More ...</a></div>
+                    </div>
+                    @*<div class="col-md-3 col-md-offset-1">
+                        <h4>Important Websites</h4>
+                        <ul class="list-style">
+                            <li>Department of MSME and Export Promotion</li>
+                            <li>MSME - Development Institute, Kanpur</li>
+                            <li>Department of Infrastructure & Industrial Development</li>
+                            <li>Department of Industrial Policy & Promotion</li>
+                            <li>Export Promotion Bureau</li>
+                            <li>UPSIDC</li>
+                            <li>UPSIC</li>
+                            <li>Udyog Aadhar</li>
+                        </ul>
+                    </div>*@
+
+                    <div class="col-md-4">
+                        <div class="sidebar-right">
+
+                            <div class="wgs-box wgs-menus">
+                                <div class="wgs-content">
+                                    <ul class="list list-grouped">
+                                        <li class="list-heading">
+                                            <span>Important Websites</span>
+                                            <ul>
+
+                                                <li><a href="http://upmsme.in/" target="_blank">Department of MSME and Export Promotion</a></li>
+                                                <li><a href="http://msmedikanpur.gov.in/views/default.asp" target="_blank">MSME - Development Institute, Kanpur</a></li>
+                                                <li><a href="http://udyogbandhu.com/topics.aspx?mid=MSME" target="_blank">Department of Infrastructure & Industrial Development</a></li>
+                                                <li><a href="http://dipp.nic.in/" target="_blank">Department of Industrial Policy & Promotion</a></li>
+                                                <li><a href="http://www.epbupindia.com/" target="_blank">Export Promotion Bureau</a></li>
+                                                <li><a href="http://onlineupsidc.com//" target="_blank">UPSIDC</a></li>
+                                                
+                                                <li><a href="http://www.upsic.in/" target="_blank">UPSIC</a></li>
+                                                <li><a href="https://udyogaadhaar.gov.in/UA/UAM_Registration.aspx" target="_blank">Udyog Aadhar</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Content -->
+    <!-- Service Section -->
+    <div class="section section-services section-pad fixed-bg" style="background-image: url('image/plx-light-mine.jpg');">
+        <div class="container">
+            <div class="content row">
+
+                <h4 class="heading-sm-lead">Our Scheme's</h4>
+                <h2 class="heading-section with-line">ongoing project</h2>
+
+                <!-- Feature Row  -->
+                <div class="feature-row feature-service-row row mgfix">
+                    <div class="col-md-3 col-sm-6 col-xs-6 even">
+                        <!-- feature box -->
+                        <div class="feature boxed">
+                            <a href="solution-single.html">
+                                <div class="fbox-photo">
+                                    <img src="../content/homepage/image/entrepreneurship.jpg" alt="">
+                                </div>
+                            </a>
+                            <div class="fbox-content">
+                                <h3><a href="solution-single.html">Chief Minister Youth Employment Scheme,UP</a></h3>
+                                <p>Sidid ipsum dolor sit amet consec adipis elit sed do eiusmod tempor incididut labore et dolore.</p>
+                                <p><a href="solution-single.html">Learn More <em class="fa fa-angle-double-right"></em></a></p>
+                            </div>
+                        </div>
+                        <!-- End Feature box -->
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-xs-6 odd">
+                        <!-- feature box -->
+                        <div class="feature boxed">
+                            <a href="solution-single.html">
+                                <div class="fbox-photo">
+                                    <img src="../content/homepage/image/Pension Scheme for Artisans.jpg" alt="">
+                                </div>
+                            </a>
+                            <div class="fbox-content">
+                                <h3><a href="solution-single.html">Pension Scheme for Artisans</a></h3>
+                                <p>Troid ipsum dolor sit amet consec adipis elit sed do eiusmod tempor incididut labore et dolore.</p>
+                                <p><a href="solution-single.html">Learn More <em class="fa fa-angle-double-right"></em></a></p>
+                            </div>
+                        </div>
+                        <!-- End Feature box -->
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-xs-6 even">
+                        <!-- feature box -->
+                        <div class="feature boxed">
+                            <a href="solution-single.html">
+                                <div class="fbox-photo">
+                                    <img src="../content/homepage/image/IMG-20180111-WA0087.jpg" alt="">
+                                </div>
+                            </a>
+                            <div class="fbox-content">
+                                <h3><a href="solution-single.html">Chief Minister Handicrafts Pension Scheme</a></h3>
+                                <p>Ridid ipsum dolor sit amet consec adipis elit sed do eiusmod tempor incididut labore et dolore.</p>
+                                <p><a href="solution-single.html">Learn More <em class="fa fa-angle-double-right"></em></a></p>
+                            </div>
+                        </div>
+                        <!-- End Featur box -->
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-xs-6 odd">
+                        <!-- featured box -->
+                        <div class="feature boxed">
+                            <a href="solution-single.html">
+                                <div class="fbox-photo">
+                                    <img src="../content/homepage/image/Regional award to specific handicrafts.jpg" alt="">
+                                </div>
+                            </a>
+                            <div class="fbox-content">
+                                <h3><a href="solution-single.html">Regional award to specific handicrafts</a></h3>
+                                <p>Ridid ipsum dolor sit amet consec adipis elit sed do eiusmod tempor incididut labore et dolore.</p>
+                                <p><a href="solution-single.html">Learn More <em class="fa fa-angle-double-right"></em></a></p>
+                            </div>
+                        </div>
+                        <!-- End Feature box -->
+                    </div>
+                </div>
+                <br />
+                <div class="col-md-9"></div> <div class="col-md-3"><a href="#" class="btn btn-outline">Other Scheme's ...</a></div>
+
+                <!-- Feture Row  #end -->
+            </div>
+        </div>
+    </div>
+    <!-- End Section -->
+    <!-- Content -->
+    <div class="section section-content section-pad">
+        <div class="container">
+            <div class="content row">
+
+                <h4 class="heading-sm-lead">The Difference</h4>
+                <h2 class="heading-section with-line">Why Choose Us</h2>
+                <div class="row">
+                    <div class="col-sm-4 res-m-bttm">
+                        <h5>Reliability &amp; Expertise</h5>
+                        <p>Our dedication an offendit philo sophia nece nomei maiorum appell. Aute irure dolor in reprehenderit in voluptate velit esse cillum.</p>
+                    </div>
+                    <div class="col-sm-4 res-m-bttm">
+                        <h5>Quality Assurance</h5>
+                        <p>To assist in meeting hilo sophia nec, no mei maiorum appell. Aute irure dolor in reprehe derit in voluptate velit dolore fugiat.</p>
+                    </div>
+                    <div class="col-sm-4">
+                        <h5>On-Site Support</h5>
+                        <p>We are specialists in philo sophia nec, no mei maiorum appell. Aute irure dolor in reprehe volupt lite esse cillum dolore euiat.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Content -->
+    <!-- CTA-Parallax -->
+    <div class="call-action cta-large has-bg fixed-bg" style="background-image: url('../Content/Homepage/image/mineral water bottling plant.jpg');">
+        <div class="cta-block">
+            <div class="container">
+                <div class="content row">
+                    <div class="cta-content wide-sm center">
+                        <h3>They hightly skilled engineers and technician can provide services that will assist in optimising your operation.</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- End Section -->
+    <!-- Project Section -->
+    <div class="section section-projects recent-project section-pad">
+        <div class="container">
+            <div class="content row">
+                <h4 class="heading-sm-lead">Our Work</h4>
+                <h2 class="heading-section with-line">Ongoing Project</h2>
+                <!-- Projects/Feature Row  -->
+                <div class="feature-row feature-project-row mgfix">
+                    <div class="owl-carousel loop has-carousel" data-items="4" data-navs="true">
+                        <div class="even">
+                            <!-- featured box  -->
+                            <div class="feature feature-project boxed">
+                                <a href="project-single.html">
+                                    <div class="fbox-photo">
+                                        <img src="image/work-sm-a.jpg" alt="">
+                                    </div>
+                                </a>
+                                <div class="fbox-content">
+                                    <h3><a href="project-single.html">Altria Warehouse Complex</a></h3>
+                                </div>
+                            </div>
+                            <!-- End -->
+                        </div>
+                        <div class="odd">
+                            <!-- featured box -->
+                            <div class="feature feature-project boxed">
+                                <a href="project-single.html">
+                                    <div class="fbox-photo">
+                                        <img src="image/work-sm-c.jpg" alt="">
+                                    </div>
+                                </a>
+                                <div class="fbox-content">
+                                    <h3><a href="project-single.html">Apollo Hill Project</a></h3>
+                                </div>
+                            </div>
+                            <!-- End -->
+                        </div>
+                        <div class="even">
+                            <!-- featured box -->
+                            <div class="feature feature-project boxed">
+                                <a href="project-single.html">
+                                    <div class="fbox-photo">
+                                        <img src="image/work-sm-b.jpg" alt="">
+                                    </div>
+                                </a>
+                                <div class="fbox-content">
+                                    <h3><a href="project-single.html">Balko Wind Power</a></h3>
+                                </div>
+                            </div>
+                            <!-- End -->
+                        </div>
+                        <div class="odd">
+                            <!-- featured box -->
+                            <div class="feature feature-project boxed">
+                                <a href="project-single.html">
+                                    <div class="fbox-photo">
+                                        <img src="image/work-sm-e.jpg" alt="">
+                                    </div>
+                                </a>
+                                <div class="fbox-content">
+                                    <h3><a href="project-single.html">Rocky Forge Refinary</a></h3>
+                                </div>
+                            </div>
+                            <!-- End -->
+                        </div>
+                        <div class="odd">
+                            <!-- featured box -->
+                            <div class="feature feature-project boxed">
+                                <a href="project-single.html">
+                                    <div class="fbox-photo">
+                                        <img src="image/work-sm-f.jpg" alt="">
+                                    </div>
+                                </a>
+                                <div class="fbox-content">
+                                    <h3><a href="project-single.html">Mingo Village Mining</a></h3>
+                                </div>
+                            </div>
+                            <!-- End -->
+                        </div>
+                    </div>
+                </div>
+                <!-- Projects/Feature Row  #end -->
+            </div>
+        </div>
+    </div>
+    <!-- End Section -->
+    <!-- Call Action -->
+    <div class="call-action">
+        <div class="cta-block">
+            <div class="container">
+                <div class="content row">
+                    <div class="cta-sameline">
+                        <h3>Talk to us about solving your mining problems</h3>
+                        <a class="btn btn-large" href="contact.html">Contact Us</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Section -->

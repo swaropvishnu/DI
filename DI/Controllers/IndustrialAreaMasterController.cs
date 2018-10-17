@@ -13,18 +13,34 @@ namespace DI.Controllers
     public class IndustrialAreaMasterController : Controller
     {
         // GET: IndustrialAreaMaster
-
         IndustrialAreaMasterModal dd = new IndustrialAreaMasterModal();
         IndustrialEstateAllotee IEA = new IndustrialEstateAllotee();
         AddPlot AP = new AddPlot();
         AddShed As = new AddShed();
         CommonBL bl = new CommonBL();
-        
         public ActionResult Index()
         {
             return View();
         }
-       
+        //public ActionResult testpage(string e)
+        //{
+        //   TEST t1 = new TEST();
+        //    if (e=="E")
+        //    {
+        //        t1.IsPlot_Disputed2 = "0";
+        //    }
+           
+
+        //    //TEST _radiobuttonliatmodel = new TEST();
+        //    //DataTable DT = new DAL.CommonDA().Getplot(-1, -1, "", "", BLL.CommonBL.Setdate("01/01/1990"), BLL.CommonBL.Setdate("01/10/2018"), "", "");
+        //    //_radiobuttonliatmodel.RadioButtonListData = new List<RadioButtonData>();
+
+
+        //    //_radiobuttonliatmodel.RadioButtonListData.Add(new RadioButtonData { Id = DT.Rows[1]["IsPlot_Disputed"].ToString().Trim(), Value = "हाँ" });
+        //    //_radiobuttonliatmodel.RadioButtonListData.Add(new RadioButtonData { Id = DT.Rows[1]["IsPlot_Disputed"].ToString().Trim(), Value = "नहीं" });
+
+        //    return View(t1);
+        //}
         public ActionResult AddAreaView()
         {
             List<SelectListItem> distNames = new List<SelectListItem>();
@@ -32,7 +48,6 @@ namespace DI.Controllers
             dd.DistrictNames = distNames;
             return View(dd);
         }
-       
         public ActionResult IndustrialEstateEntryForm()
         {
             List<SelectListItem> distNames = new List<SelectListItem>();
@@ -40,19 +55,16 @@ namespace DI.Controllers
             dd.DistrictNames = distNames;
             return View(dd);
         }
-       
         public ActionResult GetDistrict()
         {
             List<SelectListItem> distNames = new List<SelectListItem>();
             CMODataEntryBLL.bindDropDownHnGrid("proc_Detail", distNames, "ds", "28", "10");
             return Json(distNames, JsonRequestBehavior.AllowGet);
         }
-        
         public ActionResult addAreaView2()
         {
             return View();
         }
-       
         public JsonResult InsertLoc(IndustrialAreaMasterModal M01,bool Isdel)
         {
             try
@@ -75,7 +87,6 @@ namespace DI.Controllers
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
         }
-       
         public JsonResult InsertUpdatePlot(AddPlot M01,bool sptype)
         {
             try
@@ -87,9 +98,7 @@ namespace DI.Controllers
             {
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
-
         }
-        
         public JsonResult InsertUpdateShed(AddShed M01, bool sptype)
         {
             try
@@ -105,14 +114,11 @@ namespace DI.Controllers
             {
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
-
         }
-      
         public JsonResult InsertUpdateEstateAllotee(IndustrialEstateAllotee IEA, List<IndustrialEstateAlloteePlot> L01, List<IndustrialEstateAlloteeShed> L02 ,bool Sptype)
         {
             try
             {
-
                 string str = new DAL.CommonDA().InsertUpdateEstateAllotee(IEA, L01, L02, Sptype);
                 return Json(str, JsonRequestBehavior.AllowGet);
             }
@@ -122,43 +128,36 @@ namespace DI.Controllers
             }
 
         }
-       
         public ActionResult GetTehsil(string DistID)
         {
             List<SelectListItem> tehsilNames = new List<SelectListItem>();
             CMODataEntryBLL.bindDropDownHnGrid("proc_Detail", tehsilNames, "TEHSIL", DistID.ToString(), "");
             return Json(tehsilNames, JsonRequestBehavior.AllowGet);
         }
-        
         public ActionResult bindshed(string IndustrialEstate)
         {
             List<SelectListItem> shed = new List<SelectListItem>();
             CMODataEntryBLL.bindDropDownHnGrid("proc_Detail", shed, "SV", IndustrialEstate.ToString(), "");
             return Json(shed, JsonRequestBehavior.AllowGet);
         }
-       
         public ActionResult bindplot(string IndustrialEstate)
         {
             List<SelectListItem> plot = new List<SelectListItem>();
             CMODataEntryBLL.bindDropDownHnGrid("proc_Detail", plot, "PV", IndustrialEstate.ToString(), "");
             return Json(plot, JsonRequestBehavior.AllowGet);
         }
-      
         public ActionResult GetBlock(string TehID)
         {
             List<SelectListItem> blockNames = new List<SelectListItem>();
             CMODataEntryBLL.bindDropDownHnGrid("proc_Detail", blockNames, "block", TehID.ToString(), "");
             return Json(blockNames, JsonRequestBehavior.AllowGet);
         }
-
-       
         public ActionResult GetVillage(string BlockID)
         {
             List<SelectListItem> villageNames = new List<SelectListItem>();
             CMODataEntryBLL.bindDropDownHnGrid("proc_Detail", villageNames, "village", BlockID.ToString(), "");
             return Json(villageNames, JsonRequestBehavior.AllowGet);
         }
-      
         public ActionResult GetCompanyType()
         {
             List<SelectListItem> CompanyType = new List<SelectListItem>();
@@ -166,7 +165,6 @@ namespace DI.Controllers
           
             return Json(CompanyType, JsonRequestBehavior.AllowGet);
         }
-        
         public ActionResult GetIndustrytype()
         {
             List<SelectListItem> CompanyType = new List<SelectListItem>();
@@ -174,7 +172,6 @@ namespace DI.Controllers
 
             return Json(CompanyType, JsonRequestBehavior.AllowGet);
         }
-       
         public ActionResult GetEstate(int District)
         {
             List<SelectListItem> CompanyType = new List<SelectListItem>();
@@ -189,7 +186,6 @@ namespace DI.Controllers
             AP.DistrictNames = DistrictName;
             return View(AP);
         }
-        
         public ActionResult AddShed()
         {
             List<SelectListItem> DistrictName = new List<SelectListItem>();
@@ -197,7 +193,6 @@ namespace DI.Controllers
             As.DistrictNames = DistrictName;
             return View(As);
         }
-       
         public ActionResult AddAllotee()
         {
             List<SelectListItem> distNames = new List<SelectListItem>();
@@ -205,32 +200,26 @@ namespace DI.Controllers
             IEA.DistrictNames = distNames;
             return View(IEA);
         }
-        
         public ActionResult GetIndustrialEstateList()
         {
             return View();
         }
-       
         public ActionResult ReportIndustrialEstate()
         {
             return View();
         }
-       
         public ActionResult ReportAllotees()
         {
             return View();
         }
-       
         public ActionResult GetShed()
         {
             return View();
         }
-        
         public ActionResult GetPlot()
         {
             return View();
         }
-       
         public ActionResult AddAlloteeWizard()
         {
             //List<SelectListItem> IndustrialArea = new List<SelectListItem>();
@@ -238,7 +227,6 @@ namespace DI.Controllers
             //As.IndustrialEstate = IndustrialArea;
             return View();
         }
-       
         public ActionResult GetAllotee()
         {
             //List<SelectListItem> IndustrialArea = new List<SelectListItem>();
@@ -246,7 +234,6 @@ namespace DI.Controllers
             //As.IndustrialEstate = IndustrialArea;
             return View();
         }
-        
         public ActionResult EditIndustrialEstate(string  Code)
         {
             string ID=  new DI.Crypto().Decrypt(Code);
@@ -276,7 +263,6 @@ namespace DI.Controllers
             IA.industrytype_code_diff = dt.Rows[0]["industrytype_code_diff"].ToString().Trim();
             return View(IA);
         }
-       
         public ActionResult EditAllotee(string Code)
         {
             string ID = new DI.Crypto().Decrypt(Code);
@@ -328,7 +314,6 @@ namespace DI.Controllers
             IEA.tablestring = sb.ToString().Trim();
             return View(IEA);
         }
-        
         public ActionResult Adddoc_type()
         {
             //List<SelectListItem> doc_type = new List<SelectListItem>();
@@ -336,7 +321,6 @@ namespace DI.Controllers
             //DT.Docment = doc_type;
             return View();
         }
-       
         public JsonResult InsertUpdate_doc_type(Doc_type Objform, string sptype)
         {
             try
@@ -349,26 +333,14 @@ namespace DI.Controllers
             {
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
-
         }
-       
         public ActionResult Affidavit_Letter()
         {
             return View();
         }
-       
         public ActionResult certificate_Letter()
         {
             return View();
         }
-        //public ActionResult shapathpatar()
-        //{
-        //    return View();
-        //}
-
-        //public ActionResult Pramar_patar()
-        //{
-        //    return View();
-        //}
     }
 }

@@ -17,7 +17,7 @@ namespace DI
         {  
             
             var list = new List<Menu>();
-            if (UserSession.LoggedInUser.UserLevel=="6" )
+            if (UserSession.LoggedInUser.UserLevel=="6" || UserSession.LoggedInUser.UserLevel == "3" || UserSession.LoggedInUser.UserLevel == "5")
             {
                 var dr = UserDtl.GetMenuData2(UserSession.LoggedInUser.UserId);
                 while (dr.Read())

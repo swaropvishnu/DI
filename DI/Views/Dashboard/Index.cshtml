@@ -10,7 +10,6 @@
 @using DI.Models;
 @using DI.DAL;
 @using DI.BLL;
-
 @{
     //var grid = new WebGrid(Model, rowsPerPage: 20);
     DataTable dt = new CommonDA().GetDashBord();
@@ -110,15 +109,11 @@
                             </div>
                         </div>
                         <div class="progress-info">
-
-
                             <div class="progress">
                                 <span style="width: @dt.Rows[0]["PerAllotedSmallEstate"].ToString().Trim()%;" class="progress-bar progress-bar-success blue-sharp">
                                     <span class="sr-only">@dt.Rows[0]["PerAllotedSmallEstate"].ToString().Trim()% Small Estate Alloted</span>
                                 </span>
                             </div>
-
-
                             <div class="status">
                                 <div class="status-title">Small Estate Alloted </div>
                                 <div class="status-number">@dt.Rows[0]["PerAllotedSmallEstate"].ToString().Trim()% </div>
@@ -166,7 +161,6 @@
                             </div>
                         </div>
                     </div>
-
                 </a>
                 @*<a href="@Url.Action("GetIndustrialEstateList", "IndustrialAreaMaster", new {Industry = "Large_Scale"})">
                 <div class="widget-thumb widget-bg-color-white text-uppercase margin-bottom-20 ">
@@ -183,7 +177,6 @@
                 <!-- END WIDGET THUMB -->
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-
                 <!-- BEGIN WIDGET THUMB -->
                 <a href="@Url.Action("Getplot", "IndustrialAreaMaster")">
                     <div class="widget-thumb widget-bg-color-white text-uppercase margin-bottom-20 ">
@@ -232,7 +225,6 @@
                 <!-- END WIDGET THUMB -->
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-
                 <!-- BEGIN WIDGET THUMB -->
                 <a href="@Url.Action("Getplot", "IndustrialAreaMaster", new { status = "Assigned" })">
                     <div class="widget-thumb widget-bg-color-white text-uppercase margin-bottom-20 ">
@@ -280,7 +272,6 @@
                 </a>
                 <!-- END WIDGET THUMB -->
             </div>
-
         </div>
     </div>
     <div class="row">

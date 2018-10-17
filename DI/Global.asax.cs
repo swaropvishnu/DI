@@ -22,7 +22,6 @@ namespace DI
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
         }
-
         void Application_Error(object sender, EventArgs e)
 
         {

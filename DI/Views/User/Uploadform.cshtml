@@ -3,14 +3,7 @@
     ViewBag.Title = "Uploadform";
     Layout = "~/Views/Shared/UserLayout.cshtml";
 }
-@*@using System.Data;
-    @using DI.Models;
-    @using DI.DAL;
-    @using DI.BLL;
-    @{
-        DataSet ds = new DataSet();
-        ds = new CommonDA().GetApplicantinfo_MYSY(-1, -1, UserSession.LoggedInUserName);
-    }*@
+
 <script>
     function funopen(url) {
         window.open(url, '_blank');
@@ -192,9 +185,7 @@
         return;
 
     }
-
-
-
+    
 
 </script>
 @Html.Raw(Model.page)

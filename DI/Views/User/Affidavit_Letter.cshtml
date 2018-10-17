@@ -74,12 +74,12 @@
                 <h4 class="title" align="center" style="font-size:x-large;font-weight:bold;text-decoration: underline">स्वप्रमाणित घोषणा पत्र </h4>
 
                 @if (ds != null)
-                 {
-                     if (ds.Tables[0] != null)
-                     {
-                         if (ds.Tables[0].Rows.Count > 0)
-                         {
-                            
+                {
+                    if (ds.Tables[0] != null && ds.Tables[1] != null && ds.Tables[2] != null && ds.Tables[4] != null && ds.Tables[5] != null)
+                    {
+                        if (ds.Tables[0].Rows.Count > 0 && ds.Tables[1].Rows.Count > 0 && ds.Tables[2].Rows.Count > 0 && ds.Tables[4].Rows.Count > 0 && ds.Tables[5].Rows.Count > 0)
+                        {
+
 
                                 <table class="table-responsive tblcss" id="Letter" border="0" style="width:80%" align="center">
 
@@ -161,10 +161,102 @@
                                         <tr></tr>
                                     </tbody>
                                 </table>
-                            
-                         }
-                     }
-                 }
+
+                        }
+                        else
+                        {
+                            <div role="dialog">
+                                <div class="modal-dialog">
+
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+
+                                        <div class="modal-header">
+
+                                            <h2><i class="icon-info"></i>&nbsp;&nbsp;&nbsp;<label class=""> सूचना  </label>  </h2>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form>
+                                                <p class="font-red">
+                                                    अपने अभी युवा स्वरोजगार योजना की सभी प्रविष्टियो एवं दस्तावेज़ अपलोड नहीं की है। कृपया समस्त प्रविष्टियो एवं दस्तावेज़ अपलोड करे ।
+                                                </p>
+
+                                            </form>
+                                        </div>
+                                        @*
+                                            <div class="modal-body">
+                                                <p>Some text in the modal.</p>
+                                            </div>*@
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div role="dialog">
+                            <div class="modal-dialog">
+
+                                <!-- Modal content-->
+                                <div class="modal-content">
+
+                                    <div class="modal-header">
+
+                                        <h2><i class="icon-info"></i>&nbsp;&nbsp;&nbsp;<label class=""> सूचना  </label>  </h2>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form>
+                                            <p class="font-red">
+                                                अपने अभी युवा स्वरोजगार योजना की सभी प्रविष्टियो एवं दस्तावेज़ अपलोड नहीं की है। कृपया समस्त प्रविष्टियो एवं दस्तावेज़ अपलोड करे ।
+                                            </p>
+
+                                        </form>
+                                    </div>
+                                    @*
+                                        <div class="modal-body">
+                                            <p>Some text in the modal.</p>
+                                        </div>*@
+
+                                </div>
+
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div role="dialog">
+                        <div class="modal-dialog">
+
+                            <!-- Modal content-->
+                            <div class="modal-content">
+
+                                <div class="modal-header">
+
+                                    <h2><i class="icon-info"></i>&nbsp;&nbsp;&nbsp;<label class=""> सूचना  </label>  </h2>
+                                </div>
+                                <div class="modal-body">
+                                    <form>
+                                        <p class="font-red">
+                                            अपने अभी युवा स्वरोजगार योजना की सभी प्रविष्टियो एवं दस्तावेज़ अपलोड नहीं की है। कृपया समस्त प्रविष्टियो एवं दस्तावेज़ अपलोड करे ।
+                                        </p>
+
+                                    </form>
+                                </div>
+                                @*
+                                    <div class="modal-body">
+                                        <p>Some text in the modal.</p>
+                                    </div>*@
+
+                            </div>
+
+                        </div>
+                    </div>
+                }
+
+
             </div>
 }
     </div>

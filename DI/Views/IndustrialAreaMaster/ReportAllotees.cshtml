@@ -7,6 +7,8 @@
         Response.Redirect("../Login/login");
         return;
     }
+
+    //WebGrid("")
 }
 
 @using System.Data;
@@ -21,14 +23,14 @@
     ds = new CommonDA().GetEstateeAllotee(-1);
 
 }
-@using (Html.BeginForm("GetPlot", "IndustrialAreaMaster", FormMethod.Post, new { @class = "", enctype = "multipart/form-data" }))
+@using (Html.BeginForm("GetPlot", "Form", FormMethod.Post, new { @class = "", enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
     <div class="portlet box green">
         <div class="portlet-title red">
             <div class="caption">
-                <i class="fa fa-globe"></i>आवंटियों की सूची
+                <i class="fa fa-globe"></i>मुख्यमंत्री युवा स्वरोजगार योजना, उ0प्र0 आवेदको  की सूची
             </div>
             <div class="tools"> </div>
         </div>

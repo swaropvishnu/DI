@@ -24,7 +24,9 @@ namespace DI.Controllers
         // GET: Login
         public ActionResult Login()
         {
+
             string salt = CreateSalt(5);
+
             Session["salt"] = salt.ToString();
             return View();
         }
@@ -60,11 +62,11 @@ namespace DI.Controllers
         }
         //
         // POST: /Account/Login
-        [HttpPost]        
+        [HttpPost]
         [AllowAnonymous]
         public ActionResult Login(LoginModal Model)
         {
-            
+
             if (Model.CaptchaText == HttpContext.Session["captchastring"].ToString())
             {
                 // Ensure we have a valid viewModel to work with
@@ -74,17 +76,17 @@ namespace DI.Controllers
                 string usrname = Model.UserName;
                 string password = Model.Password;
                 DataSet ds = new DataSet();
-                ds = UserDtl.VerifyUser(usrname);                
+                ds = UserDtl.VerifyUser(usrname);
                 if (ds != null)
                 {
-                    string psw = ds.Tables[0].Rows[0]["Password"].ToString();                    
+                    string psw = ds.Tables[0].Rows[0]["Password"].ToString();
                     if (ds.Tables[0].Rows.Count > 0 && ds.Tables[0].Rows.Count == 1)
                     {
 
                         string hashed_pwd = CalculateHash(psw.ToString().ToLower() + Session["salt"].ToString());
                         if (hashed_pwd.ToString().ToLower().Equals(Model.Password.ToLower()))
                         {
-                            if (ds.Tables[0].Rows[0]["UserLevel"].ToString().Trim()=="6")
+                            if (ds.Tables[0].Rows[0]["UserLevel"].ToString().Trim() == "6" || ds.Tables[0].Rows[0]["UserLevel"].ToString().Trim() == "3" || ds.Tables[0].Rows[0]["UserLevel"].ToString().Trim() == "5")
                             {
                                 Session["tbl_Session"] = ds.Tables[0];
                                 FormsAuthentication.SetAuthCookie(usrname, Model.RememberMe);
@@ -137,7 +139,7 @@ namespace DI.Controllers
         /// <returns></returns>
         /// 
         #region --> Generate HASH Using SHA512
-        
+
         #endregion
         private string CreateSalt(int size) //Generate the salt via Randon Number Genertor cryptography
         {
@@ -306,7 +308,7 @@ namespace DI.Controllers
         public ActionResult ProfileUpdate()
         {
             LoginModal objUserData = new LoginModal();
-            objUserData.UserId =UserSession.LoggedInUserId.ToString();
+            objUserData.UserId = UserSession.LoggedInUserId.ToString();
             objUserData = CommonBL.GetUserDetail(objUserData);
             ViewBag.Base64String = "data:image/png;base64," + Convert.ToBase64String(objUserData.UserImage, 0);
             return View(objUserData);
@@ -326,9 +328,9 @@ namespace DI.Controllers
             }
             objUserData.UserId = UserSession.LoggedInUserId.ToString();
 
-           string A = CommonBL.UpdateUserDetail(objUserData);
+            string A = CommonBL.UpdateUserDetail(objUserData);
             ViewBag.Base64String = "data:image/png;base64," + Convert.ToBase64String(objUserData.UserImage, 0);
-            if (A=="Success")
+            if (A == "Success")
             {
                 ViewBag.AlertUpdate = "Update SuccessFully..";
             }
@@ -355,7 +357,6 @@ namespace DI.Controllers
             CM.Scheme = Scheme;
             return View(CM);
         }
-
         public JsonResult InsertUpdateCMYSS_Applicant(CMYSS_Applicant Objform)
         {
             try
@@ -375,24 +376,22 @@ namespace DI.Controllers
                 //string Mobchar = Objform.mobile_no.Substring(0, 2);
                 List<CMYSS_Applicant_Doc> objdoc = new List<CMYSS_Applicant_Doc>();
                 List<CMYSS_Applicant_Family> objFamily = new List<CMYSS_Applicant_Family>();
-                Objform.Password= FormsAuthentication.HashPasswordForStoringInConfigFile(dob[2].ToString().Trim()+ dob[1].ToString().Trim()+ dob[0].ToString().Trim(), "sha256");
-                string str = new DAL.CommonDA().InsertUpdateCMYSS_Applicant(Objform, objdoc, objFamily, "1");
+                Objform.Password = FormsAuthentication.HashPasswordForStoringInConfigFile(dob[2].ToString().Trim() + dob[1].ToString().Trim() + dob[0].ToString().Trim(), "sha256");
+                string str = new DAL.CommonDA().InsertUpdateCMYSS_Applicant(Objform, "1");
                 if (str.Contains("Save") && str.Contains("/"))
                 {
                     string[] Msg = str.Split('/');
-                    return Json(Msg[0] + "\n" + "User Name :" + Msg[1] + "\n" + "Password :" + dob[2].ToString().Trim() + dob[1].ToString().Trim()  + dob[0].ToString().Trim(), JsonRequestBehavior.AllowGet);
+                    return Json(Msg[0] + "\n" + "User Name :" + Msg[1] + "\n" + "Password :" + dob[2].ToString().Trim() + dob[1].ToString().Trim() + dob[0].ToString().Trim(), JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
                     return Json(str, JsonRequestBehavior.AllowGet);
                 }
-                
             }
             catch (Exception ex)
             {
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
-
         }
         public JsonResult InsertUpdateSPY_Applicant(SPY_Applicant Objform)
         {
@@ -407,6 +406,11 @@ namespace DI.Controllers
                 {
                     return Json("Date of Birth must be dd/mm/yyyy format", JsonRequestBehavior.AllowGet);
                 }
+
+
+                Objform.awardyear = BLL.CommonBL.Setdate("01/01/1900");
+
+
                 Objform.steps = "0";
                 string[] dobTime = Objform.inputdob.ToString().Split(' ');
                 string[] dob = dobTime[0].Split('/');
@@ -414,7 +418,7 @@ namespace DI.Controllers
                 List<CMYSS_Applicant_Doc> objdoc = new List<CMYSS_Applicant_Doc>();
                 List<CMYSS_Applicant_Family> objFamily = new List<CMYSS_Applicant_Family>();
                 Objform.Password = FormsAuthentication.HashPasswordForStoringInConfigFile(dob[2].ToString().Trim() + dob[1].ToString().Trim() + dob[0].ToString().Trim(), "sha256");
-                string str = new DAL.CommonDA().InsertUpdateSPY(Objform, "1");
+                string str = new DAL.CommonDA().InsertUpdatevSPY(Objform, "1");
                 if (str.Contains("Save") && str.Contains("/"))
                 {
                     string[] Msg = str.Split('/');
@@ -493,7 +497,8 @@ namespace DI.Controllers
                 Objform.architect_experience = BLL.CommonBL.Setdate("01/01/1900");
                 Objform.Artwork_start_date = BLL.CommonBL.Setdate("01/01/1900");
                 Objform.Artwork_to_date = BLL.CommonBL.Setdate("01/01/1900");
-                string str = new DAL.CommonDA().InsertUpdateVHPP(Objform, "1");
+                DataTable dtab = new DataTable();
+                string str = new DAL.CommonDA().InsertUpdateVHPY(Objform, "1", dtab);
                 if (str.Contains("Save") && str.Contains("/"))
                 {
                     string[] Msg = str.Split('/');
@@ -516,7 +521,7 @@ namespace DI.Controllers
             string[] result = new string[2];
             try
             {
-                if (HttpContext.Session["captchastring"]== null)
+                if (HttpContext.Session["captchastring"] == null)
                 {
                     result[0] = "Fail";
                     result[1] = "Sorry ,Please Refresh the Page";
@@ -531,9 +536,10 @@ namespace DI.Controllers
                     ds = UserDtl.VerifyApplicant(usrname, Model.yojana_code);
                     if (ds != null)
                     {
-                        string psw = ds.Tables[0].Rows[0]["Password"].ToString();
+
                         if (ds.Tables[0].Rows.Count > 0 && ds.Tables[0].Rows.Count == 1)
                         {
+                            string psw = ds.Tables[0].Rows[0]["Password"].ToString();
                             string hashed_pwd = CalculateHash(psw.ToString().ToLower() + Session["salt"].ToString());
                             if (hashed_pwd.ToString().ToLower().Equals(Model.Password.ToLower()))
                             {
@@ -544,22 +550,6 @@ namespace DI.Controllers
                                     result[0] = "Sucess";
                                     result[1] = "/User/" + ds.Tables[0].Rows[0]["page_name"].ToString();
                                     return Json(result, JsonRequestBehavior.AllowGet);
-                                    //if (ds.Tables[0].Rows[0]["scheme_code"].ToString() == "1")
-                                    //{
-                                    //    return Json("1", JsonRequestBehavior.AllowGet);
-
-                                    //}
-                                    //else if (ds.Tables[0].Rows[0]["scheme_code"].ToString() == "5")
-                                    //{
-                                    //    return Json("5", JsonRequestBehavior.AllowGet);
-
-                                    //}
-                                    //else
-                                    //{
-                                    //    return Json("Invalid Username or Password.", JsonRequestBehavior.AllowGet);
-                                    //}
-                                    // return Json("Sucess", JsonRequestBehavior.AllowGet);
-                                    //return RedirectToAction("CMYSS_Applicant", "User");
                                 }
                                 else
                                 {
@@ -601,7 +591,7 @@ namespace DI.Controllers
                     ViewBag.ErrMessage = "Error: captcha is not valid.";
                     return Json(result, JsonRequestBehavior.AllowGet);
                 }
-            
+
             }
             catch (Exception ex)
             {
@@ -611,5 +601,46 @@ namespace DI.Controllers
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
         }
+        public JsonResult Getsponsoring_office(int @district_code_census)
+        {
+            DataTable dt = new DAL.CommonDA().Getsponsoring_office(@district_code_census);
+            List<sponsoring_office> SL = new List<sponsoring_office>();
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                sponsoring_office s1 = new sponsoring_office();
+                s1.sponsoring_office_code = int.Parse(dt.Rows[i]["sponsoring_office_code"].ToString().Trim());
+                s1.address = dt.Rows[i]["address"].ToString().Trim();
+                SL.Add(s1);
+            }
+            return Json(SL, JsonRequestBehavior.AllowGet);
+        }
+
+        class sponsoring_office
+        {
+            public int sponsoring_office_code { get; set; }
+            public string address { get; set; }
+        }
+        //public JsonResult FirstApplicantlogin(string username,short yojana_code)
+        //{
+        //    DataSet ds = new DataSet();
+        //    ds = UserDtl.VerifyApplicant(username, yojana_code);
+        //    if (ds != null)
+        //    {
+        //        if (ds.Tables[0].Rows.Count > 0 && ds.Tables[0].Rows.Count == 1)
+        //        {
+        //            string s1 = "/User/" + ds.Tables[0].Rows[0]["page_name"].ToString();
+        //            return Json(s1, JsonRequestBehavior.AllowGet);
+        //        }
+        //        else
+        //        {
+        //            return Json("/login/Registration_Login", JsonRequestBehavior.AllowGet);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        return Json("/login/Registration_Login", JsonRequestBehavior.AllowGet);
+        //    }  
+        //}
+        
     }
 }

@@ -9,9 +9,6 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web;
 using System.Web.Mvc;
-
-
-
 namespace DI
 {
     public static class CMODataEntryBLL
@@ -64,7 +61,6 @@ namespace DI
 
         public static void bindDropDownHnGrid(string ProcName, List<SelectListItem> distNames, string parm1, string parm2, string parm3)
         {
-
             DataSet ds = new DataSet();
             SqlDataReader sdr;
             if (parm1.Length > 0 && parm1 != "")
@@ -75,8 +71,6 @@ namespace DI
                     parameters.Add(new SqlParameter("@Parm2", parm2));
                 if (parm3.Length > 0 && parm3 != "")
                     parameters.Add(new SqlParameter("@Parm3", parm3));
-                
-
                 sdr = SqlHelper.ExecuteReader(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName, parameters.ToArray());
             }
             else
@@ -92,15 +86,11 @@ namespace DI
                     Text = sdr["ValueText"].ToString(),
                     Value = sdr["ValueId"].ToString()
                 });
-                
             }
-            
             sdr.Close();
         }
-
         public static DataSet GetData2(string ProcName, string parm1, string parm2, string parm3, string parm4)
         {
-
             DataSet ds = new DataSet();
             if (parm1.Length > 0 && parm1 != "")
             {
@@ -118,12 +108,8 @@ namespace DI
             {
                 ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName);
             }
-
             return ds;
-
-
         }
-        
         public static void bindDropDownEn(string ProcName, DropDownList ddl, string parm1, string parm2, string parm3)
         {
 

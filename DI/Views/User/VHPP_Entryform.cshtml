@@ -47,7 +47,7 @@
                                     </span>
                                 </a>
                             </li>
-                          
+
                         </ul>
                         <div id="bar" class="progress progress-striped" role="progressbar">
                             <div class="progress-bar progress-bar-success" style="width: 0%;" id="divpross"> </div>
@@ -68,7 +68,12 @@
                                             <div class="form-group">
                                                 <label class="control-label col-md-12" id="lblname">शिल्पकार का नाम<span class="Mandatory">*</span></label>
                                                 <div class="col-md-12">
-                                                    @Html.TextBoxFor(m => m.applicant_name, new { @class = "form-control", @id = "txtName", @placeholder = "नाम ", @Maxlength = 20,
+                                                    @Html.TextBoxFor(m => m.applicant_name, new
+                                               {
+                                                   @class = "form-control",
+                                                   @id = "txtName",
+                                                   @placeholder = "नाम ",
+                                                   @Maxlength = 20,
                                                    @onkeypress = "return IsAlphaNumeric(event);",
                                                    @ondrop = "return false;",
                                                    @npaste = "return false;"
@@ -113,7 +118,12 @@
                                             <div class="form-group">
                                                 <label class="control-label col-md-12" id="lblfather">शिल्पकार के पिता/पति का नाम<span class="Mandatory">*</span></label>
                                                 <div class="col-md-12">
-                                                    @Html.TextBoxFor(m => m.Husband_father_name, new { @class = "form-control", @id = "txtHusband_father_name", @placeholder = "पिता/पति का नाम ", @Maxlength = 20,
+                                                    @Html.TextBoxFor(m => m.Husband_father_name, new
+                                               {
+                                                   @class = "form-control",
+                                                   @id = "txtHusband_father_name",
+                                                   @placeholder = "पिता/पति का नाम ",
+                                                   @Maxlength = 20,
                                                    @onkeypress = "return IsAlphaNumeric(event);",
                                                    @ondrop = "return false;",
                                                    @npaste = "return false;"
@@ -126,7 +136,12 @@
                                             <div class="form-group">
                                                 <label class="control-label col-md-12" id="lbladress">पत्र व्यवहार का पता<span class="Mandatory">*</span></label>
                                                 <div class="col-md-12">
-                                                    @Html.TextBoxFor(m => m.current_address, new { @class = "form-control", @id = "txtCurrentAddress", @placeholder = "पत्र व्यवहार का पता", @Maxlength = 200,
+                                                    @Html.TextBoxFor(m => m.current_address, new
+                                               {
+                                                   @class = "form-control",
+                                                   @id = "txtCurrentAddress",
+                                                   @placeholder = "पत्र व्यवहार का पता",
+                                                   @Maxlength = 200,
                                                    @onkeypress = "return IsAlphaNumeric(event);",
                                                    @ondrop = "return false;",
                                                    @npaste = "return false;"
@@ -141,7 +156,12 @@
                                                 <label class="control-label col-md-12" id="lblPeradress">स्थाई पता<span class="Mandatory">*</span></label>
                                                 <div class="col-md-12">
 
-                                                    @Html.TextBoxFor(m => m.permanent_address, new { @class = "form-control", @id = "txtPermanent_Address", @placeholder = "स्थाई पता", @Maxlength = 200,
+                                                    @Html.TextBoxFor(m => m.permanent_address, new
+                                               {
+                                                   @class = "form-control",
+                                                   @id = "txtPermanent_Address",
+                                                   @placeholder = "स्थाई पता",
+                                                   @Maxlength = 200,
                                                    @onkeypress = "return IsAlphaNumeric(event);",
                                                    @ondrop = "return false;",
                                                    @npaste = "return false;"
@@ -229,7 +249,12 @@
                                                 <label class="control-label col-md-12" id="lblhandicraft_id_no">हस्तशिल्पी पहचान पत्र संख्या	<span class="Mandatory">*</span></label>
                                                 <div class="col-md-12">
 
-                                                    @Html.TextBoxFor(m => m.handicraft_id_no, new { @class = "form-control", @id = "txthandicraft_id_no", @placeholder = "हस्तशिल्पी पहचान पत्र संख्या", @Maxlength = 25,
+                                                    @Html.TextBoxFor(m => m.handicraft_id_no, new
+                                               {
+                                                   @class = "form-control",
+                                                   @id = "txthandicraft_id_no",
+                                                   @placeholder = "हस्तशिल्पी पहचान पत्र संख्या",
+                                                   @Maxlength = 25,
                                                    @onkeypress = "return IsAlphaNumeric(event);",
                                                    @ondrop = "return false;",
                                                    @npaste = "return false;"
@@ -242,7 +267,7 @@
 
 
 
-                                    </div>
+                                </div>
                                 <div class="portlet-title">
                                     <br />
                                     <div class="caption">
@@ -277,7 +302,12 @@
                                             <label class="control-label col-md-12" id="lblcraft_name">शिल्प का नाम<span class="Mandatory">*</span></label>
                                             <div class="col-md-12">
 
-                                                @Html.TextBoxFor(m => m.craft_name, new { @class = "form-control", @id = "txtcraft_name", @placeholder = "शिल्प का नाम", @Maxlength = 150,
+                                                @Html.TextBoxFor(m => m.craft_name, new
+                                           {
+                                               @class = "form-control",
+                                               @id = "txtcraft_name",
+                                               @placeholder = "शिल्प का नाम",
+                                               @Maxlength = 150,
                                                @onkeypress = "return IsAlphaNumeric(event);",
                                                @ondrop = "return false;",
                                                @npaste = "return false;"
@@ -292,7 +322,12 @@
 
                                             <div class="col-md-12">
 
-                                                @Html.TextBoxFor(m => m.teacher, new { @class = "form-control", @id = "txtteacher", @placeholder = "गुरू", @Maxlength = 50,
+                                                @Html.TextBoxFor(m => m.teacher, new
+                                           {
+                                               @class = "form-control",
+                                               @id = "txtteacher",
+                                               @placeholder = "गुरू",
+                                               @Maxlength = 50,
                                                @onkeypress = "return IsAlphaNumeric(event);",
                                                @ondrop = "return false;",
                                                @npaste = "return false;"
@@ -306,7 +341,7 @@
                                             <label class="control-label col-md-12" id="lblarchitect_experience">शिल्पकार्य  शुरू  करने का दिनांक  <span class="Mandatory">*</span></label>
 
                                             <div class="col-md-12">
-                                                @Html.TextBoxFor(m => m.input_architect_experience, new { @class = "form-control", @id = "txtarchitect_experience", @onkeypress = "return IsNumeric(event);", @placeholder = "शिल्पकार्य  शुरू  करने का दिनांक", @Maxlength =10 })
+                                                @Html.TextBoxFor(m => m.input_architect_experience, new { @class = "form-control", @id = "txtarchitect_experience", @onkeypress = "return IsNumeric(event);", @placeholder = "शिल्पकार्य  शुरू  करने का दिनांक", @Maxlength = 10 })
 
                                                 <span class="help-block"></span>
                                             </div>
@@ -322,7 +357,12 @@
 
                                             <div class="col-md-12">
 
-                                                @Html.TextBoxFor(m => m.Artwork_subject, new { @class = "form-control", @id = "txtArtwork_subject", @placeholder = "उद्देश्य", @Maxlength = 150,
+                                                @Html.TextBoxFor(m => m.Artwork_subject, new
+                                           {
+                                               @class = "form-control",
+                                               @id = "txtArtwork_subject",
+                                               @placeholder = "उद्देश्य",
+                                               @Maxlength = 150,
                                                @onkeypress = "return IsAlphaNumeric(event);",
                                                @ondrop = "return false;",
                                                @npaste = "return false;"
@@ -344,13 +384,13 @@
                                         <div class="form-group">
                                             <label class="control-label col-md-12" id="lblArtwork_subject">कुल पुरस्कार <span class="Mandatory">*</span></label>
                                             <div class="col-md-12">
-                                                @Html.TextBoxFor(m => m.Award_count, new { @class = "form-control", @id = "txtAward_count", @placeholder = "प्रपुरस्कार प्राप्त", @Maxlength = 3 , @onkeypress = "return IsNumeric(event);" })
+                                                @Html.TextBoxFor(m => m.Award_count, new { @class = "form-control", @id = "txtAward_count", @placeholder = "प्रपुरस्कार प्राप्त", @Maxlength = 3, @onkeypress = "return IsNumeric(event);" })
                                                 <span class="help-block"></span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                
+
                             </div>
                             <div class="tab-pane" id="tab3">
                                 <h3 class="form-section" style="font-weight:bolder">कलाकृति  का  विवरण</h3>
@@ -361,7 +401,12 @@
 
                                             <div class="col-md-12">
 
-                                                @Html.TextBoxFor(m => m.Artwork_name, new { @class = "form-control", @id = "txt_Artwork_name", @placeholder = "कलाकृति का नाम", @Maxlength = 100,
+                                                @Html.TextBoxFor(m => m.Artwork_name, new
+                                           {
+                                               @class = "form-control",
+                                               @id = "txt_Artwork_name",
+                                               @placeholder = "कलाकृति का नाम",
+                                               @Maxlength = 100,
                                                @onkeypress = "return IsAlphaNumeric(event);",
                                                @ondrop = "return false;",
                                                @npaste = "return false;"
@@ -378,7 +423,7 @@
 
                                             <div class="col-md-12">
 
-                                                @Html.TextBoxFor(m => m.input_Artwork_start_date, new { @class = "form-control", @id = "txt_Artwork_start_date", @placeholder = "कलाकृति निर्माणकार्य  शुरू  करने का दिनांक", @Maxlength = 10 , @onkeypress = "return IsNumeric(event);"  })
+                                                @Html.TextBoxFor(m => m.input_Artwork_start_date, new { @class = "form-control", @id = "txt_Artwork_start_date", @placeholder = "कलाकृति निर्माणकार्य  शुरू  करने का दिनांक", @Maxlength = 10, @onkeypress = "return IsNumeric(event);" })
 
                                                 <span class="help-block"></span>
                                             </div>
@@ -408,7 +453,92 @@
                                             </div>
                                         </div>
                                     </div>
+
+
+
+                                </div>
+
+                                <h3 class="form-section" style="font-weight:bolder">अन्य कलाकृतियो का विवरण</h3>
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-12" id="lblplace">स्थान   <span class="Mandatory">*</span></label>
+                                            <div class="col-md-12">
+                                                @Html.DropDownListFor(m => m.artwork_place, new List<SelectListItem> { new SelectListItem { Text = "--चयन करे--", Value = "-1" } }, new { @id = "ddlplace", @class = "form-control" })
+
+
+
+                                                <span class="help-block"></span>
+                                            </div>
+                                        </div>
                                     </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-12" id="lbl_Artwork_name">कलाकृति का नाम   <span class="Mandatory">*</span></label>
+                                            <div class="col-md-12">
+
+                                                @Html.TextBoxFor(m => m.other_art_work_name, new
+                                           {
+                                               @class = "form-control",
+                                               @id = "txtother_art_work_name",
+                                               @placeholder = "कलाकृति का नाम",
+                                               @Maxlength = 100,
+                                               @onkeypress = "return IsAlphaNumeric(event);",
+                                               @ondrop = "return false;",
+                                               @npaste = "return false;"
+                                           })
+                                                <span class="help-block"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-12" id="lbldescription">विवरण   <span class="Mandatory">*</span></label>
+                                            <div class="col-md-8">
+
+                                                @Html.TextAreaFor(m => m.Description, new
+                                           {
+                                               @class = "form-control",
+                                               @id = "txt_Description",
+                                               @placeholder = "कलाकृति का विवरण",
+                                               @Maxlength = 100,
+                                               @onkeypress = "return IsAlphaNumeric(event);",
+                                               @ondrop = "return false;",
+                                               @npaste = "return false;"
+                                           })
+                                                <span class="help-block"></span>
+                                            </div>
+
+
+                                            <div class="col-md-4">
+                                                <button type="button" class="btn green" align="right" onclick="funadd()">+</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                                <div class="row">
+                                    <table class="table table-striped table-bordered table-hover table-checkable" id="table">
+                                        <thead>
+
+                                            <tr role="row" class="heading">
+
+                                                <th width="10%"> क्र० सं० </th>
+                                                <th width="15%"> स्थान </th>
+                                                <th width="15%"> कलाकृति का नाम </th>
+                                                <th width="15%"> विवरण </th>
+
+                                                <th width="10%"> </th>
+
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+
 
                                 <div class="portlet-title">
                                     <br />
@@ -422,12 +552,12 @@
 
                                     </div>
                                 </div>
-                                </div>
+                            </div>
                             <div class="tab-pane" id="tab4">
-                              
+
                                 <button onclick="funopen('../user/Print_VHPPForm')" class="btn btn-outline green button-next">Print Application Form</button>
-                               
-                                <button  onclick="funopen('../user/VHPPAffidavitPrint')" class="btn btn-outline green button-next">Print Affidavit Letter</button>
+
+                                <button onclick="funopen('../user/VHPPAffidavitPrint')" class="btn btn-outline green button-next">Print Affidavit Letter</button>
 
                             </div>
                         </div>
@@ -452,7 +582,7 @@
 
                 <div class="modal-header">
                     <button type="button" class="close" onclick="modalclose()">&times;</button>
-                    <h2><i class="icon-info"></i>&nbsp;&nbsp;&nbsp;<label class=""> महत्वपूर्ण   सूचना   </label>  </h2>
+                    <h3><i class="icon-info"></i>&nbsp;&nbsp;&nbsp;<label class=""> महत्वपूर्ण   सूचना   </label>  </h3>
                 </div>
                 <div class="modal-body">
                     <form>
@@ -480,6 +610,32 @@
             $("#myModal").removeClass("in");
         }
         function funfinal() {
+            var art_place = [];
+            var error = 0;
+            if ((table.rows.length - 1) > 0) {
+                for (i = 0; i < table.rows.length - 1; i++) {
+                    if (document.getElementById("hfddlplace" + (i + 1) + "").value == "-1") {
+
+                        alert("स्थान");
+                        error = 1;
+                        break;
+                    }
+
+
+                    if (document.getElementById("txtother_art_work_name" + (i + 1) + "").value == "") {
+                        document.getElementById("txtother_art_work_name" + (i + 1) + "").focus();
+                        alert("कलाकृति का नाम");
+                        error = 1;
+                        break;
+                    }
+                    art_place.push({ artwork_place_code: document.getElementById("hfddlplace" + (i + 1) + "").value, registration_code: document.getElementById("hfapplicant_code").value, artwork_place_name: " ", Description: document.getElementById("txt_Description" + (i + 1) + "").value, art_work_name: document.getElementById("txtother_art_work_name" + (i + 1) + "").value })
+
+
+                }
+                if (error == 1) {
+                    return;
+                }
+            }
             var Objform = {
                 "applicant_code": document.getElementById("hfapplicant_code").value,
                 "yojana_code": document.getElementById("hfyojana_code").value,
@@ -511,7 +667,7 @@
             $.ajax({
 
                 url: '/User/InsertUpdateVHPP_Applicant',
-                data: JSON.stringify({ Objform: Objform, sptype: 2 }),
+                data: JSON.stringify({ Objform: Objform, sptype: 2, Lvhpp: art_place }),
                 type: 'POST',
                 contentType: 'application/json; charset=utf-8',
                 success: function (data) {
@@ -636,6 +792,7 @@
                     alert("हस्तशिल्पी पहचान पत्र संख्या");
                     return;
                 }
+                var art_place = [];
                 var Objform = {
                     "applicant_code": document.getElementById("hfapplicant_code").value,
                     "yojana_code": document.getElementById("hfyojana_code").value,
@@ -656,18 +813,18 @@
                     "Artwork_name": document.getElementById("txt_Artwork_name").value == null ? " " : document.getElementById("txtteacher").value,
                     "Artwork_subject": document.getElementById("txtArtwork_subject").value == null ? " " : document.getElementById("txtArtwork_subject").value,
                     "Artwork_price": document.getElementById("txt_Artwork_price").value == null ? "0" : document.getElementById("txt_Artwork_price").value,
-                    "input_architect_experience":  "01/01/1900",
+                    "input_architect_experience": "01/01/1900",
                     "input_Artwork_start_date": "01/01/1900",
                     "input_Artwork_to_date": "01/01/1900",
                     "Award_count": "0",
                     "participation_count": "0",
                     "steps": 1,
-                    "craft_name":" ",
+                    "craft_name": " ",
                 }
                 $.ajax({
 
                     url: '/User/InsertUpdateVHPP_Applicant',
-                    data: JSON.stringify({ Objform: Objform, sptype: 2 }),
+                    data: JSON.stringify({ Objform: Objform, sptype: 2, Lvhpp: art_place }),
                     type: 'POST',
                     contentType: 'application/json; charset=utf-8',
                     success: function (data) {
@@ -715,6 +872,7 @@
                     alert("उद्देश्य");
                     return;
                 }
+                var art_place = [];
                 var Objform = {
                     "applicant_code": document.getElementById("hfapplicant_code").value,
                     "yojana_code": document.getElementById("hfyojana_code").value,
@@ -746,7 +904,7 @@
                 $.ajax({
 
                     url: '/User/InsertUpdateVHPP_Applicant',
-                    data: JSON.stringify({ Objform: Objform, sptype: 2 }),
+                    data: JSON.stringify({ Objform: Objform, sptype: 2, Lvhpp: art_place }),
                     type: 'POST',
                     contentType: 'application/json; charset=utf-8',
                     success: function (data) {
@@ -817,7 +975,7 @@
                 $("#myModal").css("display", "block");
                 $("#myModal").addClass("in");
 
-              
+
             }
 
         }
@@ -871,7 +1029,7 @@
                         //alert(district);
                         $('#ddlBlock').append(block);
 
-                       
+
                         $('#ddlVillage').empty();
                         $('#ddlVillage').append("<option value=-1>--चयन करे--</option>");
                     }
@@ -975,7 +1133,7 @@
                 $("#btnback").addClass('hide');
                 $("#btncont").addClass('hide');
             }
-        
+
         });
         function validateEmail(txt) {
             var emailText = txt.value;
@@ -1063,9 +1221,29 @@
                         $('#ddlVillage').val($('#hfVillCode').val());
                     }
                 });
+
+                $.ajax({
+                    type: "post",
+                    url: "/User/Getartplace",
+                    data: {},
+                    datatype: "json",
+                    traditional: true,
+                    success: function (data) {
+                        $('#ddlplace').empty();
+                        var village = "";
+                        //var village = '';
+                        for (var i = 0; i < data.length; i++) {
+                            village = village + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                        }
+                        //  district = district + '</select>';
+                        //alert(district);
+                        $('#ddlplace').append(village);
+
+                    }
+                });
             }
         });
-     
+
     </script>
     <script>
         var d = new Date();
@@ -1094,7 +1272,7 @@
                 maxDate: "",
                 minDate: "-100Y",
                 yearRange: '-100:' + '' + '',
-                
+
             });
         });
         $(document).ready(function () {
@@ -1123,6 +1301,49 @@
         function funopen(url) {
             window.open(url, '_blank');
         }
+        function funadd() {
+            if (document.getElementById('ddlplace').value == "-1") {
+                document.getElementById('ddlplace').focus();
+                alert("स्थान का चयन करे");
+                return;
+            }
+            if (document.getElementById('txtother_art_work_name').value == "") {
+                document.getElementById('txtother_art_work_name').focus();
+                alert("कलाकृति का नाम");
+                return;
+            }
+            var ddlplace = document.getElementById('ddlplace').value.trim();
+            var txt_Artwork_name = document.getElementById('txtother_art_work_name').value.trim();
+            var txt_Description = document.getElementById('txt_Description').value.trim();
+            var place = $('#ddlplace').find('option:selected').text();
+            var table = document.getElementById("table");
+            var row = table.insertRow((table.rows.length - 1) + 1);
+            var cell1 = row.insertCell(0);
+            var cell2 = row.insertCell(1);
+            var cell3 = row.insertCell(2);
+            var cell4 = row.insertCell(3);
+            var cell5 = row.insertCell(4);
 
+            cell1.innerHTML = table.rows.length - 1;
+            cell2.innerHTML = "<input type='hidden' id='hfddlplace" + (table.rows.length - 1) + "' name='hfddlplace' value='" + ddlplace.trim() + "' /><label>" + place + "</label> ";
+            cell3.innerHTML = "<input type='text' id='txtother_art_work_name" + (table.rows.length - 1) + "' placeholder='कलाकृति' name='txtother_art_work_name' value='" + txt_Artwork_name + "' maxlength='100' onkeypress = 'return IsAlphaNumeric(event);'ondrop = 'return false;'onpaste = 'return false;' />";
+            
+            cell4.innerHTML = "<textarea maxlength='100' class='form-control' cols='20' id='txt_Description" + (table.rows.length - 1) + "' name='Description' npaste='return false;' ondrop='return false;' onkeypress='return IsAlphaNumeric(event);' placeholder='कलाकृति का विवरण' rows='2' >" + txt_Description + "</textarea>";
+
+
+            cell5.innerHTML = "<input type='submit' value='Delete' class='btn red' id='btnadd' onclick='del(" + (table.rows.length - 1) + ")'>";
+            document.getElementById("ddlplace").value = "-1";
+            document.getElementById('txtother_art_work_name').value = "";
+            document.getElementById('txt_Description').value = "";
+        }
+        function del(id) {
+            var table = document.getElementById("table");
+
+            document.getElementById("table").deleteRow(id);
+            if (table.rows.length - 1 <= 0) {
+                $("#ddlDistrict2").removeAttr("disabled", "disabled");
+                $("#ddIndustrialEstate").removeAttr("disabled", "disabled");
+            }
+        }
     </script>
 }

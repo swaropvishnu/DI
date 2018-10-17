@@ -48,31 +48,31 @@ namespace DI.BLL
             }
         }
 
-       internal static string InsertUpdateApplicationFormDetail(FormModal Objform)
-       {
-           try
-           {
-               CommonDA CommonDA = new CommonDA();
-               return CommonDA.InsertUpdateApplicationFormDetail(Objform);
-           }
-           catch
-           {
-               throw;
-           }
-       }
+       //internal static string InsertUpdateApplicationFormDetail(FormModal Objform)
+       //{
+       //    try
+       //    {
+       //        CommonDA CommonDA = new CommonDA();
+       //        return CommonDA.InsertUpdateApplicationFormDetail(Objform);
+       //    }
+       //    catch
+       //    {
+       //        throw;
+       //    }
+       //}
 
-        public static List<FormModal> ReportApplicationFormDetail(FormModal objform)
-        {
-            try
-            {
-                CommonDA CommonDA = new CommonDA();
-                return CommonDA.ReportApplicationFormDetail(objform);
-            }
-            catch
-            {
-                throw;
-            }
-        }
+       // public static List<FormModal> ReportApplicationFormDetail(FormModal objform)
+       // {
+       //     try
+       //     {
+       //         CommonDA CommonDA = new CommonDA();
+       //         return CommonDA.ReportApplicationFormDetail(objform);
+       //     }
+       //     catch
+       //     {
+       //         throw;
+       //     }
+       // }
 
        public static DataSet bindDropDownHn(string ProcName, string parm1, string parm2, string parm3)
         {

@@ -1,0 +1,338 @@
+﻿@model DI.Models.uploadform
+@{
+    ViewBag.Title = "Uploadform";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+                                                        @*ADMIN*@
+<script>
+    function funopen(url) {
+        window.open(url, '_blank');
+    }
+</script>
+<script>
+    var loadPayFile = function (event, demo, Doc_type, Code, output2) {
+        if (output2 == "output" || output2 == "Img1")
+        {
+            if (typeof ($("#" + demo)[0].files) != "undefined") {
+                var size = parseFloat($("#" + demo)[0].files[0].size / 1024).toFixed(2);
+                if (size > 20)
+                {
+                    alert("size must be below 20kb");
+                    return;
+                }
+            }
+            else {
+                alert("This browser does not support HTML5.");
+                return;
+            }
+        }
+        else {
+            if (typeof ($("#" + demo)[0].files) != "undefined") {
+                var size = parseFloat($("#" + demo)[0].files[0].size / 1024).toFixed(2);
+                if (size > 50) {
+                    alert("size must be below 50kb");
+                    return;
+                }
+            }
+            else {
+                alert("This browser does not support HTML5.");
+                return;
+            }
+        }
+        if (window.FormData !== undefined) {
+            var fileUpload = $("#" + demo).get(0);
+            var files = fileUpload.files;
+            var fileData = new FormData();
+            for (var i = 0; i < files.length; i++) {
+                fileData.append(files[i].name, files[i]);
+            }
+            fileData.append('username', 'Manas');
+            if (output2 == "output") {
+                $.ajax({
+                    url: '/User/Uploadphoto',
+                    type: "POST",
+                    contentType: false, // Not to set any content header
+                    processData: false, // Not to process data { BlockID: $('#ddlBlock').val() },
+                    data: fileData,
+                    success: function (result) {
+                        try {
+                            if (result == "File Uploaded Successfully!") {
+                                var output = document.getElementById('output');
+                                output.src = URL.createObjectURL(event.target.files[0]);
+                                funuploaddone(Doc_type, Code);
+                            }
+                            else {
+                                alert(result);
+                                var output = document.getElementById('output');
+                                output.src = "../no_image.png";
+                            }
+
+                        } catch (e) {
+                            alert("File Data  is not supported.");
+                        }
+                    },
+                    error: function (err) {
+                        alert(err.statusText);
+                    }
+                });
+            }
+            else if (output2 == "Img1")
+            {
+                $.ajax({
+                    url: '/User/Uploadsign',
+                    type: "POST",
+                    contentType: false,
+                    processData: false,
+                    data: fileData,
+                    success: function (result) {
+                        try {
+                            if (result == "File Uploaded Successfully!") {
+                                var output = document.getElementById('Img1');
+                                output.src = URL.createObjectURL(event.target.files[0]);
+                                funuploaddone(Doc_type, Code);
+                            }
+                            else {
+                                alert(result);
+                                var output = document.getElementById('Img1');
+                                output.src = "../no_image.png";
+                            }
+
+                        } catch (e) {
+                            alert("File Data  is not supported.");
+                        }
+                    },
+                    error: function (err) {
+                        alert(err.statusText);
+                    }
+                });
+            }
+            else {
+                $.ajax({
+                    url: '/User/Uploadfile',
+                    type: "POST",
+                    contentType: false,
+                    processData: false,
+                    data: fileData,
+                    success: function (result) {
+                        try {
+                            if (result == "File Uploaded Successfully!") {
+
+                                funuploaddone(Doc_type, Code);
+                            }
+                            else {
+                                alert(result);
+                            }
+
+                        } catch (e) {
+                            alert("File Data  is not supported.");
+                        }
+                    },
+                    error: function (err) {
+                        alert(err.statusText);
+                    }
+                });
+            }
+        }
+        else {
+            alert("File Data is not supported.");
+        }
+    };
+    function funuploaddone(Doc_type, Code) {
+        $.ajax({
+            url: '/User/Uploadfiledone',
+            data: JSON.stringify({ doc_type: Doc_type, applicant_code: Code }),
+            type: 'POST',
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                //alert(data);
+                if (data == "File upload") {
+                    alert("File Upload Sucessfully");
+                }
+                else {
+                    alert(data);
+                }
+
+            }
+        });
+    }
+
+    function myfunction()
+    {
+        $.ajax({
+
+            url: '/User/InsertUpdatedoc2',
+            data: '',
+            type: 'POST',
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                if (data.includes("Save")) {
+                    // alert(data);
+                    //$("#divpross").css('width', '100%');
+                    //$("#litab5").removeClass('active');
+                    //$("#litab5").addClass('done');
+                    //$("#tab6").addClass('active');
+                    //$("#tab5").removeClass('active');
+                    //$("#btncont").addClass('hide');
+                    //$("#btnback").addClass('hide');
+                    alert(data);
+                    location.reload();
+                }
+                else {
+                    alert(data);
+                }
+            }
+        });
+        return;
+
+    }
+    function DownloadFile(name, yojana, id) {
+        $("#hfname").val(name);
+        $("#hfyojana").val(yojana);
+        $("#hfid").val(id);
+        $("#btnDownload")[0].click();
+    };
+</script>
+
+@using (Html.BeginForm("DownloadFile", "Form", FormMethod.Post))
+{
+    <input type="hidden" id="hfname" name="name" />
+    <input type="hidden" id="hfyojana" name="yojana" />
+    <input type="hidden" id="hfid" name="id" />
+<input type="submit" id="btnDownload" value="Download" style="display:none" />
+}
+
+@Html.Raw(Model.page)
+
+@*<div class="portlet light " id="form_wizard_1">
+
+    @if (ds.Tables[2] != null)
+    {
+        if (ds.Tables[2].Rows.Count == 0)
+        {
+            //if (ds.Tables[0].Rows[0]["steps"].ToString().Trim() != "5")
+            //{
+              <div class="portlet-title">
+                  <div class="caption">
+                      <i class="icon-layers font-red"></i>
+                      <span class="caption-subject font-red bold uppercase">
+                          दस्तावेज़ अपलोड करें
+
+                      </span>
+                  </div>
+              </div>
+              <div class="portlet-body form">
+                  <form class="form-horizontal" action="#" id="submit_form" method="POST" novalidate="novalidate">
+                      <div class="form-wizard">
+                          <div class="form-body">
+                              <div class="row">
+                                  <div class="col-md-6 col-sm-6 col-xs-12 text-center col-50">
+                                      <div class="myborder" style="border:1px solid #ccc;">
+                                          <div class="panel-heading">फोटो </div>
+                                          <div style="height:200px;padding:5px;">
+                                              <img id="output" src="../no_image.png" alt="image" class="images-01">
+
+
+
+                                          </div>
+                                          <span class="font-red">Size:</span> 20kb
+                                          <span class="font-red">Resolution:</span> 110 X 140
+
+
+                                          <div style="border:1px solid #ccc;padding:5px;">
+
+                                              <input type="file" id="FileUpload1" class="form-control" data-min-width="110" data-min-height="140" data-max-width="110" data-max-height="140"   onchange="loadPayFile(event, 'FileUpload1', 'I', @ds.Tables[0].Rows[0]["registration_code"].ToString().Trim(), 'output')" />
+
+                                              <input type="hidden" id="hfPpath" />
+
+                                              <div class="clearfix"></div>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="col-md-6 col-sm-6 col-xs-12 text-center col-50">
+                                      <div class="myborder" style="border:1px solid #ccc;">
+                                          <div class="panel-heading">हस्ताक्षर</div>
+                                          <div style="height:200px;padding:5px;">
+                                              <img id="Img1" src="../no_image.png" alt="image" class="images-01" width="200px" height="150px">
+
+
+
+                                          </div>
+                                          <span class="font-red">Size:</span> 20kb
+                                          <span class="font-red">Resolution:</span> 140 X 110
+                                          <div style="border:1px solid #ccc;padding:5px;">
+                                              <input type="file" id="FileUpload2" class="form-control" onchange="loadPayFile(event, 'FileUpload2', 'S', @ds.Tables[0].Rows[0]["registration_code"].ToString().Trim(), 'Img1')" />
+                                              <div class="clearfix"></div>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="clearfix"></div>
+
+                              </div>
+                              <div class="portlet box ">
+                                  <div class="portlet-title">
+                                  </div>
+                                  <div class="portlet-body flip-scroll">
+                                      <table class="table table-bordered table-striped table-condensed flip-content">
+                                          <thead class="flip-content">
+                                              <tr>
+                                                  <th width="5%"> Sr.No </th>
+                                                  <th> Document </th>
+                                                  <th> Action </th>
+                                              </tr>
+                                          </thead>
+                                          <tbody>
+
+                                              <tr>
+                                                  <td> 1 </td>
+                                                  <td> आधार कार्ड की स्व प्रमाणित छाया प्रति। </td>
+                                                  <td><input type="file" id="FileUpload4" class="form-control" onchange="loadPayFile(event, 'FileUpload4', 'A','@ds.Tables[0].Rows[0]["registration_code"].ToString().Trim()' , '-1')" /></td>
+                                              </tr>
+
+                                              <tr>
+                                                  <td> 2 </td>
+                                                  <td> बैक पास बुक अद्यतन एन्ट्री सहित छाया प्रति।</td>
+                                                  <td> <input type="file" id="FileUpload6" class="form-control" onchange="loadPayFile(event, 'FileUpload6', 'B',@ds.Tables[0].Rows[0]["registration_code"].ToString().Trim(), '-1')" /> </td>
+                                              </tr>
+
+                                          </tbody>
+                                      </table>
+                                      <div class="row">
+                                          <div class="col-md-offset-9 col-md-12">
+                                              <button type="button" class="btn btn-outline green button-next" onclick="myfunction()" id="btncont">Submit<i class="fa fa-angle-right"></i></button>
+                                          </div>
+                                      </div>
+                                          </div>
+
+                                      </div>
+                                  </div>
+                      </div>
+                  </form>
+              </div>
+            }
+            else
+            {
+
+                  <div class="portlet-title">
+                      <div class="caption">
+                          <i class="icon-layers font-red"></i>
+                          <span class="caption-subject font-red bold uppercase">
+                              मुख्यमंत्री युवा स्वरोजगार योजना - प्रार्थना-पत्र
+
+                          </span>
+                      </div>
+                  </div>
+                  <div class="tab-pane" id="tab5">
+                      <button onclick="funopen('../user/PlantAndMachinery_EntryForm')" class="btn btn-outline green button-next">Application Second  Part </button>
+                      <button onclick="funopen('../user/GetCMSY_ApplicationPrint')" class="btn btn-outline green button-next">Print Application Form</button>
+                      <button onclick="funopen('../user/certificate_Letter')" class="btn btn-outline green button-next">Print Certificate Letter</button>
+                      <button onclick="funopen('../user/Affidavit_Letter')" class="btn btn-outline green button-next">Print Affidavit Letter</button>
+
+                  </div>
+
+                  }
+
+                  }
+
+
+
+              </div>*@

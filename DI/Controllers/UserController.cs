@@ -1,10 +1,12 @@
-﻿using DI.Models;
+﻿using DI.Filters;
+using DI.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Security.Principal;
 using System.Text;
 using System.Web;
@@ -19,6 +21,62 @@ namespace DI.Controllers
         {
             return View();
         }
+        public ActionResult spy_affidavite()
+        {
+            return View();
+        }
+        public ActionResult MHPY_Affidavit()
+        {
+            return View();
+        }
+        public ActionResult Print_MHPY()
+        {
+            return View();
+        }
+        public ActionResult Print_spy()
+        {
+            return View();
+        }
+        public ActionResult MHPY_EntryForm()
+        {
+            MHPY_Applicant MHPY = new MHPY_Applicant();
+            try
+            {
+                if (@UserSession.LoggedInUserName != null)
+                {
+                    DataSet ds = new DAL.CommonDA().GetApplicantinfo_mhpy(-1, -1, @UserSession.LoggedInUserName);
+                    if (ds != null)
+                    {
+                        if (ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+                        {
+                            MHPY.applicant_name = ds.Tables[0].Rows[0]["applicant_name"].ToString().Trim();
+                            MHPY.steps = ds.Tables[0].Rows[0]["steps"].ToString().Trim();
+                            MHPY.inputdob = ds.Tables[0].Rows[0]["dob"].ToString().Trim();
+                            MHPY.applicant_code = long.Parse(ds.Tables[0].Rows[0]["registration_code"].ToString().Trim());
+                            MHPY.yojana_code = short.Parse(ds.Tables[0].Rows[0]["scheme_code"].ToString().Trim());
+                            MHPY.adhar_no = ds.Tables[0].Rows[0]["adhar_no"].ToString().Trim();
+                            MHPY.Husband_father_name = ds.Tables[0].Rows[0]["father_name"].ToString().Trim();
+                            MHPY.current_address = ds.Tables[0].Rows[0]["current_address"].ToString().Trim();
+                            MHPY.permanent_address = ds.Tables[0].Rows[0]["permanent_address"].ToString().Trim();
+                            MHPY.mobile_no = ds.Tables[0].Rows[0]["mobile_no"].ToString().Trim();
+                            MHPY.email = ds.Tables[0].Rows[0]["email"].ToString().Trim();
+                            MHPY.DistCode = int.Parse(ds.Tables[0].Rows[0]["district_code_census"].ToString().Trim()) == 0 ? -1 : int.Parse(ds.Tables[0].Rows[0]["district_code_census"].ToString().Trim());
+                            MHPY.TehsilCode = int.Parse(ds.Tables[0].Rows[0]["tehsil_code_census"].ToString().Trim()) == 0 ? -1 : int.Parse(ds.Tables[0].Rows[0]["tehsil_code_census"].ToString().Trim());
+                            MHPY.BlockCode = int.Parse(ds.Tables[0].Rows[0]["block_code"].ToString().Trim()) == 0 ? -1 : int.Parse(ds.Tables[0].Rows[0]["block_code"].ToString().Trim()); ;
+                            MHPY.VillCode = int.Parse(ds.Tables[0].Rows[0]["village_code"].ToString().Trim()) == 0 ? -1 : int.Parse(ds.Tables[0].Rows[0]["village_code"].ToString().Trim());
+                            MHPY.artisian_no = ds.Tables[0].Rows[0]["artisian_no"].ToString().Trim();
+                            MHPY.handicraft_work = (ds.Tables[0].Rows[0]["handicraft_work"].ToString().Trim());
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            return View(MHPY);
+        }
         public ActionResult SPY_EntryForm()
         {
             SPY_Applicant spy = new SPY_Applicant();
@@ -32,6 +90,7 @@ namespace DI.Controllers
                         if (ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
                         {
                             spy.applicant_name = ds.Tables[0].Rows[0]["applicant_name"].ToString().Trim();
+                            spy.working_craftwork = ds.Tables[0].Rows[0]["working_craftwork"].ToString().Trim();
                             spy.steps = ds.Tables[0].Rows[0]["steps"].ToString().Trim();
                             spy.inputdob = ds.Tables[0].Rows[0]["dob"].ToString().Trim();
                             spy.applicant_code = long.Parse(ds.Tables[0].Rows[0]["registration_code"].ToString().Trim());
@@ -49,6 +108,8 @@ namespace DI.Controllers
                             spy.artisian_no = ds.Tables[0].Rows[0]["artisian_no"].ToString().Trim();
                             spy.awards = ds.Tables[0].Rows[0]["awards"].ToString().Trim();
                             spy.handicraft_work = (ds.Tables[0].Rows[0]["handicraft_work"].ToString().Trim());
+                            spy.work_exp = short.Parse(ds.Tables[0].Rows[0]["work_exp"].ToString().Trim());
+                            spy.inputawardyear = ds.Tables[0].Rows[0]["award_yearDATE"].ToString().Trim();
                         }
                     }
                 }
@@ -115,7 +176,6 @@ namespace DI.Controllers
         {
             return View();
         }
-
         public ActionResult GetCMSY_ApplicationPrint()
         {
             return View();
@@ -148,6 +208,7 @@ namespace DI.Controllers
                             PM.office_address = ds.Tables[0].Rows[0]["proposed_office_address"].ToString().Trim();
                             PM.manufacturing = ds.Tables[0].Rows[0]["manufacturing"].ToString().Trim();
                             PM.registration_code = ds.Tables[0].Rows[0]["registration_code"].ToString().Trim();
+                           
                         }
                         if (ds.Tables[4] != null)
                         {
@@ -164,12 +225,12 @@ namespace DI.Controllers
                                     str.Append("<td><input type='button' value='Delete' class='btn red' id='btnadd' onclick='del(" + (i + 1) + ")'></td>");
                                     str.Append("</tr>");
                                 }
-
                                 PM.machinetable = str.ToString().Trim();
                                 PM.steps = "1";
                                 PM.fixed_deposite = decimal.Parse(ds.Tables[4].Rows[0]["fixed_deposite"].ToString().Trim());
                                 PM.working_capital = decimal.Parse(ds.Tables[4].Rows[0]["working_capital"].ToString().Trim());
                                 PM.project_cost = decimal.Parse(ds.Tables[4].Rows[0]["project_cost"].ToString().Trim());
+                                PM.Marketingsystem = ds.Tables[0].Rows[0]["marketing"].ToString().Trim();
                             }
                             else
                             {
@@ -211,7 +272,7 @@ namespace DI.Controllers
 
             return Json(SL, JsonRequestBehavior.AllowGet);
         }
-        //CMYSS_Applicant ad = new CMYSS_Applicant(); PlantAndMachinery_EntryForm
+
         public ActionResult CMYS_SchemeEntryForm()
         {
             CMYSS_Applicant CM = new CMYSS_Applicant();
@@ -241,17 +302,33 @@ namespace DI.Controllers
                             CM.project_cost = decimal.Parse(ds.Tables[0].Rows[0]["project_cost"].ToString().Trim());
                             CM.machinery_cost = decimal.Parse(ds.Tables[0].Rows[0]["machinery_cost"].ToString().Trim());
                             CM.working_capital = decimal.Parse(ds.Tables[0].Rows[0]["working_capital"].ToString().Trim());
-                            //CM.bank_code = ds.Tables[0].Rows[0]["bank_name"].ToString().Trim();
                             CM.self_share = decimal.Parse(ds.Tables[0].Rows[0]["self_share"].ToString().Trim());
                             CM.deposit_amt = decimal.Parse(ds.Tables[0].Rows[0]["deposit_amt"].ToString().Trim());
                             CM.steps = ds.Tables[0].Rows[0]["steps"].ToString().Trim();
-                            //  CM.branch_name = ds.Tables[0].Rows[0]["branch_name"].ToString().Trim();
                             CM.bank_account_no = ds.Tables[0].Rows[0]["bank_account_no"].ToString().Trim();
-                            // CM.ifsc_code = ds.Tables[0].Rows[0]["ifsc_code"].ToString().Trim();
                             CM.DistCode = int.Parse(ds.Tables[0].Rows[0]["district_code_census"].ToString().Trim()) == 0 ? -1 : int.Parse(ds.Tables[0].Rows[0]["district_code_census"].ToString().Trim());
                             CM.TehsilCode = int.Parse(ds.Tables[0].Rows[0]["tehsil_code_census"].ToString().Trim()) == 0 ? -1 : int.Parse(ds.Tables[0].Rows[0]["tehsil_code_census"].ToString().Trim());
                             CM.BlockCode = int.Parse(ds.Tables[0].Rows[0]["block_code"].ToString().Trim()) == 0 ? -1 : int.Parse(ds.Tables[0].Rows[0]["block_code"].ToString().Trim()); ;
                             CM.VillCode = int.Parse(ds.Tables[0].Rows[0]["village_code"].ToString().Trim()) == 0 ? -1 : int.Parse(ds.Tables[0].Rows[0]["village_code"].ToString().Trim());
+                            CM.current_district_code_census = int.Parse(ds.Tables[0].Rows[0]["current_district_code_census"].ToString().Trim()) == 0 ? -1 : int.Parse(ds.Tables[0].Rows[0]["current_district_code_census"].ToString().Trim());
+                            CM.current_tehsil_code_census = int.Parse(ds.Tables[0].Rows[0]["current_tehsil_code_census"].ToString().Trim()) == 0 ? -1 : int.Parse(ds.Tables[0].Rows[0]["current_tehsil_code_census"].ToString().Trim());
+                            CM.current_block_code = int.Parse(ds.Tables[0].Rows[0]["current_block_code"].ToString().Trim()) == 0 ? -1 : int.Parse(ds.Tables[0].Rows[0]["current_block_code"].ToString().Trim()); ;
+                            CM.current_village_code = int.Parse(ds.Tables[0].Rows[0]["current_village_code"].ToString().Trim()) == 0 ? -1 : int.Parse(ds.Tables[0].Rows[0]["current_village_code"].ToString().Trim());
+                            CM.proposed_office_district = int.Parse(ds.Tables[0].Rows[0]["proposed_office_district"].ToString().Trim()) == 0 ? -1 : int.Parse(ds.Tables[0].Rows[0]["proposed_office_district"].ToString().Trim());
+                            CM.proposed_office_tehsil = int.Parse(ds.Tables[0].Rows[0]["proposed_office_tehsil"].ToString().Trim()) == 0 ? -1 : int.Parse(ds.Tables[0].Rows[0]["proposed_office_tehsil"].ToString().Trim());
+                            CM.proposed_office_block = int.Parse(ds.Tables[0].Rows[0]["proposed_office_block"].ToString().Trim()) == 0 ? -1 : int.Parse(ds.Tables[0].Rows[0]["proposed_office_block"].ToString().Trim()); ;
+                            CM.proposed_office_village = int.Parse(ds.Tables[0].Rows[0]["proposed_office_village"].ToString().Trim()) == 0 ? -1 : int.Parse(ds.Tables[0].Rows[0]["proposed_office_village"].ToString().Trim());
+                            CM.qualification_code = int.Parse(ds.Tables[0].Rows[0]["qualification_code"].ToString().Trim()) == 0 ? -1 : int.Parse(ds.Tables[0].Rows[0]["qualification_code"].ToString().Trim());
+                            CM.industry_code = int.Parse(ds.Tables[0].Rows[0]["industry_code"].ToString().Trim());
+                            CM.category_suffix = (ds.Tables[0].Rows[0]["category_suffix"].ToString().Trim() == "" ? "-1" : ds.Tables[0].Rows[0]["category_suffix"].ToString().Trim());
+                            CM.industry_activity = (ds.Tables[0].Rows[0]["industry_activity_suffix"].ToString().Trim());
+                            CM.sp_category_suffix = (ds.Tables[0].Rows[0]["sp_category_suffix"].ToString().Trim() == "" ? "-1" : ds.Tables[0].Rows[0]["sp_category_suffix"].ToString().Trim());
+                            CM.gender_suffix = (ds.Tables[0].Rows[0]["gender_suffix"].ToString().Trim() == "" ? "-1" : ds.Tables[0].Rows[0]["gender_suffix"].ToString().Trim());
+                            CM.pancard = (ds.Tables[0].Rows[0]["pancard"].ToString().Trim());
+                            CM.is_address_same = (ds.Tables[0].Rows[0]["is_address_same"].ToString().Trim());
+                            CM.Is_edp_training = (ds.Tables[0].Rows[0]["Is_edp_training"].ToString().Trim());
+                            CM.edp_training_ins = (ds.Tables[0].Rows[0]["edp_training_ins"].ToString().Trim());
+                            CM.sponsoring_office_code = int.Parse(ds.Tables[0].Rows[0]["sponsoring_office_code"].ToString().Trim());
                             StringBuilder str = new StringBuilder();
                             if (ds.Tables[1] != null && ds.Tables[1].Rows.Count > 0)
                             {
@@ -288,7 +365,6 @@ namespace DI.Controllers
                                 {
                                     if (dtOther.Rows.Count > 0)
                                     {
-
                                         for (int i = 0; i < dtOther.Rows.Count; i++)
                                         {
                                             str.Append("<tr>");
@@ -302,18 +378,10 @@ namespace DI.Controllers
                                         }
                                     }
                                 }
-                                //if (ds.Tables[1].Rows[0]["relation_code"].ToString().Trim() == "R")
-                                //{
-                                //    CM.brother_sister_Name = ds.Tables[0].Rows[0]["person_name"].ToString().Trim();
-                                //    CM.brother_sister_Age = int.Parse(ds.Tables[0].Rows[0]["age"].ToString().Trim());
-                                //    CM.brother_sister_Work = ds.Tables[0].Rows[0]["workingfield"].ToString().Trim();
-                                //}
-                                //if (ds.Tables[1].Rows[0]["relation_code"].ToString().Trim() == "N")
-                                //{
-                                //    CM.children_Name = ds.Tables[0].Rows[0]["person_name"].ToString().Trim();
-                                //    CM.children_Age = int.Parse(ds.Tables[0].Rows[0]["age"].ToString().Trim());
-                                //    CM.children_Work = ds.Tables[0].Rows[0]["workingfield"].ToString().Trim();
-                                //}
+                            }
+                            else
+                            {
+                                CM.Father_Name = ds.Tables[0].Rows[0]["father_name"].ToString().Trim();
                             }
                             CM.OtherRelation = str.ToString().Trim();
                             CM.manufacturing = ds.Tables[0].Rows[0]["manufacturing"].ToString().Trim();
@@ -324,7 +392,7 @@ namespace DI.Controllers
                 }
                 return View(CM);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return View(CM);
             }
@@ -332,7 +400,7 @@ namespace DI.Controllers
             {
             }
         }
-        public JsonResult InsertUpdateCMYSS_Applicant(CMYSS_Applicant Objform, List<CMYSS_Applicant_Doc> objdoc, List<CMYSS_Applicant_Family> objFamily, string @sptype)
+        public JsonResult InsertUpdateCMYSS_Applicant(CMYSS_Applicant Objform, List<CMYSS_Applicant_Doc> objdoc, List<CMYSS_Applicant_Family> objFamily, string @sptype, string steps)
         {
             try
             {
@@ -347,8 +415,8 @@ namespace DI.Controllers
                     return Json("Date of Birth must be dd/mm/yyyy format", JsonRequestBehavior.AllowGet);
                 }
                 Objform.@Password = "";
-
-                string str = new DAL.CommonDA().InsertUpdateCMYSS_Applicant(Objform, objdoc, objFamily, "2");
+                Objform.steps = steps;
+                string str = new DAL.CommonDA().InsertUpdateCMYSS_Applicant(Objform, "2");
                 return Json(str, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -356,7 +424,7 @@ namespace DI.Controllers
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
         }
-        public JsonResult InsertUpdateVHPP_Applicant(vhpp_Applicant Objform, string @sptype)
+        public JsonResult InsertUpdateVHPP_Applicant(vhpp_Applicant Objform, string @sptype, List<vhpp_artwork_details> Lvhpp)
         {
             try
             {
@@ -383,7 +451,39 @@ namespace DI.Controllers
                     return Json("Date must be dd/mm/yyyy format", JsonRequestBehavior.AllowGet);
                 }
                 Objform.@Password = "";
-                string str = new DAL.CommonDA().InsertUpdateVHPP(Objform, "2");
+                DataTable dtab = new DataTable();
+                if (Lvhpp != null)
+                {
+                    if (Lvhpp.Count > 0)
+                    {
+
+                        dtab.Columns.Add("artwork_place_code", typeof(int));
+                        dtab.Columns.Add("registration_code", typeof(int));
+                        dtab.Columns.Add("artwork_place_name", typeof(string));
+                        dtab.Columns.Add("Description", typeof(string));
+                        dtab.Columns.Add("user_id", typeof(string));
+                        dtab.Columns.Add("user_ip", typeof(string));
+                        dtab.Columns.Add("time_stamp", typeof(DateTime));
+                        dtab.Columns.Add("user_mac", typeof(string));
+                        dtab.Columns.Add("art_work_name", typeof(string));
+                        for (int i = 0; i < Lvhpp.Count; i++)
+                        {
+                            dtab.Rows.Add();
+                            dtab.Rows[dtab.Rows.Count - 1]["artwork_place_code"] = Lvhpp[i].artwork_place_code;
+                            dtab.Rows[dtab.Rows.Count - 1]["registration_code"] = Lvhpp[i].registration_code;
+                            dtab.Rows[dtab.Rows.Count - 1]["artwork_place_name"] = Lvhpp[i].artwork_place_name;
+                            dtab.Rows[dtab.Rows.Count - 1]["Description"] = Lvhpp[i].Description;
+                            dtab.Rows[dtab.Rows.Count - 1]["user_id"] = @UserSession.LoggedInUser.UserName;
+                            dtab.Rows[dtab.Rows.Count - 1]["user_ip"] = "";
+                            dtab.Rows[dtab.Rows.Count - 1]["time_stamp"] = DateTime.Now;
+                            dtab.Rows[dtab.Rows.Count - 1]["user_mac"] = "";
+                            dtab.Rows[dtab.Rows.Count - 1]["art_work_name"] = Lvhpp[i].art_work_name;
+                        }
+                    }
+                }
+
+
+                string str = new DAL.CommonDA().InsertUpdateVHPY(Objform, "2", dtab);
                 return Json(str, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -391,12 +491,32 @@ namespace DI.Controllers
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
         }
-
         public JsonResult InsertUpdateCMYSS_Applicantfamily(List<CMYSS_Applicant_Family> objFamily, string PensionCard, decimal family_income)
         {
             try
             {
-                string str = new DAL.CommonDA().InsertUpdateCMYSS_Applicantfamily(objFamily, PensionCard, family_income);
+                DataTable dt = new DataTable();
+                if (objFamily != null)
+                {
+                    if (objFamily.Count > 0)
+                    {
+                        dt.Columns.Add("registration_code", typeof(long));
+                        dt.Columns.Add("relation_code", typeof(string));
+                        dt.Columns.Add("person_name", typeof(string));
+                        dt.Columns.Add("age", typeof(int));
+                        dt.Columns.Add("workingfield", typeof(string));
+                        for (int i = 0; i < objFamily.Count; i++)
+                        {
+                            dt.Rows.Add();
+                            dt.Rows[dt.Rows.Count - 1]["registration_code"] = objFamily[i].applicant_code;
+                            dt.Rows[dt.Rows.Count - 1]["relation_code"] = objFamily[i].relation_code;
+                            dt.Rows[dt.Rows.Count - 1]["person_name"] = objFamily[i].person_name;
+                            dt.Rows[dt.Rows.Count - 1]["age"] = objFamily[i].age;
+                            dt.Rows[dt.Rows.Count - 1]["workingfield"] = objFamily[i].workingfield;
+                        }
+                    }
+                }
+                string str = new DAL.CommonDA().InsertUpdateCMYSS_Applicantfamily(dt, PensionCard, family_income);
                 return Json(str, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -413,8 +533,34 @@ namespace DI.Controllers
                     return Json("कृप्या मशीन का विवरण भरे ", JsonRequestBehavior.AllowGet);
 
                 }
-
-                string str = new DAL.CommonDA().InsertUpdateCMYSS_MachininaryDetails(objFamily);
+                DataTable dt = new DataTable();
+                if (objFamily != null)
+                {
+                    if (objFamily.Count > 0)
+                    {
+                        dt.Columns.Add("registration_code", typeof(long));
+                        dt.Columns.Add("machine_name", typeof(string));
+                        dt.Columns.Add("price", typeof(decimal));
+                        dt.Columns.Add("supplier", typeof(string));
+                        dt.Columns.Add("fixed_deposite", typeof(decimal));
+                        dt.Columns.Add("working_capital", typeof(decimal));
+                        dt.Columns.Add("project_cost", typeof(decimal));
+                        dt.Columns.Add("marketing", typeof(string));
+                        for (int i = 0; i < objFamily.Count; i++)
+                        {
+                            dt.Rows.Add();
+                            dt.Rows[dt.Rows.Count - 1]["registration_code"] = objFamily[i].registration_code;
+                            dt.Rows[dt.Rows.Count - 1]["machine_name"] = objFamily[i].machine_name;
+                            dt.Rows[dt.Rows.Count - 1]["price"] = objFamily[i].price;
+                            dt.Rows[dt.Rows.Count - 1]["supplier"] = objFamily[i].supplier;
+                            dt.Rows[dt.Rows.Count - 1]["fixed_deposite"] = objFamily[i].fixed_deposite;
+                            dt.Rows[dt.Rows.Count - 1]["working_capital"] = objFamily[i].working_capital;
+                            dt.Rows[dt.Rows.Count - 1]["project_cost"] = objFamily[i].project_cost;
+                            dt.Rows[dt.Rows.Count - 1]["marketing"] = objFamily[i].Marketingsystem;
+                        }
+                    }
+                }
+                string str = new DAL.CommonDA().InsertUpdateCMYSS_MachininaryDetails(dt);
                 return Json(str, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -422,8 +568,6 @@ namespace DI.Controllers
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
         }
-
-
         public JsonResult InsertRegistrationFinancedetails(List<Plant_Machinery> objFamily)
         {
             try
@@ -433,7 +577,34 @@ namespace DI.Controllers
                     return Json("कृप्या पूंजी का विवरण भरे ", JsonRequestBehavior.AllowGet);
 
                 }
-                string str = new DAL.CommonDA().InsertRegistrationFinancedetails(objFamily);
+                DataTable dt = new DataTable();
+                if (objFamily != null)
+                {
+                    if (objFamily.Count > 0)
+                    {
+                        dt.Columns.Add("registration_code", typeof(long));
+                        dt.Columns.Add("self_share", typeof(decimal));
+                        dt.Columns.Add("bank_loan", typeof(decimal));
+                        dt.Columns.Add("margin_money", typeof(decimal));
+                        dt.Columns.Add("total_Production", typeof(decimal));
+                        dt.Columns.Add("approx_sale", typeof(decimal));
+                        dt.Columns.Add("profit", typeof(decimal));
+
+                        for (int i = 0; i < objFamily.Count; i++)
+                        {
+                            dt.Rows.Add();
+                            dt.Rows[dt.Rows.Count - 1]["registration_code"] = objFamily[i].registration_code;
+                            dt.Rows[dt.Rows.Count - 1]["self_share"] = objFamily[i].self_share;
+                            dt.Rows[dt.Rows.Count - 1]["bank_loan"] = objFamily[i].bank_loan;
+                            dt.Rows[dt.Rows.Count - 1]["margin_money"] = objFamily[i].margin_money;
+                            dt.Rows[dt.Rows.Count - 1]["total_Production"] = objFamily[i].total_Production;
+                            dt.Rows[dt.Rows.Count - 1]["approx_sale"] = objFamily[i].approx_sale;
+                            dt.Rows[dt.Rows.Count - 1]["profit"] = objFamily[i].profit;
+
+                        }
+                    }
+                }
+                string str = new DAL.CommonDA().InsertRegistrationFinancedetails(dt);
                 return Json(str, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -598,7 +769,6 @@ namespace DI.Controllers
                 return Json("No files selected.");
             }
         }
-
         public DataTable RemovedPrevious(DataTable dt, string doc_type)
         {
             DataTable dt2 = new DataTable();
@@ -636,7 +806,6 @@ namespace DI.Controllers
             }
             return dt;
         }
-
         public ActionResult Uploadsign()
         {
             if (Request.Files.Count > 0)
@@ -749,19 +918,19 @@ namespace DI.Controllers
                     DataTable dt = (DataTable)Session["Doc"];
                     if (dt != null)
                     {
-                        if (dt.Rows.Count >= 4)
+                        //if (dt.Rows.Count >= 4)
+                        //{
+                        string msg = new DAL.CommonDA().InsertUpdateCMYSS_Applicantdocument(dt);
+                        if (msg.Contains("Save"))
                         {
-                            string msg = new DAL.CommonDA().InsertUpdateCMYSS_Applicantdoc2(dt);
-                            if (msg.Contains("Save"))
-                            {
-                                Session["Doc"] = null;
-                            }
-                            return Json(msg, JsonRequestBehavior.AllowGet);
+                            Session["Doc"] = null;
                         }
-                        else
-                        {
-                            return Json("Please upload all documents", JsonRequestBehavior.AllowGet);
-                        }
+                        return Json(msg, JsonRequestBehavior.AllowGet);
+                        //}
+                        //else
+                        //{
+                        //    return Json("Please upload all documents", JsonRequestBehavior.AllowGet);
+                        //}
                     }
                     else
                     {
@@ -880,7 +1049,7 @@ namespace DI.Controllers
                             str.Append("<div class='form-wizard'>");
                             str.Append("<div class='form-body'>");
                             str.Append("<div class='row'>");
-                            if (dt.Tables[0].Select("doc_code='I'")!=null && dt.Tables[0].Select("doc_code='I'").Length>0)
+                            if (dt.Tables[0].Select("doc_code='I'") != null && dt.Tables[0].Select("doc_code='I'").Length > 0)
                             {
                                 str.Append("<div class='col-md-6 col-sm-6 col-xs-12 text-center col-50'>");
                                 str.Append("<div class='myborder' style='border:1px solid #ccc;'>");
@@ -891,7 +1060,7 @@ namespace DI.Controllers
                                 str.Append("<span class='font-red'>Size:</span> 20kb");
                                 str.Append("<span class='font-red'>Resolution:</span> 110 X 140");
                                 str.Append("<div style='border:1px solid #ccc;padding:5px;'>");
-                                str.Append("<input type='file' id='FileUpload1' class='form-control' data-min-width='110' data-min-height='140' data-max-width='110' data-max-height='140'   onchange='loadPayFile(event,&#39;FileUpload1&#39;,&#39;I&#39;,&#39;" + dt.Tables[0].Rows[0]["registration_code"].ToString().Trim()+ "&#39;,&#39;output&#39;)' /><input type='hidden' id='hfPpath' /><div class='clearfix'></div>");
+                                str.Append("<input type='file' id='FileUpload1' class='form-control' data-min-width='110' data-min-height='140' data-max-width='110' data-max-height='140'   onchange='loadPayFile(event,&#39;FileUpload1&#39;,&#39;I&#39;,&#39;" + dt.Tables[0].Rows[0]["registration_code"].ToString().Trim() + "&#39;,&#39;output&#39;)' /><input type='hidden' id='hfPpath' /><div class='clearfix'></div>");
                                 str.Append("</div>");
                                 str.Append("</div>");
                                 str.Append("</div>");
@@ -1042,13 +1211,81 @@ namespace DI.Controllers
             CMODataEntryBLL.bindDropDownHnGrid("proc_Detail", Zone, "Bank", "-1", "");
             return Json(Zone, JsonRequestBehavior.AllowGet);
         }
-
+        public ActionResult Getartplace()
+        {
+            List<SelectListItem> Zone = new List<SelectListItem>();
+            CMODataEntryBLL.bindDropDownHnGrid("proc_Detail", Zone, "AP", "-1", "");
+            return Json(Zone, JsonRequestBehavior.AllowGet);
+        }
 
         public ActionResult Getbranch()
         {
             List<SelectListItem> Zone = new List<SelectListItem>();
             CMODataEntryBLL.bindDropDownHnGrid("proc_Detail", Zone, "branch", "-1", "");
             return Json(Zone, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult InsertUpdateSPY_Applicant(SPY_Applicant Objform)
+        {
+            try
+            {
+                try
+                {
+                    DateTime dt = BLL.CommonBL.Setdate(Objform.inputdob);
+                    Objform.dob = dt;
+                }
+                catch (Exception)
+                {
+                    return Json("Date of Birth must be dd/mm/yyyy format", JsonRequestBehavior.AllowGet);
+                }
+                try
+                {
+                    DateTime dt2 = BLL.CommonBL.Setdate(Objform.inputawardyear == null ? "01/01/1900" : Objform.inputawardyear);
+                    Objform.awardyear = dt2;
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+
+                Objform.@Password = "";
+
+
+                string str = new DAL.CommonDA().InsertUpdatevSPY(Objform, "2");
+                return Json(str, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+        public JsonResult InsertUpdateMHPY_Applicant(MHPY_Applicant Objform)
+        {
+            try
+            {
+                try
+                {
+                    DateTime dt = BLL.CommonBL.Setdate(Objform.inputdob);
+                    Objform.dob = dt;
+                }
+                catch (Exception)
+                {
+                    return Json("Date of Birth must be dd/mm/yyyy format", JsonRequestBehavior.AllowGet);
+                }
+
+
+                Objform.@Password = "";
+
+
+                string str = new DAL.CommonDA().InsertUpdateMHPY(Objform, "2");
+                return Json(str, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+
         }
 
         public JsonResult InsertUpdatePlotApplicant(estate_request objER, List<requested_plot> objRP, IndustrialEstateApplicant objApp)
@@ -1088,6 +1325,158 @@ namespace DI.Controllers
             {
             }
 
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [SessionExpireFilterAttribute]
+        public ActionResult ChangePassword(LoginModal ChangePwd)
+        {
+            DataSet ds = new DataSet();
+            ds = UserDtl.VerifyUser(UserSession.LoggedInUserName.ToString());
+            //btnlogin.Attributes.Add("onclick", "return HashPwdwithSalt('" + salt.ToString() + "');");
+            if (ds != null)
+            {
+                if (ds.Tables[0].Rows.Count > 0 && ds.Tables[0].Rows.Count == 1)
+                {
+                    string psw = ds.Tables[0].Rows[0]["Password"].ToString();
+                    string lpsw = ds.Tables[0].Rows[0]["OldPassWord"].ToString();
+                    string pwd_salt = FormsAuthentication.HashPasswordForStoringInConfigFile(ChangePwd.OldPassword_CHG.ToString(), "sha256");
+                    string type_pwd_salt = FormsAuthentication.HashPasswordForStoringInConfigFile(ChangePwd.NewPassword_CHG.ToString(), "sha256");
+
+                    string hashed_pwd = pwd_salt;
+                    string hashed_newpwd = type_pwd_salt;
+                    if ((lpsw.ToLower().Equals(hashed_newpwd.ToLower())) == true)
+                    {
+                        ViewBag.ErrMessage = "Your new password should not match with last old password ?";
+                        //return RedirectToAction("Index", "Default");
+                    }
+                    if ((psw.ToLower().Equals(hashed_newpwd.ToLower())) == false)
+                    {
+                        if (psw.ToLower().Equals(hashed_pwd.ToLower()))
+                        {
+                            string hashed_pwdNew = type_pwd_salt;
+                            string res = UserDtl.Userpasswordchange(UserSession.LoggedInUserName, hashed_pwdNew.ToLower(), hashed_pwd.ToLower());
+                            //ScriptManager.RegisterStartupScript(this, this.GetType(), "redirect", "alert('" + res + "'); window.location='/EPDS2017/logout.aspx';", true);
+                            //return RedirectToAction("ChangePassword", "Login");
+                            ViewBag.ErrMessage = "Your Password Changed Successfully...";
+                        }
+                        else
+                        {
+                            ViewBag.ErrMessage = "Your old Password is not correct ?";
+                            //return RedirectToAction("Index", "Default");
+                        }
+                    }
+                    else
+                    {
+                        ViewBag.ErrMessage = "Your new Password mathced with old password Please change new password. ?";
+                        //return RedirectToAction("Index", "Default");
+                    }
+                }
+                else
+                {
+                    //return RedirectToAction("Index", "Default");
+                }
+            }
+            else
+            {
+                ViewBag.ErrMessage = "Invalid Username or Password.";
+                //return RedirectToAction("FirstTimeLogin", "Login");
+            }
+            return View();
+        }
+
+        public ActionResult Getcategory()
+        {
+            List<SelectListItem> Zone = new List<SelectListItem>();
+            CMODataEntryBLL.bindDropDownHnGrid("proc_Detail", Zone, "C", "-1", "");
+            return Json(Zone, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult Getgender()
+        {
+            List<SelectListItem> Zone = new List<SelectListItem>();
+            CMODataEntryBLL.bindDropDownHnGrid("proc_Detail", Zone, "G", "-1", "");
+            return Json(Zone, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult Getqualification()
+        {
+            List<SelectListItem> Zone = new List<SelectListItem>();
+            CMODataEntryBLL.bindDropDownHnGrid("proc_Detail", Zone, "Q", "-1", "");
+            return Json(Zone, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult Getsp_category()
+        {
+            List<SelectListItem> Zone = new List<SelectListItem>();
+            CMODataEntryBLL.bindDropDownHnGrid("proc_Detail", Zone, "SPC", "-1", "");
+            return Json(Zone, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult Getindustry()
+        {
+            List<SelectListItem> Zone = new List<SelectListItem>();
+            CMODataEntryBLL.bindDropDownHnGrid("proc_Detail", Zone, "ind", "-1", "");
+            return Json(Zone, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult Getbankifsc(int @bank_code)
+        {
+            try
+            {
+                StringBuilder str = new StringBuilder();
+                DataTable dt = new DAL.CommonDA().GetBankDetails(@bank_code);
+                str.Append("<div class='portlet box green'>");
+                str.Append("<div class='portlet-title red'>");
+                str.Append("<div class='caption'>");
+                str.Append("<i class='fa fa-globe'></i>  बैंक विवरण प्राप्त करें");
+                str.Append("</div>");
+                str.Append("<div class='tools'> </div>");
+                str.Append("</div>");
+                str.Append("<div class='portlet-body'>");
+                str.Append("<table class='table table-striped table-bordered table-hover' id='Datatable'>");
+                str.Append("<thead>");
+                str.Append("<tr>");
+                str.Append("<th width='5%'> क्र० सं० </th>");
+                str.Append("<th width='10%'> जनपद   </th>");
+                str.Append("<th width='15%'> बैक का नाम </th>");
+                str.Append("<th width='15%'> आईएफएससी कोड</th>");
+                str.Append("<th width='15%'> शाखा  का नाम</th>");
+                str.Append("<th width='15%'> शाखा  का पता</th>");
+                str.Append("<th width='15%'> </th>");
+                str.Append("</tr>");
+                str.Append("</thead>");
+                str.Append("<tbody>");
+
+                if (dt != null)
+                {
+                    if (dt.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < dt.Rows.Count; i++)
+                        {
+                            str.Append("<tr>");
+                            str.Append("<td>" + (i + 1) + "</td>");
+                            str.Append("<td>" + dt.Rows[i]["dist_name_u"].ToString().Trim() + "</td>");
+                            str.Append("<td>" + dt.Rows[i]["bank_name"].ToString().Trim() + "</td>");
+                            str.Append("<td>" + dt.Rows[i]["ifsc"].ToString().Trim() + "</td>");
+                            str.Append("<td>" + dt.Rows[i]["BrName"].ToString().Trim() + "</td>");
+                            str.Append("<td>" + dt.Rows[i]["address"].ToString().Trim() + "</td>");
+                            str.Append("<td><input type='button' value='Select' onclick='funbifscselect(&#39;" + dt.Rows[i]["ifsc"].ToString().Trim() + "&#39;, &#39;" + dt.Rows[i]["branch_code"].ToString().Trim() + "&#39;,&#39;" + dt.Rows[i]["address"].ToString().Trim() + "&#39;)' /></td>");
+                            str.Append("</tr>");
+                        }
+                    }
+                }
+                str.Append("</tbody>");
+                str.Append("</table>");
+                str.Append("</div>");
+                str.Append("</div>");
+                return Json(str.ToString().Trim(), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+            finally
+            {
+            }
         }
     }
 }

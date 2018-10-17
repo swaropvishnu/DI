@@ -5,7 +5,6 @@ using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-
 namespace DI.Models
 {
     public class IndustrialAreaMasterModal
@@ -108,6 +107,11 @@ namespace DI.Models
         //    return plot;
         //}
     }
+    public class RadioButtonData
+    {
+        public string Id { get; set; }
+        public string Value { get; set; }
+    }
     public class IndustrialEstateAllotee 
     {
         public IList<SelectListItem> ComapnyType { get; set; }
@@ -170,7 +174,6 @@ namespace DI.Models
         public int industrial_estate_code { get; set; }
         public string allotmentno { get; set; }
     }
-
     public class Doc_type
     {
         public int doc_code_census { get; set; }
@@ -189,5 +192,4 @@ namespace DI.Models
         public string u_user_ip { get; set; }
         public string u_mac { get; set; }
     }
-
 }

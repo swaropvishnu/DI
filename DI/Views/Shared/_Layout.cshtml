@@ -5,7 +5,7 @@
 
 <html lang="en" >
 @{
-    if (UserSession.LoggedInUserLevelId == null || UserSession.LoggedInUserLevelId != "6")
+    if (UserSession.LoggedInUserLevelId == null && UserSession.LoggedInUserLevelId != "6" && UserSession.LoggedInUserLevelId != "3" && UserSession.LoggedInUserLevelId != "5")
     {
         Response.Redirect("../Login/login");
         return;
