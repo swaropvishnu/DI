@@ -17,7 +17,7 @@ namespace DI
         {  
             
             var list = new List<Menu>();
-            if (UserSession.LoggedInUser.UserLevel=="6" || UserSession.LoggedInUser.UserLevel == "3" || UserSession.LoggedInUser.UserLevel == "5")
+            if (UserSession.LoggedInUser.UserLevel.Trim() != "30")
             {
                 var dr = UserDtl.GetMenuData2(UserSession.LoggedInUser.UserId);
                 while (dr.Read())
@@ -35,7 +35,7 @@ namespace DI
                     list.Add(menu);
                 }
             }
-            else if (UserSession.LoggedInUser.UserLevel == "30")
+            else if (UserSession.LoggedInUser.UserLevel.Trim() == "30")
             {
                 var dr = DAL.CommonDA.GetApplicantMenuData(UserSession.LoggedInUser.UserName, UserSession.LoggedInUser.yojanacode);
                 while (dr.Read())

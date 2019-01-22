@@ -26,7 +26,7 @@ namespace DI.DAL
                 con.Open();
                 cmd = new SqlCommand("proc_GetUserMaster", con);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Add(new SqlParameter("@UID", SqlDbType.Int).Value = objUserData.UserId);
+                cmd.Parameters.Add(new SqlParameter("@UID", objUserData.UserId));
                 adap = new SqlDataAdapter(cmd);
                 dt = new DataTable();
                 adap.Fill(dt);
@@ -41,6 +41,7 @@ namespace DI.DAL
                         fm.UserNameHindi = dt.Rows[i]["NameHindi"].ToString();
                         fm.UserEmail = dt.Rows[i]["EmailId"].ToString();
                         fm.UserAddress = dt.Rows[i]["Office_Add"].ToString();
+                        fm.Designation = dt.Rows[i]["Designation"].ToString();
                         fm.UserImage = (Byte[])dt.Rows[i]["PhotoContent"];
                     }
 
@@ -56,7 +57,7 @@ namespace DI.DAL
             finally
             {
 
-                con.Close();
+                ;
                 con.Dispose();
             }
         }
@@ -164,13 +165,14 @@ namespace DI.DAL
                 con.Open();
                 cmd = new SqlCommand("proc_UpdateUserProfile", con);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Add(new SqlParameter("@UID", SqlDbType.Int).Value = objUserData.UserId);
-                cmd.Parameters.Add(new SqlParameter("@UserName", SqlDbType.VarChar).Value = objUserData.UserName);
-                cmd.Parameters.Add(new SqlParameter("@UserHindiName", SqlDbType.NVarChar).Value = objUserData.UserNameHindi);
-                cmd.Parameters.Add(new SqlParameter("@UserMobile", SqlDbType.VarChar).Value = objUserData.UserMobile);
-                cmd.Parameters.Add(new SqlParameter("@UserEmail", SqlDbType.VarChar).Value = objUserData.UserEmail);
-                cmd.Parameters.Add(new SqlParameter("@UserAddress", SqlDbType.VarChar).Value = objUserData.UserAddress);
-                cmd.Parameters.Add(new SqlParameter("@UserProfileImage", SqlDbType.VarBinary).Value = objUserData.UserImage);
+                cmd.Parameters.Add(new SqlParameter("@UID", objUserData.UserId));
+                cmd.Parameters.Add(new SqlParameter("@UserName", objUserData.UserName));
+                cmd.Parameters.Add(new SqlParameter("@UserHindiName", objUserData.UserNameHindi));
+                cmd.Parameters.Add(new SqlParameter("@UserMobile", objUserData.UserMobile));
+                cmd.Parameters.Add(new SqlParameter("@UserEmail", objUserData.UserEmail));
+                cmd.Parameters.Add(new SqlParameter("@UserAddress", objUserData.UserAddress));
+                cmd.Parameters.Add(new SqlParameter("@UserProfileImage", objUserData.UserImage));
+                cmd.Parameters.Add(new SqlParameter("@Designation", objUserData.Designation));
                 cmd.ExecuteNonQuery();
                 result = "Success";
 
@@ -467,6 +469,54 @@ namespace DI.DAL
             }
             return message;
         }
+        public string Insert_MYSY_adjustment_amt(loan_adjustment_amt LA)
+        {
+            string message = "";
+            con.Open();
+            new DataTable();
+            SqlTransaction transaction = con.BeginTransaction();  // this.cn.BeginTransaction();
+            try
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = con;
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "[Proc_Insert_MYSY_adjustment_amt]";
+                cmd.CommandTimeout = 3600;
+                cmd.Parameters.Add(new SqlParameter("adjustment_date", LA.adjustment_date));
+                cmd.Parameters.Add(new SqlParameter("authority", LA.authority));
+                cmd.Parameters.Add(new SqlParameter("claim_remark", LA.claim_remark));
+                cmd.Parameters.Add(new SqlParameter("finance_id", LA.finance_id));
+                cmd.Parameters.Add(new SqlParameter("Is_claim_approved", LA.Is_claim_approved));
+                cmd.Parameters.Add(new SqlParameter("mm_amt", LA.mm_amt));
+                cmd.Parameters.Add(new SqlParameter("mm_date", LA.mm_date));
+                cmd.Parameters.Add(new SqlParameter("mm_refrenceNo", LA.mm_refrenceNo));
+                cmd.Parameters.Add(new SqlParameter("registration_code", LA.registration_code));
+                cmd.Parameters.Add(new SqlParameter("status", LA.status));
+                cmd.Parameters.Add(new SqlParameter("TDR_acct", LA.TDR_acct));
+                cmd.Parameters.Add(new SqlParameter("@u_user_id", @UserSession.LoggedInUser.UserName));
+                cmd.Parameters.Add(new SqlParameter("@u_user_ip", this.IpAddress));
+                cmd.Parameters.Add(new SqlParameter("@u_mac", this.MacAddress));
+                cmd.Parameters.Add(new SqlParameter("Msg", ""));
+                cmd.Parameters["Msg"].Size = 256;
+                cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
+                cmd.Transaction = transaction;
+                cmd.ExecuteNonQuery();
+                transaction.Commit();
+                message = cmd.Parameters["Msg"].Value.ToString();
+            }
+            catch (Exception ex1)
+            {
+                transaction.Rollback();
+                message = ex1.Message;
+            }
+            finally
+            {
+
+                con.Close();
+                con.Dispose();
+            }
+            return message;
+        }
         public DataTable Getplot(int IndustrialAreaCode, long PlotCode, string PlotSerialNo, string PlotName, DateTime FromDate, DateTime ToDate, string IsPlot_Disputed, string IsPlot_Assigned)
         {
             DataTable dt = new DataTable();
@@ -545,6 +595,7 @@ namespace DI.DAL
                 cmd.Connection = con;
                 cmd.CommandText = "[Proc_GetDashBord]";
                 cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add(new SqlParameter("@district_code", UserSession.LoggedInUserDistictId == 0 ? -1 : UserSession.LoggedInUserDistictId));
 
                 SqlDataAdapter da = new SqlDataAdapter();
                 da.SelectCommand = cmd;
@@ -778,10 +829,605 @@ namespace DI.DAL
         }
         #endregion
         #region Form
-        
+        public string InsertUpdateCMYSS_ApplicantbyAdmin(CMYSS_Applicant Objform, string @sptype, DataTable objFamily, string PensionCard, decimal family_income, DataTable objPlant,decimal  @total_Production,decimal approx_sale, decimal approx_profit)
+        {
+            string message = "";
+            long applicant_code = -1;
+            string UserName = "";
+            con.Open();
+            new DataTable();
+            SqlTransaction transaction = con.BeginTransaction();  // this.cn.BeginTransaction();
+            try
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = con;
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "[Proc_InsertUpdateRegistration]";
+                cmd.CommandTimeout = 3600;
+                cmd.Parameters.Add(new SqlParameter("registration_code", Objform.@applicant_code));
+                cmd.Parameters["registration_code"].Direction = ParameterDirection.InputOutput;
+                cmd.Parameters["registration_code"].Size = 256;
+                cmd.Parameters.Add(new SqlParameter("@IS_village", Objform.Is_village == null ? "N" : Objform.Is_village));
+                cmd.Parameters.Add(new SqlParameter("@yojana_code", Objform.@yojana_code));
+                cmd.Parameters.Add(new SqlParameter("@applicant_name", Objform.@applicant_name));
+                cmd.Parameters.Add(new SqlParameter("@adhar_no", Objform.@adhar_no));
+                cmd.Parameters.Add(new SqlParameter("@dob", Objform.@dob));
+                cmd.Parameters.Add(new SqlParameter("@father_name", Objform.@Husband_father_name));
+                cmd.Parameters.Add(new SqlParameter("@current_address", Objform.@current_address == null ? "" : Objform.@current_address));
+                cmd.Parameters.Add(new SqlParameter("@permanent_address", Objform.@permanent_address == null ? "" : Objform.permanent_address));
+                cmd.Parameters.Add(new SqlParameter("@mobile_no", Objform.@mobile_no));
+                cmd.Parameters.Add(new SqlParameter("@email", Objform.@email));
+                cmd.Parameters.Add(new SqlParameter("@district_code_census", Objform.@DistCode == -1 ? 0 : Objform.@DistCode));
+                cmd.Parameters.Add(new SqlParameter("@tehsil_code_census", Objform.@TehsilCode == -1 ? 0 : Objform.@TehsilCode));
+                cmd.Parameters.Add(new SqlParameter("@block_code", Objform.@BlockCode == -1 ? 0 : Objform.@BlockCode));
+                cmd.Parameters.Add(new SqlParameter("@village_code", Objform.@VillCode == -1 ? 0 : Objform.@VillCode));
+                cmd.Parameters.Add(new SqlParameter("@current_district_code_census", Objform.current_district_code_census == -1 ? 0 : Objform.current_district_code_census));
+                cmd.Parameters.Add(new SqlParameter("@current_tehsil_code_census", Objform.current_tehsil_code_census == -1 ? 0 : Objform.current_tehsil_code_census));
+                cmd.Parameters.Add(new SqlParameter("@current_block_code", Objform.current_block_code == -1 ? 0 : Objform.current_block_code));
+                cmd.Parameters.Add(new SqlParameter("@current_village_code", Objform.current_village_code == -1 ? 0 : Objform.current_village_code));
+                cmd.Parameters.Add(new SqlParameter("@qualification_code", Objform.qualification_code));
+                cmd.Parameters.Add(new SqlParameter("@category_suffix", Objform.category_suffix == null ? "" : Objform.category_suffix));
+                cmd.Parameters.Add(new SqlParameter("@sp_category_suffix", Objform.sp_category_suffix == null ? "" : Objform.sp_category_suffix));
+                cmd.Parameters.Add(new SqlParameter("@gender_suffix", Objform.gender_suffix == null ? "" : Objform.gender_suffix));
+                cmd.Parameters.Add(new SqlParameter("@is_address_same", Objform.is_address_same == null ? "N" : Objform.is_address_same));
+                cmd.Parameters.Add(new SqlParameter("@sponsoring_office_code", Objform.@sponsoring_office_code));
+                cmd.Parameters.Add(new SqlParameter("UserName", ""));
+                cmd.Parameters["UserName"].Direction = ParameterDirection.InputOutput;
+                cmd.Parameters["UserName"].Size = 256;
+                cmd.Parameters.Add(new SqlParameter("@Password", Objform.@Password));
+                cmd.Parameters.Add(new SqlParameter("c_user_id", ""));
+                cmd.Parameters.Add(new SqlParameter("c_user_ip", this.IpAddress));
+                cmd.Parameters.Add(new SqlParameter("c_mac", this.MacAddress));
+                cmd.Parameters.Add(new SqlParameter("u_user_id", ""));
+                cmd.Parameters.Add(new SqlParameter("u_user_ip", this.IpAddress));
+                cmd.Parameters.Add(new SqlParameter("u_mac", this.MacAddress));
+                cmd.Parameters.Add(new SqlParameter("Sptype", @sptype));
+                cmd.Parameters.Add(new SqlParameter("@curent_add_pincode", Objform.@curent_add_pincode==null?"": Objform.@curent_add_pincode));
+                cmd.Parameters.Add(new SqlParameter("@permanent_add_pincode", Objform.@permanent_add_pincode == null ? "" : Objform.@permanent_add_pincode));
+                cmd.Parameters.Add(new SqlParameter("Msg", ""));
+                cmd.Parameters["Msg"].Size = 256;
+                cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
+                cmd.Transaction = transaction;
+                cmd.ExecuteNonQuery();
+                applicant_code = int.Parse(cmd.Parameters["registration_code"].Value.ToString());
+                message = cmd.Parameters["Msg"].Value.ToString();
+                if (message.Contains("Save"))
+                {
+                    message = message + "/" + cmd.Parameters["UserName"].Value.ToString();
+                }
+
+                if (applicant_code != -1)
+                {
+                    cmd = new SqlCommand();
+                    cmd.Connection = con;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandText = "[Proc_InsertUpdate_MYSY]";
+                    cmd.CommandTimeout = 3600;
+                    cmd.Parameters.Add(new SqlParameter("@registration_code", applicant_code));
+                    cmd.Parameters.Add(new SqlParameter("@yojana_code", Objform.@yojana_code));
+                    cmd.Parameters.Add(new SqlParameter("@proposed_office_address", Objform.proposed_office_address == null ? "" : Objform.proposed_office_address));
+                    cmd.Parameters.Add(new SqlParameter("@pansion_card_no", Objform.pansion_card_No == null ? "" : Objform.pansion_card_No));
+                    cmd.Parameters.Add(new SqlParameter("@product_service_code", Objform.product_service_code));
+
+                    cmd.Parameters.Add(new SqlParameter("@project_name", Objform.@project_name == null ? "" : Objform.project_name));
+                    cmd.Parameters.Add(new SqlParameter("@family_income", Objform.@family_income));
+                    cmd.Parameters.Add(new SqlParameter("@project_cost", Objform.@project_cost));
+                    cmd.Parameters.Add(new SqlParameter("@machinery_cost", Objform.@machinery_cost));
+                    cmd.Parameters.Add(new SqlParameter("@working_capital", Objform.@working_capital));
+                    cmd.Parameters.Add(new SqlParameter("@bank_code", Objform.bank_code == -1 ? 0 : Objform.bank_code));
+                    cmd.Parameters.Add(new SqlParameter("@self_share", Objform.@self_share));
+                    cmd.Parameters.Add(new SqlParameter("@deposit_amt", Objform.@deposit_amt));
+                    cmd.Parameters.Add(new SqlParameter("@branch_code", Objform.@branch_code));
+                    cmd.Parameters.Add(new SqlParameter("@bank_account_no", Objform.@bank_account_no == null ? "" : Objform.bank_account_no));
+                    cmd.Parameters.Add(new SqlParameter("@ifsc", Objform.@ifsc == null ? "" : Objform.@ifsc));
+                    cmd.Parameters.Add(new SqlParameter("@Steps", "7"));
+                    
+                    cmd.Parameters.Add(new SqlParameter("@service_branch", Objform.service_branch == null ? "" : Objform.service_branch));
+                    cmd.Parameters.Add(new SqlParameter("c_user_id", ""));
+                    cmd.Parameters.Add(new SqlParameter("c_user_ip", this.IpAddress));
+                    cmd.Parameters.Add(new SqlParameter("c_mac", this.MacAddress));
+                    cmd.Parameters.Add(new SqlParameter("u_user_id", ""));
+                    cmd.Parameters.Add(new SqlParameter("u_user_ip", this.IpAddress));
+                    cmd.Parameters.Add(new SqlParameter("u_mac", this.MacAddress));
+                    cmd.Parameters.Add(new SqlParameter("@sptype", @sptype));
+                    cmd.Parameters.Add(new SqlParameter("@industry_activity_suffix", Objform.industry_activity == null ? "" : Objform.industry_activity));
+                    cmd.Parameters.Add(new SqlParameter("@proposed_office_district", Objform.proposed_office_district == -1 ? 0 : Objform.proposed_office_district));
+                    cmd.Parameters.Add(new SqlParameter("@proposed_office_tehsil", Objform.proposed_office_tehsil == -1 ? 0 : Objform.proposed_office_tehsil));
+                    cmd.Parameters.Add(new SqlParameter("@proposed_office_block", Objform.proposed_office_block == -1 ? 0 : Objform.proposed_office_block));
+                    cmd.Parameters.Add(new SqlParameter("@proposed_office_village", Objform.proposed_office_village == -1 ? 0 : Objform.proposed_office_village));
+                    cmd.Parameters.Add(new SqlParameter("@sponsoring_office_code", Objform.sponsoring_office_code));
+                    cmd.Parameters.Add(new SqlParameter("@legaltype", "I"));
+                    cmd.Parameters.Add(new SqlParameter("@pancard", Objform.pancard == null ? "" : Objform.pancard));
+                    cmd.Parameters.Add(new SqlParameter("Is_edp_training", Objform.@Is_edp_training == null ? "" : Objform.@Is_edp_training));
+                    cmd.Parameters.Add(new SqlParameter("@edp_training_ins", Objform.@edp_training_ins == null ? "" : Objform.@edp_training_ins));
+                    cmd.Parameters.Add(new SqlParameter("@other_product_service", Objform.other_product_service == null ? "" : Objform.other_product_service));
+                    // cmd.Parameters.Add(new SqlParameter("@project_cost", Objform.project_cost));
+                    cmd.Parameters.Add(new SqlParameter("@edp_training_ins_code", Objform.@edp_training_ins_code));
+                    cmd.Parameters.Add(new SqlParameter("@proposed_office_pincode", Objform.@proposed_office_pincode == null ? "" : Objform.@proposed_office_pincode));
+                    cmd.Parameters.Add(new SqlParameter("Msg", ""));
+                    cmd.Parameters["Msg"].Size = 256;
+                    cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
+                    cmd.Transaction = transaction;
+                    cmd.ExecuteNonQuery();
+                    string message2 = cmd.Parameters["Msg"].Value.ToString();
+
+                    if (objFamily != null)
+                    {
+                        if (objFamily.Rows.Count > 0)
+                        {
+                            cmd = new SqlCommand();
+                            cmd.Connection = con;
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.CommandText = "[Proc_InsertRegistrationFamilyDetails]";
+                            cmd.CommandTimeout = 3600;
+                            cmd.Parameters.Add(new SqlParameter("@registration_code", objFamily.Rows[0]["registration_code"].ToString().Trim()));
+                            cmd.Parameters.Add(new SqlParameter("@tbl_family", objFamily));
+                            cmd.Parameters.Add(new SqlParameter("@pansion_card_no", PensionCard));
+                            cmd.Parameters.Add(new SqlParameter("@family_income", family_income));
+                            cmd.Parameters.Add(new SqlParameter("@user_id", @UserSession.LoggedInUser.UserName));
+                            cmd.Parameters.Add(new SqlParameter("@user_ip", this.IpAddress));
+                            cmd.Parameters.Add(new SqlParameter("@u_mac", this.MacAddress));
+                            cmd.Parameters.Add(new SqlParameter("Msg", ""));
+                            cmd.Parameters["Msg"].Size = 256;
+                            cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
+                            cmd.Transaction = transaction;
+                            cmd.ExecuteNonQuery();
+                            string message3 = cmd.Parameters["Msg"].Value.ToString();
+                        }
+                    }
+                    if (objPlant != null)
+                    {
+                        if (objPlant.Rows.Count > 0)
+                        {
+
+                            cmd = new SqlCommand();
+                            cmd.Connection = con;
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.CommandText = "[Proc_InsertRegistrationMachinedetails]";
+                            cmd.CommandTimeout = 3600;
+                            cmd.Parameters.Add(new SqlParameter("@registration_code", objPlant.Rows[0]["registration_code"].ToString().Trim()));
+                            cmd.Parameters.Add(new SqlParameter("@tbl_registration_mach", objPlant));
+                            cmd.Parameters.Add(new SqlParameter("user_Id", @UserSession.LoggedInUser.UserName));
+                            cmd.Parameters.Add(new SqlParameter("user_ip", this.IpAddress));
+                            cmd.Parameters.Add(new SqlParameter("user_mac", this.MacAddress));
+                            cmd.Parameters.Add(new SqlParameter("Msg", ""));
+                            cmd.Parameters["Msg"].Size = 256;
+                            cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
+                            cmd.Transaction = transaction;
+                            cmd.ExecuteNonQuery();
+                            string message4 = cmd.Parameters["Msg"].Value.ToString();
+                        }
+                    }
+                    //if (objFin != null)
+                    //{
+                    //    if (objFin.Rows.Count > 0)
+                    //    {
+                    cmd = new SqlCommand();
+                    cmd.Connection = con;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandText = "[Proc_UpdateMYSYFinancedetails]";
+                    cmd.CommandTimeout = 3600;
+                    cmd.Parameters.Add(new SqlParameter("@registration_code", applicant_code));
+                    cmd.Parameters.Add(new SqlParameter("@total_Production", @total_Production));
+                    cmd.Parameters.Add(new SqlParameter("@approx_sale", @approx_sale));
+                    cmd.Parameters.Add(new SqlParameter("@approx_profit", @approx_profit));
+                    cmd.Parameters.Add(new SqlParameter("user_Id", @UserSession.LoggedInUser.UserName));
+                    cmd.Parameters.Add(new SqlParameter("user_ip", this.IpAddress));
+                    cmd.Parameters.Add(new SqlParameter("user_mac", this.MacAddress));
+                    cmd.Parameters.Add(new SqlParameter("Msg", ""));
+                    cmd.Parameters["Msg"].Size = 256;
+                    cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
+                    cmd.Transaction = transaction;
+                    cmd.ExecuteNonQuery();
+                    
+                    string messagefin = cmd.Parameters["Msg"].Value.ToString();
+                    //    }
+                    //}
+                }
+                else
+                {
+                    transaction.Rollback();
+                    message = "Sorry transaction fail";
+                }
+                transaction.Commit();
+            }
+            catch (Exception ex1)
+            {
+                transaction.Rollback();
+                message = ex1.Message;
+            }
+            finally
+            {
+
+                con.Close();
+                con.Dispose();
+            }
+            return message;
+        }
+        public string InsertUpdate_Mysy_status(mysy_status Objform, string @sptype, string authority_level)
+        {
+            string message = "";
+            // long applicant_code = -1;
+            //string UserName = "";
+            con.Open();
+            new DataTable();
+            SqlTransaction transaction = con.BeginTransaction();  // this.cn.BeginTransaction();
+            try
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = con;
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "[Proc_InsertUpdate_MYSY_Status]";
+                cmd.CommandTimeout = 3600;
+                cmd.Parameters.Add(new SqlParameter("registration_code", Objform.registration_code));
+                cmd.Parameters.Add(new SqlParameter("@scheme_code", Objform.@scheme_code));
+                cmd.Parameters.Add(new SqlParameter("@status", Objform.@status));
+                cmd.Parameters.Add(new SqlParameter("@remark", Objform.@remark));
+                cmd.Parameters.Add(new SqlParameter("c_user_id", @UserSession.LoggedInUser.UserName));
+                cmd.Parameters.Add(new SqlParameter("c_user_ip", this.IpAddress));
+                cmd.Parameters.Add(new SqlParameter("c_mac", this.MacAddress));
+                cmd.Parameters.Add(new SqlParameter("u_user_id", ""));
+                cmd.Parameters.Add(new SqlParameter("u_user_ip", this.IpAddress));
+                cmd.Parameters.Add(new SqlParameter("u_mac", this.MacAddress));
+                cmd.Parameters.Add(new SqlParameter("Sptype", @sptype));
+                cmd.Parameters.Add(new SqlParameter("authority_level", authority_level));
+                cmd.Parameters.Add(new SqlParameter("@dltfc_approved_projectcost", Objform.@dltfc_approved_projectcost));
+                cmd.Parameters.Add(new SqlParameter("Msg", ""));
+                cmd.Parameters["Msg"].Size = 256;
+                cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
+                cmd.Transaction = transaction;
+                cmd.ExecuteNonQuery();
+                //applicant_code = int.Parse(cmd.Parameters["registration_code"].Value.ToString());
+                message = cmd.Parameters["Msg"].Value.ToString();
+                transaction.Commit();
+            }
+            catch (Exception ex1)
+            {
+                transaction.Rollback();
+                message = ex1.Message;
+            }
+            finally
+            {
+                con.Close();
+                con.Dispose();
+            }
+            return message;
+        }
+        public string InsertUpdate_Mysy_statuswithbankfin(mysy_status Objform1, bank_fin Objform, string @sptype, string authority_level, string steps)
+        {
+            string message = "";
+            // long applicant_code = -1;
+            //string UserName = "";
+            con.Open();
+            new DataTable();
+            SqlTransaction transaction = con.BeginTransaction();  // this.cn.BeginTransaction();
+            try
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = con;
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "[Proc_InsertUpdate_MYSY_Status]";
+                cmd.CommandTimeout = 3600;
+                cmd.Parameters.Add(new SqlParameter("registration_code", Objform1.registration_code));
+                cmd.Parameters.Add(new SqlParameter("@scheme_code", Objform1.@scheme_code));
+                cmd.Parameters.Add(new SqlParameter("@status", Objform1.@status));
+                cmd.Parameters.Add(new SqlParameter("@remark", Objform1.@remark));
+                cmd.Parameters.Add(new SqlParameter("c_user_id", @UserSession.LoggedInUser.UserName));
+                cmd.Parameters.Add(new SqlParameter("c_user_ip", this.IpAddress));
+                cmd.Parameters.Add(new SqlParameter("c_mac", this.MacAddress));
+                cmd.Parameters.Add(new SqlParameter("u_user_id", ""));
+                cmd.Parameters.Add(new SqlParameter("u_user_ip", this.IpAddress));
+                cmd.Parameters.Add(new SqlParameter("u_mac", this.MacAddress));
+                cmd.Parameters.Add(new SqlParameter("Sptype", @sptype));
+                cmd.Parameters.Add(new SqlParameter("authority_level", authority_level));
+                cmd.Parameters.Add(new SqlParameter("@dltfc_approved_projectcost", Objform1.@dltfc_approved_projectcost));
+                cmd.Parameters.Add(new SqlParameter("Msg", ""));
+                cmd.Parameters["Msg"].Size = 256;
+                cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
+                cmd.Transaction = transaction;
+                cmd.ExecuteNonQuery();
+                //applicant_code = int.Parse(cmd.Parameters["registration_code"].Value.ToString());
+                message = cmd.Parameters["Msg"].Value.ToString();
+                if (message.Contains("Save"))
+                {
+                    if (Objform1.status == "A")
+                    {
+                        cmd = new SqlCommand();
+                        cmd.Connection = con;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandText = "[Proc_InsertUpdate_MYSY_bank_fin]";
+                        cmd.CommandTimeout = 3600;
+                        cmd.Parameters.Add(new SqlParameter("finance_id", Objform.finanace_id));
+                        cmd.Parameters.Add(new SqlParameter("registration_code", Objform.registration_code));
+                        cmd.Parameters.Add(new SqlParameter("@capital_expenditure_approved", Objform.capital_expenditure_approved));
+                        cmd.Parameters.Add(new SqlParameter("@capital_expenditure_finance", Objform.capital_expenditure_finance));
+                        cmd.Parameters.Add(new SqlParameter("@working_capital_approved", Objform.working_capital_approved));
+                        cmd.Parameters.Add(new SqlParameter("@working_capital_finance", Objform.working_capital_approved));
+                        cmd.Parameters.Add(new SqlParameter("@project_cost_approved", Objform.project_cost_approved));
+                        cmd.Parameters.Add(new SqlParameter("@project_cost_finance", Objform.project_cost_finance));
+                        cmd.Parameters.Add(new SqlParameter("@sanction_date", Objform.sanction_date));
+                        cmd.Parameters.Add(new SqlParameter("@is_CGTMS", Objform.is_CGTMS == null ? "N" : Objform.is_CGTMS));
+                        cmd.Parameters.Add(new SqlParameter("@interest_rate", Objform.interest_rate));
+                        cmd.Parameters.Add(new SqlParameter("@repayment_period", Objform.repayment_period));
+                        cmd.Parameters.Add(new SqlParameter("@moratorium_period", Objform.moratorium_period));
+                        cmd.Parameters.Add(new SqlParameter("@remark", Objform.remark == null ? " " : Objform.remark));
+                        cmd.Parameters.Add(new SqlParameter("@loan_released_last_date", Objform.loan_released_last_date));
+                        cmd.Parameters.Add(new SqlParameter("@amt_released", Objform.amt_released));
+                        cmd.Parameters.Add(new SqlParameter("@account_no_beneficiary", Objform.account_no_beneficiary));
+                        cmd.Parameters.Add(new SqlParameter("@transient_account", Objform.transient_account));
+                        cmd.Parameters.Add(new SqlParameter("@mm_amt", Objform.mm_amt));
+                        cmd.Parameters.Add(new SqlParameter("@mm_date", Objform.mm_date));
+                        cmd.Parameters.Add(new SqlParameter("@mm_refrence_no", Objform.mm_refrence_no == null ? " " : Objform.mm_refrence_no));
+                        cmd.Parameters.Add(new SqlParameter("@TDR_acct", Objform.TDR_acct == null ? " " : Objform.mm_refrence_no));
+                        cmd.Parameters.Add(new SqlParameter("@TDR_deposite_date", Objform.TDR_deposite_date));
+                        cmd.Parameters.Add(new SqlParameter("@adjustment_amt", Objform.adjustment_amt));
+                        cmd.Parameters.Add(new SqlParameter("@doc_date", Objform.doc_rec_date));
+                        //  cmd.Parameters.Add(new SqlParameter("@doc_date", Objform.doc_rec_date));
+                        cmd.Parameters.Add(new SqlParameter("@steps", steps));
+                        cmd.Parameters.Add(new SqlParameter("@branch_code", Objform.branch_code));
+                        cmd.Parameters.Add(new SqlParameter("@contribution_deposite_date", Objform.Contributiondepositedate));
+                        cmd.Parameters.Add(new SqlParameter("@contribution_amt", Objform.ContributionAmt));
+                        cmd.Parameters.Add(new SqlParameter("@EDP_inst_code", Objform.EDP_inst_code));
+                        cmd.Parameters.Add(new SqlParameter("@EDP_from_date", Objform.EDPFromDate));
+                        cmd.Parameters.Add(new SqlParameter("@EDP_todate", Objform.EDPToDate));
+                        cmd.Parameters.Add(new SqlParameter("c_user_id", ""));
+                        cmd.Parameters.Add(new SqlParameter("c_user_ip", this.IpAddress));
+                        cmd.Parameters.Add(new SqlParameter("u_user_ip", this.IpAddress));
+                        cmd.Parameters.Add(new SqlParameter("c_mac", this.MacAddress));
+                        cmd.Parameters.Add(new SqlParameter("u_user_id", ""));
+                        cmd.Parameters.Add(new SqlParameter("adjustment_date", Objform.adjustment_date));
+                        cmd.Parameters.Add(new SqlParameter("u_mac", this.MacAddress));
+                        cmd.Parameters.Add(new SqlParameter("@sptype", @sptype));
+                        cmd.Parameters.Add(new SqlParameter("Msg", ""));
+                        cmd.Parameters["Msg"].Size = 256;
+                        cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
+                        cmd.Transaction = transaction;
+                        cmd.ExecuteNonQuery();
+
+                        message = cmd.Parameters["Msg"].Value.ToString();
+                    }
+                    else
+                    {
+                        message = "Status Update";
+                    }
+                }
+                else
+                {
+
+                    transaction.Rollback();
+                    message = "Transaction fail...";
+                    con.Close();
+                    con.Dispose();
+                    return message;
+                }
+                transaction.Commit();
+            }
+            catch (Exception ex1)
+            {
+                transaction.Rollback();
+                message = ex1.Message;
+            }
+            finally
+            {
+                con.Close();
+                con.Dispose();
+            }
+            return message;
+        }
+        public string InsertUpdate_Mysy_meeting(mysy_meeting_schedule Objform, string @sptype, DataTable dtApplicant)
+        {
+
+            string message = "";
+            con.Open();
+            new DataTable();
+            SqlTransaction transaction = con.BeginTransaction();  // this.cn.BeginTransaction();
+            try
+            {
+                if (dtApplicant != null)
+                {
+                    if (dtApplicant.Rows.Count > 0)
+                    {
+                        SqlCommand cmd = new SqlCommand();
+                        cmd.Connection = con;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandText = "[Proc_InsertUpdate_MYSY_Meeting]";
+                        cmd.CommandTimeout = 3600;
+                        cmd.Parameters.Add(new SqlParameter("@meeting_id", Objform.@meeting_id));
+                        cmd.Parameters.Add(new SqlParameter("@registration_code", dtApplicant.Rows[0]["registration_code"].ToString().Trim()));
+                        cmd.Parameters.Add(new SqlParameter("meeting_date", Objform.meeting_date));
+                        cmd.Parameters.Add(new SqlParameter("meeting_time", Objform.meeting_time));
+                        //cmd.Parameters.Add(new SqlParameter("meeting_meridian", Objform.meeting_meridian));
+                        cmd.Parameters.Add(new SqlParameter("@status", Objform.@status));
+                        cmd.Parameters.Add(new SqlParameter("c_user_id", @UserSession.LoggedInUser.UserName));
+                        cmd.Parameters.Add(new SqlParameter("c_user_ip", this.IpAddress));
+                        cmd.Parameters.Add(new SqlParameter("c_mac", this.MacAddress));
+                        cmd.Parameters.Add(new SqlParameter("u_user_id", ""));
+                        cmd.Parameters.Add(new SqlParameter("u_user_ip", this.IpAddress));
+                        cmd.Parameters.Add(new SqlParameter("u_mac", this.MacAddress));
+                        cmd.Parameters.Add(new SqlParameter("officer_name", Objform.officer_name));
+                        cmd.Parameters.Add(new SqlParameter("designation", Objform.designation));
+                        cmd.Parameters.Add(new SqlParameter("meeting_level", Objform.meeting_level));
+                        cmd.Parameters.Add(new SqlParameter("@remark", Objform.@remark));
+                        cmd.Parameters.Add(new SqlParameter("@sptype", @sptype));
+                        cmd.Parameters.Add(new SqlParameter("@tbl_meeting", dtApplicant));
+                        cmd.Parameters.Add(new SqlParameter("@district_code_census",UserSession.LoggedInUser.UserDistictId));
+                        cmd.Parameters.Add(new SqlParameter("@meeting_place", Objform.@meeting_place == null ? "" : Objform.@meeting_place));
+                        cmd.Parameters.Add(new SqlParameter("@bank_person", Objform.@bank_person == null ? "" : Objform.@bank_person));
+                        cmd.Parameters.Add(new SqlParameter("@bank_person_designation", Objform.@bank_person_designation == null ? "" : Objform.@bank_person_designation));
+                        cmd.Parameters.Add(new SqlParameter("@bank_person_email", Objform.@bank_person_email == null ? "" : Objform.@bank_person_email));
+                        cmd.Parameters.Add(new SqlParameter("@office_email", Objform.@office_email == null ? "" : Objform.@office_email));
+                        cmd.Parameters.Add(new SqlParameter("Msg", ""));
+                        cmd.Parameters["Msg"].Size = 256;
+                        cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
+                        cmd.Transaction = transaction;
+                        cmd.ExecuteNonQuery();
+                        message = cmd.Parameters["Msg"].Value.ToString();
+                        transaction.Commit();
+                    }
+                    else
+                    {
+                        message = "select applicant";
+                    }
+                }
+                else
+                {
+                    message = "select applicant";
+                }
+
+            }
+            catch (Exception ex1)
+            {
+                transaction.Rollback();
+                message = ex1.Message;
+            }
+            finally
+            {
+                con.Close();
+                con.Dispose();
+            }
+            return message;
+        }
+        public DataSet Get_Mysy_MeetingDetails(long @registration_code, string @authority_level, long @meeting_code, string @status)
+        {
+            DataSet ds = new DataSet();
+            con.Open();
+            try
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = con;
+                cmd.CommandText = "[Proc_Get_Mysy_MeetingDetails]";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add(new SqlParameter("@registration_code", @registration_code));
+                cmd.Parameters.Add(new SqlParameter("@authority_level ", @authority_level));
+                cmd.Parameters.Add(new SqlParameter("@meeting_code", @meeting_code));
+                cmd.Parameters.Add(new SqlParameter("@status", @status));
+                SqlDataAdapter da = new SqlDataAdapter();
+                da.SelectCommand = cmd;
+                da.Fill(ds);
+            }
+            catch (Exception e)
+            {
+                ds = null;
+            }
+            finally
+            {
+
+                con.Close();
+                con.Dispose();
+            }
+            return ds;
+        }
+        public DataTable Get_status_details(long @registration_code, string @authority_level)
+        {
+            DataTable dt = new DataTable();
+            con.Open();
+            try
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = con;
+                cmd.CommandText = "[Proc_Get_Mysy_StausDetails]";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add(new SqlParameter("@registration_code", @registration_code));
+                cmd.Parameters.Add(new SqlParameter("@authority_level ", @authority_level));
+                SqlDataAdapter da = new SqlDataAdapter();
+                da.SelectCommand = cmd;
+                da.Fill(dt);
+            }
+            catch (Exception e)
+            {
+                dt = null;
+            }
+            finally
+            {
+
+                con.Close();
+                con.Dispose();
+            }
+            return dt;
+        }
+
+
+        public string InsertUpdate_MYSY_bank_fin(bank_fin Objform, string @sptype, string steps)
+        {
+            string message = "";
+            con.Open();
+            new DataTable();
+            SqlTransaction transaction = con.BeginTransaction();  // this.cn.BeginTransaction();
+            try
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = con;
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "[Proc_InsertUpdate_MYSY_bank_fin]";
+                cmd.CommandTimeout = 3600;
+                cmd.Parameters.Add(new SqlParameter("finance_id", Objform.finanace_id));
+                cmd.Parameters.Add(new SqlParameter("registration_code", Objform.registration_code));
+                cmd.Parameters.Add(new SqlParameter("@capital_expenditure_approved", Objform.capital_expenditure_approved));
+                cmd.Parameters.Add(new SqlParameter("@capital_expenditure_finance", Objform.capital_expenditure_finance));
+                cmd.Parameters.Add(new SqlParameter("@working_capital_approved", Objform.working_capital_approved));
+                cmd.Parameters.Add(new SqlParameter("@working_capital_finance", Objform.working_capital_approved));
+                cmd.Parameters.Add(new SqlParameter("@project_cost_approved", Objform.project_cost_approved));
+                cmd.Parameters.Add(new SqlParameter("@project_cost_finance", Objform.project_cost_finance));
+                cmd.Parameters.Add(new SqlParameter("@sanction_date", Objform.sanction_date));
+                cmd.Parameters.Add(new SqlParameter("@is_CGTMS", Objform.is_CGTMS == null ? "N" : Objform.is_CGTMS));
+                cmd.Parameters.Add(new SqlParameter("@interest_rate", Objform.interest_rate));
+                cmd.Parameters.Add(new SqlParameter("@repayment_period", Objform.repayment_period));
+                cmd.Parameters.Add(new SqlParameter("@moratorium_period", Objform.moratorium_period));
+                cmd.Parameters.Add(new SqlParameter("@remark", Objform.remark == null ? " " : Objform.remark));
+                cmd.Parameters.Add(new SqlParameter("@loan_released_last_date", Objform.loan_released_last_date));
+                cmd.Parameters.Add(new SqlParameter("@amt_released", Objform.amt_released));
+                cmd.Parameters.Add(new SqlParameter("@account_no_beneficiary", Objform.account_no_beneficiary));
+                cmd.Parameters.Add(new SqlParameter("@transient_account", Objform.transient_account));
+                cmd.Parameters.Add(new SqlParameter("@mm_amt", Objform.mm_amt));
+                cmd.Parameters.Add(new SqlParameter("@mm_date", Objform.mm_date));
+                cmd.Parameters.Add(new SqlParameter("@mm_refrence_no", Objform.mm_refrence_no == null ? " " : Objform.mm_refrence_no));
+                cmd.Parameters.Add(new SqlParameter("@TDR_acct", Objform.TDR_acct == null ? " " : Objform.mm_refrence_no));
+                cmd.Parameters.Add(new SqlParameter("@TDR_deposite_date", Objform.TDR_deposite_date));
+                cmd.Parameters.Add(new SqlParameter("@adjustment_amt", Objform.adjustment_amt));
+                cmd.Parameters.Add(new SqlParameter("@doc_date", Objform.doc_rec_date));
+                //  cmd.Parameters.Add(new SqlParameter("@doc_date", Objform.doc_rec_date));
+                cmd.Parameters.Add(new SqlParameter("@steps", steps));
+                cmd.Parameters.Add(new SqlParameter("@branch_code", Objform.branch_code));
+                cmd.Parameters.Add(new SqlParameter("@contribution_deposite_date", Objform.Contributiondepositedate));
+                cmd.Parameters.Add(new SqlParameter("@contribution_amt", Objform.ContributionAmt));
+                cmd.Parameters.Add(new SqlParameter("@EDP_inst_code", Objform.EDP_inst_code));
+                cmd.Parameters.Add(new SqlParameter("@EDP_from_date", Objform.EDPFromDate));
+                cmd.Parameters.Add(new SqlParameter("@EDP_todate", Objform.EDPToDate));
+                cmd.Parameters.Add(new SqlParameter("c_user_id", ""));
+                cmd.Parameters.Add(new SqlParameter("c_user_ip", this.IpAddress));
+                cmd.Parameters.Add(new SqlParameter("u_user_ip", this.IpAddress));
+                cmd.Parameters.Add(new SqlParameter("c_mac", this.MacAddress));
+                cmd.Parameters.Add(new SqlParameter("u_user_id", ""));
+                cmd.Parameters.Add(new SqlParameter("adjustment_date", Objform.adjustment_date));
+                cmd.Parameters.Add(new SqlParameter("u_mac", this.MacAddress));
+                cmd.Parameters.Add(new SqlParameter("@sptype", @sptype));
+                cmd.Parameters.Add(new SqlParameter("Msg", ""));
+                cmd.Parameters["Msg"].Size = 256;
+                cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
+                cmd.Transaction = transaction;
+                cmd.ExecuteNonQuery();
+
+                message = cmd.Parameters["Msg"].Value.ToString();
+                transaction.Commit();
+            }
+            catch (Exception ex1)
+            {
+                transaction.Rollback();
+                message = ex1.Message;
+            }
+            finally
+            {
+
+                con.Close();
+                con.Dispose();
+            }
+            return message;
+        }
+
+
         #endregion
         #region Applicant
-        public DataTable Getifsc(string @prefix)
+        public DataTable Getifsc(string @prefix, int District,int bank_code)
         {
             DataTable ds = new DataTable();
             con.Open();
@@ -792,6 +1438,8 @@ namespace DI.DAL
                 cmd.CommandText = "Proc_Getifsc";
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Add(new SqlParameter("@prefix", @prefix));
+                cmd.Parameters.Add(new SqlParameter("@District", District));
+                cmd.Parameters.Add(new SqlParameter("@bank_code", bank_code));
                 SqlDataAdapter da = new SqlDataAdapter();
                 da.SelectCommand = cmd;
                 da.Fill(ds);
@@ -835,7 +1483,7 @@ namespace DI.DAL
             }
             return ds;
         }
-        public DataTable GetBankDetails(int @bank_code)
+        public DataTable GetBankDetails(int @bank_code, int district)
         {
             DataTable dt = new DataTable();
             con.Open();
@@ -846,6 +1494,7 @@ namespace DI.DAL
                 cmd.CommandText = "[Proc_GetBankDetails]";
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Add(new SqlParameter("@bank_code ", @bank_code));
+                cmd.Parameters.Add(new SqlParameter("@district ", district));
                 SqlDataAdapter da = new SqlDataAdapter();
                 da.SelectCommand = cmd;
                 da.Fill(dt);
@@ -1020,39 +1669,39 @@ namespace DI.DAL
             }
             return message;
         }
-        public string InsertUpdateCMYSS_MachininaryDetails(DataTable  objdoc)
+        public string InsertUpdateCMYSS_MachininaryDetails(DataTable objdoc)
         {
             string message = "Save";
             string UserName = "";
             con.Open();
             new DataTable();
-            SqlTransaction transaction = con.BeginTransaction(); 
+            SqlTransaction transaction = con.BeginTransaction();
             try
             {
                 if (objdoc != null)
                 {
                     if (objdoc.Rows.Count > 0)
                     {
-                        
-                            cmd = new SqlCommand();
-                            cmd.Connection = con;
-                            cmd.CommandType = CommandType.StoredProcedure;
-                            cmd.CommandText = "[Proc_InsertRegistrationMachinedetails]";
-                            cmd.CommandTimeout = 3600;
-                            cmd.Parameters.Add(new SqlParameter("@registration_code", objdoc.Rows[0]["registration_code"].ToString().Trim()));
-                            cmd.Parameters.Add(new SqlParameter("@tbl_registration_mach", objdoc));
-                            cmd.Parameters.Add(new SqlParameter("user_Id", @UserSession.LoggedInUser.UserName));
-                            cmd.Parameters.Add(new SqlParameter("user_ip", this.IpAddress));
-                            cmd.Parameters.Add(new SqlParameter("user_mac", this.MacAddress));
-                            cmd.Parameters.Add(new SqlParameter("Msg", ""));
-                            cmd.Parameters["Msg"].Size = 256;
-                            cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
-                            cmd.Transaction = transaction;
-                            cmd.ExecuteNonQuery();
-                            message = cmd.Parameters["Msg"].Value.ToString();
-                        }
+
+                        cmd = new SqlCommand();
+                        cmd.Connection = con;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandText = "[Proc_InsertRegistrationMachinedetails]";
+                        cmd.CommandTimeout = 3600;
+                        cmd.Parameters.Add(new SqlParameter("@registration_code", objdoc.Rows[0]["registration_code"].ToString().Trim()));
+                        cmd.Parameters.Add(new SqlParameter("@tbl_registration_mach", objdoc));
+                        cmd.Parameters.Add(new SqlParameter("user_Id", @UserSession.LoggedInUser.UserName));
+                        cmd.Parameters.Add(new SqlParameter("user_ip", this.IpAddress));
+                        cmd.Parameters.Add(new SqlParameter("user_mac", this.MacAddress));
+                        cmd.Parameters.Add(new SqlParameter("Msg", ""));
+                        cmd.Parameters["Msg"].Size = 256;
+                        cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
+                        cmd.Transaction = transaction;
+                        cmd.ExecuteNonQuery();
+                        message = cmd.Parameters["Msg"].Value.ToString();
                     }
-                
+                }
+
                 transaction.Commit();
             }
             catch (Exception ex1)
@@ -1068,7 +1717,7 @@ namespace DI.DAL
             }
             return message;
         }
-        public string InsertRegistrationFinancedetails(DataTable  objdoc)
+        public string InsertRegistrationFinancedetails(decimal @total_Production, decimal @approx_sale, decimal @approx_profit,long @registration_code)
         {
             string message = "Save";
             string UserName = "";
@@ -1077,28 +1726,121 @@ namespace DI.DAL
             SqlTransaction transaction = con.BeginTransaction();  // this.cn.BeginTransaction();
             try
             {
-                if (objdoc != null)
-                {
-                    if (objdoc.Rows.Count > 0)
-                    {
-                            cmd = new SqlCommand();
-                            cmd.Connection = con;
-                            cmd.CommandType = CommandType.StoredProcedure;
-                            cmd.CommandText = "[Proc_InsertRegistrationFinancedetails]";
-                            cmd.CommandTimeout = 3600;
-                            cmd.Parameters.Add(new SqlParameter("@registration_code", objdoc.Rows[0]["registration_code"].ToString().Trim()));
-                            cmd.Parameters.Add(new SqlParameter("@tbl_registration_fin", objdoc));
-                            cmd.Parameters.Add(new SqlParameter("user_Id", @UserSession.LoggedInUser.UserName));
-                            cmd.Parameters.Add(new SqlParameter("user_ip", this.IpAddress));
-                            cmd.Parameters.Add(new SqlParameter("user_mac", this.MacAddress));
-                            cmd.Parameters.Add(new SqlParameter("Msg", ""));
-                            cmd.Parameters["Msg"].Size = 256;
-                            cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
-                            cmd.Transaction = transaction;
-                            cmd.ExecuteNonQuery();
-                            message = cmd.Parameters["Msg"].Value.ToString();
-                    }
-                }
+                //if (objdoc != null)
+                //{
+                //    if (objdoc.Rows.Count > 0)
+                //    {
+                        cmd = new SqlCommand();
+                        cmd.Connection = con;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandText = "[Proc_UpdateMYSYFinancedetails]";
+                        cmd.CommandTimeout = 3600;
+                        cmd.Parameters.Add(new SqlParameter("@registration_code", @registration_code));
+                        cmd.Parameters.Add(new SqlParameter("@total_Production", @total_Production));
+                        cmd.Parameters.Add(new SqlParameter("@approx_sale", @approx_sale));
+                        cmd.Parameters.Add(new SqlParameter("@approx_profit", @approx_profit));
+                        cmd.Parameters.Add(new SqlParameter("user_Id", @UserSession.LoggedInUser.UserName));
+                        cmd.Parameters.Add(new SqlParameter("user_ip", this.IpAddress));
+                        cmd.Parameters.Add(new SqlParameter("user_mac", this.MacAddress));
+                        cmd.Parameters.Add(new SqlParameter("Msg", ""));
+                        cmd.Parameters["Msg"].Size = 256;
+                        cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
+                        cmd.Transaction = transaction;
+                        cmd.ExecuteNonQuery();
+                        message = cmd.Parameters["Msg"].Value.ToString();
+                //    }
+                //}
+                transaction.Commit();
+            }
+            catch (Exception ex1)
+            {
+                transaction.Rollback();
+                message = ex1.Message;
+            }
+            finally
+            {
+                con.Close();
+                con.Dispose();
+            }
+            return message;
+        }
+
+        public string UpdateRegistrationDocbyAdmin(long @registration_code,short @schemecode, byte[] @doc, string @doc_type, string @doc_content_type)
+        {
+            string message = "Save";
+            string UserName = "";
+            con.Open();
+            new DataTable();
+            SqlTransaction transaction = con.BeginTransaction();  // this.cn.BeginTransaction();
+            try
+            {
+                cmd = new SqlCommand();
+                cmd.Connection = con;
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "[Proc_UpdateRegistrationDocbyAdmin]";
+                cmd.CommandTimeout = 3600;
+                cmd.Parameters.Add(new SqlParameter("registration_code", @registration_code));
+                cmd.Parameters.Add(new SqlParameter("schemecode", @schemecode));
+                cmd.Parameters.Add(new SqlParameter("doc", @doc));
+                cmd.Parameters.Add(new SqlParameter("@doc_type", @doc_type));
+                cmd.Parameters.Add(new SqlParameter("@doc_content_type", @doc_content_type));
+                cmd.Parameters.Add(new SqlParameter("user_Id", @UserSession.LoggedInUser.UserName));
+                cmd.Parameters.Add(new SqlParameter("user_ip", this.IpAddress));
+                cmd.Parameters.Add(new SqlParameter("user_mac", this.MacAddress));
+                cmd.Parameters.Add(new SqlParameter("Msg", ""));
+                cmd.Parameters["Msg"].Size = 256;
+                cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
+                cmd.Transaction = transaction;
+                cmd.ExecuteNonQuery();
+                message = cmd.Parameters["Msg"].Value.ToString();
+                //    }
+                //}
+                transaction.Commit();
+            }
+            catch (Exception ex1)
+            {
+                transaction.Rollback();
+                message = ex1.Message;
+            }
+            finally
+            {
+                con.Close();
+                con.Dispose();
+            }
+            return message;
+        }
+
+        public string Insertbank_doc(long @registration_code, short @schemecode, byte[] @doc, string @doc_content_type, long finid)
+        {
+            string message = "Save";
+            string UserName = "";
+            con.Open();
+            new DataTable();
+            SqlTransaction transaction = con.BeginTransaction();  // this.cn.BeginTransaction();
+            try
+            {
+                cmd = new SqlCommand();
+                cmd.Connection = con;
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "[Proc_Insertbank_doc]";
+                cmd.CommandTimeout = 3600;
+                cmd.Parameters.Add(new SqlParameter("registration_code", @registration_code));
+                cmd.Parameters.Add(new SqlParameter("schemecode", @schemecode));
+                cmd.Parameters.Add(new SqlParameter("doc", @doc));
+                //cmd.Parameters.Add(new SqlParameter("@doc_type", @doc_type));
+                cmd.Parameters.Add(new SqlParameter("@finid", finid));
+                cmd.Parameters.Add(new SqlParameter("@doc_content_type", @doc_content_type));
+                cmd.Parameters.Add(new SqlParameter("user_Id", @UserSession.LoggedInUser.UserName));
+                cmd.Parameters.Add(new SqlParameter("user_ip", this.IpAddress));
+                cmd.Parameters.Add(new SqlParameter("user_mac", this.MacAddress));
+                cmd.Parameters.Add(new SqlParameter("Msg", ""));
+                cmd.Parameters["Msg"].Size = 256;
+                cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
+                cmd.Transaction = transaction;
+                cmd.ExecuteNonQuery();
+                message = cmd.Parameters["Msg"].Value.ToString();
+                //    }
+                //}
                 transaction.Commit();
             }
             catch (Exception ex1)
@@ -1172,8 +1914,6 @@ namespace DI.DAL
             }
             return message;
         }
-
-
         public string InsertUpdateCMYSS_Applicantdocument(DataTable dt)
         {
             string message = "";
@@ -1271,213 +2011,6 @@ namespace DI.DAL
             return message;
         }
 
-        public string InsertUpdateCMYSS_ApplicantbyAdmin(CMYSS_Applicant Objform, string @sptype, DataTable objFamily, string PensionCard, decimal family_income, DataTable objPlant, DataTable objFin)
-        {
-            string message = "";
-            long applicant_code = -1;
-            string UserName = "";
-            con.Open();
-            new DataTable();
-            SqlTransaction transaction = con.BeginTransaction();  // this.cn.BeginTransaction();
-            try
-            {
-                SqlCommand cmd = new SqlCommand();
-                cmd.Connection = con;
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.CommandText = "[Proc_InsertUpdateRegistration]";
-                cmd.CommandTimeout = 3600;
-                cmd.Parameters.Add(new SqlParameter("registration_code", Objform.@applicant_code));
-                cmd.Parameters["registration_code"].Direction = ParameterDirection.InputOutput;
-                cmd.Parameters["registration_code"].Size = 256;
-                cmd.Parameters.Add(new SqlParameter("@yojana_code", Objform.@yojana_code));
-                cmd.Parameters.Add(new SqlParameter("@applicant_name", Objform.@applicant_name));
-                cmd.Parameters.Add(new SqlParameter("@adhar_no", Objform.@adhar_no));
-                cmd.Parameters.Add(new SqlParameter("@dob", Objform.@dob));
-                cmd.Parameters.Add(new SqlParameter("@father_name", Objform.@Husband_father_name));
-                cmd.Parameters.Add(new SqlParameter("@current_address", Objform.@current_address == null ? "" : Objform.@current_address));
-                cmd.Parameters.Add(new SqlParameter("@permanent_address", Objform.@permanent_address == null ? "" : Objform.permanent_address));
-                cmd.Parameters.Add(new SqlParameter("@mobile_no", Objform.@mobile_no));
-                cmd.Parameters.Add(new SqlParameter("@email", Objform.@email));
-                cmd.Parameters.Add(new SqlParameter("@district_code_census", Objform.@DistCode == -1 ? 0 : Objform.@DistCode));
-                cmd.Parameters.Add(new SqlParameter("@tehsil_code_census", Objform.@TehsilCode == -1 ? 0 : Objform.@TehsilCode));
-                cmd.Parameters.Add(new SqlParameter("@block_code", Objform.@BlockCode == -1 ? 0 : Objform.@BlockCode));
-                cmd.Parameters.Add(new SqlParameter("@village_code", Objform.@VillCode == -1 ? 0 : Objform.@VillCode));
-                cmd.Parameters.Add(new SqlParameter("@current_district_code_census", Objform.current_district_code_census == -1 ? 0 : Objform.current_district_code_census));
-                cmd.Parameters.Add(new SqlParameter("@current_tehsil_code_census", Objform.current_tehsil_code_census == -1 ? 0 : Objform.current_tehsil_code_census));
-                cmd.Parameters.Add(new SqlParameter("@current_block_code", Objform.current_block_code == -1 ? 0 : Objform.current_block_code));
-                cmd.Parameters.Add(new SqlParameter("@current_village_code", Objform.current_village_code == -1 ? 0 : Objform.current_village_code));
-                cmd.Parameters.Add(new SqlParameter("@qualification_code", Objform.qualification_code));
-                cmd.Parameters.Add(new SqlParameter("@category_suffix", Objform.category_suffix == null ? "" : Objform.category_suffix));
-                cmd.Parameters.Add(new SqlParameter("@sp_category_suffix", Objform.sp_category_suffix == null ? "" : Objform.sp_category_suffix));
-                cmd.Parameters.Add(new SqlParameter("@gender_suffix", Objform.gender_suffix == null ? "" : Objform.gender_suffix));
-                cmd.Parameters.Add(new SqlParameter("@is_address_same", Objform.is_address_same == null ? "N" : Objform.is_address_same));
-                cmd.Parameters.Add(new SqlParameter("@sponsoring_office_code", Objform.@sponsoring_office_code));
-                cmd.Parameters.Add(new SqlParameter("UserName", ""));
-                cmd.Parameters["UserName"].Direction = ParameterDirection.InputOutput;
-                cmd.Parameters["UserName"].Size = 256;
-                cmd.Parameters.Add(new SqlParameter("@Password", Objform.@Password));
-                cmd.Parameters.Add(new SqlParameter("c_user_id", ""));
-                cmd.Parameters.Add(new SqlParameter("c_user_ip", this.IpAddress));
-                cmd.Parameters.Add(new SqlParameter("c_mac", this.MacAddress));
-                cmd.Parameters.Add(new SqlParameter("u_user_id", ""));
-                cmd.Parameters.Add(new SqlParameter("u_user_ip", this.IpAddress));
-                cmd.Parameters.Add(new SqlParameter("u_mac", this.MacAddress));
-                cmd.Parameters.Add(new SqlParameter("Sptype", @sptype));
-                cmd.Parameters.Add(new SqlParameter("Msg", ""));
-                cmd.Parameters["Msg"].Size = 256;
-                cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
-                cmd.Transaction = transaction;
-                cmd.ExecuteNonQuery();
-                applicant_code = int.Parse(cmd.Parameters["registration_code"].Value.ToString());
-                message = cmd.Parameters["Msg"].Value.ToString();
-                if (message.Contains("Save"))
-                {
-                    message = message + "/" + cmd.Parameters["UserName"].Value.ToString();
-                }
-
-                if (applicant_code != -1)
-                {
-                    cmd = new SqlCommand();
-                    cmd.Connection = con;
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.CommandText = "[Proc_InsertUpdate_MYSY]";
-                    cmd.CommandTimeout = 3600;
-                    cmd.Parameters.Add(new SqlParameter("@registration_code", applicant_code));
-                    cmd.Parameters.Add(new SqlParameter("@yojana_code", Objform.@yojana_code));
-                    cmd.Parameters.Add(new SqlParameter("@proposed_office_address", Objform.proposed_office_address == null ? "" : Objform.proposed_office_address));
-                    cmd.Parameters.Add(new SqlParameter("@pansion_card_no", Objform.pansion_card_No == null ? "" : Objform.pansion_card_No));
-                    cmd.Parameters.Add(new SqlParameter("@project_name", Objform.@project_name == null ? "" : Objform.project_name));
-                    cmd.Parameters.Add(new SqlParameter("@family_income", Objform.@family_income));
-                    cmd.Parameters.Add(new SqlParameter("@project_cost", Objform.@project_cost));
-                    cmd.Parameters.Add(new SqlParameter("@machinery_cost", Objform.@machinery_cost));
-                    cmd.Parameters.Add(new SqlParameter("@working_capital", Objform.@working_capital));
-                    cmd.Parameters.Add(new SqlParameter("@bank_code", Objform.bank_code == -1 ? 0 : Objform.bank_code));
-                    cmd.Parameters.Add(new SqlParameter("@self_share", Objform.@self_share));
-                    cmd.Parameters.Add(new SqlParameter("@deposit_amt", Objform.@deposit_amt));
-                    cmd.Parameters.Add(new SqlParameter("@branch_code", Objform.@branch_code));
-                    cmd.Parameters.Add(new SqlParameter("@bank_account_no", Objform.@bank_account_no == null ? "" : Objform.bank_account_no));
-                    cmd.Parameters.Add(new SqlParameter("@ifsc", Objform.@ifsc == null ? "" : Objform.@ifsc));
-                    cmd.Parameters.Add(new SqlParameter("@Steps", Objform.steps));
-                    cmd.Parameters.Add(new SqlParameter("@manufacturing", Objform.manufacturing == null ? "" : Objform.manufacturing));
-                    cmd.Parameters.Add(new SqlParameter("@services", Objform.services == null ? "" : Objform.services));
-                    cmd.Parameters.Add(new SqlParameter("@Is_village_bank", Objform.Is_village_bank == null ? "" : Objform.Is_village_bank));
-                    cmd.Parameters.Add(new SqlParameter("@service_branch", Objform.service_branch == null ? "" : Objform.service_branch));
-                    cmd.Parameters.Add(new SqlParameter("c_user_id", ""));
-                    cmd.Parameters.Add(new SqlParameter("c_user_ip", this.IpAddress));
-                    cmd.Parameters.Add(new SqlParameter("c_mac", this.MacAddress));
-                    cmd.Parameters.Add(new SqlParameter("u_user_id", ""));
-                    cmd.Parameters.Add(new SqlParameter("u_user_ip", this.IpAddress));
-                    cmd.Parameters.Add(new SqlParameter("u_mac", this.MacAddress));
-                    cmd.Parameters.Add(new SqlParameter("@sptype", @sptype));
-                    cmd.Parameters.Add(new SqlParameter("@industry_activity_suffix", Objform.industry_activity == null ? "" : Objform.industry_activity));
-                    cmd.Parameters.Add(new SqlParameter("@proposed_office_district", Objform.proposed_office_district == -1 ? 0 : Objform.proposed_office_district));
-                    cmd.Parameters.Add(new SqlParameter("@proposed_office_tehsil", Objform.proposed_office_tehsil == -1 ? 0 : Objform.proposed_office_tehsil));
-                    cmd.Parameters.Add(new SqlParameter("@proposed_office_block", Objform.proposed_office_block == -1 ? 0 : Objform.proposed_office_block));
-                    cmd.Parameters.Add(new SqlParameter("@proposed_office_village", Objform.proposed_office_village == -1 ? 0 : Objform.proposed_office_village));
-                    cmd.Parameters.Add(new SqlParameter("@sponsoring_office_code", Objform.sponsoring_office_code));
-                    cmd.Parameters.Add(new SqlParameter("@legaltype", "I"));
-                    cmd.Parameters.Add(new SqlParameter("@pancard", Objform.pancard == null ? "" : Objform.pancard));
-                    cmd.Parameters.Add(new SqlParameter("Is_edp_training", Objform.@Is_edp_training == null ? "" : Objform.@Is_edp_training));
-                    cmd.Parameters.Add(new SqlParameter("@edp_training_ins", Objform.@edp_training_ins == null ? "" : Objform.@edp_training_ins));
-                    cmd.Parameters.Add(new SqlParameter("@industry_code", Objform.@industry_code));
-                    cmd.Parameters.Add(new SqlParameter("Msg", ""));
-                    cmd.Parameters["Msg"].Size = 256;
-                    cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
-                    cmd.Transaction = transaction;
-                    cmd.ExecuteNonQuery();
-                    string message2 = cmd.Parameters["Msg"].Value.ToString();
-
-                    if (objFamily != null)
-                    {
-                        if (objFamily.Rows.Count > 0)
-                        {
-                            cmd = new SqlCommand();
-                            cmd.Connection = con;
-                            cmd.CommandType = CommandType.StoredProcedure;
-                            cmd.CommandText = "[Proc_InsertRegistrationFamilyDetails]";
-                            cmd.CommandTimeout = 3600;
-                            cmd.Parameters.Add(new SqlParameter("@registration_code", objFamily.Rows[0]["registration_code"].ToString().Trim()));
-                            cmd.Parameters.Add(new SqlParameter("@tbl_family", objFamily));
-                            cmd.Parameters.Add(new SqlParameter("@pansion_card_no", PensionCard));
-                            cmd.Parameters.Add(new SqlParameter("@family_income", family_income));
-                            cmd.Parameters.Add(new SqlParameter("@user_id", @UserSession.LoggedInUser.UserName));
-                            cmd.Parameters.Add(new SqlParameter("@user_ip", this.IpAddress));
-                            cmd.Parameters.Add(new SqlParameter("@u_mac", this.MacAddress));
-                            cmd.Parameters.Add(new SqlParameter("Msg", ""));
-                            cmd.Parameters["Msg"].Size = 256;
-                            cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
-                            cmd.Transaction = transaction;
-                            cmd.ExecuteNonQuery();
-                            string message3 = cmd.Parameters["Msg"].Value.ToString();
-                        }
-                    }
-
-                    if (objPlant != null)
-                    {
-                        if (objPlant.Rows.Count > 0)
-                        {
-
-                            cmd = new SqlCommand();
-                            cmd.Connection = con;
-                            cmd.CommandType = CommandType.StoredProcedure;
-                            cmd.CommandText = "[Proc_InsertRegistrationMachinedetails]";
-                            cmd.CommandTimeout = 3600;
-                            cmd.Parameters.Add(new SqlParameter("@registration_code", objPlant.Rows[0]["registration_code"].ToString().Trim()));
-                            cmd.Parameters.Add(new SqlParameter("@tbl_registration_mach", objPlant));
-                            cmd.Parameters.Add(new SqlParameter("user_Id", @UserSession.LoggedInUser.UserName));
-                            cmd.Parameters.Add(new SqlParameter("user_ip", this.IpAddress));
-                            cmd.Parameters.Add(new SqlParameter("user_mac", this.MacAddress));
-                            cmd.Parameters.Add(new SqlParameter("Msg", ""));
-                            cmd.Parameters["Msg"].Size = 256;
-                            cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
-                            cmd.Transaction = transaction;
-                            cmd.ExecuteNonQuery();
-                           string message4 = cmd.Parameters["Msg"].Value.ToString();
-                        }
-                    }
-                    if (objFin != null)
-                    {
-                        if (objFin.Rows.Count > 0)
-                        {
-                            cmd = new SqlCommand();
-                            cmd.Connection = con;
-                            cmd.CommandType = CommandType.StoredProcedure;
-                            cmd.CommandText = "[Proc_InsertRegistrationFinancedetails]";
-                            cmd.CommandTimeout = 3600;
-                            cmd.Parameters.Add(new SqlParameter("@registration_code", objFin.Rows[0]["registration_code"].ToString().Trim()));
-                            cmd.Parameters.Add(new SqlParameter("@tbl_registration_fin", objFin));
-                            cmd.Parameters.Add(new SqlParameter("user_Id", @UserSession.LoggedInUser.UserName));
-                            cmd.Parameters.Add(new SqlParameter("user_ip", this.IpAddress));
-                            cmd.Parameters.Add(new SqlParameter("user_mac", this.MacAddress));
-                            cmd.Parameters.Add(new SqlParameter("Msg", ""));
-                            cmd.Parameters["Msg"].Size = 256;
-                            cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
-                            cmd.Transaction = transaction;
-                            cmd.ExecuteNonQuery();
-                           string  messagefin = cmd.Parameters["Msg"].Value.ToString();
-                        }
-                    }
-                }
-                else
-                {
-                    transaction.Rollback();
-                    message = "Sorry transaction fail";
-                }
-                transaction.Commit();
-            }
-            catch (Exception ex1)
-            {
-                transaction.Rollback();
-                message = ex1.Message;
-            }
-            finally
-            {
-
-                con.Close();
-                con.Dispose();
-            }
-            return message;
-        }
 
 
 
@@ -1523,6 +2056,7 @@ namespace DI.DAL
                 cmd.Parameters.Add(new SqlParameter("@is_address_same", Objform.is_address_same == null ? "N" : Objform.is_address_same));
                 cmd.Parameters.Add(new SqlParameter("@sponsoring_office_code", Objform.@sponsoring_office_code));
                 cmd.Parameters.Add(new SqlParameter("UserName", ""));
+                cmd.Parameters.Add(new SqlParameter("@IS_village", Objform.Is_village==null?"N" : Objform.Is_village));
                 cmd.Parameters["UserName"].Direction = ParameterDirection.InputOutput;
                 cmd.Parameters["UserName"].Size = 256;
                 cmd.Parameters.Add(new SqlParameter("@Password", Objform.@Password));
@@ -1533,6 +2067,8 @@ namespace DI.DAL
                 cmd.Parameters.Add(new SqlParameter("u_user_ip", this.IpAddress));
                 cmd.Parameters.Add(new SqlParameter("u_mac", this.MacAddress));
                 cmd.Parameters.Add(new SqlParameter("Sptype", @sptype));
+                cmd.Parameters.Add(new SqlParameter("@curent_add_pincode", Objform.@curent_add_pincode==null?"": Objform.@curent_add_pincode));
+                cmd.Parameters.Add(new SqlParameter("@permanent_add_pincode", Objform.@permanent_add_pincode == null?"": Objform.@permanent_add_pincode));
                 cmd.Parameters.Add(new SqlParameter("Msg", ""));
                 cmd.Parameters["Msg"].Size = 256;
                 cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
@@ -1556,21 +2092,23 @@ namespace DI.DAL
                     cmd.Parameters.Add(new SqlParameter("@yojana_code", Objform.@yojana_code));
                     cmd.Parameters.Add(new SqlParameter("@proposed_office_address", Objform.proposed_office_address == null ? "" : Objform.proposed_office_address));
                     cmd.Parameters.Add(new SqlParameter("@pansion_card_no", Objform.pansion_card_No == null ? "" : Objform.pansion_card_No));
+                    cmd.Parameters.Add(new SqlParameter("@product_service_code", Objform.product_service_code));
+
                     cmd.Parameters.Add(new SqlParameter("@project_name", Objform.@project_name == null ? "" : Objform.project_name));
                     cmd.Parameters.Add(new SqlParameter("@family_income", Objform.@family_income));
                     cmd.Parameters.Add(new SqlParameter("@project_cost", Objform.@project_cost));
                     cmd.Parameters.Add(new SqlParameter("@machinery_cost", Objform.@machinery_cost));
                     cmd.Parameters.Add(new SqlParameter("@working_capital", Objform.@working_capital));
-                    cmd.Parameters.Add(new SqlParameter("@bank_code", Objform.bank_code==-1?0: Objform.bank_code));
+                    cmd.Parameters.Add(new SqlParameter("@bank_code", Objform.bank_code == -1 ? 0 : Objform.bank_code));
                     cmd.Parameters.Add(new SqlParameter("@self_share", Objform.@self_share));
                     cmd.Parameters.Add(new SqlParameter("@deposit_amt", Objform.@deposit_amt));
                     cmd.Parameters.Add(new SqlParameter("@branch_code", Objform.@branch_code));
                     cmd.Parameters.Add(new SqlParameter("@bank_account_no", Objform.@bank_account_no == null ? "" : Objform.bank_account_no));
                     cmd.Parameters.Add(new SqlParameter("@ifsc", Objform.@ifsc == null ? "" : Objform.@ifsc));
                     cmd.Parameters.Add(new SqlParameter("@Steps", Objform.steps));
-                    cmd.Parameters.Add(new SqlParameter("@manufacturing", Objform.manufacturing == null ? "" : Objform.manufacturing));
-                    cmd.Parameters.Add(new SqlParameter("@services", Objform.services == null ? "" : Objform.services));
-                    cmd.Parameters.Add(new SqlParameter("@Is_village_bank", Objform.Is_village_bank == null ? "" : Objform.Is_village_bank));
+                   // cmd.Parameters.Add(new SqlParameter("@manufacturing", Objform.manufacturing == null ? "" : Objform.manufacturing));
+                  //  cmd.Parameters.Add(new SqlParameter("@services", Objform.services == null ? "" : Objform.services));
+                  //  cmd.Parameters.Add(new SqlParameter("@Is_village_bank", Objform.Is_village_bank == null ? "" : Objform.Is_village_bank));
                     cmd.Parameters.Add(new SqlParameter("@service_branch", Objform.service_branch == null ? "" : Objform.service_branch));
                     cmd.Parameters.Add(new SqlParameter("c_user_id", ""));
                     cmd.Parameters.Add(new SqlParameter("c_user_ip", this.IpAddress));
@@ -1589,7 +2127,10 @@ namespace DI.DAL
                     cmd.Parameters.Add(new SqlParameter("@pancard", Objform.pancard == null ? "" : Objform.pancard));
                     cmd.Parameters.Add(new SqlParameter("Is_edp_training", Objform.@Is_edp_training == null ? "" : Objform.@Is_edp_training));
                     cmd.Parameters.Add(new SqlParameter("@edp_training_ins", Objform.@edp_training_ins == null ? "" : Objform.@edp_training_ins));
-                    cmd.Parameters.Add(new SqlParameter("@industry_code", Objform.@industry_code));
+                    cmd.Parameters.Add(new SqlParameter("@other_product_service", Objform.other_product_service == null ? "" : Objform.other_product_service));
+                   // cmd.Parameters.Add(new SqlParameter("@project_cost", Objform.project_cost));
+                    cmd.Parameters.Add(new SqlParameter("@edp_training_ins_code", Objform.@edp_training_ins_code));
+                    cmd.Parameters.Add(new SqlParameter("@proposed_office_pincode", Objform.@proposed_office_pincode == null ? "" : Objform.@proposed_office_pincode));
                     cmd.Parameters.Add(new SqlParameter("Msg", ""));
                     cmd.Parameters["Msg"].Size = 256;
                     cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
@@ -1617,6 +2158,160 @@ namespace DI.DAL
             }
             return message;
         }
+
+        public string UpdateCMYSS_Applicant(CMYSS_Applicant Objform, string @sptype)
+        {
+            string message = "";
+            long applicant_code = -1;
+            string UserName = "";
+            con.Open();
+            new DataTable();
+            SqlTransaction transaction = con.BeginTransaction();  // this.cn.BeginTransaction();
+            try
+            {
+                if (Objform.steps=="1" && Objform.@applicant_code!=-1)
+                {
+                    SqlCommand cmd = new SqlCommand();
+                    cmd.Connection = con;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandText = "[Proc_InsertUpdateRegistration]";
+                    cmd.CommandTimeout = 3600;
+                    cmd.Parameters.Add(new SqlParameter("registration_code", Objform.@applicant_code));
+                    cmd.Parameters["registration_code"].Direction = ParameterDirection.InputOutput;
+                    cmd.Parameters["registration_code"].Size = 256;
+                    cmd.Parameters.Add(new SqlParameter("@yojana_code", Objform.@yojana_code));
+                    cmd.Parameters.Add(new SqlParameter("@applicant_name", Objform.@applicant_name));
+                    cmd.Parameters.Add(new SqlParameter("@adhar_no", Objform.@adhar_no));
+                    cmd.Parameters.Add(new SqlParameter("@dob", Objform.@dob));
+                    cmd.Parameters.Add(new SqlParameter("@father_name", Objform.@Husband_father_name));
+                    cmd.Parameters.Add(new SqlParameter("@current_address", Objform.@current_address == null ? "" : Objform.@current_address));
+                    cmd.Parameters.Add(new SqlParameter("@permanent_address", Objform.@permanent_address == null ? "" : Objform.permanent_address));
+                    cmd.Parameters.Add(new SqlParameter("@mobile_no", Objform.@mobile_no));
+                    cmd.Parameters.Add(new SqlParameter("@email", Objform.@email));
+                    cmd.Parameters.Add(new SqlParameter("@district_code_census", Objform.@DistCode == -1 ? 0 : Objform.@DistCode));
+                    cmd.Parameters.Add(new SqlParameter("@tehsil_code_census", Objform.@TehsilCode == -1 ? 0 : Objform.@TehsilCode));
+                    cmd.Parameters.Add(new SqlParameter("@block_code", Objform.@BlockCode == -1 ? 0 : Objform.@BlockCode));
+                    cmd.Parameters.Add(new SqlParameter("@village_code", Objform.@VillCode == -1 ? 0 : Objform.@VillCode));
+                    cmd.Parameters.Add(new SqlParameter("@current_district_code_census", Objform.current_district_code_census == -1 ? 0 : Objform.current_district_code_census));
+                    cmd.Parameters.Add(new SqlParameter("@current_tehsil_code_census", Objform.current_tehsil_code_census == -1 ? 0 : Objform.current_tehsil_code_census));
+                    cmd.Parameters.Add(new SqlParameter("@current_block_code", Objform.current_block_code == -1 ? 0 : Objform.current_block_code));
+                    cmd.Parameters.Add(new SqlParameter("@current_village_code", Objform.current_village_code == -1 ? 0 : Objform.current_village_code));
+                    cmd.Parameters.Add(new SqlParameter("@qualification_code", Objform.qualification_code));
+                    cmd.Parameters.Add(new SqlParameter("@category_suffix", Objform.category_suffix == null ? "" : Objform.category_suffix));
+                    cmd.Parameters.Add(new SqlParameter("@sp_category_suffix", Objform.sp_category_suffix == null ? "" : Objform.sp_category_suffix));
+                    cmd.Parameters.Add(new SqlParameter("@gender_suffix", Objform.gender_suffix == null ? "" : Objform.gender_suffix));
+                    cmd.Parameters.Add(new SqlParameter("@is_address_same", Objform.is_address_same == null ? "N" : Objform.is_address_same));
+                    cmd.Parameters.Add(new SqlParameter("@sponsoring_office_code", Objform.@sponsoring_office_code));
+                    cmd.Parameters.Add(new SqlParameter("UserName", ""));
+                    cmd.Parameters.Add(new SqlParameter("@IS_village", Objform.Is_village == null ? "N" : Objform.Is_village));
+                    cmd.Parameters["UserName"].Direction = ParameterDirection.InputOutput;
+                    cmd.Parameters["UserName"].Size = 256;
+                    cmd.Parameters.Add(new SqlParameter("@Password", Objform.@Password));
+                    cmd.Parameters.Add(new SqlParameter("c_user_id", ""));
+                    cmd.Parameters.Add(new SqlParameter("c_user_ip", this.IpAddress));
+                    cmd.Parameters.Add(new SqlParameter("c_mac", this.MacAddress));
+                    cmd.Parameters.Add(new SqlParameter("u_user_id", ""));
+                    cmd.Parameters.Add(new SqlParameter("u_user_ip", this.IpAddress));
+                    cmd.Parameters.Add(new SqlParameter("u_mac", this.MacAddress));
+                    cmd.Parameters.Add(new SqlParameter("Sptype", @sptype));
+                    cmd.Parameters.Add(new SqlParameter("@curent_add_pincode", Objform.@curent_add_pincode == null ? "" : Objform.@curent_add_pincode));
+                    cmd.Parameters.Add(new SqlParameter("@permanent_add_pincode", Objform.@permanent_add_pincode == null ? "" : Objform.@permanent_add_pincode));
+                    cmd.Parameters.Add(new SqlParameter("Msg", ""));
+                    cmd.Parameters["Msg"].Size = 256;
+                    cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
+                    cmd.Transaction = transaction;
+                    cmd.ExecuteNonQuery();
+                   // applicant_code = int.Parse(cmd.Parameters["registration_code"].Value.ToString());
+                    message = cmd.Parameters["Msg"].Value.ToString();
+                }
+                //else
+                //{
+                //    con.Close();
+                //    con.Dispose();
+                //    return message = "Request not authentic";
+                //    //return;
+                //}
+                if (Objform.@applicant_code != -1)
+                {
+                    cmd = new SqlCommand();
+                    cmd.Connection = con;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandText = "[Proc_InsertUpdate_MYSY]";
+                    cmd.CommandTimeout = 3600;
+                    cmd.Parameters.Add(new SqlParameter("@registration_code", Objform.@applicant_code));
+                    cmd.Parameters.Add(new SqlParameter("@yojana_code", Objform.@yojana_code));
+                    cmd.Parameters.Add(new SqlParameter("@proposed_office_address", Objform.proposed_office_address == null ? "" : Objform.proposed_office_address));
+                    cmd.Parameters.Add(new SqlParameter("@pansion_card_no", Objform.pansion_card_No == null ? "" : Objform.pansion_card_No));
+                    cmd.Parameters.Add(new SqlParameter("@product_service_code", Objform.product_service_code));
+
+                    cmd.Parameters.Add(new SqlParameter("@project_name", Objform.@project_name == null ? "" : Objform.project_name));
+                    cmd.Parameters.Add(new SqlParameter("@family_income", Objform.@family_income));
+                    cmd.Parameters.Add(new SqlParameter("@project_cost", Objform.@project_cost));
+                    cmd.Parameters.Add(new SqlParameter("@machinery_cost", Objform.@machinery_cost));
+                    cmd.Parameters.Add(new SqlParameter("@working_capital", Objform.@working_capital));
+                    cmd.Parameters.Add(new SqlParameter("@bank_code", Objform.bank_code == -1 ? 0 : Objform.bank_code));
+                    cmd.Parameters.Add(new SqlParameter("@self_share", Objform.@self_share));
+                    cmd.Parameters.Add(new SqlParameter("@deposit_amt", Objform.@deposit_amt));
+                    cmd.Parameters.Add(new SqlParameter("@branch_code", Objform.@branch_code));
+                    cmd.Parameters.Add(new SqlParameter("@bank_account_no", Objform.@bank_account_no == null ? "" : Objform.bank_account_no));
+                    cmd.Parameters.Add(new SqlParameter("@ifsc", Objform.@ifsc == null ? "" : Objform.@ifsc));
+                    cmd.Parameters.Add(new SqlParameter("@Steps", Objform.steps));
+                    // cmd.Parameters.Add(new SqlParameter("@manufacturing", Objform.manufacturing == null ? "" : Objform.manufacturing));
+                    //  cmd.Parameters.Add(new SqlParameter("@services", Objform.services == null ? "" : Objform.services));
+                    //  cmd.Parameters.Add(new SqlParameter("@Is_village_bank", Objform.Is_village_bank == null ? "" : Objform.Is_village_bank));
+                    cmd.Parameters.Add(new SqlParameter("@service_branch", Objform.service_branch == null ? "" : Objform.service_branch));
+                    cmd.Parameters.Add(new SqlParameter("c_user_id", ""));
+                    cmd.Parameters.Add(new SqlParameter("c_user_ip", this.IpAddress));
+                    cmd.Parameters.Add(new SqlParameter("c_mac", this.MacAddress));
+                    cmd.Parameters.Add(new SqlParameter("u_user_id", ""));
+                    cmd.Parameters.Add(new SqlParameter("u_user_ip", this.IpAddress));
+                    cmd.Parameters.Add(new SqlParameter("u_mac", this.MacAddress));
+                    cmd.Parameters.Add(new SqlParameter("@sptype", @sptype));
+                    cmd.Parameters.Add(new SqlParameter("@industry_activity_suffix", Objform.industry_activity == null ? "" : Objform.industry_activity));
+                    cmd.Parameters.Add(new SqlParameter("@proposed_office_district", Objform.proposed_office_district == -1 ? 0 : Objform.proposed_office_district));
+                    cmd.Parameters.Add(new SqlParameter("@proposed_office_tehsil", Objform.proposed_office_tehsil == -1 ? 0 : Objform.proposed_office_tehsil));
+                    cmd.Parameters.Add(new SqlParameter("@proposed_office_block", Objform.proposed_office_block == -1 ? 0 : Objform.proposed_office_block));
+                    cmd.Parameters.Add(new SqlParameter("@proposed_office_village", Objform.proposed_office_village == -1 ? 0 : Objform.proposed_office_village));
+                    cmd.Parameters.Add(new SqlParameter("@sponsoring_office_code", Objform.sponsoring_office_code));
+                    cmd.Parameters.Add(new SqlParameter("@legaltype", "I"));
+                    cmd.Parameters.Add(new SqlParameter("@pancard", Objform.pancard == null ? "" : Objform.pancard));
+                    cmd.Parameters.Add(new SqlParameter("Is_edp_training", Objform.@Is_edp_training == null ? "" : Objform.@Is_edp_training));
+                    cmd.Parameters.Add(new SqlParameter("@edp_training_ins", Objform.@edp_training_ins == null ? "" : Objform.@edp_training_ins));
+                    cmd.Parameters.Add(new SqlParameter("@other_product_service", Objform.other_product_service == null ? "" : Objform.other_product_service));
+                    // cmd.Parameters.Add(new SqlParameter("@project_cost", Objform.project_cost));
+                    cmd.Parameters.Add(new SqlParameter("@edp_training_ins_code", Objform.@edp_training_ins_code));
+                    cmd.Parameters.Add(new SqlParameter("@proposed_office_pincode", Objform.@proposed_office_pincode == null ? "" : Objform.@proposed_office_pincode));
+                    cmd.Parameters.Add(new SqlParameter("Msg", ""));
+                    cmd.Parameters["Msg"].Size = 256;
+                    cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
+                    cmd.Transaction = transaction;
+                    cmd.ExecuteNonQuery();
+                     message = cmd.Parameters["Msg"].Value.ToString();
+                }
+                else
+                {
+                    con.Close();
+                    con.Dispose();
+                    return message = "Request not authentic";
+                    //return;
+                }
+                transaction.Commit();
+            }
+            catch (Exception ex1)
+            {
+                transaction.Rollback();
+                message = ex1.Message;
+            }
+            finally
+            {
+
+                con.Close();
+                con.Dispose();
+            }
+            return message;
+        }
+
+
         public string InsertUpdateVHPY(vhpp_Applicant Objform, string @sptype, DataTable dt)
         {
             string message = "";
@@ -1669,6 +2364,8 @@ namespace DI.DAL
                 cmd.Parameters.Add(new SqlParameter("u_user_ip", this.IpAddress));
                 cmd.Parameters.Add(new SqlParameter("u_mac", this.MacAddress));
                 cmd.Parameters.Add(new SqlParameter("Sptype", @sptype));
+                cmd.Parameters.Add(new SqlParameter("@curent_add_pincode", ""));
+                cmd.Parameters.Add(new SqlParameter("@permanent_add_pincode", ""));
                 cmd.Parameters.Add(new SqlParameter("Msg", ""));
                 cmd.Parameters["Msg"].Size = 256;
                 cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
@@ -1810,6 +2507,8 @@ namespace DI.DAL
                 cmd.Parameters.Add(new SqlParameter("u_user_ip", this.IpAddress));
                 cmd.Parameters.Add(new SqlParameter("u_mac", this.MacAddress));
                 cmd.Parameters.Add(new SqlParameter("Sptype", @sptype));
+                cmd.Parameters.Add(new SqlParameter("@curent_add_pincode", ""));
+                cmd.Parameters.Add(new SqlParameter("@permanent_add_pincode", ""));
                 cmd.Parameters.Add(new SqlParameter("Msg", ""));
                 cmd.Parameters["Msg"].Size = 256;
                 cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
@@ -1929,6 +2628,8 @@ namespace DI.DAL
                 cmd.Parameters.Add(new SqlParameter("u_user_ip", this.IpAddress));
                 cmd.Parameters.Add(new SqlParameter("u_mac", this.MacAddress));
                 cmd.Parameters.Add(new SqlParameter("Sptype", @sptype));
+                cmd.Parameters.Add(new SqlParameter("@curent_add_pincode", ""));
+                cmd.Parameters.Add(new SqlParameter("@permanent_add_pincode", ""));
                 cmd.Parameters.Add(new SqlParameter("Msg", ""));
                 cmd.Parameters["Msg"].Size = 256;
                 cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
@@ -2070,17 +2771,22 @@ namespace DI.DAL
             }
             return ds;
         }
-        public DataTable GetMYSY_Applicant()
+        public DataTable GetMYSY_Applicant_DIC(string @authority_level, string @ifsc, long @registration_code,string @status)
         {
-            DataTable  ds = new DataTable();
+            DataTable ds = new DataTable();
             con.Open();
             try
             {
                 SqlCommand cmd = new SqlCommand();
                 cmd.Connection = con;
-                cmd.CommandText = "[Proc_GetMYSY_Applicant]";
+                cmd.CommandText = "[Proc_GetMYSY_Applicant_DIC]";
                 cmd.CommandType = CommandType.StoredProcedure;
-                
+                cmd.Parameters.Add(new SqlParameter("@DistictID", @UserSession.LoggedInUser.UserDistictId == 0 ? -1 : @UserSession.LoggedInUser.UserDistictId));
+                cmd.Parameters.Add(new SqlParameter("@authority_level", @authority_level));
+                cmd.Parameters.Add(new SqlParameter("@ifsc", @ifsc));
+                cmd.Parameters.Add(new SqlParameter("@registration_code", @registration_code));
+                cmd.Parameters.Add(new SqlParameter("@status", @status));
+                //@UserSession.LoggedInUser.UserName
                 SqlDataAdapter da = new SqlDataAdapter();
                 da.SelectCommand = cmd;
                 da.Fill(ds);
@@ -2096,6 +2802,7 @@ namespace DI.DAL
             }
             return ds;
         }
+
         public DataSet GetApplicantinfo_mhpy(long registration_code, short scheme_code, string user_name)
         {
             DataSet ds = new DataSet();
@@ -2485,24 +3192,85 @@ namespace DI.DAL
             return dt;
         }
         #endregion
-        //public DataSet GetPramarPatar(long applicant_code)
+
+
+
+
+        #region Report
+        public DataTable Get_online_Report(int district_code_census)
+        {
+            DataTable dt = new DataTable();
+            con.Open();
+            try
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = con;
+                cmd.CommandText = "[sp_Online_reports]";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add(new SqlParameter("district_code_census", district_code_census));
+                SqlDataAdapter da = new SqlDataAdapter();
+                da.SelectCommand = cmd;
+                da.Fill(dt);
+            }
+            catch (Exception e)
+            {
+                dt = null;
+            }
+            finally
+            {
+
+                con.Close();
+                con.Dispose();
+            }
+            return dt;
+        }
+
+        public DataTable Get_Received_Report(int district_code_census)
+        {
+            DataTable dt = new DataTable();
+            con.Open();
+            try
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = con;
+                cmd.CommandText = "[sp_Detail_Report]";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add(new SqlParameter("district_code_census", district_code_census));
+                SqlDataAdapter da = new SqlDataAdapter();
+                da.SelectCommand = cmd;
+                da.Fill(dt);
+            }
+            catch (Exception e)
+            {
+                dt = null;
+            }
+            finally
+            {
+
+                con.Close();
+                con.Dispose();
+            }
+            return dt;
+        }
+        //public DataTable Get_DIC_Report()
         //{
-        //    DataSet ds = new DataSet();
+        //    DataTable dt = new DataTable();
         //    con.Open();
         //    try
         //    {
         //        SqlCommand cmd = new SqlCommand();
         //        cmd.Connection = con;
-        //        cmd.CommandText = "Proc_Get_PramarPatar";
+        //        cmd.CommandText = "[proc_getSummaryReport]";
         //        cmd.CommandType = CommandType.StoredProcedure;
-        //        cmd.Parameters.Add(new SqlParameter("@applicant_code", applicant_code));
+        //        cmd.Parameters.Add(new SqlParameter("distict_code", UserSession.LoggedInUserDistictId));
+        //      //  cmd.Parameters.Add(new SqlParameter("ifsc", ""));
         //        SqlDataAdapter da = new SqlDataAdapter();
         //        da.SelectCommand = cmd;
-        //        da.Fill(ds);
+        //        da.Fill(dt);
         //    }
         //    catch (Exception e)
         //    {
-        //        ds = null;
+        //        dt = null;
         //    }
         //    finally
         //    {
@@ -2510,26 +3278,28 @@ namespace DI.DAL
         //        con.Close();
         //        con.Dispose();
         //    }
-        //    return ds;
+        //    return dt;
         //}
-        //public DataSet Getapplicant_Letter(long applicant_code)
+
+        //public DataTable Get_Bank_Report(int dcode, string ifsc)
         //{
-        //    DataSet ds = new DataSet();
+        //    DataTable dt = new DataTable();
         //    con.Open();
         //    try
         //    {
         //        SqlCommand cmd = new SqlCommand();
         //        cmd.Connection = con;
-        //        cmd.CommandText = "Proc_applicant_Letter";
+        //        cmd.CommandText = "[proc_getSummaryReport]";
         //        cmd.CommandType = CommandType.StoredProcedure;
-        //        cmd.Parameters.Add(new SqlParameter("@applicant_code", applicant_code));
+        //        cmd.Parameters.Add(new SqlParameter("distict_code", dcode));
+        //        //cmd.Parameters.Add(new SqlParameter("ifsc", ifsc));
         //        SqlDataAdapter da = new SqlDataAdapter();
         //        da.SelectCommand = cmd;
-        //        da.Fill(ds);
+        //        da.Fill(dt);
         //    }
         //    catch (Exception e)
         //    {
-        //        ds = null;
+        //        dt = null;
         //    }
         //    finally
         //    {
@@ -2537,9 +3307,155 @@ namespace DI.DAL
         //        con.Close();
         //        con.Dispose();
         //    }
-        //    return ds;
+        //    return dt;
         //}
 
-       
+        public DataTable getsummaryReport()
+        {
+            DataTable dt = new DataTable();
+            con.Open();
+            try
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = con;
+                cmd.CommandText = "[proc_getSummaryReport]";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add(new SqlParameter("distict_code", UserSession.LoggedInUserDistictId == 0 ? -1 : UserSession.LoggedInUserDistictId));
+                //cmd.Parameters.Add(new SqlParameter("ifsc", ""));
+                SqlDataAdapter da = new SqlDataAdapter();
+                da.SelectCommand = cmd;
+                da.Fill(dt);
+            }
+            catch (Exception e)
+            {
+                dt = null;
+            }
+            finally
+            {
+
+                con.Close();
+                con.Dispose();
+            }
+            return dt;
+        }
+        public DataTable GetMYSY_Applicant_StatusWise(string @status, int @District_code, string @bank_username)
+        {
+            DataTable dt = new DataTable();
+            con.Open();
+            try
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = con;
+                cmd.CommandText = "[proc_GetMYSY_Applicant_StatusWise]";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add(new SqlParameter("@status", @status));
+                cmd.Parameters.Add(new SqlParameter("@District_code", @District_code));
+                cmd.Parameters.Add(new SqlParameter("@bank_username", @bank_username));
+                SqlDataAdapter da = new SqlDataAdapter();
+                da.SelectCommand = cmd;
+                da.Fill(dt);
+            }
+            catch (Exception e)
+            {
+                dt = null;
+            }
+            finally
+            {
+
+                con.Close();
+                con.Dispose();
+            }
+            return dt;
+        }
+        public DataTable Get_DICApplicant_Report(int district_code_census, string ifsc, string status)
+        {
+            DataTable dt = new DataTable();
+            con.Open();
+            try
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = con;
+                cmd.CommandText = "[proc_Report_DIC_DLTFC_Bank]";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add(new SqlParameter("distict_code", district_code_census));
+                cmd.Parameters.Add(new SqlParameter("ifsc", ""));
+                cmd.Parameters.Add(new SqlParameter("status", status));
+                SqlDataAdapter da = new SqlDataAdapter();
+                da.SelectCommand = cmd;
+                da.Fill(dt);
+            }
+            catch (Exception e)
+            {
+                dt = null;
+            }
+            finally
+            {
+
+                con.Close();
+                con.Dispose();
+            }
+            return dt;
+        }
+
+        //public DataTable Get_State_Report(int dcode, string ifsc)
+        //{
+        //    DataTable dt = new DataTable();
+        //    con.Open();
+        //    try
+        //    {
+        //        SqlCommand cmd = new SqlCommand();
+        //        cmd.Connection = con;
+        //        cmd.CommandText = "[proc_getSummaryReport]";
+        //        cmd.CommandType = CommandType.StoredProcedure;
+        //        cmd.Parameters.Add(new SqlParameter("distict_code", -1));
+        //        cmd.Parameters.Add(new SqlParameter("ifsc", ""));
+        //        SqlDataAdapter da = new SqlDataAdapter();
+        //        da.SelectCommand = cmd;
+        //        da.Fill(dt);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        dt = null;
+        //    }
+        //    finally
+        //    {
+
+        //        con.Close();
+        //        con.Dispose();
+        //    }
+        //    return dt;
+        //}
+
+        public DataTable Get_BankApplicant_Report(int district_code_census, string ifsc, string status)
+        {
+            DataTable dt = new DataTable();
+            con.Open();
+            try
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = con;
+                cmd.CommandText = "[proc_Report_DIC_DLTFC_Bank]";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add(new SqlParameter("distict_code", district_code_census));
+                cmd.Parameters.Add(new SqlParameter("ifsc", ifsc));
+                cmd.Parameters.Add(new SqlParameter("status", status));
+                SqlDataAdapter da = new SqlDataAdapter();
+                da.SelectCommand = cmd;
+                da.Fill(dt);
+            }
+            catch (Exception e)
+            {
+                dt = null;
+            }
+            finally
+            {
+
+                con.Close();
+                con.Dispose();
+            }
+            return dt;
+        }
+        #endregion 
+
     }
 }

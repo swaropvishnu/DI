@@ -97,6 +97,7 @@ namespace DI.Models
 
 
         public string UserId { get; set; }
+        public string login_type { get; set; }
         //[Required]
         //public string UserName { get; set; }
         [Required]
@@ -105,6 +106,7 @@ namespace DI.Models
         public string UserMobile { get; set; }
         public string UserEmail { get; set; }
         public string UserAddress { get; set; }
+        public string Designation { get; set; }
         public short yojana_code { get; set; }
         public byte[] UserImage { get; set; }
     }

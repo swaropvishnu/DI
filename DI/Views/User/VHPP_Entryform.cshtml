@@ -2,6 +2,11 @@
 @{
     ViewBag.Title = "VHPP_Entryform";
     Layout = "~/Views/Shared/UserLayout.cshtml";
+    if (UserSession.LoggedInUserLevelId == null || UserSession.LoggedInUserLevelId != "30")
+    {
+        Response.Redirect("../Login/Registration_Login");
+        return;
+    }
 }
 @using (Html.BeginForm("VHPP_Entryform", "User", FormMethod.Post, new { @class = "", enctype = "multipart/form-data" }))
 {

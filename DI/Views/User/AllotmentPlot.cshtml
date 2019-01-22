@@ -2,6 +2,11 @@
 @{
     ViewBag.Title = "AllotmentPlot";
     Layout = "~/Views/Shared/_PublicPage.cshtml";
+    if (UserSession.LoggedInUserLevelId == null || UserSession.LoggedInUserLevelId != "30")
+    {
+        Response.Redirect("../Login/login");
+        return;
+    }
 }
 <style>
     .Mandatory {

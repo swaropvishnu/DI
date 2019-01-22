@@ -1,0 +1,274 @@
+﻿
+@{
+    ViewBag.Title = "Online_Report";
+    Layout = null;
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using System.Data;
+@using DI.Models;
+@using DI.DAL;
+@using DI.BLL;
+
+@{
+    //var grid = new WebGrid(Model, rowsPerPage: 20);
+    DataTable dt = new DataTable();
+
+    dt = new CommonDA().Get_online_Report(UserSession.LoggedInUserDistictId);
+
+}
+
+@using (Html.BeginForm("Online_Report", "Report", FormMethod.Post, new { @class = "", enctype = "multipart/form-data" }))
+{
+
+    <style>
+        .form-control1 {
+            width: 10%;
+            height: 50px;
+            background-color: #fff;
+            border: 1px solid black;
+        }
+
+        .form-control2 {
+            width: 5%;
+            height: 50px;
+            background-color: #fff;
+            border: 1px solid black;
+        }
+
+        .form-control3 {
+            width: 4%;
+            height: 50px;
+            background-color: #fff;
+            border: 1px solid black;
+        }
+
+        .form-control4 {
+            width: 10%;
+            height: 50px;
+            background-color: #fff;
+            border: 1px solid black;
+        }
+
+        .form-control5 {
+            width: 0%;
+            height: 50px;
+            background-color: #fff;
+            border: 1px solid black;
+        }
+
+        .form-control6 {
+            width: 0.5%;
+            height: 50px;
+            background-color: #fff;
+            border: 1px solid black;
+        }
+
+        th {
+            border: 1px solid rgb(190, 190, 190);
+            padding: 10px;
+        }
+
+        td {
+            text-align: center;
+        }
+
+        tr:nth-child(even) {
+            background-color: #eee;
+        }
+
+        th[scope="col"] {
+            background-color: #696969;
+            color: #fff;
+        }
+
+        th[scope="row"] {
+            background-color: #d7d9f2;
+        }
+
+        caption {
+            padding: 10px;
+            caption-side: bottom;
+        }
+
+        table {
+            border-collapse: collapse;
+            border: 2px solid rgb(200, 200, 200);
+            letter-spacing: 1px;
+            font-family: sans-serif;
+            font-size: .8rem;
+        }
+    </style>
+
+    <h4 align="center">UTTAR PRADESH</h4>
+    <div class="am-pagebody" style="padding:20px">
+
+        <table  class="table table-striped table-bordered table-hover" id="Datatable">
+
+            <thead>
+                <tr>
+                    <th class="form-control6" rowspan="2">srno</th>
+                    <th class="form-control3" rowspan="2">District Name</th>
+                    <th colspan="6" class="form-control1">No of Applications at Agency	</th>
+                    <th colspan="2"class="form-control6"> DLTFC</th>
+                    <th class="form-control3" rowspan="3">No of Applications Forwarded to Bank</th>
+                    <th colspan="2" class="form-control2">Sanctioned by Bank</th>
+                    <th colspan="2" class="form-control3" rowspan="3">EDP Training undergone ( In Nos)</th>
+                    <th colspan="2" class="form-control2">MM Claimed</th>
+                    <th colspan="2" class="form-control2">MM Disbursement</th>
+                    <th colspan="2" class="form-control6" rowspan="3">TDR</th>
+                    <th colspan="2" class="form-control6" rowspan="3">Pending for EDP Training (in No)</th>
+                    <th colspan="2" class="form-control6" rowspan="3">No of Applications Rejected by Bank</th>
+                    <th colspan="2" class="form-control2">Pending at Bank</th>                   
+                    <th colspan="6" class="form-control1">Pending for MM Disbursement</th>
+
+                    <th colspan="2" class="form-control6" rowspan="3">Bank wise Detail view</th>
+                    <th colspan="2" class="form-control6" rowspan="3">District wise Detail view</th>
+                </tr>
+
+                <tr>
+
+                    <th colspan="2" class="form-control5">Received</th>
+                    <th colspan="2" class="form-control5">Rejected</th>
+           <th colspan="2" class="form-control5">Forwarded to DLTFC</th>
+
+                    <th class="form-control5" rowspan="2">Approved</th>
+                    <th class="form-control5" rowspan="2">Rejected</th>
+                   
+
+                    <th class="form-control5" rowspan="2">No of Prj.</th>
+                    <th class="form-control5" rowspan="2">MM Involve(In Lakh)</th>
+                    
+                   <th class="form-control5" rowspan="2">No of Prj.</th>
+                    <th class="form-control5" rowspan="2">MM (In Lakh)</th>
+
+                    <th class="form-control5" rowspan="2">No of Prj.</th>
+                    <th class="form-control5" rowspan="2">MM (In Lakh)</th>
+
+                    <th class="form-control5" rowspan="2">No of Prj.</th>
+                    <th class="form-control5" rowspan="2">MM Involve (In Lakh)</th>
+                 
+                    <th colspan="2" class="form-control5">No of Prj Referred for Rectification</th>
+                    <th colspan="2" class="form-control5">Total</th>
+                    <th colspan="2" class="form-control5">MM(In Lakh)</th>
+                </tr>
+                
+                
+            </thead>
+            <tbody>
+                @if (dt != null)
+                {
+                    if (dt.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < dt.Rows.Count; i++)
+                        {
+                            <tr role="row" class="filter">
+                                <td>@(i + 1)</td>
+                                <td>@dt.Rows[i]["dist_name"].ToString().Trim()</td>
+                                <td><a href="../Report/Received_Report?Code=DLTFC">@dt.Rows[i]["Recieved"].ToString().Trim()</a></td>
+                                <td></td>
+                                <td><a href="">@dt.Rows[i]["Rejected"].ToString().Trim()</a></td>
+                                <td></td>
+                                <td>@dt.Rows[i]["Forwarded_DLTFC"].ToString().Trim()</td>
+                                <td></td>
+                                <td>@dt.Rows[i]["DLTFCApproved"].ToString().Trim()</td>
+                                <td>@dt.Rows[i]["DLTFCRejected"].ToString().Trim()</td>
+                                <td>@dt.Rows[i]["Applications_Forwarded_Bank"].ToString().Trim()</td>
+                                <td>@dt.Rows[i]["No_of_Prj_Count"].ToString().Trim()</td>                              
+                                <td>@dt.Rows[i]["projectcost"].ToString().Trim()</td>
+                                <td>@dt.Rows[i]["Is_edp_training"].ToString().Trim()</td>  
+                                <td></td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>                            
+                                <td>0</td>
+                                <td></td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td></td>
+                                <td>0</td>
+                                <td></td>
+                                <td>0</td>
+                                <td>0</td>
+
+                                <td>0</td>
+                                <td></td>
+                                <td>0</td>
+                                <td></td>
+                                <td>0</td>
+                                <td></td>
+                                <td>0</td>
+                                <td></td>
+                                <td>0</td>
+                            </tr>
+                        }
+                    }
+                }
+
+            </tbody>
+
+        </table>
+
+
+    </div>
+    <script>
+
+    window.onload = L;
+    function L() {
+        debugger;
+        var table = $('#Datatable');
+
+        var oTable = table.dataTable({
+
+            // Internationalisation. For more info refer to http://datatables.net/manual/i18n
+            "language": {
+                "aria": {
+                    "sortAscending": ": activate to sort column ascending",
+                    "sortDescending": ": activate to sort column descending"
+                },
+                "emptyTable": "No data available in table",
+                "info": "Showing _START_ to _END_ of _TOTAL_ entries",
+                "infoEmpty": "No entries found",
+                "infoFiltered": "(filtered1 from _MAX_ total entries)",
+                "lengthMenu": "_MENU_ entries",
+                "search": "Search:",
+                "zeroRecords": "No matching records found"
+            },
+            // Or you can use remote translation file
+            //"language": {
+            //   url: '//cdn.datatables.net/plug-ins/3cfcc339e89/i18n/Portuguese.json'
+            //},
+            buttons: [
+                { extend: 'print', className: 'btn dark' },
+                { extend: 'pdf', className: 'btn purple' },
+                { extend: 'excel', className: 'btn yellow ' },
+                { extend: 'colvis', className: 'btn red', text: 'Columns' }
+            ],
+            // setup responsive extension: http://datatables.net/extensions/responsive/
+            responsive: true,
+            //"ordering": false, disable column ordering
+            //"paging": false, disable pagination
+            "order": [
+                [0, 'asc']
+            ],
+
+            "lengthMenu": [
+                [5, 10, 15, 20, -1],
+                [5, 10, 15, 20, "All"] // change per page values here
+            ],
+            // set the initial value
+            "pageLength": 10,
+
+            "dom": "<'row' <'col-md-12'B>><'row'<'col-md-6 col-sm-12'l><'col-md-6 col-sm-12'f>r><'table-scrollable't><'row'<'col-md-5 col-sm-12'i><'col-md-7 col-sm-12'p>>", // horizobtal scrollable datatable
+
+            // Uncomment below line("dom" parameter) to fix the dropdown overflow issue in the datatable cells. The default datatable layout
+            // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js).
+            // So when dropdowns used the scrollable div should be removed.
+            //"dom": "<'row' <'col-md-12'T>><'row'<'col-md-6 col-sm-12'l><'col-md-6 col-sm-12'f>r>t<'row'<'col-md-5 col-sm-12'i><'col-md-7 col-sm-12'p>>",
+        });
+    }
+    </script>
+}
+
+
+

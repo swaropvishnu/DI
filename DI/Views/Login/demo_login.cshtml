@@ -1,0 +1,231 @@
+﻿
+@{
+   
+    Layout = null;
+}
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+   
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    @*<script src="~/scripts/jquery-3.2.1.min.js"></script>
+    <script src="~/scripts/bootstrap.min.js"></script>*@
+    <style>
+        .portlet.light  .portlet-title {
+    padding: 0;
+    min-height: 0px;
+        border-bottom: 1px solid #eee;
+   
+    margin-bottom: 10px;
+    min-height: 41px;
+    -webkit-border-radius: 2px 2px 0 0;
+    -moz-border-radius: 2px 2px 0 0;
+    -ms-border-radius: 2px 2px 0 0;
+    -o-border-radius: 2px 2px 0 0;
+    border-radius: 2px 2px 0 0;
+}
+
+*, :after, :before {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+        .Mandatory {
+            color: red !important;
+        }
+
+        .white {
+            color: #000;
+            background-color: #fff;
+        }
+
+        .btn-facebook {
+            color: #ffffff;
+            -webkit-text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+            text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+            background-color: #2b4b90;
+            *background-color: #133783;
+            background-image: -moz-linear-gradient(top, #3b5998, #133783);
+            background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#3b5998), to(#133783));
+            background-image: -webkit-linear-gradient(top, #3b5998, #133783);
+            background-image: -o-linear-gradient(top, #3b5998, #133783);
+            background-image: linear-gradient(to bottom, #3b5998, #133783);
+            background-repeat: repeat-x;
+            border-color: #133783 #133783 #091b40;
+            border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff3b5998', endColorstr='#ff133783', GradientType=0);
+            filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+        }
+
+            .btn-facebook:hover,
+            .btn-facebook:focus,
+            .btn-facebook:active,
+            .btn-facebook.active,
+            .btn-facebook.disabled,
+            .btn-facebook[disabled] {
+                color: #ffffff;
+                background-color: #133783 !important;
+                *background-color: #102e6d !important;
+            }
+
+            .btn-facebook:active,
+            .btn-facebook.active {
+                background-color: #0d2456 \9 !important;
+            }
+
+        .panel-heading {
+            text-align: center;
+            background-color: #295888 !important;
+            color: #fff !important;
+        }
+
+        .panel-heading2 {
+            text-align: center;
+            background-color: #38af05 !important;
+            color: #fff !important;
+            height: 30px;
+        }
+
+        .panel01 {
+            padding: 10px;
+        }
+
+        .panel02 {
+            border: 1px solid #d2d0d0;
+            padding: 10px;
+        }
+
+        .panel03 {
+            padding: 10px;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none !important;
+            border-color: #38af05 !important;
+            box-shadow: 0 0 10px #38af05 !important;
+        }
+
+        .pointer {
+            cursor: pointer;
+        }
+    </style>
+   
+  
+    
+    
+   
+</head>
+<body style="background-color:#fff" oncontextmenu="return false;">
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="col-md-12 col-md-2offset panel01">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Login to your account</h3>
+
+                        </div>
+                        <div class="panel-body">
+                            <form accept-charset="UTF-8" role="form">
+                                <fieldset>
+
+                                   
+                                    <div class="form-group">
+                                       
+                                        <label class="control-label visible-ie8 visible-ie9">Username</label>
+                                        <div class="input-icon">
+                                            <i class="fa fa-user"></i>
+                                            <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="Username" name="username" id="txtUserName">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label visible-ie8 visible-ie9">Password</label>
+                                        <div class="input-icon">
+                                            <i class="fa fa-lock"></i>
+                                            <input class="form-control placeholder-no-fix" type="password" autocomplete="off" placeholder="Password" name="password" id="txtPassword">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="Enter Captcha" name="txtforcapture" id="txtforcapture" maxlength="6">
+                                            </div>
+
+                                            <div class="col-lg-3">
+                                                <label id="lblCaptcha"><img id="image" src="~/Login/ShowCaptchaImage" style="margin-top: 8px;" /></label>
+                                            </div>
+                                            <div class="col-lg-3" style="font-weight:bolder; margin-top: 18px;">
+                                                <a href="#" onclick="javascript:ReloadCaptchaCode();">Refresh</a>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="form-actions">
+                                        <label class="rememberme mt-checkbox mt-checkbox-outline">
+                                            <input type="checkbox" name="remember" value="1"> Remember me
+                                            <span></span>
+                                        </label>
+                                        <button type="button" class="btn green pull-right" onclick="HashPwdwithSalt();"> Login </button>
+                                    </div>
+                                   
+                                </fieldset>
+                            </form>
+                        </div>
+                        @*<a onclick="fun_forget()" style="text-align:right; padding-bottom:inherit ;cursor:pointer">Forgot your password </a>*@
+                     
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="col-md-8 panel03">
+                <div class="portlet light " style="border: 1px solid #ddd;box-shadow: 0 0 4px #ddd; border-radius: 6px 6px;" id="divdownloads">
+                    <div class="portlet-title tabbable-line">
+                        <div class="caption" id="down">
+                            <i class="icon-cloud-download font-dark"></i>
+                            <span class="caption-subject font-dark bold uppercase">Instructions</span>
+                        </div>
+                        <ul class="nav nav-tabs">
+                            <li class="active">
+                                <a href="#portlet_tab2_1" data-toggle="tab" id="instruction" aria-expanded="true"> Links </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="portlet_tab2_1">
+                                <h4>दस्तावेजों की सूची :-</h4>
+                                <ul>
+                                    <li> निर्धारित प्रारूप पर पूर्ण रूप से भरा हुआ प्राथना पत्र </li>
+                                    <li> आधार कार्ड की स्व प्रमाणित छाया प्रति</li>
+                                    <li> परियोजना रिपोर्ट जिसके प्रत्येक पृष्ठ पर अभियार्थी के हस्ताक्षर होंगे </li>
+                                    <li> बैंक पास बुक  अध्यातन एंट्री सहित छाया प्रति</li>
+                                    <li>योजना से सम्बंधित सभी विवरण के साथ नोटरी द्वारा प्रमाणित शपथ पत्र</li>
+                                    <li> शैक्षणिक योग्यता संबंधी प्रमाण-पत्र(हाई स्कूल या समकक्ष)</li>
+                                    <li> उत्तर प्रदेश के मूल निवासी होने का प्रमाण पत्र </li>
+                                    <li> नयी इकाई का प्रमाण पत्र </li>
+                                    <li>अनु. जाति/ जन.जा /पिछड़ा वर्ग /अल्पसंख्यक / विकलांग / भूतपूर्व सैनिक होने का प्रमाण पत्र </li>
+                                    <li>कार्यस्थल  निजी होने का प्रमाण पत्र अथवा ०७ वर्ष की किरायादारी का अनुबंध  पत्र </li>
+                                    <li>आवेदक की आयु १८ से ४० वर्ष के मध्य होनी चाहिए </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    
+
+    
+
+</body>
+</html>

@@ -1,0 +1,209 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Report_Layout</title>
+</head>
+<body>
+    <div> 
+    </div>
+</body>
+</html>
+<html lang="en">
+@{
+    if (UserSession.LoggedInUserLevelId == null && UserSession.LoggedInUserLevelId == "30")
+    {
+        Response.Redirect("../Login/login");
+        return;
+    }
+
+}
+<head>
+    <meta charset="utf-8" />
+    <title>Industries</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <meta content="Director of Industries" name="description" />
+    <meta content="" name="author" />
+    <!-- BEGIN GLOBAL MANDATORY STYLES -->
+
+
+    @Styles.Render("~/Content/cssBlank")
+    @Styles.Render("~/Content/cssDash")
+    @Styles.Render("~/Content/ReportCss")
+
+    <link rel="shortcut icon" href="favicon.ico" />
+
+
+    @Scripts.Render("~/bundles/bootstrapBlank")
+    @Scripts.Render("~/bundles/bootstrapDash")
+    @Scripts.Render("~/bundles/ReportJs")
+    @*@Scripts.Render("~/bundles/gmap3")*@
+    @*@(Html.GoogleMap().ScriptRegistrar())*@
+
+    <script>
+      $.gmap3({
+        key: 'AIzaSyBOYfwN5dgGQislPPsZMYcEt2EE98N5O4A'
+      });
+
+    </script>
+
+    <script type="text/javascript">
+        var specialKeys = new Array();
+        specialKeys.push(8); //Backspace
+        specialKeys.push(9); //Tab
+        specialKeys.push(46); //Delete
+        specialKeys.push(36); //Home
+        specialKeys.push(35); //End
+        specialKeys.push(37); //Left
+        specialKeys.push(39); //Right
+        specialKeys.push(32); //SPACE
+        function IsAlphaNumeric(e) {
+            var keyCode = e.keyCode == 0 ? e.charCode : e.keyCode;
+            if (keyCode == 32) {
+                return true;
+            }
+            var ret = ((keyCode >= 48 && keyCode <= 57) || (keyCode >= 65 && keyCode <= 90) || (keyCode >= 97 && keyCode <= 122) || (specialKeys.indexOf(e.keyCode) != -1 && e.charCode != e.keyCode));
+
+            return ret;
+        }
+    </script>
+
+
+    @*<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+        <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>*@
+
+    @*<link rel="stylesheet" href="/resources/demos/style.css">*@
+    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+    <script src="~/Content/plugins/jquery-ui.js"></script>
+    <style>
+        input:focus, textarea:focus, select:focus {
+            outline: none !important;
+            border-color: #38af05 !important;
+            box-shadow: 0 0 10px #38af05 !important;
+        }
+
+        .Mandatory {
+            color: red !important;
+        }
+    </style>
+    <script>
+
+    document.onkeypress = function (event) {
+        event = (event || window.event);
+        if (event.keyCode == 123) {
+            return false;
+        }
+    }
+    document.onmousedown = function (event) {
+        event = (event || window.event);
+        if (event.keyCode == 123) {
+            return false;
+        }
+    }
+    document.onkeydown = function (event) {
+        event = (event || window.event);
+        if (event.keyCode == 123) {
+            return false;
+        }
+    }
+    </script>
+</head>
+<!-- END HEAD -->
+<body class="page-header-fixed page-sidebar-closed-hide-logo page-container-bg-solid page-md" oncontextmenu="return false;">
+    @*<body ng-controller="AppController" class="page-header-fixed page-sidebar-closed-hide-logo page-container-bg-solid page-md" ng-class="{'page-sidebar-closed': settings.layout.pageSidebarClosed}">*@
+    <!-- BEGIN HEADER -->
+    @*<div class="page-header navbar navbar-fixed-top">
+        <!-- BEGIN HEADER INNER -->
+        <div class="page-header-inner ">
+            <!-- BEGIN LOGO -->
+            <div class="page-logo">
+
+
+
+               
+            </div>
+          
+            <a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse"> </a>
+            <!-- END RESPONSIVE MENU TOGGLER -->
+            <!-- BEGIN PAGE ACTIONS -->
+            <!-- DOC: Remove "hide" class to enable the page header actions -->
+            <div class="page-actions">
+                <img src="~/Content/assets/layouts/layout2/img/textindustry.png" alt="logo" class="logo-default" style="margin-top: -15px" />
+
+
+           
+            </div>
+            <!-- END PAGE ACTIONS -->
+            <!-- BEGIN PAGE TOP -->
+            <div class="page-top">
+               
+                
+                <!-- END TOP NAVIGATION MENU -->
+            </div>
+            <!-- END PAGE TOP -->
+        </div>
+        <!-- END HEADER INNER -->
+    </div>*@
+    <!-- END HEADER -->
+    <!-- BEGIN HEADER & CONTENT DIVIDER -->
+    <div class="clearfix"> </div>
+    <!-- END HEADER & CONTENT DIVIDER -->
+    <!-- BEGIN CONTAINER -->
+    <div class="page-container">
+        <!-- BEGIN SIDEBAR -->
+   
+        <!-- END SIDEBAR -->
+        <!-- BEGIN CONTENT -->
+        <div class="page-content-wrapper">
+            <!-- BEGIN CONTENT BODY -->
+            <div>
+
+
+         
+                @RenderBody()
+                @*</div>*@
+            </div>
+        </div>
+        <!-- END CONTENT BODY -->
+    </div>
+    <!-- END CONTENT -->
+    <!-- BEGIN QUICK SIDEBAR -->
+    <a href="javascript:;" class="page-quick-sidebar-toggler">
+        <i class="icon-login"></i>
+    </a>
+    <div class="page-quick-sidebar-wrapper" data-close-on-body-click="false">
+        <div class="page-quick-sidebar">
+
+            
+        </div>
+    </div>
+    <!-- END QUICK SIDEBAR -->
+    <!-- END CONTAINER -->
+    <!-- BEGIN FOOTER -->
+    <div class="page-footer">
+        <div class="page-footer-inner">
+            2016 &copy; Director of Industries By
+            <a target="_blank" href="http://nicsu.up.nic.in">NICSU</a> &nbsp;|&nbsp;
+            <a href="http://upgov.nic.in" title="National Informatics Center State Unit" target="_blank">Uttar Pradesh</a>
+            <div class="scroll-to-top">
+                <i class="icon-arrow-up"></i>
+            </div>
+        </div>
+      
+        <div class="quick-nav-overlay"></div>
+
+    </div>
+
+
+    @RenderSection("scripts", required: false)
+
+
+</body>
+</html>

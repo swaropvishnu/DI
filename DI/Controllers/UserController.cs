@@ -3,6 +3,7 @@ using DI.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Entity.Infrastructure;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -15,6 +16,9 @@ using System.Web.Security;
 
 namespace DI.Controllers
 {
+    [SessionExpireFilter]
+    //[CheckAuthorization]
+    [HandleError(ExceptionType = typeof(DbUpdateException), View = "Error")]
     public class UserController : Controller
     {
         public ActionResult AllotmentPlot()
@@ -30,6 +34,10 @@ namespace DI.Controllers
             return View();
         }
         public ActionResult Print_MHPY()
+        {
+            return View();
+        }
+        public ActionResult MYSY_Plant_Machinery_print()
         {
             return View();
         }
@@ -198,15 +206,25 @@ namespace DI.Controllers
                 {
                     if (ds.Tables[0] != null)
                     {
+                        if (int.Parse(ds.Tables[0].Rows[0]["steps"].ToString().Trim()) <=3)
+                        {
+                            string mesg = Message("MYSY", ds.Tables[0].Rows[0]["steps"].ToString().Trim());
+                            PM.steps = "-1";
+                            PM.message  = mesg;
+                            return View(PM);
+                        }
                         if (ds.Tables[0].Rows.Count > 0)
                         {
+                            PM.fixed_deposite = decimal.Parse(ds.Tables[0].Rows[0]["machinery_cost"].ToString().Trim());
+                            PM.working_capital = decimal.Parse(ds.Tables[0].Rows[0]["working_capital"].ToString().Trim());
+                            PM.project_cost = decimal.Parse(ds.Tables[0].Rows[0]["project_cost"].ToString().Trim());
                             PM.address = ds.Tables[0].Rows[0]["permanent_address"].ToString().Trim();
                             PM.adhar_no = ds.Tables[0].Rows[0]["adhar_no"].ToString().Trim();
                             PM.applicant_name = ds.Tables[0].Rows[0]["applicant_name"].ToString().Trim();
                             PM.father_name = ds.Tables[0].Rows[0]["father_name"].ToString().Trim();
                             PM.mobile_no = ds.Tables[0].Rows[0]["mobile_no"].ToString().Trim();
                             PM.office_address = ds.Tables[0].Rows[0]["proposed_office_address"].ToString().Trim();
-                            PM.manufacturing = ds.Tables[0].Rows[0]["manufacturing"].ToString().Trim();
+                            PM.manufacturing = ds.Tables[0].Rows[0]["Industry_apply"].ToString().Trim();
                             PM.registration_code = ds.Tables[0].Rows[0]["registration_code"].ToString().Trim();
                            
                         }
@@ -220,28 +238,39 @@ namespace DI.Controllers
                                     str.Append("<tr>");
                                     str.Append("<td>" + (i + 1) + "</td>");
                                     str.Append("<td><input type='text' id='txtMachine" + (i + 1) + "' placeholder='Title' name='txtMachine' value='" + ds.Tables[4].Rows[i]["machine_name"].ToString().Trim() + "' maxlength='100'></td>");
-                                    str.Append("<td><input type='text' id='txtcost" + (i + 1) + "' placeholder='Title' name='txtcost' value='" + ds.Tables[4].Rows[i]["price"].ToString().Trim() + "' maxlength='100'></td>");
+
                                     str.Append("<td><input type='text' id='txtsupplier" + (i + 1) + "' placeholder='Title' name='txtsupplier' value='" + ds.Tables[4].Rows[i]["supplier"].ToString().Trim() + "' maxlength='100'></td>");
-                                    str.Append("<td><input type='button' value='Delete' class='btn red' id='btnadd' onclick='del(" + (i + 1) + ")'></td>");
+
+                                    str.Append("<td><input type='text' id='txtcost" + (i + 1) + "' placeholder='Title' name='txtcost' value='" + ds.Tables[4].Rows[i]["price"].ToString().Trim() + "' maxlength='100' onkeyup='sumcost()'></td>");
+
+                                    str.Append("<td><input type='button' value='Delete' class='btn red' id='btnadd' onclick='del(this)'></td>");
                                     str.Append("</tr>");
                                 }
                                 PM.machinetable = str.ToString().Trim();
                                 PM.steps = "1";
-                                PM.fixed_deposite = decimal.Parse(ds.Tables[4].Rows[0]["fixed_deposite"].ToString().Trim());
-                                PM.working_capital = decimal.Parse(ds.Tables[4].Rows[0]["working_capital"].ToString().Trim());
-                                PM.project_cost = decimal.Parse(ds.Tables[4].Rows[0]["project_cost"].ToString().Trim());
-                                PM.Marketingsystem = ds.Tables[0].Rows[0]["marketing"].ToString().Trim();
+                                
+                                PM.Marketingsystem = ds.Tables[4].Rows[0]["marketing"].ToString().Trim();
                             }
                             else
                             {
                                 PM.steps = "0";
+                                PM.message = "";
                             }
                         }
                         if (ds.Tables[5] != null)
                         {
                             if (ds.Tables[5].Rows.Count > 0)
                             {
-                                PM.steps = "2";
+                                PM.self_share = decimal.Parse(ds.Tables[5].Rows[0]["self_share"].ToString());
+                                PM.bank_loan = decimal.Parse(ds.Tables[5].Rows[0]["bank_loan"].ToString());
+                                PM.margin_money = decimal.Parse(ds.Tables[5].Rows[0]["margin_money"].ToString());
+                                if (int.Parse(ds.Tables[5].Rows[0]["steps"].ToString().Trim())>=6)
+                                {
+                                    PM.steps = "2";
+                                    PM.message = "";
+                                    
+                                }
+                                
                             }
                         }
 
@@ -254,9 +283,9 @@ namespace DI.Controllers
 
             return View(PM);
         }
-        public JsonResult Getifsc(string Prefix)
+        public JsonResult Getifsc(string Prefix, int District,int bank_code)
         {
-            DataTable dt = new DAL.CommonDA().Getifsc(Prefix);
+            DataTable dt = new DAL.CommonDA().Getifsc(Prefix, District, bank_code);
 
             List<ifsc> SL = new List<ifsc>();
             for (int i = 0; i < dt.Rows.Count; i++)
@@ -272,8 +301,8 @@ namespace DI.Controllers
 
             return Json(SL, JsonRequestBehavior.AllowGet);
         }
-
-        public ActionResult CMYS_SchemeEntryForm()
+        #region MYSY_scheme
+        public ActionResult MYSY_SchemeForm()
         {
             CMYSS_Applicant CM = new CMYSS_Applicant();
             try
@@ -285,6 +314,7 @@ namespace DI.Controllers
                     {
                         if (ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
                         {
+                            CM.Is_village = ds.Tables[0].Rows[0]["Is_village"].ToString().Trim();
                             CM.applicant_name = ds.Tables[0].Rows[0]["applicant_name"].ToString().Trim();
                             CM.inputdob = ds.Tables[0].Rows[0]["dob"].ToString().Trim();
                             CM.applicant_code = long.Parse(ds.Tables[0].Rows[0]["registration_code"].ToString().Trim());
@@ -319,7 +349,7 @@ namespace DI.Controllers
                             CM.proposed_office_block = int.Parse(ds.Tables[0].Rows[0]["proposed_office_block"].ToString().Trim()) == 0 ? -1 : int.Parse(ds.Tables[0].Rows[0]["proposed_office_block"].ToString().Trim()); ;
                             CM.proposed_office_village = int.Parse(ds.Tables[0].Rows[0]["proposed_office_village"].ToString().Trim()) == 0 ? -1 : int.Parse(ds.Tables[0].Rows[0]["proposed_office_village"].ToString().Trim());
                             CM.qualification_code = int.Parse(ds.Tables[0].Rows[0]["qualification_code"].ToString().Trim()) == 0 ? -1 : int.Parse(ds.Tables[0].Rows[0]["qualification_code"].ToString().Trim());
-                            CM.industry_code = int.Parse(ds.Tables[0].Rows[0]["industry_code"].ToString().Trim());
+                            CM.product_service_code = int.Parse(ds.Tables[0].Rows[0]["product_service_code"].ToString().Trim());
                             CM.category_suffix = (ds.Tables[0].Rows[0]["category_suffix"].ToString().Trim() == "" ? "-1" : ds.Tables[0].Rows[0]["category_suffix"].ToString().Trim());
                             CM.industry_activity = (ds.Tables[0].Rows[0]["industry_activity_suffix"].ToString().Trim());
                             CM.sp_category_suffix = (ds.Tables[0].Rows[0]["sp_category_suffix"].ToString().Trim() == "" ? "-1" : ds.Tables[0].Rows[0]["sp_category_suffix"].ToString().Trim());
@@ -329,6 +359,7 @@ namespace DI.Controllers
                             CM.Is_edp_training = (ds.Tables[0].Rows[0]["Is_edp_training"].ToString().Trim());
                             CM.edp_training_ins = (ds.Tables[0].Rows[0]["edp_training_ins"].ToString().Trim());
                             CM.sponsoring_office_code = int.Parse(ds.Tables[0].Rows[0]["sponsoring_office_code"].ToString().Trim());
+                            CM.dist_name = (ds.Tables[0].Rows[0]["dist_name"].ToString().Trim());
                             StringBuilder str = new StringBuilder();
                             if (ds.Tables[1] != null && ds.Tables[1].Rows.Count > 0)
                             {
@@ -373,7 +404,7 @@ namespace DI.Controllers
                                             str.Append("<td><input type='text' id='txtName" + (i + 1) + "' placeholder='Title' name='txtName' value='" + dtOther.Rows[i]["person_name"].ToString().Trim() + "' maxlength='50'></td>");
                                             str.Append("<td><input type='text' id='txtAge" + (i + 1) + "' placeholder='Title' name='txtAge' value='" + dtOther.Rows[i]["age"].ToString().Trim() + "' maxlength='2'></td>");
                                             str.Append("<td><input type='text' id='txtWork" + (i + 1) + "' placeholder='Title' name='txtWork' value='" + dtOther.Rows[i]["workingfield"].ToString().Trim() + "' maxlength='50'></td>");
-                                            str.Append("<td><input type='button' value='Delete' class='btn red' id='btnadd' onclick='del(" + (i + 1) + ")'></td>");
+                                            str.Append("<td><input type='button' value='Delete' class='btn red' id='btnadd' onclick='del(this)'></td>");
                                             str.Append("</tr>");
                                         }
                                     }
@@ -384,9 +415,18 @@ namespace DI.Controllers
                                 CM.Father_Name = ds.Tables[0].Rows[0]["father_name"].ToString().Trim();
                             }
                             CM.OtherRelation = str.ToString().Trim();
-                            CM.manufacturing = ds.Tables[0].Rows[0]["manufacturing"].ToString().Trim();
-                            CM.services = ds.Tables[0].Rows[0]["services"].ToString().Trim();
-
+                            CM.other_product_service = ds.Tables[0].Rows[0]["other_product_service"].ToString().Trim();
+                            CM.permanent_add_pincode = ds.Tables[0].Rows[0]["permanent_add_pincode"].ToString().Trim();
+                            CM.curent_add_pincode = ds.Tables[0].Rows[0]["curent_add_pincode"].ToString().Trim();
+                            CM.@proposed_office_pincode = ds.Tables[0].Rows[0]["proposed_office_pincode"].ToString().Trim();
+                            CM.edp_training_ins_code = int.Parse(ds.Tables[0].Rows[0]["edp_training_ins_code"].ToString().Trim());
+                            CM.branch_Address = ds.Tables[0].Rows[0]["branch_Address"].ToString().Trim();
+                            CM.bank_code = short.Parse(ds.Tables[0].Rows[0]["bank_code"].ToString().Trim());
+                            CM.branch_code = int.Parse(ds.Tables[0].Rows[0]["branch_code"].ToString().Trim());
+                            CM.ifsc = ds.Tables[0].Rows[0]["ifsc_code"].ToString().Trim();
+                            // CM.bank_account_no= ds.Tables[0].Rows[0]["bank_account_no"].ToString().Trim();
+                            // CM.deposit_amt = decimal.Parse(ds.Tables[0].Rows[0]["bank_account_no"].ToString().Trim());
+                            // CM.self_share = decimal.Parse(ds.Tables[0].Rows[0]["self_share"].ToString().Trim());
                         }
                     }
                 }
@@ -400,14 +440,22 @@ namespace DI.Controllers
             {
             }
         }
+        #endregion
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public JsonResult InsertUpdateCMYSS_Applicant(CMYSS_Applicant Objform, List<CMYSS_Applicant_Doc> objdoc, List<CMYSS_Applicant_Family> objFamily, string @sptype, string steps)
         {
             try
             {
                 try
                 {
-                    DateTime dt = BLL.CommonBL.Setdate(Objform.inputdob);
-                    Objform.dob = dt;
+                    if (steps == "1")
+                    {
+                        DateTime dt = BLL.CommonBL.Setdate(Objform.inputdob);
+                        Objform.dob = dt;
+                    }
+                    
                 }
                 catch (Exception)
                 {
@@ -416,7 +464,7 @@ namespace DI.Controllers
                 }
                 Objform.@Password = "";
                 Objform.steps = steps;
-                string str = new DAL.CommonDA().InsertUpdateCMYSS_Applicant(Objform, "2");
+                string str = new DAL.CommonDA().UpdateCMYSS_Applicant(Objform, "2");
                 return Json(str, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -424,6 +472,8 @@ namespace DI.Controllers
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public JsonResult InsertUpdateVHPP_Applicant(vhpp_Applicant Objform, string @sptype, List<vhpp_artwork_details> Lvhpp)
         {
             try
@@ -491,6 +541,8 @@ namespace DI.Controllers
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public JsonResult InsertUpdateCMYSS_Applicantfamily(List<CMYSS_Applicant_Family> objFamily, string PensionCard, decimal family_income)
         {
             try
@@ -512,7 +564,7 @@ namespace DI.Controllers
                             dt.Rows[dt.Rows.Count - 1]["relation_code"] = objFamily[i].relation_code;
                             dt.Rows[dt.Rows.Count - 1]["person_name"] = objFamily[i].person_name;
                             dt.Rows[dt.Rows.Count - 1]["age"] = objFamily[i].age;
-                            dt.Rows[dt.Rows.Count - 1]["workingfield"] = objFamily[i].workingfield;
+                            dt.Rows[dt.Rows.Count - 1]["workingfield"] = objFamily[i].workingfield==null?"": objFamily[i].workingfield;
                         }
                     }
                 }
@@ -524,6 +576,8 @@ namespace DI.Controllers
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public JsonResult InsertUpdateCMYSS_MachininaryDetails(List<Plant_Machinery> objFamily)
         {
             try
@@ -568,43 +622,45 @@ namespace DI.Controllers
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
         }
-        public JsonResult InsertRegistrationFinancedetails(List<Plant_Machinery> objFamily)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public JsonResult UpdateMYSYFinancedetails(decimal @total_Production,decimal @approx_sale, decimal @approx_profit,long registration_code)
         {
             try
             {
-                if (objFamily.Count <= 0)
-                {
-                    return Json("कृप्या पूंजी का विवरण भरे ", JsonRequestBehavior.AllowGet);
+                //if (objFamily.Count <= 0)
+                //{
+                //    return Json("कृप्या पूंजी का विवरण भरे ", JsonRequestBehavior.AllowGet);
 
-                }
-                DataTable dt = new DataTable();
-                if (objFamily != null)
-                {
-                    if (objFamily.Count > 0)
-                    {
-                        dt.Columns.Add("registration_code", typeof(long));
-                        dt.Columns.Add("self_share", typeof(decimal));
-                        dt.Columns.Add("bank_loan", typeof(decimal));
-                        dt.Columns.Add("margin_money", typeof(decimal));
-                        dt.Columns.Add("total_Production", typeof(decimal));
-                        dt.Columns.Add("approx_sale", typeof(decimal));
-                        dt.Columns.Add("profit", typeof(decimal));
+                //}
+                //DataTable dt = new DataTable();
+                //if (objFamily != null)
+                //{
+                //    if (objFamily.Count > 0)
+                //    {
+                //        dt.Columns.Add("registration_code", typeof(long));
+                //        dt.Columns.Add("self_share", typeof(decimal));
+                //        dt.Columns.Add("bank_loan", typeof(decimal));
+                //        dt.Columns.Add("margin_money", typeof(decimal));
+                //        dt.Columns.Add("total_Production", typeof(decimal));
+                //        dt.Columns.Add("approx_sale", typeof(decimal));
+                //        dt.Columns.Add("profit", typeof(decimal));
 
-                        for (int i = 0; i < objFamily.Count; i++)
-                        {
-                            dt.Rows.Add();
-                            dt.Rows[dt.Rows.Count - 1]["registration_code"] = objFamily[i].registration_code;
-                            dt.Rows[dt.Rows.Count - 1]["self_share"] = objFamily[i].self_share;
-                            dt.Rows[dt.Rows.Count - 1]["bank_loan"] = objFamily[i].bank_loan;
-                            dt.Rows[dt.Rows.Count - 1]["margin_money"] = objFamily[i].margin_money;
-                            dt.Rows[dt.Rows.Count - 1]["total_Production"] = objFamily[i].total_Production;
-                            dt.Rows[dt.Rows.Count - 1]["approx_sale"] = objFamily[i].approx_sale;
-                            dt.Rows[dt.Rows.Count - 1]["profit"] = objFamily[i].profit;
+                //        for (int i = 0; i < objFamily.Count; i++)
+                //        {
+                //            dt.Rows.Add();
+                //            dt.Rows[dt.Rows.Count - 1]["registration_code"] = objFamily[i].registration_code;
+                //            dt.Rows[dt.Rows.Count - 1]["self_share"] = objFamily[i].self_share;
+                //            dt.Rows[dt.Rows.Count - 1]["bank_loan"] = objFamily[i].bank_loan;
+                //            dt.Rows[dt.Rows.Count - 1]["margin_money"] = objFamily[i].margin_money;
+                //            dt.Rows[dt.Rows.Count - 1]["total_Production"] = objFamily[i].total_Production;
+                //            dt.Rows[dt.Rows.Count - 1]["approx_sale"] = objFamily[i].approx_sale;
+                //            dt.Rows[dt.Rows.Count - 1]["profit"] = objFamily[i].profit;
 
-                        }
-                    }
-                }
-                string str = new DAL.CommonDA().InsertRegistrationFinancedetails(dt);
+                //        }
+                //    }
+                //}
+                string str = new DAL.CommonDA().InsertRegistrationFinancedetails(total_Production,approx_sale,approx_profit,registration_code);
                 return Json(str, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -955,10 +1011,10 @@ namespace DI.Controllers
             }
 
         }
-        public ActionResult GetDistrict()
+        public ActionResult GetDistricteng(string district_code_census, string state_code)
         {
             List<SelectListItem> distNames = new List<SelectListItem>();
-            CMODataEntryBLL.bindDropDownHnGrid("proc_Detail", distNames, "ds", "28", "10");
+            CMODataEntryBLL.bindDropDownHnGrid("proc_Detail", distNames, "DSE", district_code_census.Trim(), state_code.Trim());
             return Json(distNames, JsonRequestBehavior.AllowGet);
         }
         public JsonResult Getplot(int EstateCode)
@@ -1023,6 +1079,17 @@ namespace DI.Controllers
         {
             return View();
         }
+
+        public ActionResult Application_Status()
+        {
+            return View();
+        }
+        public ActionResult Getscheme()
+        {
+            List<SelectListItem> distNames = new List<SelectListItem>();
+            CMODataEntryBLL.bindDropDownHnGrid("proc_Detail", distNames, "y", "", "");
+            return Json(distNames, JsonRequestBehavior.AllowGet);
+        }
         public ActionResult Uploadform()
         {
             uploadform uf = new Models.uploadform();
@@ -1031,10 +1098,26 @@ namespace DI.Controllers
             str.Append("<div class='portlet light ' id='form_wizard_1'>");
             if (dt != null)
             {
+                
                 if (dt.Tables[0] != null)
                 {
+                    
                     if (dt.Tables[0].Rows.Count > 0)
                     {
+                        if (dt.Tables[2] != null)
+                        {
+                            if (dt.Tables[2].Rows.Count > 0)
+                            {
+                                
+                                if (int.Parse(dt.Tables[2].Rows[0]["steps"].ToString().Trim())<=5)
+                                {
+                                   string mesg= Message(dt.Tables[0].Rows[0]["scheme_initial"].ToString().Trim(), dt.Tables[2].Rows[0]["steps"].ToString().Trim());
+                                    uf.page = mesg.Trim();
+                                    return View(uf);
+                                }
+                                
+                            }
+                        }
                         if (dt.Tables[0].Rows[0]["Status"].ToString().Trim() == "0")
                         {
                             str.Append("<div class='portlet-title'>");
@@ -1095,12 +1178,14 @@ namespace DI.Controllers
                             str.Append("</tr>");
                             str.Append("</thead>");
                             str.Append("<tbody>");
+                            int k = 0;
                             for (int i = 0; i < dt.Tables[0].Rows.Count; i++)
                             {
-                                if (dt.Tables[0].Rows[i]["doc_code"].ToString() != "I" && dt.Tables[0].Rows[i]["doc_code"].ToString() != "S")
+                                if (dt.Tables[0].Rows[i]["doc_code"].ToString().Trim() != "I" && dt.Tables[0].Rows[i]["doc_code"].ToString().Trim() != "S")
                                 {
+                                    k = k + 1;
                                     str.Append("<tr>");
-                                    str.Append("<td>" + (i + 1) + "</td>");
+                                    str.Append("<td>" + k + "</td>");
                                     str.Append("<td>" + dt.Tables[0].Rows[i]["u_description"].ToString() + "</td>");
                                     str.Append("<td><input type='file' id='FileUpload" + (i + 3) + "' class='form - control' onchange='loadPayFile(event,  &#39;FileUpload" + (i + 3) + "&#39;, &#39;" + dt.Tables[0].Rows[i]["doc_code"].ToString().Trim() + "&#39;,&#39;" + dt.Tables[0].Rows[i]["registration_code"].ToString().Trim() + "&#39; , &#39;-1&#39;)'/></td>");
                                     str.Append("</tr>");
@@ -1110,7 +1195,7 @@ namespace DI.Controllers
                             str.Append("</table>");
                             str.Append("<div class='row'>");
                             str.Append("<div class='col-md-offset-9 col-md-12'>");
-                            str.Append("<button type = 'button' class='btn btn-outline green button-next' onclick='myfunction()' id='btncont'>Submit<i class='fa fa-angle-right'></i></button>");
+                            str.Append("<button type = 'button' class='btn btn-outline green button-next' onclick='popup()' id='btncont'>Submit<i class='fa fa-angle-right'></i></button>");
                             str.Append("</div>");
                             str.Append("</div>");
                             str.Append("</div>");
@@ -1137,7 +1222,7 @@ namespace DI.Controllers
                                 {
                                     for (int i = 0; i < dt.Tables[1].Rows.Count; i++)
                                     {
-                                        str.Append("<button onclick = 'funopen(&#39;" + dt.Tables[1].Rows[i]["NavUrl"].ToString().Trim() + "&#39;)' class='btn btn-outline green button-next'>" + dt.Tables[1].Rows[i]["Description"].ToString().Trim() + "</button>&nbsp;&nbsp;");
+                                        str.Append("<a href='"+ dt.Tables[1].Rows[i]["NavUrl"].ToString().Trim() + "' class='btn btn-outline green button-next'>" + dt.Tables[1].Rows[i]["Description"].ToString().Trim() + "</a>&nbsp;&nbsp;");
                                     }
 
                                 }
@@ -1159,6 +1244,13 @@ namespace DI.Controllers
         {
             return View();
         }
+        public ActionResult DLTFC_Applicant()
+        {
+            return View();
+        }
+
+        //
+
         public ActionResult LogOut()
         {
             try
@@ -1224,10 +1316,21 @@ namespace DI.Controllers
             CMODataEntryBLL.bindDropDownHnGrid("proc_Detail", Zone, "branch", "-1", "");
             return Json(Zone, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult GetEDP()
+        {
+            List<SelectListItem> Zone = new List<SelectListItem>();
+            CMODataEntryBLL.bindDropDownHnGrid("proc_Detail", Zone, "EDP", "-1", "");
+            return Json(Zone, JsonRequestBehavior.AllowGet);
+        }
+
         public JsonResult InsertUpdateSPY_Applicant(SPY_Applicant Objform)
         {
             try
             {
+
+
+
                 try
                 {
                     DateTime dt = BLL.CommonBL.Setdate(Objform.inputdob);
@@ -1410,19 +1513,19 @@ namespace DI.Controllers
             CMODataEntryBLL.bindDropDownHnGrid("proc_Detail", Zone, "SPC", "-1", "");
             return Json(Zone, JsonRequestBehavior.AllowGet);
         }
-        public ActionResult Getindustry()
+        public ActionResult Getindustry(string Is_service)
         {
             List<SelectListItem> Zone = new List<SelectListItem>();
-            CMODataEntryBLL.bindDropDownHnGrid("proc_Detail", Zone, "ind", "-1", "");
+            CMODataEntryBLL.bindDropDownHnGrid("proc_Detail", Zone, "ind", Is_service.Trim(), "");
             return Json(Zone, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult Getbankifsc(int @bank_code)
+        public JsonResult Getbankifsc(int @bank_code, int district)
         {
             try
             {
                 StringBuilder str = new StringBuilder();
-                DataTable dt = new DAL.CommonDA().GetBankDetails(@bank_code);
+                DataTable dt = new DAL.CommonDA().GetBankDetails(@bank_code, district);
                 str.Append("<div class='portlet box green'>");
                 str.Append("<div class='portlet-title red'>");
                 str.Append("<div class='caption'>");
@@ -1434,13 +1537,14 @@ namespace DI.Controllers
                 str.Append("<table class='table table-striped table-bordered table-hover' id='Datatable'>");
                 str.Append("<thead>");
                 str.Append("<tr>");
+                str.Append("<th width='15%'> </th>");
                 str.Append("<th width='5%'> क्र० सं० </th>");
                 str.Append("<th width='10%'> जनपद   </th>");
                 str.Append("<th width='15%'> बैक का नाम </th>");
                 str.Append("<th width='15%'> आईएफएससी कोड</th>");
                 str.Append("<th width='15%'> शाखा  का नाम</th>");
                 str.Append("<th width='15%'> शाखा  का पता</th>");
-                str.Append("<th width='15%'> </th>");
+
                 str.Append("</tr>");
                 str.Append("</thead>");
                 str.Append("<tbody>");
@@ -1452,13 +1556,14 @@ namespace DI.Controllers
                         for (int i = 0; i < dt.Rows.Count; i++)
                         {
                             str.Append("<tr>");
+                            str.Append("<td><input type='button' value='Select' onclick='funbifscselect(&#39;" + dt.Rows[i]["ifsc"].ToString().Trim() + "&#39;, &#39;" + dt.Rows[i]["branch_code"].ToString().Trim() + "&#39;,&#39;" + dt.Rows[i]["address"].ToString().Trim() + "&#39;)' /></td>");
                             str.Append("<td>" + (i + 1) + "</td>");
                             str.Append("<td>" + dt.Rows[i]["dist_name_u"].ToString().Trim() + "</td>");
                             str.Append("<td>" + dt.Rows[i]["bank_name"].ToString().Trim() + "</td>");
                             str.Append("<td>" + dt.Rows[i]["ifsc"].ToString().Trim() + "</td>");
                             str.Append("<td>" + dt.Rows[i]["BrName"].ToString().Trim() + "</td>");
                             str.Append("<td>" + dt.Rows[i]["address"].ToString().Trim() + "</td>");
-                            str.Append("<td><input type='button' value='Select' onclick='funbifscselect(&#39;" + dt.Rows[i]["ifsc"].ToString().Trim() + "&#39;, &#39;" + dt.Rows[i]["branch_code"].ToString().Trim() + "&#39;,&#39;" + dt.Rows[i]["address"].ToString().Trim() + "&#39;)' /></td>");
+
                             str.Append("</tr>");
                         }
                     }
@@ -1478,5 +1583,47 @@ namespace DI.Controllers
             {
             }
         }
+         public string Message(string sch,string steps)
+        {
+            string str = "";
+            if (sch=="MYSY")
+            {
+                if (steps.Trim() == "0")
+                {
+                    //  str = "<div role='dialog'><div class='modal-dialog'><div class='modal-content'><div class='modal-header'><h2><i class='icon-info'></i>&nbsp;&nbsp;&nbsp;<label class=''> सूचना  </label>  </h2></div>< div class='modal-body'><form><p class='font-red'> <a href='../user/MYSY_SchemeForm'>अपने अभी युवा स्वरोजगार योजना में  व्यक्तिगत विवरण की समस्त प्रविष्टियो को अपलोड नहीं किया  है।</a></p></form></div></div></div></div>";
+                    str = "<div   role='dialog'><div class='modal-dialog'><div class='modal-content'><div class='modal-header'><h2><i class='icon-info'></i>&nbsp;&nbsp;&nbsp;<label class=''> सूचना  </label>  </h2></div><div class='modal-body'><form><p class='font-red'> <a href='../user/MYSY_SchemeForm'>अपने अभी युवा स्वरोजगार योजना में  व्यक्तिगत विवरण की समस्त प्रविष्टियो को अपलोड नहीं किया है ।</a></p></form></div></div></div></div>";
+                }
+                if (steps.Trim() == "1")
+                {
+                    str = "<div   role='dialog'><div class='modal-dialog'><div class='modal-content'><div class='modal-header'><h2><i class='icon-info'></i>&nbsp;&nbsp;&nbsp;<label class=''> सूचना  </label>  </h2></div><div class='modal-body'><form><p class='font-red'> <a href='../user/MYSY_SchemeForm'>अपने अभी युवा स्वरोजगार योजना में  परिवार विवरण की समस्त प्रविष्टियो को अपलोड नहीं किया  है।</a></p></form></div></div></div></div>";
+                }
+                if (steps.Trim() == "2")
+                {
+                    str = "<div   role='dialog'><div class='modal-dialog'><div class='modal-content'><div class='modal-header'><h2><i class='icon-info'></i>&nbsp;&nbsp;&nbsp;<label class=''> सूचना  </label>  </h2></div><div class='modal-body'><form><p class='font-red'> <a href='../user/MYSY_SchemeForm'>अपने अभी युवा स्वरोजगार योजना में   परियोजना विवरण की समस्त प्रविष्टियो को अपलोड नहीं किया  है।</a></p></form></div></div></div></div>";
+                }
+                if (steps.Trim() == "3")
+                {
+                    str = "<div   role='dialog'><div class='modal-dialog'><div class='modal-content'><div class='modal-header'><h2><i class='icon-info'></i>&nbsp;&nbsp;&nbsp;<label class=''> सूचना  </label>  </h2></div><div class='modal-body'><form><p class='font-red'> <a href='../user/MYSY_SchemeForm'>अपने अभी युवा स्वरोजगार योजना में  बैंक विवरण की समस्त प्रविष्टियो को अपलोड नहीं किया  है।</a></p></form></div></div></div></div>";
+                    //str = "<div   role='dialog'><div class='modal-dialog'><div class='modal-content'><div class='modal-header'><h2><i class='icon-info'></i>&nbsp;&nbsp;&nbsp;<label class=''> सूचना  </label>  </h2></div><div class='modal-body'><form><p class='font-red'> <a href='../user/MYSY_SchemeForm'>अपने अभी युवा स्वरोजगार योजना में  व्यक्तिगत विवरण की समस्त प्रविष्टियो को अपलोड नहीं किया  है।</a></p></form></div></div></div></div>";
+                }
+                if (steps.Trim() == "4")
+                {
+                    //str = "<div   role='dialog'><div class='modal-dialog'><div class='modal-content'><div class='modal-header'><h2><i class='icon-info'></i>&nbsp;&nbsp;&nbsp;<label class=''> सूचना  </label>  </h2></div><div class='modal-body'><form><p class='font-red'> <a href='../user/MYSY_SchemeForm'>अपने अभी युवा स्वरोजगार योजना में  बैंक विवरण की समस्त प्रविष्टियो को अपलोड नहीं किया  है।</a></p></form></div></div></div></div>";
+                    str = "<div   role='dialog'><div class='modal-dialog'><div class='modal-content'><div class='modal-header'><h2><i class='icon-info'></i>&nbsp;&nbsp;&nbsp;<label class=''> सूचना  </label>  </h2></div><div class='modal-body'><form><p class='font-red'> <a href='../user/PlantAndMachinery_EntryForm'>अपने अभी युवा स्वरोजगार योजना में  प्लांट एंड मशीनरी विवरण की समस्त प्रविष्टियो को अपलोड नहीं किया  है।</a></p></form></div></div></div></div>";
+                }
+                if (steps.Trim() == "5")
+                {
+                    str = "<div   role='dialog'><div class='modal-dialog'><div class='modal-content'><div class='modal-header'><h2><i class='icon-info'></i>&nbsp;&nbsp;&nbsp;<label class=''> सूचना  </label>  </h2></div><div class='modal-body'><form><p class='font-red'> <a href='../user/PlantAndMachinery_EntryForm'>अपने अभी युवा स्वरोजगार योजना में वित्तीय विवरण की समस्त प्रविष्टियो को अपलोड नहीं किया  है।</a></p></form></div></div></div></div>";
+                  //  str = "<div   role='dialog'><div class='modal-dialog'><div class='modal-content'><div class='modal-header'><h2><i class='icon-info'></i>&nbsp;&nbsp;&nbsp;<label class=''> सूचना  </label>  </h2></div><div class='modal-body'><form><p class='font-red'> <a href='../user/MYSY_SchemeForm'>अपने अभी युवा स्वरोजगार योजना में  प्लांट एंड मशीनरी विवरण की समस्त प्रविष्टियो को अपलोड नहीं किया  है।</a></p></form></div></div></div></div>";
+                }
+                //if (steps.Trim() == "6")
+                //{
+                //    str = "<div   role='dialog'><div class='modal-dialog'><div class='modal-content'><div class='modal-header'><h2><i class='icon-info'></i>&nbsp;&nbsp;&nbsp;<label class=''> सूचना  </label>  </h2></div><div class='modal-body'><form><p class='font-red'> <a href='../user/MYSY_SchemeForm'>अपने अभी युवा स्वरोजगार योजना में वित्तीय विवरण की समस्त प्रविष्टियो को अपलोड नहीं किया  है।</a></p></form></div></div></div></div>";
+                //}
+            }
+            return str;
+        }
+
+
     }
 }

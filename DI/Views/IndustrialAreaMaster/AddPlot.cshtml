@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "AddPlot";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    if (UserSession.LoggedInUserLevelId == null || UserSession.LoggedInUserLevelId != "6")
+    if (UserSession.LoggedInUserLevelId == null || UserSession.LoggedInUserLevelId == "30")
     {
         Response.Redirect("../Login/login");
         return;
@@ -449,8 +449,6 @@
 
                 //document.getElementById("PlotdisputedYes").checked = false;
             }
-
-
             document.getElementById("txtPlotdescription").value= Plot_Desc;
             document.getElementById("txtAllotteeDetails").value = Plot_Allottee_Desc;
             $('#btnsave').html('Update');
@@ -458,11 +456,7 @@
             window.scrollTo(0, x.top); //window.scrollTo() scrolls the page upto certain position....
             //it takes 2 parameters : (x axis cordinate, y axis cordinate);
         }
-
-
         function del(X) {
-
-
             var M01 = {
                 "PlotCode": X,
                 "IndustrialEstateCode": "-1",

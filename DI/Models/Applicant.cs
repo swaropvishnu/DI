@@ -15,6 +15,7 @@ namespace DI.Models
         public IList<SelectListItem> gender { get; set; }
         public IList<SelectListItem> category { get; set; }
         public IList<SelectListItem> sp_category { get; set; }
+        public IList<SelectListItem> edp { get; set; }
         public int DistCode { get; set; }
         public int TehsilCode { get; set; }
         public int BlockCode { get; set; }
@@ -23,9 +24,12 @@ namespace DI.Models
         public int current_tehsil_code_census { get; set; }
         public int current_block_code { get; set; }
         public int current_village_code { get; set; }
+        [Display(Name = "Date")]
+        [Filters.InputMask("99/99/9999")]
         public string inputdob { get; set; }
         public DateTime dob { get; set; }
         [Display(Name = "Date Of Birth")]
+        
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public string applicant_name { get; set; }
         public long @applicant_code { get; set; }
@@ -74,11 +78,11 @@ namespace DI.Models
         public string children_Work { get; set; }
         public string Password { get; set; }
         public string UserName { get; set; }
-        public string manufacturing { get; set; }
-        public string services { get; set; }
+        //public string manufacturing { get; set; }
+        //public string services { get; set; }
         public string steps { get; set; }
         public string stepsActive { get; set; }
-        public string Is_village_bank { get; set; }
+        public string Is_village { get; set; }
         public string service_branch { get; set; }
         public string OtherRelation { get; set; }
         public bool chkfamily { get; set; }
@@ -96,9 +100,16 @@ namespace DI.Models
         public string @legaltype { get; set; }
         public string pancard { get; set; }
         public string @Is_edp_training { get; set; }
-        public int @industry_code { get; set; }
+        public int @product_service_code { get; set; }
         public string @edp_training_ins { get; set; }
+        public int @edp_training_ins_code { get; set; }
         public string is_address_same { get; set; }
+        public string @other_product_service { get; set; }
+        public string curent_add_pincode { get; set; }
+        public string permanent_add_pincode { get; set; }
+        public string @proposed_office_pincode { get; set; }
+        public string dist_name { get; set; }
+
     }
     public class vhpp_Applicant
     {
@@ -406,6 +417,7 @@ namespace DI.Models
         public decimal @self_share { get; set; }
         public decimal @bank_loan { get; set; }
         public decimal @margin_money { get; set; }
+        public string message { get; set; }
 
     }
     public class ifsc

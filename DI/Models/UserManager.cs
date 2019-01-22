@@ -170,11 +170,11 @@ namespace DI.Models
             get
             {
                 return
-                   Convert.ToInt32(tbl_Session.Rows[0]["DistictId"]);
+                   Convert.ToInt32(tbl_Session.Rows[0]["DistrictId"]);
             }
             set
             {
-                tbl_Session.Rows[0]["DistictId"] = value;
+                tbl_Session.Rows[0]["DistrictId"] = value;
             }
         }
         public int UserTehsilId
@@ -328,7 +328,17 @@ namespace DI.Models
             }
         }
 
-
+        public string dist_name
+        {
+            get
+            {
+                return (tbl_Session.Rows[0]["dist_name"].ToString());
+            }
+            set
+            {
+                tbl_Session.Rows[0]["dist_name"] = value;
+            }
+        }
 
         //public string Password { get; set; }
     }

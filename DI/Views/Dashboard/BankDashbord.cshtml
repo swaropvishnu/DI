@@ -1,0 +1,226 @@
+﻿@using Jmelosegui.Mvc.GoogleMap
+@model DI.Models.DashboardModal
+@{
+    ViewBag.Title = "BankDashbord";
+}
+@using System.Data;
+@using DI.Models;
+@using DI.DAL;
+@using DI.BLL;
+@{
+    DataTable dt = new CommonDA().GetDashBord();
+}
+<!-- END PAGE HEADER-->
+<div class="row widget-row">
+    <div ng-app="MyApp" ng-controller="MyController">
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <!-- BEGIN WIDGET THUMB -->
+            <a href="@Url.Action("MYSY_Applicant_status_report", "Report",new {A=new DI.Crypto().Encrypt("W")})">
+                <div class="widget-thumb widget-bg-color-white text-uppercase margin-bottom-20 ">
+                    <h4 class="widget-thumb-heading">Total Application</h4>
+                    <div class="widget-thumb-wrap">
+                        <i class="widget-thumb-icon bg-blue icon-bar-chart"></i>
+                        <div class="widget-thumb-body">
+                            @*<span class="widget-thumb-subtitle">No.</span>*@
+                            <span class="widget-thumb-body-stat" data-counter="counterup" data-value="@dt.Rows[0]["underBank"].ToString().Trim()">0</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <!-- END WIDGET THUMB -->
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <!-- BEGIN WIDGET THUMB -->
+            <a href="@Url.Action("MYSY_Applicant_status_report", "Report",new {A=new DI.Crypto().Encrypt("A")})">
+                <div class="widget-thumb widget-bg-color-white text-uppercase margin-bottom-20 ">
+                    <h4 class="widget-thumb-heading">Loan Approved</h4>
+                    <div class="widget-thumb-wrap">
+                        <i class="widget-thumb-icon bg-blue icon-bar-chart"></i>
+                        <div class="widget-thumb-body">
+                            @*<span class="widget-thumb-subtitle">No.</span>*@
+                            <span class="widget-thumb-body-stat" data-counter="counterup" data-value="@dt.Rows[0]["LoanSanction"].ToString().Trim()">0</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <!-- END WIDGET THUMB -->
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <!-- BEGIN WIDGET THUMB -->
+            <a href="@Url.Action("MYSY_Applicant_status_report", "Report",new {A=new DI.Crypto().Encrypt("MM")})">
+                <div class="widget-thumb widget-bg-color-white text-uppercase margin-bottom-20 ">
+                    <h4 class="widget-thumb-heading">MM Claim</h4>
+                    <div class="widget-thumb-wrap">
+                        <i class="widget-thumb-icon bg-blue icon-bar-chart"></i>
+                        <div class="widget-thumb-body">
+                            @*<span class="widget-thumb-subtitle">No.</span>*@
+                            <span class="widget-thumb-body-stat" data-counter="counterup" data-value="@dt.Rows[0]["MMClaim"].ToString().Trim()">0</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <!-- END WIDGET THUMB -->
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <!-- BEGIN WIDGET THUMB -->
+            <a href="@Url.Action("MYSY_Applicant_status_report", "Report",new {A=new DI.Crypto().Encrypt("RB")})">
+                <div class="widget-thumb widget-bg-color-white text-uppercase margin-bottom-20 ">
+                    <h4 class="widget-thumb-heading">Reject</h4>
+                    <div class="widget-thumb-wrap">
+                        <i class="widget-thumb-icon bg-blue icon-bar-chart"></i>
+                        <div class="widget-thumb-body">
+                            @*<span class="widget-thumb-subtitle">No.</span>*@
+                            <span class="widget-thumb-body-stat" data-counter="counterup" data-value="@dt.Rows[0]["BankReject"].ToString().Trim()">0</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <!-- END WIDGET THUMB -->
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <!-- BEGIN WIDGET THUMB -->
+            <a href="@Url.Action("MYSY_Applicant_status_report", "Report",new {A=new DI.Crypto().Encrypt("UB")})">
+                <div class="widget-thumb widget-bg-color-white text-uppercase margin-bottom-20 ">
+                    <h4 class="widget-thumb-heading">Under Process</h4>
+                    <div class="widget-thumb-wrap">
+                        <i class="widget-thumb-icon bg-blue icon-bar-chart"></i>
+                        <div class="widget-thumb-body">
+                            @*<span class="widget-thumb-subtitle">No.</span>*@
+                            <span class="widget-thumb-body-stat" data-counter="counterup" data-value="@dt.Rows[0]["bank_UnderProcess"].ToString().Trim()">0</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <!-- END WIDGET THUMB -->
+        </div>
+        @*<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <a href="@Url.Action("MYSY_Applicant_status_report","Report",new {A=new DI.Crypto().Encrypt("Z")})">
+                    <div class="dashboard-stat2 ">
+                        <div class="display">
+                            <div class="number">
+                                <h3 class="font-green-sharp">
+                                    <span data-counter="counterup" data-value="@dt.Rows[0]["UnderDIC"].ToString().Trim()">@dt.Rows[0]["UnderDIC"].ToString().Trim()</span>
+                                    <small class="font-green-sharp"></small>
+                                </h3>
+                                <small>UNDER DIC </small>
+                            </div>
+                            <div class="icon">
+                                <i class="icon-pie-chart"></i>
+                            </div>
+                        </div>
+                        <div class="progress-info">
+
+                            <div class="progress">
+                                <span style="width: @dt.Rows[0]["perDLTFC"].ToString().Trim()%;" class="progress-bar progress-bar-success green-sharp">
+                                    <span class="sr-only">@dt.Rows[0]["perDLTFC"].ToString().Trim()% </span>
+                                </span>
+                            </div>
+
+
+                            <div class="status">
+                                <div class="status-title"> Forword To DLTFC</div>
+                                <div class="status-number">@dt.Rows[0]["perDLTFC"].ToString().Trim()% </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <a href="@Url.Action("reportIndustrialEstate", "IndustrialAreaMaster")">
+                    <div class="dashboard-stat2 ">
+                        <div class="display">
+                            <div class="number">
+                                <h3 class="font-green-sharp">
+                                    <span data-counter="counterup" data-value="@dt.Rows[0]["totalDLTFC"].ToString().Trim()">@dt.Rows[0]["totalDLTFC"].ToString().Trim()</span>
+                                    <small class="font-green-sharp"></small>
+                                </h3>
+                                <small>Under Process in DIC</small>
+                            </div>
+                            <div class="icon">
+                                <i class="icon-pie-chart"></i>
+                            </div>
+                        </div>
+                        <div class="progress-info">
+
+                            <div class="progress">
+                                <span style="width: @dt.Rows[0]["perBank"].ToString().Trim()%;" class="progress-bar progress-bar-success green-sharp">
+                                    <span class="sr-only">@dt.Rows[0]["perBank"].ToString().Trim()% </span>
+                                </span>
+                            </div>
+
+
+                            <div class="status">
+                                <div class="status-title"> Reject By DIC </div>
+                                <div class="status-number">@dt.Rows[0]["perBank"].ToString().Trim()% </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <a href="@Url.Action("reportIndustrialEstate", "IndustrialAreaMaster")">
+                    <div class="dashboard-stat2 ">
+                        <div class="display">
+                            <div class="number">
+                                <h3 class="font-green-sharp">
+                                    <span data-counter="counterup" data-value="@dt.Rows[0]["total_bank"].ToString().Trim()">@dt.Rows[0]["total_bank"].ToString().Trim()</span>
+                                    <small class="font-green-sharp"></small>
+                                </h3>
+                                <small>Reject by DIC</small>
+                            </div>
+                            <div class="icon">
+                                <i class="icon-pie-chart"></i>
+                            </div>
+                        </div>
+                        <div class="progress-info">
+
+                            <div class="progress">
+                                <span style="width: @dt.Rows[0]["perBank"].ToString().Trim()%;" class="progress-bar progress-bar-success green-sharp">
+                                    <span class="sr-only">@dt.Rows[0]["perBank"].ToString().Trim()% </span>
+                                </span>
+                            </div>
+
+
+                            <div class="status">
+                                <div class="status-title">Approved by DLTFC/ Forword  bank</div>
+                                <div class="status-number">@dt.Rows[0]["perBank"].ToString().Trim()% </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <a href="@Url.Action("reportIndustrialEstate", "IndustrialAreaMaster")">
+                    <div class="dashboard-stat2 ">
+                        <div class="display">
+                            <div class="number">
+                                <h3 class="font-green-sharp">
+                                    <span data-counter="counterup" data-value="@dt.Rows[0]["total_bank"].ToString().Trim()">@dt.Rows[0]["total_bank"].ToString().Trim()</span>
+                                    <small class="font-green-sharp"></small>
+                                </h3>
+                                <small>Forword to DLTFC</small>
+                            </div>
+                            <div class="icon">
+                                <i class="icon-pie-chart"></i>
+                            </div>
+                        </div>
+                        <div class="progress-info">
+
+                            <div class="progress">
+                                <span style="width: @dt.Rows[0]["perBank"].ToString().Trim()%;" class="progress-bar progress-bar-success green-sharp">
+                                    <span class="sr-only">@dt.Rows[0]["perBank"].ToString().Trim()% </span>
+                                </span>
+                            </div>
+                            <div class="status">
+                                <div class="status-title">Approved by DLTFC/ Forword  bank</div>
+                                <div class="status-number">@dt.Rows[0]["perBank"].ToString().Trim()% </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+            </div>*@
+    </div>
+</div>

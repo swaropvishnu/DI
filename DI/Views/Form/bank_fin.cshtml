@@ -1,0 +1,1361 @@
+﻿@model DI.Models.bank_fin
+@{
+    ViewBag.Title = "bank_fin";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .disabled {
+        pointer-events: none !important;
+        cursor: default !important;
+    }
+    .hide {
+        display:none;
+    }
+</style>
+<script>
+    var loadPayFile = function (event, demo, Code,fin_code,sch) {
+        if (typeof ($("#" + demo)[0].files) != "undefined") {
+            var size = parseFloat($("#" + demo)[0].files[0].size / 1024).toFixed(2);
+            if (size > 100) {
+                alert("size must be below 100kb");
+                $('#' + demo).val('');
+                return;
+            }
+        }
+        else {
+            alert("This browser does not support HTML5.");
+            $('#' + demo).val('');
+            return;
+        }
+        if (window.FormData !== undefined) {
+            var fileUpload = $("#" + demo).get(0);
+            var files = fileUpload.files;
+            var fileData = new FormData();
+            for (var i = 0; i < files.length; i++) {
+                fileData.append(files[i].name, files[i]);
+            }
+            fileData.append('username', 'Manas');
+            $.ajax({
+                url: '/form/Uploadfile',
+                type: "POST",
+                contentType: false,
+                processData: false,
+                data: fileData,
+                success: function (result) {
+                    try {
+                        if (result == "File Uploaded Successfully!") {
+
+                            funuploaddone(sch, fin_code,Code);
+                        }
+                        else {
+                            alert(result);
+                            $('#' + demo).val('');
+                        }
+
+                    } catch (e) {
+                        alert("File Data  is not supported.");
+                        $('#' + demo).val('');
+                    }
+                },
+                error: function (err) {
+                    alert(err.statusText);
+                    $('#' + demo).val('');
+                }
+            });
+        }
+        else {
+            alert("File Data is not supported.");
+            $('#' + demo).val('');
+        }
+    };
+    function funuploaddone(sch,fincode, Code) {
+        $.ajax({
+            url: '/form/bankUploadfiledone',
+            data: JSON.stringify({ Sch: sch, fincode: fincode,Code :Code }),
+            type: 'POST',
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                //alert(data);
+                if (data == "File upload") {
+                    alert("File Upload Sucessfully");
+                }
+                else {
+                    alert(data);
+
+                }
+
+            }
+        });
+    }
+
+    
+</script>
+@using (Html.BeginForm("bank_fin", "Form", FormMethod.Post, new { @class = "", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="portlet light " id="form_wizard_1">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="icon-layers font-red"></i>
+                <span class="caption-subject font-red bold uppercase">
+                    Chief Minister Youth Employment Scheme,UP
+                    <span class="step-title"> Steps 1 to 4</span>
+                </span>
+            </div>
+        </div>
+        <div class="portlet-body form">
+            <form class="form-horizontal" action="#" id="submit_form" method="POST" novalidate="novalidate">
+                <div class="form-wizard">
+                    <div class="form-body">
+                        <ul class="nav nav-pills nav-justified steps">
+                            <li class="active" id="litab1">
+                                <a data-toggle="tab" class="step disabled" aria-expanded="true">
+                                    <span class="number"> 1 </span>
+                                    <span class="desc">
+                                        <i class="fa fa-check"></i>Step -1
+                                    </span>
+                                </a>
+                            </li>
+                            <li id="litab2" class="">
+                                <a data-toggle="tab" class="step disabled">
+                                    <span class="number"> 2 </span>
+                                    <span class="desc">
+                                        <i class="fa fa-check"></i>Step -2
+                                    </span>
+                                </a>
+                            </li>
+                            <li id="litab3" class="">
+                                <a data-toggle="tab" class="step disabled">
+                                    <span class="number"> 3 </span>
+                                    <span class="desc">
+                                        <i class="fa fa-check"></i>Step -3
+                                    </span>
+                                </a>
+                            </li>
+                            <li id="litab4" class="">
+                                <a data-toggle="tab" class="step disabled">
+                                    <span class="number"> 4 </span>
+                                    <span class="desc">
+                                        <i class="fa fa-check"></i> Step -4
+                                    </span>
+                                </a>
+                            </li>
+                            @*<li id="litab5" class="">
+                                <a data-toggle="tab" class="step disabled">
+                                    <span class="number"> 5 </span>
+                                    <span class="desc">
+                                        <i class="fa fa-check"></i> Step -5
+                                    </span>
+                                </a>
+                            </li>*@
+                        </ul>
+                        <div id="bar" class="progress progress-striped" role="progressbar">
+                            <div class="progress-bar progress-bar-success" style="width: 0%;" id="divpross"> </div>
+                        </div>
+                        <div class="tab-content">
+                         
+                            <div class="tab-pane" id="tab1">
+                                <h3 class="form-section" style="font-weight:bolder">Application Status</h3>
+                                <div class="form-body" style="padding: 0px !important">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-6" id="lblname">Registraion No.</label>
+                                                @Html.DisplayFor(m => m.applicant_code, new
+                                                {
+                                                    @class = "form-control",
+
+                                                })
+                                                @Html.HiddenFor(m => m.registration_code, new { @id = "hfregistrationcode" })
+                                                @Html.HiddenFor(m => m.steps, new { @id = "hfstep" })
+                                                @Html.HiddenFor(m => m.scheme_code, new { @id = "hfscheme_code" })
+                                                @Html.HiddenFor(m => m.finanace_id, new { @id = "hffinanace_id" })
+                                                @Html.HiddenFor(m => m.is_CGTMS, new { @id = "hfis_CGTMS" })
+                                                @Html.HiddenFor(m => m.status, new { @id = "hfstatus" })
+                                                @Html.HiddenFor(m => m.branch_code, new { @id = "hfbranch_code" })
+                                                @Html.HiddenFor(m => m.project_cost_dltfc, new { @id = "hfdltfc_Project_cost" })
+                                                @Html.HiddenFor(m => m.bank_finance_per, new { @id = "hfbank_finance_per" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-6" id="lblname">Applicant Name</label>
+
+                                                @Html.DisplayFor(m => m.applicant_name, new
+                                               {
+                                                   @class = "control-label col-md-6",
+
+                                               })
+
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-6" id="lblcat">Caste </label>
+                                                @Html.DisplayFor(m => m.caste, new
+{
+    @class = "form-control",
+
+})
+
+                                            </div>
+                                        </div>
+                                        <!--/span-->
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-6" id="lbladhar">Addhar No.</label>
+
+
+                                                @Html.DisplayFor(m => m.adhar_no, new
+                                              {
+                                                  @class = "form-control",
+
+                                              })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-6" id="lblpan">Pancard No.</label>
+                                                @Html.DisplayFor(m => m.pancard, new
+                                           {
+                                               @class = "form-control",
+
+                                           })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-6" id="lblgend">Gender </label>
+
+                                                @Html.DisplayFor(m => m.gender, new
+                                           {
+                                               @class = "form-control",
+
+                                           })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-6" id="lblqualification">Qulaifiactaion</label>
+                                                @Html.DisplayFor(m => m.Qualification, new
+                                               {
+                                                   @class = "form-control",
+
+                                               })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+
+                                                <label class="control-label col-md-6">Email	</label>
+                                                @Html.DisplayFor(m => m.email, new
+                                               {
+                                                   @class = "form-control",
+
+                                               })
+
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+
+                                                <label class="control-label col-md-6" id="lblpan">Beneficiary Contribution</label>
+                                                @Html.DisplayFor(m => m.benificary_contribution, new
+                                               {
+                                                   @class = "form-control",
+
+                                               })
+
+
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-6" id="lbladhar">Project Cost</label>
+
+
+                                                @Html.DisplayFor(m => m.Project_cost, new
+                                           {
+                                               @class = "form-control",
+
+                                           })
+
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-6">Bank Finance : </label>
+
+                                                @Html.DisplayFor(m => m.bank_finance_per, new
+                                              {
+                                                  @class = "form-control",
+
+                                              })
+                                                %
+
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-6">Govt Subsidy</label>
+                                                <label>25%</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-6">Mobile No.</label>
+
+                                                @Html.DisplayFor(m => m.mobile, new
+                                           {
+                                               @class = "form-control",
+
+                                           })
+
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="control-label col-md-6" id="lbldob">Application/Document Recived date</label>
+                                            <div class="col-md-6">
+                                                @Html.EditorFor(model => model.input_doc_rec_date, new { htmlAttributes = new { @class = "form-control js-datemask", @onkeypress = "return IsNumeric(event);", @placeholder = "dd/mm/yy", @id = "txtdate" } })
+                                            </div>
+                                        </div>
+                                            <div class="col-md-4">
+                                                <label class="control-label col-md-6" id="lbldob">Status</label>
+                                                <div class="col-md-6">
+                                                    @Html.DropDownListFor(m => m.status, new List<SelectListItem>
+                                                    (), "--select--", new { @id = "ddlstatus", @class = "form-control" })
+                                                </div>
+                                            </div>
+                                        
+                                    </div>
+                                    <div class="row" id="statusremak">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-2">Remark</label>
+                                                <div class="col-md-10">
+                                                   
+                                                    @Html.TextAreaFor(m=>m.remark,new { @class = "tinymcetab", @id = "txtRemark" , @cols = "10" ,@rows = "6" , @maxlength = "650" })
+                                                   
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div id="div_loan_saction" class="hide">
+                                        <h3 class="form-section" style="font-weight:bolder">Loan Sanction</h3>
+                                        <div class="col-md-12" style="background-color:red; color:#fff;">
+                                            <h3>
+                                                Project cost approved by DLTFC @Html.DisplayFor(m => m.project_cost_dltfc, new
+                                                                          {
+                                                                              @class = "form-control"
+
+                                                                          })
+                                            </h3>
+
+
+                                           
+</div>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-12">Project Cost Details:</label>
+
+
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-12">Project Cost Approved by Bank</label>
+
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-12">Bank Finance/Loan Sanction @Html.DisplayFor(m => m.bank_finance_per, new
+                                                                                                                      {
+                                                                                                                          @class = "form-control",
+
+                                                                                                                      })</label>
+
+
+
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-12">(a) Capital Expenditure</label>
+
+
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+
+                                                            @Html.TextBoxFor(m => m.capital_expenditure_approved, new { @class = "form-control", @id = "txt_capital_expenditure_approved", @onkeypress = "return IsNumeric(event);", @placeholder = "", @Maxlength = 8,@onkeyup="cal()" })
+
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+
+                                                            @Html.TextBoxFor(m => m.capital_expenditure_finance, new { @class = "form-control", @id = "txtcapital_expenditure_finance", @onkeypress = "return IsNumeric(event);", @placeholder = "", @Maxlength = 8,@disabled= "disabled" })
+
+                                                        </div>
+
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-12">(b) Working Capital</label>
+
+
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+
+                                                            @Html.TextBoxFor(m => m.working_capital_approved, new { @class = "form-control", @id = "txtworking_capital_approved", @onkeypress = "return IsNumeric(event);", @placeholder = "", @Maxlength = 8, @onkeyup = "cal()" })
+
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+
+                                                            @Html.TextBoxFor(m => m.working_capital_finance, new { @class = "form-control", @id = "txtworking_capital_finance", @onkeypress = "return IsNumeric(event);", @placeholder = "", @Maxlength = 8, @disabled = "disabled" })
+
+                                                        </div>
+
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-12">(C) Total Project (a+b)</label>
+
+
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+
+                                                            @Html.TextBoxFor(m => m.project_cost_approved, new { @class = "form-control", @id = "txtproject_cost_approved", @onkeypress = "return IsNumeric(event);", @placeholder = "", @Maxlength = 8 , @disabled = "disabled" })
+
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+
+                                                            @Html.TextBoxFor(m => m.project_cost_finance, new { @class = "form-control", @id = "txtproject_cost_finance", @onkeypress = "return IsNumeric(event);", @placeholder = "", @Maxlength = 8, @disabled = "disabled" })
+
+                                                        </div>
+
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-12">Loan Santion date</label>
+                                                        <div class="col-md-12">
+                                                            @Html.TextBoxFor(m => m.inputsanction_date, new { @class = "form-control js-datemask", @placeholder = "dd/mm/yy", @id = "txtinputsanction_date", @onkeypress = "return IsNumeric(event);", @Maxlength = 10 })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-12">Coverd Under CGTMS</label>
+                                                        <div class="col-md-12">
+                                                            @Html.RadioButtonFor(m => m.is_CGTMS, "N", new { @id = "rd1", @onclick = "Toggle('N')" }) Yes
+                                                            @Html.RadioButtonFor(m => m.is_CGTMS, "Y", new { @id = "rd2", @onclick = "Toggle('Y')" })No
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-12">Rate Interest on loan</label>
+                                                        <div class="col-md-12">
+                                                            @Html.TextBoxFor(m => m.interest_rate, new { @class = "form-control", @id = "txtinterest_rate", @onkeypress = "return IsNumeric(event);", @placeholder = "", @Maxlength = 4 })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-12">Loan Repayment Period</label>
+                                                        <div class="col-md-12">
+                                                            @Html.TextBoxFor(m => m.repayment_period, new { @class = "form-control", @id = "txtrepayment_period", @onkeypress = "return IsNumeric(event);", @placeholder = "", @Maxlength = 3 })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-12">Moratorium Period</label>
+                                                        <div class="col-md-12">
+                                                            @Html.TextBoxFor(m => m.moratorium_period, new { @class = "form-control", @id = "txtmoratorium_period", @onkeypress = "return IsNumeric(event);", @placeholder = "", @Maxlength = 3 })
+
+
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-12">Remark</label>
+                                                        <div class="col-md-12">
+                                                            @*<textarea id="txtRemark2" cols="10" rows="6" class="tinymcetab" maxlength="650"></textarea>*@
+                                                            @Html.TextAreaFor(m => m.remark2, new { @class = "tinymcetab", @id = "txtRemark2", @cols = "10", @rows = "6", @maxlength = "650" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="tab2">
+                                <h3 class="form-section" style="font-weight:bolder">Own Contribution Deposit</h3>
+                                <div class="form-body" style="padding: 0px !important">
+
+
+
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-12">Deposit Date</label>
+                                                <div class="col-md-12">
+                                                    @Html.TextBoxFor(m => m.input_Contributiondepositedate, new { @class = "form-control js-datemask", @id = "txtContributiondepositedate", @placeholder = "dd/mm/yy", @onkeypress = "return IsNumeric(event);", @Maxlength = 10 })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-12">Amount</label>
+                                                <div class="col-md-12">
+                                                    @Html.TextBoxFor(m => m.ContributionAmt, new { @class = "form-control", @id = "txtContributionAmt", @onkeypress = "return IsNumeric(event);", @placeholder = "", @Maxlength = 8 ,@disabled="disabled" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-12">EDP Training Center</label>
+                                                <div class="col-md-12">
+                                                    @Html.DropDownListFor(m => m.edp, new List<SelectListItem>
+                                                    (), "--चयन करे--", new { @id = "ddledp", @class = "form-control select2" })
+                                                    @Html.HiddenFor(m => m.EDP_inst_code, new { @id = "hfedp_training_ins_code" })
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="white">.</label>
+                                                <label class="control-label col-md-12"  style="font-size:medium">Training Duration :</label>
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-12">From Date</label>
+                                                <div class="col-md-12">
+                                                    @Html.TextBoxFor(m => m.inputEDPFromDate, new { @class = "form-control", @id = "txtEDPFromDate", @onkeypress = "return IsNumeric(event);", @placeholder = "dd/mm/yyyy", @Maxlength = 10 })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-12">To Date</label>
+                                                <div class="col-md-12">
+                                                    @Html.TextBoxFor(m => m.inputEDPToDate, new { @class = "form-control", @id = "txtinputEDPToDate", @onkeypress = "return IsNumeric(event);", @placeholder = "dd/mm/yyyy", @Maxlength = 10 })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+
+                            </div>
+
+
+
+                            <div class="tab-pane" id="tab3">
+                                <h3 class="form-section" style="font-weight:bolder">Loan Released</h3>
+                                <div class="form-body" style="padding: 0px !important">
+                                   
+
+
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-12">Last date of Loan Released</label>
+                                                <div class="col-md-12">
+                                                    @Html.TextBoxFor(m => m.input_loan_released_last_date, new { @class = "form-control js-datemask", @id = "txtloan_released_last_date", @placeholder = "dd/mm/yy", @onkeypress = "return IsNumeric(event);", @Maxlength = 10 })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-12">Total Loan Amt Released</label>
+                                                <div class="col-md-12">
+                                                    @Html.TextBoxFor(m => m.amt_released, new { @class = "form-control", @id = "txtamt_released", @onkeypress = "return IsNumeric(event);", @placeholder = "", @Maxlength = 8 })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-12">Loan Account No. of Beneficiary</label>
+                                                <div class="col-md-12">
+                                                    @Html.TextBoxFor(m => m.account_no_beneficiary, new { @class = "form-control", @id = "txtaccount_no_beneficiary", @placeholder = "", @Maxlength = 30 })
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                    </div>
+
+
+                                </div>
+
+                            <div class="tab-pane" id="tab4">
+                                <h3 class="form-section" style="font-weight:bolder">Govt subsidy(MM) claim</h3>
+                                <div class="form-body" style="padding: 0px !important">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-12">Transient A/c or Intermediatory A/c Or Intersole A/c:</label>
+
+
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-12">IFSC</label>
+                                                <div class="col-md-12">
+                                                    @Html.TextBoxFor(m => m.ifsc, new { @class = "form-control", @id = "txtifsc",  @placeholder = "", @Maxlength = 11})
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-12">Ac/No</label>
+
+
+                                                @Html.TextBoxFor(m => m.transient_account, new { @class = "form-control", @id = "txttransient_account", @placeholder = "", @Maxlength = 30 })
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-12">Margin Money (Govt. Subsidy) claimed</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <div class="col-md-12">
+                                                    @Html.TextBoxFor(m => m.mm_amt, new { @class = "form-control", @id = "txtamt", @onkeypress = "return IsNumeric(event);", @placeholder = "", @Maxlength = 10 ,@disabled="disabled"})
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <input id="File1" class="form-control" type="file" onchange="loadPayFile(event, 'File1', document.getElementById('hfregistrationcode').value.trim(), document.getElementById('hffinanace_id').value.trim(), document.getElementById('hfscheme_code').value.trim())" />
+                                                @*function (event, demo, Code,fin_code,sch)*@
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    @*<h3 class="form-section" style="font-weight:bolder">Details Of Margin Money(subsidy)Claim Transfer through Corp. Bank to your Bank</h3>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-12">Transfer Date</label>
+                                               
+                                                @Html.TextBoxFor(m => m.input_mm_date, new { @class = "form-control js-datemask", @id = "txtmm_date", @onkeypress = "return IsNumeric(event);", @placeholder = "dd/mm/yy", @Maxlength = 10 })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-12">MM Amount</label>
+                                                @Html.TextBoxFor(m => m.mm_amt, new { @class = "form-control", @id = "txtmm_amt", @onkeypress = "return IsNumeric(event);", @placeholder = "", @Maxlength = 10 })
+                                            </div>
+                                        </div>       
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-12">Refrence No</label>
+                                                @Html.TextBoxFor(m => m.mm_refrence_no, new { @class = "form-control", @id = "txtmm_refrence_no", @placeholder = "", @Maxlength = 20 })
+                                            </div>
+                                        </div>
+                                    
+                                                                 </div>*@
+                                </div>
+                            </div>
+                            
+                            @*<div class="tab-pane" id="tab5">
+                                <h3 class="form-section" style="font-weight:bolder">TDR Account Details</h3>
+                                <div class="form-body" style="padding: 0px !important">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-12"> Beneficiary TDR Account No</label>
+                                                <div class="col-md-12">
+                                                    @Html.TextBoxFor(m => m.TDR_acct, new { @class = "form-control", @id = "txtTDR_acct", @placeholder = "", @Maxlength = 20 })
+
+                                                    </div>
+
+
+                                                </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-12">Deposit Date in TDR</label>
+                                                <div class="col-md-12">
+                                                    @Html.TextBoxFor(m => m.input_TDR_deposite_date, new { @class = "form-control js-datemask", @id = "txtTDR_deposite_date", @onkeypress = "return IsNumeric(event);", @placeholder = "dd/mm/yyyy", @Maxlength = 10 })
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-12">Adjustment Date </label>
+
+
+                                                @Html.TextBoxFor(m => m.input_adjustment_date, new { @class = "form-control js-datemask", @id = "txtinput_adjustment_date", @onkeypress = "return IsNumeric(event);", @placeholder = "dd/mm/yyyy", @Maxlength = 10 })
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-12">Adjustment Amount </label>
+
+
+                                                @Html.TextBoxFor(m => m.adjustment_amt ,new { @class = "form-control", @id = "txtadjustment_amt", @placeholder = "", @Maxlength = 10 })
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                   
+                                </div>
+
+
+                            </div>*@
+
+                            <div id="tab5" class="tab-pane"></div>
+
+
+                                    <div class="form-actions">
+                                        <div class="row">
+                                            <div class="col-md-offset-9 col-md-12">
+                                                <button type="button" class="btn btn-outline yellow button-next hide" onclick="funback()" id="btnback"><i class="fa fa-angle-left"></i>Back</button>
+                                                <button type="button" class="btn btn-outline green button-next" onclick="Save()" id="btncont">Continue<i class="fa fa-angle-right"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+            </form>
+        </div>
+    </div>
+    <script src="~/Content/tinymce/jquery.tinymce.min.js"></script>
+    <script src="~/Content/tinymce/tinymce.min.js"></script>
+    <script>
+
+        function fun_mm() {
+
+        }
+
+        $(document).ready(function () {
+            $(".tinymcetab").tinymce({
+                theme: "modern",
+                element_format: "html",
+                entity_encoding: "raw",
+                //plugins: ['advlist autolink lists link image charmap print preview hr anchor pagebreak', 'searchreplace wordcount visualblocks visualchars code fullscreen', 'insertdatetime media nonbreaking save table contextmenu directionality', 'emoticons template paste textcolor colorpicker textpattern imagetools codesample toc'],
+                //toolbar1: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+                //toolbar2: 'print preview media | forecolor backcolor emoticons | codesample',
+                plugins: ['advlist lists preview', 'code fullscreen', 'paste textpattern codesample toc'],
+                toolbar1: 'undo redo | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | preview | codesample',
+                schema: "html5",
+                valid_children: "+a[div]"
+            });
+        });
+
+        $(document).ready(function () {
+
+            $("#txtdate").datepicker({
+
+                dateFormat: "dd/mm/yy",
+                changeMonth: false,
+                changeYear: false
+            });
+
+            $("#txtinputsanction_date").datepicker({
+
+                dateFormat: "dd/mm/yy",
+                changeMonth: false,
+                changeYear: false
+            });
+            
+            $("#txtloan_released_last_date").datepicker({
+
+                dateFormat: "dd/mm/yy",
+                changeMonth: true,
+                changeYear: true
+            });
+           
+            
+            
+            //$("#txtTDR_deposite_date").datepicker({
+
+            //    dateFormat: "dd/mm/yy",
+            //    changeMonth: true,
+            //    changeYear: true
+            //});
+            //$("#txtinput_adjustment_date").datepicker({
+
+            //    dateFormat: "dd/mm/yy",
+            //    changeMonth: true,
+            //    changeYear: true
+            //});
+
+            $("#txtContributiondepositedate").datepicker({
+
+                dateFormat: "dd/mm/yy",
+                changeMonth: true,
+                changeYear: true
+            });
+            $("#txtEDPFromDate").datepicker({
+
+                dateFormat: "dd/mm/yy",
+                changeMonth: true,
+                changeYear: true
+            });
+            $("#txtinputEDPToDate").datepicker({
+
+                dateFormat: "dd/mm/yy",
+                changeMonth: true,
+                changeYear: true
+            });
+            $(".select2").select2();
+
+            $('.select2-container--bootstrap').removeAttr('style');
+            $('.select2-container--bootstrap').css('width', '100%');
+            $('#ddlstatus').change(function () {
+
+                if (document.getElementById("ddlstatus").value == "A") {
+                    if ($("#div_loan_saction").hasClass("hide")) {
+                        $("#div_loan_saction").removeClass('hide')
+                    }
+                    if ($("#statusremak").hasClass("hide")) {
+
+                    }
+                    else {
+                        $("#statusremak").addClass('hide')
+                    }
+
+                }
+                else {
+                    if ($("#div_loan_saction").hasClass("hide")) {
+
+                    }
+                    else {
+                        $("#div_loan_saction").addClass('hide')
+                    }
+                    if ($("#statusremak").hasClass("hide")) {
+                        $("#statusremak").removeClass('hide')
+                    }
+                }
+            });
+            $.ajax({
+                type: "post",
+                url: "/User/GetEDP",
+                data: {},
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    $('#ddledp').empty();
+                    var district = "";
+                    for (var i = 0; i < data.length; i++) {
+                        district = district + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                    }
+                    $('#ddledp').append(district);
+                    $('#ddledp').val($('#hfedp_training_ins_code').val());
+
+
+                }
+            });
+        });
+        function funback() {
+            if ($("#tab1").hasClass('active')) {
+                $("#btnback").addClass('hide');
+                $("#btncont").html('Continue');
+            }
+            else if ($("#tab2").hasClass('active')) {
+
+                $("#tab1").addClass('active');
+                $("#tab2").removeClass('active');
+                $("#btncont").html('Continue');
+                $("#btnback").addClass('hide');
+                if (document.getElementById("ddlstatus").value == "A") {
+                    if ($("#div_loan_saction").hasClass("hide")) {
+                        $("#div_loan_saction").removeClass('hide')
+                    }
+                    if ($("#statusremak").hasClass("hide")) {
+
+                    }
+                    else {
+                        $("#statusremak").addClass('hide')
+                    }
+
+                }
+                else {
+                    if ($("#div_loan_saction").hasClass("hide")) {
+
+                    }
+                    else {
+                        $("#div_loan_saction").addClass('hide')
+                    }
+                    if ($("#statusremak").hasClass("hide")) {
+                        $("#statusremak").removeClass('hide')
+                    }
+                }
+                document.getElementById('txtdate').disabled = true;
+                document.getElementById('txtinputsanction_date').disabled = true;
+                document.getElementById('txt_capital_expenditure_approved').disabled = true;
+                document.getElementById('txtworking_capital_approved').disabled = true;
+                document.getElementById('ddlstatus').disabled = true;
+            }
+            else if ($("#tab3").hasClass('active')) {
+
+                $("#tab2").addClass('active');
+                $("#tab3").removeClass('active');
+                $("#btncont").html('Continue');
+               
+                
+            }
+            else if ($("#tab4").hasClass('active')) {
+
+                $("#tab3").addClass('active');
+                $("#tab4").removeClass('active');
+                $("#btncont").html('Continue')
+                document.getElementById('txtloan_released_last_date').disabled = true;
+
+                document.getElementById('txtamt_released').disabled = true;
+
+
+            }
+            else if ($("#tab5").hasClass('active')) {
+
+                $("#tab4").addClass('active');
+                $("#tab5").removeClass('active');
+              //  $("#btncont").html('Submit')
+
+            }
+            //else if ($("#tab6").hasClass('active')) {
+
+            //    $("#tab5").addClass('active');
+            //    $("#tab6").removeClass('active');
+
+            //}
+        }
+        function cal()
+        {
+            var capital_expenditure_approved = 0, working_capital_approved = 0, project_cost_approved = 0, capital_expenditure_finance = 0, working_capital_finance = 0, project_cost_finance = 0;
+            if (document.getElementById("txt_capital_expenditure_approved").value != "")
+            {
+                capital_expenditure_approved = parseFloat(document.getElementById("txt_capital_expenditure_approved").value);
+            }
+            if (document.getElementById("txtworking_capital_approved").value != "") {
+                working_capital_approved = parseFloat(document.getElementById("txtworking_capital_approved").value);
+            }
+            capital_expenditure_finance = (capital_expenditure_approved * (parseFloat(document.getElementById("hfbank_finance_per").value) / 100))
+            document.getElementById("txtcapital_expenditure_finance").value = parseFloat(capital_expenditure_finance).toFixed(2).toString().trim();
+
+            working_capital_finance = (working_capital_approved * (parseFloat(document.getElementById("hfbank_finance_per").value) / 100))
+            document.getElementById("txtworking_capital_finance").value = parseFloat(working_capital_finance).toFixed(2).toString().trim();
+
+            project_cost_approved = capital_expenditure_approved + working_capital_approved;
+            project_cost_finance = capital_expenditure_finance + working_capital_finance
+
+            
+
+            document.getElementById("txtproject_cost_approved").value = parseFloat(project_cost_approved).toFixed(2).toString().trim();
+
+            document.getElementById("txtproject_cost_finance").value = parseFloat(project_cost_finance).toFixed(2).toString().trim();
+        }
+        $(document).ready(function () {
+            if (document.getElementById("hfstep").value == "0") {
+                $("#divpross").css('width', '15%');
+                $("#litab1").addClass('active')
+                $("#litab2").removeClass('active')
+                $("#litab3").removeClass('active')
+                $("#litab4").removeClass('active')
+                $("#litab5").removeClass('active')
+                //$("#litab6").removeClass('active')
+                $("#tab1").addClass('active');
+                $("#btnback").addClass('hide');
+                if (document.getElementById("hfstatus").value == "A") {
+                    if ($("#div_loan_saction").hasClass("hide")) {
+                        $("#div_loan_saction").removeClass('hide')
+                    }
+                    if ($("#statusremak").hasClass("hide")) {
+
+                    }
+                    else {
+                        $("#statusremak").addClass('hide')
+                    }
+                    
+                }
+                else {
+                    if ($("#div_loan_saction").hasClass("hide")) {
+                       
+                    }
+                    else {
+                        $("#div_loan_saction").addClass('hide')
+                    }
+                    if ($("#statusremak").hasClass("hide")) {
+                        $("#statusremak").removeClass('hide')
+                    }
+                }
+               
+            }
+            if (document.getElementById("hfstep").value == "1") {
+                $("#divpross").css('width', '25%');
+                $("#litab1").addClass('done')
+                $("#litab2").addClass('active')
+                $("#litab3").removeClass('active')
+                $("#litab4").removeClass('active')
+                $("#litab5").removeClass('active')
+                //$("#litab6").removeClass('active')
+                $("#tab2").addClass('active');
+                $("#tab1").removeClass('active');
+                $("#btnback").removeClass('hide');
+            }
+            if (document.getElementById("hfstep").value == "2") {
+                $("#divpross").css('width', '50%');
+                $("#litab1").addClass('done')
+                $("#litab2").addClass('done')
+                $("#litab3").addClass('active')
+                $("#litab4").removeClass('active')
+                $("#litab5").removeClass('active')
+               // $("#litab6").removeClass('active')
+                $("#tab3").addClass('active');
+                $("#tab2").removeClass('active');
+                $("#btnback").removeClass('hide');
+            }
+            if (document.getElementById("hfstep").value == "3") {
+                $("#divpross").css('width', '75%');
+                $("#litab1").addClass('done')
+                $("#litab2").addClass('done')
+                $("#litab3").addClass('done')
+                $("#litab4").addClass('active')
+                $("#litab5").removeClass('active')
+               // $("#litab6").removeClass('active')
+                $("#tab4").addClass('active');
+                $("#tab3").removeClass('active');
+                $("#btnback").removeClass('hide');
+            }
+            if (document.getElementById("hfstep").value == "4") {
+                $("#divpross").css('width', '100%');
+                $("#litab1").addClass('done')
+                $("#litab2").addClass('done')
+                $("#litab3").addClass('done')
+                $("#litab4").addClass('done')
+                $("#litab5").addClass('active')
+               // $("#litab6").removeClass('active')
+                $("#tab5").addClass('active');
+                $("#tab4").removeClass('active');
+                $("#btncont").addClass('hide');
+                $("#btnback").addClass('hide');
+                
+            }
+            //if (document.getElementById("hfstep").value == "5") {
+            //    $("#divpross").css('width', '100%');
+            //    $("#litab1").addClass('done')
+            //    $("#litab2").addClass('done')
+            //    $("#litab3").addClass('done')
+            //    $("#litab4").addClass('done')
+            //    $("#litab5").addClass('done')
+            //    $("#litab6").addClass('active')
+            //    $("#tab6").addClass('active');
+            //    $("#tab5").removeClass('active');
+            //    $("#btncont").addClass('hide');
+            //    $("#btnback").addClass('hide');
+            //}
+            $.ajax({
+                type: "post",
+                url: "/form/getstatusMYSY",
+                data: {},
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    $('#ddlstatus').empty();
+                    var village = "";
+                    //var village = '';
+                    for (var i = 0; i < data.length; i++) {
+                        village = village + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                    }
+                    $('#ddlstatus').append(village);
+                    $('#ddlstatus').val($('#hfstatus').val());
+                }
+            });
+
+            
+        });
+
+        function Save() {
+            var fin = {
+                "finanace_id": document.getElementById("hffinanace_id").value,
+                "registration_code": document.getElementById("hfregistrationcode").value,
+                "capital_expenditure_approved": document.getElementById("txt_capital_expenditure_approved").value,
+                "capital_expenditure_finance": document.getElementById("txtcapital_expenditure_finance").value,
+                "working_capital_approved": document.getElementById("txtworking_capital_approved").value,
+                "working_capital_finance": document.getElementById("txtworking_capital_finance").value,
+                "project_cost_approved": document.getElementById("txtproject_cost_approved").value,
+                "project_cost_finance": document.getElementById("txtproject_cost_finance").value,
+                "inputsanction_date": document.getElementById("txtinputsanction_date").value == "" ? "01/01/1900" : document.getElementById("txtinputsanction_date").value,
+                "is_CGTMS": document.getElementById("hfis_CGTMS").value,
+                "interest_rate": document.getElementById("txtinterest_rate").value,
+                "repayment_period": document.getElementById("txtrepayment_period").value,
+                "moratorium_period": document.getElementById("txtmoratorium_period").value,
+                "remark": window.parent.tinymce.get('txtRemark2').getContent(),
+                "input_loan_released_last_date": document.getElementById("txtloan_released_last_date").value == "" ? "01/01/1900" : document.getElementById("txtloan_released_last_date").value,
+                "amt_released": document.getElementById("txtamt_released").value,
+                "account_no_beneficiary": document.getElementById("txtaccount_no_beneficiary").value == "" ? " " : document.getElementById("txtaccount_no_beneficiary").value,
+                "transient_account": document.getElementById("txttransient_account").value == "" ? " " : document.getElementById("txttransient_account").value,
+               // "mm_amt": document.getElementById("txtamt").value,
+              //  "input_mm_date": document.getElementById("txtmm_date").value == "" ? "01/01/1900" : document.getElementById("txtmm_date").value,
+               // "mm_refrence_no": document.getElementById("txtmm_refrence_no").value,
+               // "TDR_acct": document.getElementById("txtTDR_acct").value,
+               // "input_TDR_deposite_date": document.getElementById("txtTDR_deposite_date").value == "" ? "01/01/1900" : document.getElementById("txtTDR_deposite_date").value,
+                //"adjustment_amt": document.getElementById("txtadjustment_amt").value,
+                "input_doc_rec_date": document.getElementById("txtdate").value == "" ? "01/01/1900" : document.getElementById("txtdate").value,
+               // "input_adjustment_date": document.getElementById("txtinput_adjustment_date").value == "" ? "01/01/1900" : document.getElementById("txtinput_adjustment_date").value,
+                "branch_code:": document.getElementById("hfbranch_code").value,
+                "input_Contributiondepositedate": document.getElementById("txtContributiondepositedate").value,
+                "inputEDPFromDate": document.getElementById("txtEDPFromDate").value,
+                "ContributionAmt": document.getElementById("txtContributionAmt").value,
+                "EDP_inst_code": document.getElementById("ddledp").value,
+                "inputEDPToDate": document.getElementById("txtinputEDPToDate").value,
+            }
+            if ($("#tab1").hasClass('active')) {
+                var remark = window.parent.tinymce.get('txtRemark').getContent();
+                if (document.getElementById("ddlstatus").value == "-1") {
+                    alert("select status");
+                    document.getElementById("ddlstatus").focus();
+                    return;
+                }
+                if (document.getElementById("ddlstatus").value == "RB" || document.getElementById("ddlstatus").value == "UB") {
+                    if (remark == null || remark == "") {
+                        alert("enter remarks");
+                        window.parent.tinymce.get('txtRemark').focus();
+                        return;
+                    }
+                }
+                if (document.getElementById("ddlstatus").value == "A") {
+                    if (parseFloat(document.getElementById("txtproject_cost_approved").value) > parseFloat(document.getElementById("hfdltfc_Project_cost").value)) {
+                        alert("Project cost should be equal or smaller than Project cost approved by DLTFC");
+                        document.getElementById("txtproject_cost_approved").value = "0";
+                        document.getElementById("txtproject_cost_finance").value = "0";
+                        return;
+                    }
+                }
+                var mysy = {
+                    "registration_code": document.getElementById("hfregistrationcode").value,
+                    "scheme_code": document.getElementById("hfscheme_code").value,
+                    "status": document.getElementById('ddlstatus').value,
+                    "remark": remark == "" ? " " : remark
+                }
+                $.ajax({
+                    url: '/form/InsertUpdate_mysy_statuswithbankfin',
+                    data: JSON.stringify({ mysy: mysy,bankfin:fin, sptype: 1, authority: 'B' }),
+                    type: 'POST',
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data) {
+                        if (data == "Record Save.." || data == "Record Update..")
+                        {
+                            
+                            location.reload();
+                        }
+                        else {
+                            alert(data);
+                        }
+
+                    }
+                });
+               
+                return;
+            }
+            if ($("#tab2").hasClass('active')) {
+                
+                $.ajax({
+                    url: '/form/InsertUpdate_mysy_bankfin',
+                    data: JSON.stringify({ bankfin: fin, sptype: 2, steps: 2 }),
+                    type: 'POST',
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data) {
+                        if (data =="Record Update..") {
+                            location.reload();
+                        }
+                        else {
+                            alert(data);
+                        }
+
+                    }
+                });
+
+                return;
+            }
+            if ($("#tab3").hasClass('active')) {
+
+                $.ajax({
+                    url: '/form/InsertUpdate_mysy_bankfin',
+                    data: JSON.stringify({ bankfin: fin, sptype: 2, steps: 3 }),
+                    type: 'POST',
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data) {
+                        if (data =="Record Update..") {
+                            location.reload();
+                        }
+                        else {
+                            alert(data);
+                        }
+                    }
+                });
+
+                return;
+            }
+            if ($("#tab4").hasClass('active')) {
+
+                $.ajax({
+                    url: '/form/InsertUpdate_mysy_bankfin',
+                    data: JSON.stringify({ bankfin: fin, sptype: 2, steps: 4 }),
+                    type: 'POST',
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data) {
+                        if (data =="Record Update..") {
+                            location.reload();
+                        }
+
+                    }
+                });
+
+                return;
+            }
+            if ($("#tab5").hasClass('active')) {
+
+                $.ajax({
+                    url: '/form/InsertUpdate_mysy_bankfin',
+                    data: JSON.stringify({ bankfin: fin, sptype: 2, steps: 5}),
+                    type: 'POST',
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data) {
+                        if (data=="Record Update..") {
+                            location.reload();
+                        }
+
+                    }
+                });
+
+                return;
+            }
+        }
+        function Toggle(data) {
+            document.getElementById("hfis_CGTMS").value = data;
+        }
+        var specialKeys = new Array();
+        specialKeys.push(47); // for Forward Slash(/)
+        specialKeys.push(8); //Backspace
+        specialKeys.push(9); // Tab
+        specialKeys.push(46); // for .
+        specialKeys.push(37); // for left Arrow
+        //  specialKeys.push(39); // for Right Arrow
+        function IsNumeric(e) {
+            var keyCode = e.which ? e.which : e.keyCode
+            var ret = ((keyCode >= 48 && keyCode <= 57) || specialKeys.indexOf(keyCode) != -1); // For Decimal To All Number
+            if (ret == false) {
+                alert("Only numaric value allwed.");
+            }
+            return ret;
+        }
+
+    </script>
+}

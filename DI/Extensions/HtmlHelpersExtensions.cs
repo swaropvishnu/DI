@@ -1,8 +1,12 @@
 
-    using Jmelosegui.Mvc.GoogleMap;
-    using System.Web;
-    using System.Web.Mvc;
-    using System.Web.Mvc.Html;
+using Jmelosegui.Mvc.GoogleMap;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Web;
+using System.Web.Mvc;
+using System.Web.Mvc.Html;
 namespace DI
 {
     public static class HtmlHelpersExtensions
@@ -20,6 +24,28 @@ namespace DI
         public static IHtmlString Raw(this string value)
         {
             return new HtmlString(value);
+        }
+        public static TAttribute GetModelAttribute<TAttribute>
+(this ViewDataDictionary viewData, bool inherit = false) where TAttribute : Attribute
+        {
+            if (viewData == null) throw new ArgumentException("ViewData");
+            var containerType = viewData.ModelMetadata.ContainerType;
+            return ((TAttribute[])containerType.GetProperty(viewData.ModelMetadata.PropertyName).GetCustomAttributes(typeof(TAttribute), inherit)).FirstOrDefault();
+
+        }
+        public static IHtmlString RenderScripts(this HtmlHelper htmlHelper)
+        {
+            var scripts = htmlHelper.ViewContext.HttpContext.Items["Scripts"] as IList<string>;
+            if (scripts != null)
+            {
+                var builder = new StringBuilder();
+                foreach (var script in scripts)
+                {
+                    builder.AppendLine(script);
+                }
+                return new MvcHtmlString(builder.ToString());
+            }
+            return null;
         }
     }
 }

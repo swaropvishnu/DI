@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "GetAllotee";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    if (UserSession.LoggedInUserLevelId == null || UserSession.LoggedInUserLevelId != "6")
+    if (UserSession.LoggedInUserLevelId == null || UserSession.LoggedInUserLevelId == "30")
     {
         Response.Redirect("../Login/login");
         return;

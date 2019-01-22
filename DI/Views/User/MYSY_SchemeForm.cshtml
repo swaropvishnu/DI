@@ -1,0 +1,3008 @@
+﻿@model DI.Models.CMYSS_Applicant
+@{
+    ViewBag.Title = "MYSY_SchemeForm";
+    Layout = "~/Views/Shared/UserLayout.cshtml";
+    if (UserSession.LoggedInUserLevelId == null || UserSession.LoggedInUserLevelId != "30")
+    {
+        Response.Redirect("../Login/Registration_Login");
+        return;
+    }
+}
+
+<style>
+    
+    .disabled {
+        pointer-events: none !important;
+        cursor: default !important;
+    }
+</style>
+<script>
+    
+    $(document).ready(function () {
+        $("#txtDOB").datepicker({
+            dateFormat: "dd/mm/yy",
+            changeMonth: true,
+            changeYear: true
+            
+        });
+        //$("#txtDOB").datepicker({ changeMonth: true, changeYear: true, dateFormat: 'dd/mm/yy', minDate: '0d', showButtonPanel: true });
+        $(".select2").select2();
+
+        $('.select2-container--bootstrap').removeAttr('style');
+        $('.select2-container--bootstrap').css('width', '100%');
+        //$('.select2-container--below').removeAttr('style');
+        //$('.select2-container--bootstrap').css('width', '100%');
+    });
+    $(document).on('focus', '.select2', function (e) {
+        if (e.originalEvent) {
+            $(this).siblings('select').select2('open');
+        }
+    });
+    
+    function funopen(url) {
+        window.open(url, '_self');
+    }
+</script>
+@using (Html.BeginForm("MYSY_SchemeForm", "User", FormMethod.Post, new { @class = "", enctype = "multipart/form-data", id = "__AjaxAntiForgeryForm" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="portlet light " id="form_wizard_1">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="icon-layers font-red"></i>
+                <span class="caption-subject font-red bold uppercase">
+                    मुख्यमंत्री युवा स्वरोजगार योजना - प्रार्थना-पत्र
+                    <span class="step-title"> चरण 1 से  4 </span>
+                </span>
+            </div>
+        </div>
+        <div class="portlet-body form">
+            @*<form class="form-horizontal" action="#" id="submit_form" method="POST" novalidate="novalidate">*@
+                <div class="form-wizard">
+                    <div class="form-body">
+                        <ul class="nav nav-pills nav-justified steps">
+
+                            <li class="active" id="litab1">
+                                <a data-toggle="tab" class="step disabled" aria-expanded="true">
+                                    <span class="number"> 1 </span>
+                                    <span class="desc">
+                                        <i class="fa fa-check"></i> व्यक्तिगत विवरण
+                                    </span>
+                                </a>
+                            </li>
+                            <li id="litab2" class="">
+                                <a data-toggle="tab" class="step disabled">
+                                    <span class="number"> 2 </span>
+                                    <span class="desc">
+                                        <i class="fa fa-check"></i>परिवार
+                                    </span>
+                                </a>
+                            </li>
+                            <li id="litab3" class="">
+                                <a data-toggle="tab" class="step disabled">
+                                    <span class="number"> 3 </span>
+                                    <span class="desc">
+                                        <i class="fa fa-check"></i> परियोजना
+                                    </span>
+                                </a>
+                            </li>
+                            <li id="litab4" class="">
+                                <a data-toggle="tab" class="step disabled">
+                                    <span class="number"> 4 </span>
+                                    <span class="desc">
+                                        <i class="fa fa-check"></i> बैंक विवरण
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                        <div id="bar" class="progress progress-striped" role="progressbar">
+                            <div class="progress-bar progress-bar-success" style="width: 0%;" id="divpross"> </div>
+                        </div>
+                        <div class="tab-content">
+                            <div class="alert alert-danger display-none">
+                                <button class="close" data-dismiss="alert"></button> You have some form errors. Please check below.
+                            </div>
+                            <div class="alert alert-success display-none">
+                                <button class="close" data-dismiss="alert"></button> Your form validation is successful!
+                            </div>
+                            <div class="tab-pane" id="tab1">
+                                <h3 class="form-section" style="font-weight:bolder">व्यक्तिगत विवरण प्रदान करें</h3>
+                                <div class="form-body" style="padding: 0px !important">
+
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-12" id="lblname">नाम<span class="Mandatory">*</span></label>
+                                                <div class="col-md-12">
+                                                    @Html.TextBoxFor(m => m.applicant_name, new
+                                               {
+                                                   @class = "form-control",
+                                                   @id = "txtName",
+                                                   @placeholder = "नाम ",
+                                                   @Maxlength = 20,
+                                                   @onkeypress = "return IsAlphaNumeric(event);",
+                                                   @ondrop = "return false;",
+                                                   @npaste = "return false;"
+                                                   
+
+                                               })
+                                                    @Html.HiddenFor(m => m.applicant_code, new { @id = "hfapplicant_code" })
+                                                    @Html.HiddenFor(m => m.steps, new { @id = "hfstep" })
+                                                    @Html.HiddenFor(m => m.DistCode, new { @id = "hfDistCode" })
+                                                    @Html.HiddenFor(m => m.TehsilCode, new { @id = "hfTehsilCode" })
+                                                    @Html.HiddenFor(m => m.BlockCode, new { @id = "hfBlockCode" })
+                                                    @Html.HiddenFor(m => m.VillCode, new { @id = "hfVillCode" })
+                                                    @Html.HiddenFor(m => m.current_district_code_census, new { @id = "hfCDistCode" })
+                                                    @Html.HiddenFor(m => m.current_tehsil_code_census, new { @id = "hfCTehsilCode" })
+                                                    @Html.HiddenFor(m => m.current_block_code, new { @id = "hfCBlockCode" })
+                                                    @Html.HiddenFor(m => m.current_village_code, new { @id = "hfCVillCode" })
+                                                    @Html.HiddenFor(m => m.yojana_code, new { @id = "hfyojana_code" })
+                                                    @Html.HiddenFor(m => m.gender_suffix, new { @id = "hfgender" })
+                                                    @Html.HiddenFor(m => m.qualification_code, new { @id = "hfqualification_code" })
+                                                    @Html.HiddenFor(m => m.category_suffix, new { @id = "hfcategory_suffix" })
+                                                    @Html.HiddenFor(m => m.sp_category_suffix, new { @id = "hfsp_category_suffix" })
+                                                    @Html.HiddenFor(m => m.proposed_office_district, new { @id = "hfproposed_office_district" })
+                                                    @Html.HiddenFor(m => m.proposed_office_tehsil, new { @id = "hfptehsil" })
+                                                    @Html.HiddenFor(m => m.proposed_office_block, new { @id = "hfpblock" })
+                                                    @Html.HiddenFor(m => m.proposed_office_village, new { @id = "hfpvillage" })
+                                                    @Html.HiddenFor(m => m.sponsoring_office_code, new { @id = "hfsponsoring_office_code" })
+                                                    @Html.HiddenFor(m => m.is_address_same, new { @id = "hfis_address_same" })
+                                                    @Html.HiddenFor(m => m.product_service_code, new { @id = "hfindustry_code" })
+                                                    @Html.HiddenFor(m => m.Is_village, new { @id = "hfIs_village_bank" })
+                                                    @Html.HiddenFor(m => m.edp_training_ins_code, new { @id = "hfedp_training_ins_code" })
+
+                                                    @Html.HiddenFor(m => m.bank_code, new { @id = "hfbankcode" })  
+                                                    @Html.HiddenFor(m => m.branch_code, new { @id = "hfbranch_code" })
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--/span-->
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-6" id="lbldob">जन्मतिथि<span class="Mandatory">*</span></label>
+                                                <label class="control-label col-md-6" id="lblgend">लिंग <span class="Mandatory">*</span></label>
+                                                <div class="col-md-6">
+                                                    @Html.EditorFor(model => model.inputdob, new { htmlAttributes = new { @class = "form-control js-datemask", @onkeypress = "return IsNumeric(event,'dob');", @placeholder = "dd/mm/yy", @id = "txtDOB", @Maxlength = 10 } })
+                                                    @Html.ValidationMessageFor(model => model.inputdob, "", new { @class = "text-danger" })
+
+                                                </div>
+                                                <div class="col-md-6">
+                                                    @Html.DropDownListFor(m => m.gender, new List<SelectListItem>
+                                                    (), "--चयन करे--", new { @id = "ddlgender", @class = "form-control"  })
+                                                    <span class="help-block"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-6" id="lblcat">जाति <span class="Mandatory">*</span></label>
+                                                <label class="control-label col-md-6" id="lblspcat">विशेष श्रेणी <span class="Mandatory">*</span></label>
+                                                <div class="col-md-6">
+                                                    @Html.DropDownListFor(m => m.category_suffix, new List<SelectListItem>(), "--चयन करे--", new { @id = "ddlcategory", @class = "form-control" })
+                                                </div>
+                                                <div class="col-md-6">
+                                                    @Html.DropDownListFor(m => m.sp_category_suffix, new List<SelectListItem>
+                                                    (), "--चयन करे--", new { @id = "ddlspcategory", @class = "form-control" })
+                                                    <span class="help-block"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--/span-->
+                                    </div>
+                                    <!--/row-->
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-12" id="lblfather">पिता/पति का नाम<span class="Mandatory">*</span></label>
+                                                <div class="col-md-12">
+                                                    @Html.TextBoxFor(m => m.Husband_father_name, new
+                                               {
+                                                   @class = "form-control",
+                                                   @id = "txtHusband_father_name",
+                                                   @placeholder = "पिता/पति का नाम ",
+                                                   @Maxlength = 20,
+                                                   @onkeypress = "return IsAlphaNumeric(event);",
+                                                   @ondrop = "return false;",
+                                                   @npaste = "return false;"
+                                                   
+                                                  
+                                               })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--/span-->
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-6" id="lbladhar">आधार कार्ड नं0<span class="Mandatory">*</span></label>
+                                                <label class="control-label col-md-6" id="lblpan">पैन कार्ड नं0</label>
+                                                <div class="col-md-6">
+                                                    @Html.TextBoxFor(m => m.adhar_no, new { @class = "form-control", @id = "txtAdhar_card_No", @placeholder = "आधार कार्ड नं0 ", @onkeypress = "return IsNumeric(event,'N');", @Maxlength = 12  })
+
+                                                </div>
+                                                <div class="col-md-6">
+                                                    @Html.TextBoxFor(m => m.pancard, new { @class = "form-control", @id = "txtpancard", @placeholder = "पैन कार्ड नं0 ", @Maxlength = 10 , @onkeypress = "return IsAlphaNumeric(event);" })
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-6">मोबाइल नं0<span class="Mandatory">*</span></label><label class="control-label col-md-6" id="lblqualification">शैक्षणिक योग्यता<span class="Mandatory">*</span></label>
+                                                <div class="col-md-6">
+                                                    @Html.TextBoxFor(m => m.mobile_no, new { @class = "form-control", @id = "txtMobile_No", @placeholder = "मोबाइल नं0", @onkeypress = "return IsNumeric(event,'N');", @Maxlength = 10  })
+                                                </div>
+                                                <div class="col-md-6">
+                                                    @Html.DropDownListFor(m => m.qualification_code, new List<SelectListItem>
+                                                    (), "--चयन करे--", new { @id = "ddlqualification", @class = "form-control"})
+                                                    <span class="help-block"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--/span-->
+                                        <!--/span-->
+                                        <!--/span-->
+                                    </div>
+                                    <div class="row">
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4" id="lblPeradress">स्थाई पता<span class="Mandatory">*</span></label>
+                                                <div class="col-md-8">
+                                                    @Html.RadioButtonFor(m => m.Is_village,"N", new {@id= "rdA1", @onclick = "Toggle('N')" }) शहरी क्षेत्र
+                                                    @Html.RadioButtonFor(m => m.Is_village, "Y",new { @id = "rdA2", @onclick = "Toggle('Y')",@checked= "checked" })ग्रामीण क्षेत्र
+                                                    
+                                                </div>
+                                                <div class="col-md-12">
+
+                                                    @Html.TextAreaFor(m => m.permanent_address, new
+                                               {
+                                                   @class = "form-control",
+                                                   @id = "txtPermanent_Address",
+                                                   @placeholder = "स्थाई पता",
+                                                   @Maxlength = 200,
+                                                   @onkeypress = "return IsRelaxAlphaNumeric(event);",
+                                                   @ondrop = "return false;",
+                                                   @npaste = "return false;",
+                                                   @rows="3"
+                                                   
+                                                  
+                                               })
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-6" id="lbldist">जनपद <span class="Mandatory">*</span></label><label class="control-label col-md-6" id="lbltehsil">तहसील <span class="Mandatory">*</span></label>
+                                                @*<div class="col-md-6">
+                                                    @Html.DropDownListFor(m => m.DistCode, new List<SelectListItem> { new SelectListItem { Text = "--चयन करे--", Value = "-1" } }, new { @id = "ddlDistrict", @class = "form-control select2" ,@disabled="disabled" })
+                                                </div>*@
+                                                <div class="col-md-6">
+                                                    @Html.TextBoxFor(m => m.dist_name, new { @class = "form-control", @id = "txtdist", @disabled = "disabled" })
+                                                </div>
+                                                    <div class="col-md-6">
+                                                        @Html.DropDownListFor(m => m.TehsilCode, new List<SelectListItem>
+                                                    (), "--चयन करे--", new { @id = "ddlTehsil", @class = "form-control select2" })
+                                                       
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        @Html.TextBoxFor(m => m.permanent_add_pincode, new { @class = "form-control", @id = "txtpermanantpincode", @placeholder = "पिनकोड", @onkeypress = "return IsNumeric(event,'N');", @Maxlength = 6 })
+                                                    </div>
+
+                                                </div>
+
+                                        </div>
+                                        <!--/span-->
+                                        <!--/span-->
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-6" id="lblblock">ब्लॉक </label><label class="control-label col-md-6" id="lblvillage">ग्राम </label>
+                                                <div class="col-md-6">
+                                                    @Html.DropDownListFor(m => m.BlockCode, new List<SelectListItem>
+                                                    (), "--चयन करे--", new { @id = "ddlBlock", @class = "form-control select2"})
+                                                   <span class="help-block"></span>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    @Html.DropDownListFor(m => m.VillCode, new List<SelectListItem>
+                                                    (), "--चयन करे--", new { @id = "ddlVillage", @class = "form-control select2"  })
+                                                    <span class="help-block"></span>
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-12" id="lbladress"> पत्र व्यवहार का पता <span class="Mandatory">*</span>&nbsp;&nbsp;<input type="checkbox" id="chksameaddress"  onclick="funadd()" />   स्थायी पते के समान</label>
+                                                <div class="col-md-12">
+                                                    @Html.TextAreaFor(m => m.current_address, new
+                                               {
+                                                   @class = "form-control",
+                                                   @id = "txtCurrentAddress",
+                                                   @placeholder = "पत्र व्यवहार का पता",
+                                                   @Maxlength = 200,
+                                                   @onkeypress = "return IsRelaxAlphaNumeric(event);",
+                                                   @ondrop = "return false;",
+                                                   @npaste = "return false;",
+                                                   @rows="3"
+                                               })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-6" id="lblcdist">जनपद <span class="Mandatory">*</span></label><label class="control-label col-md-6" id="lblctehsil">तहसील <span class="Mandatory">*</span></label>
+                                                <div class="col-md-6">
+                                                    @Html.DropDownListFor(m => m.current_district_code_census, new List<SelectListItem>(), "--चयन करे--", new { @id = "ddlcDistrict", @class = "form-control select2" })
+                                                </div>
+                                                <div class="col-md-6">
+                                                    @Html.DropDownListFor(m => m.current_tehsil_code_census, new List<SelectListItem>
+                                                    (), "--चयन करे--", new { @id = "ddlcTehsil", @class = "form-control select2" })
+                                                    <span class="help-block"></span>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    @Html.TextBoxFor(m => m.curent_add_pincode, new { @class = "form-control", @id = "txtcurrentpincode", @placeholder = "पिनकोड", @onkeypress = "return IsNumeric(event,'N');", @Maxlength = 6 })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--/span-->
+                                        <!--/span-->
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-6" id="lblcblock">ब्लॉक </label><label class="control-label col-md-6">ग्राम </label>
+                                                <div class="col-md-6">
+                                                    @Html.DropDownListFor(m => m.current_block_code, new List<SelectListItem>
+                                                    (), "--चयन करे--", new { @id = "ddlcBlock", @class = "form-control select2" })
+                                                    <span class="help-block"></span>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    @Html.DropDownListFor(m => m.current_village_code, new List<SelectListItem>
+                                                    (), "--चयन करे--", new { @id = "ddlcVillage", @class = "form-control select2" })
+                                                    <span class="help-block"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <div class="col-md-12">
+                                                    <label class="control-label col-md-12">ई-मेल आई0डी0 (यदि हो तो)	</label>
+                                                    @Html.TextBoxFor(m => m.email, new { @class = "form-control", @id = "txtEmailID", @placeholder = "ई-मेल आई0डी0 (यदि हो तो)", @Maxlength = 50, @onblur = "return validateEmail(this)" })
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8">
+
+                                            <div class="portlet-title">
+                                                <br />
+                                                <div class="caption">
+                                                    &nbsp;&nbsp;&nbsp;<i class="icon-layers font-red"></i>
+                                                    <span class="caption-subject font-red bold uppercase">
+
+                                                        नोटिस &nbsp;&nbsp;&nbsp; <input type="checkbox" id="chkaadhar" checked="checked" />  मुझे इस योजना में अपना आधार नंबर देने में कोई आपत्ति  नहीं है ।
+                                                        @*<span class="step-title"> ध्यान दें </span>*@
+                                                    </span>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/row-->
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="tab2">
+                                <h3 class="form-section" style="font-weight:bolder">परिवार का विवरण प्रदान करें</h3>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-12" id="lblFat">पिता/पति का नाम<span class="Mandatory">*</span></label>
+                                            <div class="col-md-12">
+
+                                                @Html.TextBoxFor(m => m.Father_Name, new
+                                           {
+                                               @class = "form-control",
+                                               @id = "txtFather_Name",
+                                               @placeholder = "पिता/पति का नाम",
+                                               @Maxlength = 50,
+                                               @onkeypress = "return IsAlphaNumeric(event);",
+                                               @ondrop = "return false;",
+                                               @npaste = "return false;",
+                                               @disabled = "disabled"
+                                                })
+                                                <span class="help-block"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-12">कार्य</label>
+
+                                            <div class="col-md-12">
+
+                                                @Html.TextBoxFor(m => m.Father_work, new
+                                           {
+                                               @class = "form-control",
+                                               @id = "txtFather_Work",
+                                               @placeholder = "कार्य",
+                                               @Maxlength = 50,
+                                               @onkeypress = "return IsRelaxAlphaNumeric(event);",
+                                               @ondrop = "return false;",
+                                               @npaste = "return false;"
+                                           })
+                                                
+
+                                                <span class="help-block"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-12" id="lblFatAge">उम्र</label>
+
+                                            <div class="col-md-6">
+                                                @Html.TextBoxFor(m => m.Father_Age, new { @class = "form-control", @id = "txtFather_Age", @onkeypress = "return IsNumeric(event,'N');", @placeholder = "उम्र", @Maxlength = 2 })
+
+                                                <span class="help-block"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/span-->
+                                </div>
+                                <!--/row-->
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3" id="lblMoth">माता<span class="Mandatory">*</span></label>
+
+                                            <div class="col-md-12">
+
+                                                @Html.TextBoxFor(m => m.Mother_Name, new
+                                           {
+                                               @class = "form-control",
+                                               @id = "txt_Mother_Name",
+                                               @placeholder = "माता का नाम",
+                                               @Maxlength = 50,
+                                               @onkeypress = "return IsAlphaNumeric(event);",
+                                               @ondrop = "return false;",
+                                               @npaste = "return false;"
+                                           })
+                                                <span class="help-block"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/span-->
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-12">कार्य</label>
+
+                                            <div class="col-md-12">
+
+                                                @Html.TextBoxFor(m => m.Mother_work, new
+                                           {
+                                               @class = "form-control",
+                                               @id = "txt_Mother_work",
+                                               @placeholder = "कार्य",
+                                               @Maxlength = 50,
+                                               @onkeypress = "return IsRelaxAlphaNumeric(event);",
+                                               @ondrop = "return false;",
+                                               @npaste = "return false;"
+                                           })
+                                                <span class="help-block"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-12" id="lblMothAge">उम्र</label>
+                                            <div class="col-md-6">
+                                                @Html.TextBoxFor(m => m.Mother_Age, new { @class = "form-control", @id = "txt_Mother_Age", @onkeypress = "return IsNumeric(event,'N');", @placeholder = "उम्र", @Maxlength = 2 })
+                                                <span class="help-block"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/span-->
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-12">पेंशन  कार्ड सं0</label>
+
+                                            <div class="col-md-12">
+
+                                                @Html.TextBoxFor(m => m.pansion_card_No, new
+                                           {
+                                               @class = "form-control",
+                                               @id = "txt_pensioncardnumber",
+                                               @placeholder = "पेंशन कार्ड सं0",
+                                               @Maxlength = 20,
+                                               @onkeypress = "return IsAlphaNumeric(event);",
+                                               @ondrop = "return false;",
+                                               @npaste = "return false;"
+                                           })
+                                                <span class="help-block"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/span-->
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-12" id="lblIncome">परिवार की वार्षिक आय (रु. में)<span class="Mandatory">*</span></label>
+                                            <div class="col-md-12">
+
+                                                @Html.TextBoxFor(m => m.family_income, new { @class = "form-control", @id = "txt_Family_Income", @onkeypress = "return IsNumeric(event,'Y');", @placeholder = "रू0", @Maxlength = 6 })
+
+                                                <span class="help-block"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/span-->
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-12">भाई/बहन/बच्चे </label>
+                                            <div class="col-md-6">
+                                                <select class="form-control" id="ddlrelation">
+                                                    <option value="-1">select</option>
+                                                </select>
+
+                                            </div>
+                                            <div class="col-md-6">
+                                                <input type="text" id="txtrName" value="" Maxlength="50" class="form-control" placeholder="नाम" onkeypress="return IsAlphaNumeric(event);"
+                                                       ondrop="return false;"
+                                                       npaste="return false;" />
+                                                <span class="help-block"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-12">कार्य</label>
+
+                                            <div class="col-md-12">
+                                                <input type="text" id="txtWork" value="" Maxlength="50" class="form-control" placeholder="कार्य" onkeypress="return IsRelaxAlphaNumeric(event);"
+                                                       ondrop="return false;"
+                                                       npaste="return false;" />
+                                                <span class="help-block"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-12">उम्र</label>
+                                            <div class="col-md-6">
+                                                <input type="text" id="txtAge" value="" Maxlength="2" onkeypress="return IsNumeric(event,'N');" class="form-control" placeholder="उम्र" />
+                                                <span class="help-block"></span>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <button type="button" class="btn btn-group-vertical-circle  green" onclick="AddRelation()"><i class="fa fa-plus"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/span-->
+                                </div>
+
+                                <div class="row">
+                                    <table class="table table-striped table-bordered table-hover table-checkable" id="table">
+                                        <thead>
+                                            <tr role="row" class="heading">
+                                                <th width="10%"> क्र० सं० </th>
+                                                <th width="15%"> सम्बन्ध </th>
+                                                <th width="15%"> नाम  </th>
+                                                <th width="15%"> उम्र </th>
+                                                <th width="10%"> कार्य </th>
+                                                <th width="10%"> </th>
+                                                @Html.Raw(Model.OtherRelation)
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                                <div class="portlet-title">
+                                    <br />
+                                    <div class="caption">
+                                        &nbsp;&nbsp;&nbsp;<i class="icon-layers font-red"></i>
+                                        <span class="caption-subject font-red bold uppercase">
+                                            नोटिस &nbsp;&nbsp;&nbsp; @Html.CheckBoxFor(m => m.chkfamily, new { @name = "chkfamily", @id = "chkfamily" })  मेरे व मेरे परिवार  द्वारा जिस श्रेणी / स्रोत से आय अर्जित की जा रही है उसकी प्रविष्टि  कर दी गयी है  ।  इसके लिए मैं  पूर्णतया  उत्तरदायी हूँ ।
+                                            @*<span class="step-title"> ध्यान दें </span>*@
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="tab3">
+                                <h3 class="form-section" style="font-weight:bolder">परियोजना का  विवरण</h3>
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-12" id="lblservice1">
+                                                उत्पाद/सेवा<span class="Mandatory">*</span>
+                                            </label>
+                                            <div class="col-md-12">
+                                                <input type="radio" id="rbtmanufacture" name="rbtmanufacture"  value="M" onclick="funrbtmanufacture()" > उत्पाद
+
+                                                <input type="radio" id="rbtservice" name="rbtmanufacture" value="S" onclick="funrbtmanufacture()"> सेवा
+                                                @Html.HiddenFor(m => m.industry_activity, new { @id = "hfmanu" })
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-12" id="lblservice">
+                                                उत्पाद<span class="Mandatory">*</span>
+                                            </label>
+                                            <div class="col-md-12">
+                                                @Html.DropDownListFor(m => m.product_service_code, new List<SelectListItem>
+                                                    (), "--चयन करे--", new { @id = "ddlindustry_code", @class = "form-control select2"  })
+
+                                             @Html.TextBoxFor(m => m.other_product_service, new
+                                            {
+                                                @class = "form-control hide",
+                                                @id = "txt_manufacturing",
+                                                @placeholder = "उत्पाद",
+                                                @Maxlength = 50,
+                                                @onkeypress = "return IsAlphaNumeric(event);",
+                                                @ondrop = "return false;",
+                                                @npaste = "return false;"
+                                            })
+                                               
+
+
+
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-12" id="lbl_EDP">
+                                                EDP-प्रशिक्षण<span class="Mandatory">*</span>
+                                            </label>
+                                            <div class="col-md-12">
+                                                <input type="radio" id="rbtEDPY" name="rbtEDPY" value="Y" onclick="funEDPy()"> हाँ
+
+
+                                                <input type="radio" id="rbtEDPN" name="rbtEDPN" value="N" onclick="funEDPn()"> नहीं
+
+
+                                                @Html.HiddenFor(m => m.Is_edp_training, new { @id = "hfIs_edp_training" })
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    </div>
+                                <div class="row">
+
+                                    
+                                    <div class="col-md-12">
+                                        <label class="control-label col-md-12" id="lbledpinst">
+                                            संस्थान<span class="Mandatory">*</span>
+                                        </label>
+                                        <div class="col-md-12">
+                                            @Html.DropDownListFor(m => m.edp, new List<SelectListItem>
+                                                    (), "--चयन करे--", new { @id = "ddledp", @class = "form-control select2" })
+
+                                            @Html.TextBoxFor(m => m.edp_training_ins, new
+                                       {
+                                           @class = "form-control hide",
+                                           @id = "txtedp_training_ins",
+                                           @placeholder = "EDP-प्रशिक्षण संस्थान",
+                                           @Maxlength = 50,
+                                           @onkeypress = "return IsAlphaNumeric(event);",
+                                           @ondrop = "return false;",
+                                           @npaste = "return false;"
+                                       })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-12" id="lblproject_name">परियोजना का नाम<span class="Mandatory">*</span></label>
+                                            <div class="col-md-12">
+                                                @Html.TextBoxFor(m => m.project_name, new
+                                           {
+                                               @class = "form-control",
+                                               @id = "txt_ProjectName",
+                                               @placeholder = "परियोजना का नाम",
+                                               @Maxlength = 100,
+                                               @onkeypress = "return IsAlphaNumeric(event);",
+                                               @ondrop = "return false;",
+                                               @npaste = "return false;"
+                                           })
+
+                                                <span class="help-block"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-12" id="lblproposed_office_address">प्रस्तावित कार्यालय का पता<span class="Mandatory">*</span></label>
+                                            <div class="col-md-12">
+                                                @Html.TextBoxFor(m => m.proposed_office_address, new
+                                           {
+                                               @class = "form-control",
+                                               @id = "txt_Address",
+                                               @placeholder = "प्रस्तावित कार्यालय का पता",
+                                               @Maxlength = 500,
+                                               @onkeypress = "return IsRelaxAlphaNumeric(event);",
+                                               @ondrop = "return false;",
+                                               @npaste = "return false;"
+                                           })
+                                                <span class="help-block"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-12" id="lblpdist">जनपद <span class="Mandatory">*</span></label>
+                                            <div class="col-md-12">
+                                                @Html.DropDownListFor(m => m.proposed_office_district, new List<SelectListItem>
+                                                { new SelectListItem { Text = "--चयन करे--", Value = "-1" } }, new { @id = "ddlproposed_office_district", @class = "form-control", @disabled = "disabled" })
+                                                <span class="help-block"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <!--/span-->
+                                    <!--/span-->
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-12" id="lblptehsil">तहसील <span class="Mandatory">*</span></label>
+                                            <div class="col-md-12">
+                                                @Html.DropDownListFor(m => m.proposed_office_tehsil, new List<SelectListItem>
+                                                (), "--चयन करे--", new { @id = "ddlproposed_office_Tehsil", @class = "form-control select2" })
+                                                <span class="help-block"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-12" id="lblpblock">ब्लॉक </label>
+                                            <div class="col-md-12">
+                                                @Html.DropDownListFor(m => m.proposed_office_block, new List<SelectListItem>
+                                                (), "--चयन करे--", new { @id = "ddlproposed_office_Block", @class = "form-control select2" })
+                                                <span class="help-block"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-6" id="lblvblock">ग्राम </label>
+                                            <label class="control-label col-md-6" id="lblproposedpincode">पिनकोड <span class="Mandatory">*</span></label>
+                                            <div class="col-md-6">
+                                                @Html.DropDownListFor(m => m.proposed_office_village, new List<SelectListItem>
+                                                (), "--चयन करे--", new { @id = "ddlproposed_office_village", @class = "form-control select2" })
+                                                <span class="help-block"></span>
+                                            </div>
+                                            <div class="col-md-6">
+                                                @Html.TextBoxFor(m => m.@proposed_office_pincode, new { @class = "form-control", @id = "txtofficepincode", @placeholder = "पिनकोड", @onkeypress = "return IsNumeric(event,'N');", @Maxlength = 6 })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-12" id="lblmachinerycost">प्लान्ट एवं मशीनरी की लागत (रु. में)  <span class="Mandatory">*</span></label>
+                                            <div class="col-md-12">
+                                                @Html.TextBoxFor(m => m.machinery_cost, new { @class = "form-control", @id = "txt_machinerycost", @placeholder = "प्लान्ट एवं मशीनरी", @Maxlength = 7, @onkeypress = "return IsNumeric(event,'Y');", @onkeyup = "sum()" })
+
+                                                <span class="help-block"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-12" id="lblworkingcapital">एक चक्र  कार्यशील पूँजी (रु. में) <span class="Mandatory">*</span> </label>
+                                            <div class="col-md-12">
+                                                @Html.TextBoxFor(m => m.working_capital, new { @class = "form-control", @id = "txt_workingcapital", @placeholder = "एक चक कार्यशील पूँजी", @Maxlength = 7, @onkeypress = "return IsNumeric(event,'Y');", @onkeyup = "sum()" })
+
+                                                <span class="help-block"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-12">योग (रु. में)<span class="Mandatory">*</span></label>
+                                            <div class="col-md-12">
+                                                @Html.TextBoxFor(m => m.project_cost, new { @class = "form-control", @id = "txtprojectcost", @placeholder = "योग", @Maxlength = 10, @disabled = "disabled", @onkeypress = "return IsNumeric(event,'Y');" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="tab4">
+                                <h3 class="form-section" style="font-weight:bolder">वित्तीय ऋण हेतु बैंक विवरण </h3>
+
+                                <div class="row">
+                                    <div class="col-md-4">
+
+                                        <div class="form-group">
+                                            <label class="control-label col-md-12" id="lblbankname"> बैक का नाम <span class="Mandatory">*</span></label>
+                                            <div class="col-md-12">
+                                                @Html.DropDownListFor(m => m.bank_name, new List<SelectListItem>
+                                                { new SelectListItem { Text = "--चयन करे--", Value = "-1" } }, new { @id = "ddl_bankname", @class = "form-control select2" })
+                                                <span class="help-block"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-12" id="lblifsc_code">आईएफएससी कोड <span class="Mandatory">*</span></label>
+                                            <div class="col-md-10">
+                                                @Html.TextBoxFor(m => m.ifsc, new
+                                           {
+                                               @class = "form-control",
+                                               @id = "txt_IFSCCode",
+                                               @placeholder = "आईएफएससी कोड",
+                                               @Maxlength = 11,
+                                               @onkeypress = "return IsAlphaNumeric(event);",
+                                               @ondrop = "return false;",
+                                               @npaste = "return false;"
+                                           })
+                                                <span class="help-block"></span>
+                                            </div>
+                                            <div class="col-md-2"><i class="fa fa-search btn blue" onclick="openbankmodel()"></i></div>
+                                            </div>
+                                    </div>
+                                    <!--/span-->
+                                    
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-12" id="lblbranchtype">निकटतम बैक शाखा  का नाम <span class="Mandatory">*</span></label>
+                                            <div class="col-md-12">
+                                                @Html.DropDownListFor(m => m.branch_name, new List<SelectListItem> { new SelectListItem { Text = "--चयन करे--", Value = "-1" } }, new { @id = "ddl_branch_name", @class = "form-control", @disabled = "disabled" })
+                                            </div>
+                                        </div>
+                                        <!--/span-->
+                                    </div>
+                                    <!--/row-->
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-12" id="lblBankbranchName">बैक का पता<span class="Mandatory">*</span></label>
+                                            <div class="col-md-12">
+
+                                                @Html.TextBoxFor(m => m.branch_Address, new { @class = "form-control", @id = "txt_branch_Address", @onkeypress = "return IsRelaxAlphaNumeric(event);", @placeholder = "बैक का पता", @disabled = "disabled" })
+                                                <span class="help-block"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/span-->
+                                    
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-12" id="lblBankAcct">बैक खाता सं0 </label>
+                                            <div class="col-md-12">
+
+                                                @Html.TextBoxFor(m => m.bank_account_no, new
+                                           {
+                                               @class = "form-control",
+                                               @id = "txt_BankAccountNo",
+                                               @placeholder = "बैक खाता सं0",
+                                               @Maxlength = 16,
+                                               @onkeypress = "return IsAlphaNumeric(event);",
+                                               @ondrop = "return false;",
+                                               @npaste = "return false;"
+                                           })
+                                                <span class="help-block"></span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                    <!--/span-->
+                                    <!--/span-->
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-12" id="lbldeposit_amt">बैक शाखा में जमा धनराशी (रु. में)</label>
+                                            <div class="col-md-12">
+
+                                                @Html.TextBoxFor(m => m.deposit_amt, new { @class = "form-control", @id = "txt_Depositbankbranch", @onkeypress = "return IsNumeric(event,'Y');", @placeholder = "बैक शाखा में जमा धनराशी", @Maxlength = 8 })
+                                                <span class="help-block"></span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <!--/span-->
+                                </div>
+                                <!--/row-->
+                                <div class="row">
+                                    
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="white">.</label>
+                                            <div class="col-md-12">
+                                                <input type="radio" disabled="disabled" id="rbt5" name="rbtper5" value="5" onclick="fun5self_share()"> 5% अंशदान
+
+                                                <input type="radio" id="rbt10" disabled="disabled" name="rbtper" value="10" onclick="fun10self_share()"> 10% अंशदान
+                                            </div>
+
+                                            <input type="hidden" value="N" id="hfself_share" />
+                                            <span class="help-block"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-12" id="lblOwndeposit">स्वयं का अंशदान (रु. में) <span class="Mandatory">*</span></label>
+                                            <div class="col-md-12">
+                                                @Html.TextBoxFor(m => m.self_share, new { @class = "form-control", @id = "txt_Owndeposit", @onkeypress = "return IsNumeric(event,'Y');", @placeholder = "5 व 10 प्रतिशत रू0 ", @Maxlength = 50, @disabled = "disabled" })
+
+                                                <span class="help-block"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                   
+                                        <!--/span-->
+                                        <!--/span-->
+                                        <!--/span-->
+                                        
+                                    </div>
+                                <div class="portlet-title">
+
+                                    <div class="caption" style="text-align: center; margin-top: 20px;">
+                                        &nbsp;&nbsp;&nbsp;<i class="icon-layers font-red"></i>
+                                        <span class="caption-subject font-red bold uppercase" >
+                                            नोटिस&nbsp;&nbsp;&nbsp;
+                                            <input type="checkbox" id="chkdeclaration" />    मैं घोषणा करता / करती हूँ की मेरे द्वारा दी गयी समस्त सूचना सही है। इसके लिए मैं  पूर्णतया  उत्तरदायी हूँ ।
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane" id="tab5" >
+                                <a id="btnplant" href="../user/PlantAndMachinery_EntryForm" class="btn btn-outline green button-next">भाग -२ प्लांट एंड मशीनरी विवरण </a>
+
+                                @*<a id="btnaffidavite" href="../user/Affidavit_Letter" class="btn btn-outline green button-next">घोषणा पत्र प्रति  </a>*@
+
+                                <a id="btnUpload" href="../user/UploadForm" class="btn btn-outline green button-next">  भाग -३ दस्तावेज़ अपलोड करें</a>
+                                <a id="btnprint" href="../user/GetCMSY_ApplicationPrint" class="btn btn-outline green button-next">युवा स्वरोजगार योजना प्रति </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-offset-9 col-md-12">
+                                <button type="button" class="btn btn-outline yellow button-next hide" onclick="funback()" id="btnback"><i class="fa fa-angle-left"></i>Back</button>
+                                <button type="button" class="btn btn-outline green button-next" onclick="myfunction()" id="btncont">Continue<i class="fa fa-angle-right"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @*</form>*@
+        </div>
+    </div>
+    <div id="bankmodal" class="modal fade" role="dialog" >
+        <div class="modal-dialog" style="width: 850px">
+            <!-- Modal content-->
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" onclick="modalclose2()">&times;</button>
+                 
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div id="banktabl" >
+                            
+
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                   
+                    <button type="button" class="btn btn-danger" onclick="modalclose2()">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <script>
+        var form = $('#__AjaxAntiForgeryForm');
+        var token = $('input[name="__RequestVerificationToken"]', form).val();
+        
+        function funback() {
+            if ($("#tab1").hasClass('active')) {
+                $("#btnback").addClass('hide');
+                $("#btncont").html('Continue');
+            }
+            else if ($("#tab2").hasClass('active')) {
+
+                $("#tab1").addClass('active');
+                $("#tab2").removeClass('active');
+                $("#btncont").html('Continue');
+
+            }
+            else if ($("#tab3").hasClass('active')) {
+
+                $("#tab2").addClass('active');
+                $("#tab3").removeClass('active');
+                $("#btncont").html('Continue');
+            }
+            else if ($("#tab4").hasClass('active')) {
+
+                $("#tab3").addClass('active');
+                $("#tab4").removeClass('active');
+                $("#btncont").html('Submit')
+
+            }
+            else if ($("#tab5").hasClass('active')) {
+
+                $("#tab4").addClass('active');
+                $("#tab5").removeClass('active');
+                $("#btncont").html('Submit');
+                $("#btncont").removeClass('hide');
+                $("#chkdeclaration").prop('checked', true);
+            }
+        }
+        function myfunction() {
+            if ($("#tab1").hasClass('active')) {
+                if ($('#chkaadhar').prop('checked')) {
+
+                }
+                else {
+                    $('#chkaadhar').focus();
+                    alert("Please check declaration");
+                    return;
+                }
+                if (document.getElementById("txtName").value == "") {
+                    document.getElementById("txtName").focus();
+                    $('#lblname').css('color', 'red');
+                    alert("नाम");
+                    return;
+                }
+                if (document.getElementById("txtDOB").value == "") {
+                    document.getElementById("txtDOB").focus();
+                    $('#lbldob').css('color', 'red');
+                    alert("जन्म की तारीख");
+                    return;
+                }
+                var dob = $("#txtDOB").val();
+                var now = new Date();
+                var birthdate = dob.split("/");
+                var born = new Date(birthdate[2], birthdate[1] - 1, birthdate[0]);
+                age = get_age(born, now);
+                console.log(birthdate[2] + " : " + birthdate[1] + " : " + birthdate[0]);
+                console.log(age);
+                if (age <= 18) {
+                    $('#lbldob').css('color', 'red');
+                    document.getElementById("txtDOB").focus();
+                    alert(" Age should be greater then or equal to 18");
+                    return;
+                }
+                
+                    if (age > 40) {
+                        $('#lbldob').css('color', 'red');
+                        document.getElementById("txtDOB").focus();
+                        alert(" Age should be smaller then or equal to 40");
+                        return false;
+                    }
+                
+                
+                if (document.getElementById("ddlgender").value == "-1") {
+                    document.getElementById("ddlgender").focus();
+                    $('#lblgend').css('color', 'red');
+                    alert("लिंग");
+                    return;
+                }
+                if (document.getElementById("ddlcategory").value == "-1") {
+                    document.getElementById("ddlcategory").focus();
+                    $('#lblcat').css('color', 'red');
+                    alert("जाति ");
+                    return;
+                }
+                if (document.getElementById("ddlspcategory").value == "-1") {
+                    document.getElementById("ddlspcategory").focus();
+                    $('#lblspcat').css('color', 'red');
+                    alert("विशेष श्रेणी  ");
+                    return;
+                }
+                if (document.getElementById("txtHusband_father_name").value == "") {
+                    document.getElementById("txtHusband_father_name").focus();
+                    $('#lblfather').css('color', 'red');
+                    alert("पिता/पति का नाम");
+                    return;
+                }
+                if (document.getElementById("txtAdhar_card_No").value == "") {
+                    document.getElementById("txtAdhar_card_No").focus();
+                    $('#lbladhar ').css('color', 'red');
+                    alert("आधार कार्ड नं0 ");
+                    return;
+                }
+                if (document.getElementById("txtMobile_No").value == "") {
+                    document.getElementById("txtMobile_No").focus();
+                    $('#lblphone').css('color', 'red');
+                    alert("मोबाइल नं0 ");
+                    return;
+                }
+                if (document.getElementById("ddlqualification").value == "-1") {
+                    document.getElementById("ddlqualification").focus();
+                    $('#lblqualification').css('color', 'red');
+                    alert("शैक्षणिक योग्यता");
+                    return;
+                }
+                
+                if (document.getElementById("txtPermanent_Address").value == "") {
+                    document.getElementById("txtPermanent_Address").focus();
+                    $('#lblPeradress').css('color', 'red');
+                    alert("स्थाई पता");
+                    return;
+                }
+                //if (document.getElementById("ddlDistrict").value == "-1") {
+                //    document.getElementById("ddlDistrict").focus();
+                //    $('#lbldist').css('color', 'red');
+                //    alert("जनपद");
+                //    return;
+                //}
+                if (document.getElementById("ddlTehsil").value == "-1") {
+                    document.getElementById("ddlTehsil").focus();
+                    $('#lbltehsil').css('color', 'red');
+                    alert("तहसील");
+                    return;
+                }
+                if (document.getElementById("txtCurrentAddress").value == "") {
+                    document.getElementById("txtCurrentAddress").focus();
+                    $('#lbladress').css('color', 'red');
+                    alert("पत्र व्यवहार का पता");
+                    return;
+                }
+
+                if (document.getElementById("ddlcDistrict").value == "-1") {
+                    document.getElementById("ddlcDistrict").focus();
+                    $('#lblcdist').css('color', 'red');
+                    alert("जनपद");
+                    return;
+                }
+                if (document.getElementById("ddlcTehsil").value == "-1") {
+                    document.getElementById("ddlcTehsil").focus();
+                    $('#lblctehsil').css('color', 'red');
+                    alert("तहसील");
+                    return;
+                }
+                if (document.getElementById("hfIs_village_bank").value == "Y") {
+                    if (document.getElementById("ddlBlock").value == "-1") {
+                        document.getElementById("ddlBlock").focus();
+                        $('#lblblock').css('color', 'red');
+                        alert("ब्लॉक");
+                        return;
+                    }
+                    if (document.getElementById("ddlVillage").value == "-1") {
+                        $('#lblvillage').css('color', 'red');
+                        alert("ग्राम");
+                        return;
+                    }
+                    
+                }
+                if (document.getElementById("txtpermanantpincode").value == "") {
+                    document.getElementById("txtpermanantpincode").focus();
+                    alert("स्थाई पता पिनकोड");
+                    return;
+                }
+                if (document.getElementById("txtcurrentpincode").value == "") {
+                    document.getElementById("txtcurrentpincode").focus();
+                    alert("पत्र व्यवहार पता पिनकोड");
+                    return;
+                }
+                var Family = [];
+                var doc = [];
+                var Objform = {
+                    "applicant_code": document.getElementById("hfapplicant_code").value,
+                    "yojana_code": document.getElementById("hfyojana_code").value,
+                    "applicant_name": document.getElementById("txtName").value,
+                    "inputdob": document.getElementById("txtDOB").value,
+                    "adhar_no": document.getElementById("txtAdhar_card_No").value,
+                    "Husband_father_name": document.getElementById("txtHusband_father_name").value,
+                    "current_address": document.getElementById("txtCurrentAddress").value,
+                    "permanent_address": document.getElementById("txtPermanent_Address").value,
+                    "mobile_no": document.getElementById("txtMobile_No").value,
+                    "email": document.getElementById("txtEmailID").value == "" ? " " : document.getElementById("txtEmailID").value,
+                    "DistCode": document.getElementById("hfDistCode").value,
+                    "TehsilCode": document.getElementById("ddlTehsil").value,
+                    "BlockCode": document.getElementById("ddlBlock").value,
+                    "VillCode": document.getElementById("ddlVillage").value,
+                    "Is_village": document.getElementById("hfIs_village_bank").value,
+                    "qualification_code": document.getElementById("ddlqualification").value,
+                    "category_suffix": document.getElementById("ddlcategory").value,
+                    "sp_category_suffix": document.getElementById("ddlspcategory").value,
+                    "gender_suffix": document.getElementById("ddlgender").value,
+                    "sponsoring_office_code": document.getElementById("hfsponsoring_office_code").value,
+                    "legaltype": "I",
+                    "pancard": document.getElementById("txtpancard").value,
+                    "is_address_same": document.getElementById("hfis_address_same").value,
+                    "current_district_code_census": document.getElementById("ddlcDistrict").value,
+                    "current_tehsil_code_census": document.getElementById("ddlcTehsil").value,
+                    "current_block_code": document.getElementById("ddlcBlock").value,
+                    "current_village_code": document.getElementById("ddlcVillage").value,
+                    "curent_add_pincode": document.getElementById("txtcurrentpincode").value,
+                    "permanent_add_pincode": document.getElementById("txtpermanantpincode").value,
+                }
+            $.ajax({
+                url:  '/User/InsertUpdateCMYSS_Applicant',
+                data: { Objform: Objform, objdoc: doc, objFamily: Family, sptype: 2, steps: 1, __RequestVerificationToken: token },
+                type: 'POST',
+              
+                success: function (data) {
+                    if (data == "Record Update..") {
+                        $("#divpross").css('width', '25%');
+                        $("#litab2").addClass('active');
+                        $("#litab1").removeClass('active');
+                        $("#litab1").addClass('done');
+                        $("#tab2").addClass('active');
+                        $("#tab1").removeClass('active');
+                        $("#btnback").removeClass('hide');
+                        $("#btncont").html('Continue');
+                        //alert(data);
+                    }
+                    else {
+                        alert(data);
+                    }
+                }
+            });
+            return;
+        }
+        else if ($("#tab2").hasClass('active')) {
+            if ($('#chkfamily').prop('checked')) {
+
+            }
+            else {
+                $('#chkfamily').focus();
+                alert("कृपया घोषणा ध्यान से पढ़े और स्वीकार  करे ")
+                return;
+            }
+            if (document.getElementById("txtFather_Name").value == "") {
+                $('#lblFat').css('color', 'red');
+                alert("पिता का नाम");
+                return;
+            }
+            //if (document.getElementById("txtFather_Age").value == "") {
+            //    $('#lblFatAge').css('color', 'red');
+            //    alert("पिता की उम्र");
+            //    return;
+            //}
+            //if (parseInt(document.getElementById("txtFather_Age").value) <= 0) {
+            //    document.getElementById("txtFather_Age").focus();
+            //    alert("पिता की उम्र");
+            //    return;
+            //}
+            if (document.getElementById("txt_Mother_Name").value == "") {
+                $('#lblMoth').css('color', 'red');
+                alert("माता का नाम ");
+                return;
+            }
+            //if (document.getElementById("txt_Mother_Age").value == "") {
+            //    $('#lblMothAge').css('color', 'red');
+            //    alert("माता की उम्र");
+            //    return;
+            //}
+            //if (parseInt(document.getElementById("txt_Mother_Age").value) <= 0) {
+            //    document.getElementById("txt_Mother_Age").focus();
+            //    alert("माता की उम्र");
+            //    return;
+            //}
+            if (document.getElementById("txt_Family_Income").value == "") {
+                $('#lblIncome').css('color', 'red');
+                alert("परिवार की वार्षिक आय");
+                return;
+            }
+            if (parseInt(document.getElementById("txt_Family_Income").value) <= 0) {
+                $('#lblIncome').css('color', 'red');
+                alert("परिवार की वार्षिक आय");
+                return;
+            }
+
+            var Family = [];
+            var temp = 0;
+            var family_income = document.getElementById('txt_Family_Income').value == "" ? " " : document.getElementById('txt_Family_Income').value;
+            var PensionCard = document.getElementById('txt_pensioncardnumber').value == "" ? "0" : document.getElementById('txt_pensioncardnumber').value;
+
+            if (document.getElementById("txtHusband_father_name").value != "") {
+                Family.push({ relation_code: "F", person_name: document.getElementById("txtFather_Name").value, age: document.getElementById("txtFather_Age").value == "" ? 0 : document.getElementById("txtFather_Age").value, workingfield: document.getElementById("txtFather_Work").value, applicant_code: document.getElementById("hfapplicant_code").value })
+
+            }
+            if (document.getElementById("txt_Mother_Name").value != "") {
+                Family.push({ relation_code: "M", person_name: document.getElementById("txt_Mother_Name").value, age: document.getElementById("txt_Mother_Age").value == "" ? 0 : document.getElementById("txt_Mother_Age").value, workingfield: document.getElementById("txt_Mother_work").value, applicant_code: document.getElementById("hfapplicant_code").value })
+            }
+            if ((table.rows.length - 1) > 0) {
+                for (i = 0; i < table.rows.length - 1; i++) {
+                    if (document.getElementById("hfRelation_Code" + (i + 1) + "").value == "") {
+                        alert("select relation");
+                        temp = 1;
+                        break;
+                    }
+                    if (document.getElementById("txtName" + (i + 1) + "").value == "") {
+                        document.getElementById("txtName" + (i + 1) + "").focus();
+                        alert("enter name");
+                        temp = 1;
+                        break;
+                    }
+                    if (document.getElementById("txtAge" + (i + 1) + "").value == "") {
+                        document.getElementById("txtAge" + (i + 1) + "").focus();
+                        alert("enter Age");
+                        temp = 1;
+                        break;
+                    }
+                    if (parseInt(document.getElementById("txtAge" + (i + 1) + "").value) <= 0) {
+                        document.getElementById("txtAge" + (i + 1) + "").focus();
+                        alert("enter Age");
+                        temp = 1;
+                        break;
+                    }
+                    if (document.getElementById("txtWork" + (i + 1) + "").value == "") {
+                        document.getElementById("txtWork" + (i + 1) + "").focus();
+                        alert("enter Work");
+                        temp = 1;
+                        break;
+                    }
+                    Family.push({ relation_code: document.getElementById("hfRelation_Code" + (i + 1) + "").value, person_name: document.getElementById("txtName" + (i + 1) + "").value, age: document.getElementById("txtAge" + (i + 1) + "").value == "" ? 0 : document.getElementById("txtAge" + (i + 1) + "").value, workingfield: document.getElementById("txtWork" + (i + 1) + "").value, applicant_code: document.getElementById("hfapplicant_code").value })
+                }
+            }
+            if (temp != 1) {
+                $.ajax({
+                    url: '/User/InsertUpdateCMYSS_Applicantfamily',
+                    data: { objFamily: Family, PensionCard: PensionCard, family_income: family_income, __RequestVerificationToken: token },
+                    type: 'POST',
+
+                    success: function (data) {
+                        if (data == "Record Save..") {
+                            $("#divpross").css('width', '55%');
+                            $("#litab3").addClass('active');
+                            $("#litab2").removeClass('active');
+                            $("#litab2").addClass('done');
+                            $("#tab3").addClass('active');
+                            $("#tab2").removeClass('active');
+                            $("#btnback").removeClass('hide');
+                            $("#btncont").html('Continue');
+                        }
+                        else {
+                            alert(data);
+                        }
+                    }
+                });
+                return;
+            }
+        }
+        else if ($("#tab3").hasClass('active')) {
+            if (document.getElementById("txt_ProjectName").value == "") {
+                $('#lblproject_name').css('color', 'red');
+                alert("परियोजना का नाम ");
+                return;
+            }
+            if (document.getElementById("txt_Address").value == "") {
+                $('#lblproposed_office_address').css('color', 'red');
+                alert("प्रस्तावित कार्यालय का पता ");
+                return;
+            }
+            if (document.getElementById("ddlindustry_code").value.trim() == "-1") {
+                document.getElementById("ddlindustry_code").focus();
+                if ($("input[name='rbtmanufacture']:checked").val() == "M") {
+                    alert("उद्योग का नाम ");
+                }
+                else {
+                    alert("सेवा का नाम ");
+                }
+                
+                return;
+            }
+            if ($("input[name='rbtmanufacture']:checked").val()=="M") {
+                if (document.getElementById("ddlindustry_code").value.trim() == "0") {
+                    if (document.getElementById("txt_manufacturing").value == "") {
+                        $('#lblservice').css('color', 'red');
+                        document.getElementById("txt_manufacturing").focus();
+                        alert("अन्य उत्पाद का नाम ");
+                        return;
+                    }
+                }
+            }
+            else {
+                if (document.getElementById("ddlindustry_code").value.trim() == "0") {
+                    if (document.getElementById("txt_manufacturing").value == "") {
+                        $('#lblservice').css('color', 'red');
+                        document.getElementById("txt_manufacturing").focus();
+                        alert("अन्य सेवा का नाम ");
+                        return;
+                    }
+                }
+            }
+            if (document.getElementById("ddlproposed_office_district").value == "-1") {
+                document.getElementById("ddlproposed_office_district").focus();
+                $('#lblpdist').css('color', 'red');
+                alert("जनपद");
+                return;
+            }
+            if (document.getElementById("ddlproposed_office_Tehsil").value == "-1") {
+                document.getElementById("ddlproposed_office_Tehsil").focus();
+                $('#lblptehsil').css('color', 'red');
+                alert("तहसील");
+                return;
+            }
+            
+            if (document.getElementById('txtofficepincode').value=="") {
+                document.getElementById("txtofficepincode").focus();
+                $('#lblproposedpincode').css('color', 'red');
+                alert("प्रस्तावित कार्यालय पिनकोड");
+                return;
+            }
+            if (document.getElementById("txt_machinerycost").value == "") {
+                $('#lblmachinerycost').css('color', 'red');
+                alert("प्लान्ट एवं मशीनरी");
+                return;
+            }
+            if (document.getElementById("txt_workingcapital").value == "") {
+                $('#lblworkingcapital').css('color', 'red');
+                alert("एक चक कार्यशील पूँजी ");
+                return;
+            }
+            if (document.getElementById("txtprojectcost").value == "") {
+                document.getElementById("txtprojectcost").focus();
+                alert("योग ");
+                return;
+            }
+            if (parseFloat(document.getElementById("txtprojectcost").value) <= 0) {
+                document.getElementById("txtprojectcost").focus();
+                alert("project cost must be greater than 0");
+                return;
+            }
+            if (document.getElementById("hfmanu").value == "S") {
+                if (parseFloat(document.getElementById("txtprojectcost").value) > 1000000) {
+                    document.getElementById("txtprojectcost").focus();
+                    alert("सूक्ष्म इकाइयों तथा सेवा क्षेत्र की परियोजना लागत 10 लाख निर्धारित है  ");
+                    return;
+                }
+
+            }
+            else {
+                if (parseFloat(document.getElementById("txtprojectcost").value) > 2500000) {
+                    document.getElementById("txtprojectcost").focus();
+                    alert("योजनान्तगगत उद्योग क्षेत्र की परियोजना लागत 25 लाख निर्धारित है  ");
+                    return;
+                }
+            }
+
+            if (document.getElementById("hfIs_edp_training").value == "Y")
+            {
+                if (document.getElementById('ddledp').value == "-1")
+                {
+                    document.getElementById('ddledp').focus();
+                    alert('EDP-प्रशिक्षण');
+                    return;
+                }
+            }
+            var Family = [];
+            var doc = [];
+            var Objform = {
+                "applicant_code": document.getElementById("hfapplicant_code").value,
+                "yojana_code": document.getElementById("hfyojana_code").value,
+                "proposed_office_address": document.getElementById("txt_Address").value,
+                "project_name": document.getElementById("txt_ProjectName").value,
+                "project_cost": document.getElementById("txtprojectcost").value,
+                "machinery_cost": document.getElementById("txt_machinerycost").value,
+                "working_capital": document.getElementById("txt_workingcapital").value,
+                "other_product_service": document.getElementById("txt_manufacturing").value == "" ? " " : document.getElementById("txt_manufacturing").value,
+                "industry_activity": $("input[name='rbtmanufacture']:checked").val(),
+                "proposed_office_district": document.getElementById("ddlproposed_office_district").value,
+                "proposed_office_tehsil": document.getElementById("ddlproposed_office_Tehsil").value,
+                "proposed_office_block": document.getElementById("ddlproposed_office_Block").value,
+                "proposed_office_village": document.getElementById("ddlproposed_office_village").value,
+                "product_service_code": document.getElementById("ddlindustry_code").value,
+                "Is_edp_training": document.getElementById("hfIs_edp_training").value,
+                "edp_training_ins": document.getElementById("ddledp").value == "-1" ? " " : $('#ddledp').find('option:selected').text(),
+                "edp_training_ins_code": document.getElementById("ddledp").value,
+                "proposed_office_pincode": document.getElementById("txtofficepincode").value,
+            }
+            $.ajax({
+
+                url: '/User/InsertUpdateCMYSS_Applicant',
+                data: { Objform: Objform, objdoc: doc, objFamily: Family, sptype: 2, steps: 3, __RequestVerificationToken: token },
+                type: 'POST',
+                success: function (data) {
+                    if (data == "Record Update..") {
+                        $("#divpross").css('width', '85%');
+                        $("#litab4").addClass('active');
+                        $("#litab3").removeClass('active');
+                        $("#litab3").addClass('done');
+                        $("#tab4").addClass('active');
+                        $("#tab3").removeClass('active');
+                        $("#btnback").removeClass('hide');
+                        $("#btncont").html('Submit');
+                        //if (document.getElementById('ddlcategory').value == "GEN") {
+                        //    if (document.getElementById('ddlspcategory').value == "NA") {
+                        //        $('#rbt5').attr('checked', false);
+                        //        $('#rbt10').attr('checked', true);
+                        //        fun10self_share();
+                        //    }
+                        //    else {
+                        //        $('#rbt5').attr('checked', true);
+                        //        $('#rbt10').attr('checked', false);
+                        //        fun5self_share();
+                        //    }
+                        //}
+                        //else {
+                        //    $('#rbt5').attr('checked', false);
+                        //    $('#rbt10').attr('checked', true);
+                        //    fun10self_share();
+                        //}
+
+
+                        if (document.getElementById('ddlcategory').value == "GEN" && document.getElementById('ddlspcategory').value == "NA") {
+                            $('#rbt5').attr('checked', false);
+                            $('#rbt10').attr('checked', true);
+                            fun10self_share();
+                        }
+                        else {
+                            $('#rbt5').attr('checked', true);
+                            $('#rbt10').attr('checked', false);
+                            fun5self_share();
+                        }
+                    }
+                    else {
+                        alert(data);
+                    }
+                }
+            });
+            return;
+        }
+        else if ($("#tab4").hasClass('active'))
+        {
+            if ($('#chkdeclaration').prop('checked')) {
+
+            }
+            else {
+                $('#chkdeclaration').focus();
+                alert("कृपया घोषणा ध्यान से पढ़े और स्वीकार  करे ")
+                return;
+            }
+            if (document.getElementById("txt_IFSCCode").value == "") {
+                $('#lblifsc_code').css('color', 'red');
+                document.getElementById("txt_IFSCCode").focus();
+                alert("आईएफएससी कोड ");
+                return;
+            }
+            if (document.getElementById("ddl_bankname").value == "-1") {
+                $('#lblbankname').css('color', 'red');
+                document.getElementById("ddl_bankname").focus();
+                alert("कृपया ifsc code का चयन प्रविस्ट सुझावो  में  से करे  ");
+                return;
+            }
+            if (document.getElementById("ddl_branch_name").value == "-1") {
+                $('#lblbranchtype').css('color', 'red');
+                document.getElementById("ddl_branch_name").focus();
+                alert("कृपया ifsc code का चयन प्रविस्ट सुझावो  में  से करे  ");
+                return;
+            }
+            if (document.getElementById("txt_Depositbankbranch").value == "") {
+                $('#lbldeposit_amt').css('color', 'red');
+                document.getElementById("txt_Depositbankbranch").focus();
+                alert("बैक शाखा में जमा धनराशी");
+                return;
+            }
+
+            if (document.getElementById("txt_Owndeposit").value == "") {
+                $('#lblOwndeposit').css('color', 'red');
+                document.getElementById("lblOwndeposit").focus();
+                alert("स्वयं का अंशदान ");
+                return;
+            }
+            var Objform = {
+                "applicant_code": document.getElementById("hfapplicant_code").value,
+                "yojana_code": document.getElementById("hfyojana_code").value,
+                "bank_code": document.getElementById("ddl_bankname").value,
+                "self_share": document.getElementById("txt_Owndeposit").value,
+                "deposit_amt": document.getElementById("txt_Depositbankbranch").value,
+                "branch_code": document.getElementById("ddl_branch_name").value,
+                "bank_account_no": document.getElementById("txt_BankAccountNo").value,
+                "ifsc": document.getElementById("txt_IFSCCode").value,
+                "service_branch":" ",
+            }
+            $.ajax({
+                url: '/User/InsertUpdateCMYSS_Applicant',
+                data: { Objform: Objform, objdoc: doc, objFamily: Family, sptype: 2, steps: 4, __RequestVerificationToken: token },
+                type: 'POST',
+                success: function (data) {
+                    if (data == "Record Update..") {
+                        $("#divpross").css('width', '100%');
+                        $("#litab1").addClass('done')
+                        $("#litab2").addClass('done')
+                        $("#litab3").addClass('done')
+                        $("#litab4").addClass('done')
+                        $("#litab5").addClass('active')
+                        $("#tab5").addClass('active');
+                        $("#tab4").removeClass('active');
+                        $("#btncont").addClass('hide');
+                        $("#btnplant").removeClass('hide');
+                        $("#btnUpload").addClass('hide');
+                        $("#btnprint").addClass('hide');
+                    }
+                    else {
+                        alert(data);
+                    }
+                }
+            });
+        }
+
+        }
+        function AddRelation() {
+            var Name = document.getElementById('txtrName').value.trim();
+            var Age = document.getElementById('txtAge').value.trim();
+            var Work = document.getElementById('txtWork').value.trim();
+            var Relation_Code = document.getElementById('ddlrelation').value.trim();
+            var Relation = $('#ddlrelation').find('option:selected').text();
+            if (Relation_Code == "-1") {
+                alert("select Relation");
+                document.getElementById('ddlrelation').focus();
+                return;
+            }
+            if (Name == "") {
+                alert("Enter Name");
+                document.getElementById('txtrName').focus();
+                return;
+            }
+            if (Age == "") {
+                alert("Enter Age");
+                document.getElementById('txtAge').focus();
+                return;
+            }
+            if (Work == "") {
+                alert("Enter Work");
+                document.getElementById('txtWork').focus();
+                return;
+            }
+            var table = document.getElementById("table");
+            var row = table.insertRow((table.rows.length - 1) + 1);
+            var cell1 = row.insertCell(0);
+            var cell2 = row.insertCell(1);
+            var cell3 = row.insertCell(2);
+            var cell4 = row.insertCell(3);
+            var cell5 = row.insertCell(4);
+            var cell6 = row.insertCell(5);
+            cell1.innerHTML = table.rows.length - 1;
+            cell2.innerHTML = "<input type='hidden' id='hfRelation_Code" + (table.rows.length - 1) + "' name='hfRelation_Code' value='" + Relation_Code.trim() + "' /><label>" + Relation + "</label> ";
+            cell3.innerHTML = "<input type='text' id='txtName" + (table.rows.length - 1) + "' placeholder='Title' name='txtName' value='" + Name + "' maxlength='50' onkeypress = 'return IsAlphaNumeric(event);'ondrop = 'return false;'npaste = 'return false;' />";
+            cell4.innerHTML = "<input type='text' id='txtAge" + (table.rows.length - 1) + "' placeholder='Title' name='txtAge' value='" + Age + "' maxlength='2' onkeypress = 'return IsNumeric(event,'N');' />";
+            cell5.innerHTML = "<input type='text' id='txtWork" + (table.rows.length - 1) + "' placeholder='Title' name='txtWork' value='" + Work + "' maxlength='50' onkeypress = 'return IsRelaxAlphaNumeric(event);'ondrop = 'return false;'npaste = 'return false;' />";
+            cell6.innerHTML = "<input type='button' value='Delete' class='btn red' id='btnadd' onclick='del(this)'>";
+            document.getElementById('txtrName').value = "";
+            document.getElementById('txtAge').value = "";
+            document.getElementById('txtWork').value = "";
+            $('#ddlrelation').val("-1");
+        }
+        //function del(id) {
+        //    var table = document.getElementById("table");
+        //    document.getElementById("table").deleteRow(id);
+        //}
+
+
+        function del(el) {
+            //var table = document.getElementById("tablemachine");
+            //document.getElementById("tablemachine").deleteRow(id);
+            //
+            var row = upTo(el, 'tr')
+            if (row) row.parentNode.removeChild(row);
+            
+        }
+        function upTo(el, tagName) {
+            tagName = tagName.toLowerCase();
+
+            while (el && el.parentNode) {
+                el = el.parentNode;
+                if (el.tagName && el.tagName.toLowerCase() == tagName) {
+                    return el;
+                }
+            }
+            return null;
+        }
+
+
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#ddlindustry_code').change(function () {
+                $('#txt_manufacturing').val('');
+                if (document.getElementById('ddlindustry_code').value == "0")
+                {
+                    $('#txt_manufacturing').removeClass('hide');
+                    if ($("input[name='rbtmanufacture']:checked").val() == "S")
+                    {
+                        $('#txt_manufacturing').attr("placeholder", "सेवा");
+                    }
+                    else
+                    {
+                        $('#txt_manufacturing').attr("placeholder", "उत्पाद");
+                    } 
+                }
+               
+            });
+            $('#ddlTehsil').change(function () {
+                //alert($('#ddlTehsil').val());
+                $.ajax({
+                    type: "post",
+                    url: "/IndustrialAreaMaster/GetBlock",
+                    data: { TehID: $('#ddlTehsil').val() },
+                    datatype: "json",
+                    traditional: true,
+                    success: function (data) {
+                        $('#ddlBlock').empty();
+                        //   var block = '<option value=0>Select</option>';
+                        // var district = "<select id='ddlTehsil'>";
+                        var block = '';
+                        for (var i = 0; i < data.length; i++) {
+                            block = block + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                        }
+                        //  district = district + '</select>';
+                        //alert(district);
+                        $('#ddlBlock').append(block);
+                        $('#ddlVillage').empty();
+                        $('#ddlVillage').append("<option value=-1>--चयन करे--</option>");
+                        if ($('#chksameaddress').prop('checked')) {
+                            funadd();
+                        }
+                      //  $('#ddlBlock').focus();
+                    }
+                });
+                
+            });
+            $('#ddlBlock').change(function () {
+                $.ajax({
+                    type: "post",
+                    url: "/IndustrialAreaMaster/GetVillage",
+                    data: { BlockID: $('#ddlBlock').val() },
+                    datatype: "json",
+                    traditional: true,
+                    success: function (data) {
+                        $('#ddlVillage').empty();
+                        // var village = "<option value=0>Select</option>";
+                        var village = '';
+                        for (var i = 0; i < data.length; i++) {
+                            village = village + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                        }
+                        //  district = district + '</select>';
+                        //alert(district);
+                        $('#ddlVillage').append(village);
+                        if ($('#chksameaddress').prop('checked')) {
+                            funadd();
+                        }
+                        //if ($('#rdA1').prop('checked')) {
+                        //    $('#txtpermanantpincode').focus();
+                            
+                        //}
+                        //else {
+                        //    $('#ddlVillage').focus();
+                        //}
+                        
+                    }
+                });
+
+            });
+            $('#ddlVillage').change(function () {
+                if ($('#chksameaddress').prop('checked')) {
+                    funadd();
+                }
+            });
+            $('#ddlcDistrict').change(function () {
+                $.ajax({
+                    type: "post",
+                    url: "/IndustrialAreaMaster/GetTehsil",
+                    data: { DistID: $('#ddlcDistrict').val() },
+                    datatype: "json",
+                    traditional: true,
+                    success: function (data) {
+                        $('#ddlcTehsil').empty();
+                        //var district = "<option value=0>Select</option>";
+                        var district = '';
+                        for (var i = 0; i < data.length; i++) {
+                            district = district + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                        }
+                        //  district = district + '</select>';
+                        //alert(district);
+
+                        $('#ddlcTehsil').append(district);
+                        $('#ddlcBlock').empty();
+                        $('#ddlcBlock').append("<option value=-1>--चयन करे--</option>");
+                        $('#ddlcVillage').empty();
+                        $('#ddlcVillage').append("<option value=-1>--चयन करे--</option>");
+                    }
+                });
+            });
+            $('#ddlcTehsil').change(function () {
+                $.ajax({
+                    type: "post",
+                    url: "/IndustrialAreaMaster/GetBlock",
+                    data: { TehID: $('#ddlcTehsil').val() },
+                    datatype: "json",
+                    traditional: true,
+                    success: function (data) {
+                        $('#ddlcBlock').empty();
+                        //   var block = '<option value=0>Select</option>';
+                        // var district = "<select id='ddlTehsil'>";
+                        var block = '';
+                        for (var i = 0; i < data.length; i++) {
+                            block = block + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                        }
+                        //  district = district + '</select>';
+                        //alert(district);
+                        $('#ddlcBlock').append(block);
+
+
+                        $('#ddlcVillage').empty();
+                        $('#ddlcVillage').append("<option value=-1>--चयन करे--</option>");
+                    }
+                });
+            });
+            $('#ddlcBlock').change(function () {
+                $.ajax({
+                    type: "post",
+                    url: "/IndustrialAreaMaster/GetVillage",
+                    data: { BlockID: $('#ddlcBlock').val() },
+                    datatype: "json",
+                    traditional: true,
+                    success: function (data) {
+                        $('#ddlcVillage').empty();
+                        // var village = "<option value=0>Select</option>";
+                        var village = '';
+                        for (var i = 0; i < data.length; i++) {
+                            village = village + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                        }
+                        //  district = district + '</select>';
+                        //alert(district);
+
+                        $('#ddlcVillage').append(village);
+                    }
+                });
+            });
+            $('#ddlproposed_office_district').change(function () {
+
+                // alert("done");
+                $.ajax({
+                    type: "post",
+                    url: "/IndustrialAreaMaster/GetTehsil",
+                    data: { DistID: $('#ddlproposed_office_district').val() },
+                    datatype: "json",
+                    traditional: true,
+                    success: function (data) {
+                        $('#ddlproposed_office_Tehsil').empty();
+                        var district = '';
+                        for (var i = 0; i < data.length; i++) {
+                            district = district + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                        }
+                        $('#ddlproposed_office_Tehsil').append(district);
+                        $('#ddlproposed_office_Block').empty();
+                        $('#ddlproposed_office_Block').append("<option value=-1>--चयन करे--</option>");
+                        $('#ddlproposed_office_village').empty();
+                        $('#ddlproposed_office_village').append("<option value=-1>--चयन करे--</option>");
+                    }
+                });
+            });
+            $('#ddlproposed_office_Tehsil').change(function () {
+                $.ajax({
+                    type: "post",
+                    url: "/IndustrialAreaMaster/GetBlock",
+                    data: { TehID: $('#ddlproposed_office_Tehsil').val() },
+                    datatype: "json",
+                    traditional: true,
+                    success: function (data) {
+                        $('#ddlproposed_office_Block').empty();
+                        var block = '';
+                        for (var i = 0; i < data.length; i++) {
+                            block = block + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                        }
+                        $('#ddlproposed_office_Block').append(block);
+
+
+                        $('#ddlproposed_office_village').empty();
+                        $('#ddlproposed_office_village').append("<option value=-1>--चयन करे--</option>");
+                    }
+                });
+            });
+            $('#ddlproposed_office_Block').change(function () {
+                $.ajax({
+                    type: "post",
+                    url: "/IndustrialAreaMaster/GetVillage",
+                    data: { BlockID: $('#ddlproposed_office_Block').val() },
+                    datatype: "json",
+                    traditional: true,
+                    success: function (data) {
+                        $('#ddlproposed_office_village').empty();
+                        var village = '';
+                        for (var i = 0; i < data.length; i++) {
+                            village = village + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                        }
+                        $('#ddlproposed_office_village').append(village);
+                    }
+                });
+
+            });
+        });
+        $('#ddl_bankname').change(function () {
+            $('#txt_IFSCCode').val('');
+            $('#txt_branch_Address').val('');
+            $('#ddl_branch_name').val('-1');
+        });
+    </script>
+    <script type="text/javascript">
+       
+
+        
+        function res() {
+            location.reload();
+        }
+       
+        $(document).ready(function () {
+            try {
+                $("input[type='text']").each(function () {
+                    $(this).attr("autocomplete", "nope");
+                });
+            }
+            catch (e)
+            { }
+        });
+        function ddlproductservice(service)
+        {
+            $.ajax({
+                type: "post",
+                url: "/User/Getindustry",
+                data: { Is_service: service },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    $('#ddlindustry_code').empty();
+                    var village = "";
+                    for (var i = 0; i < data.length; i++) {
+                        village = village + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                    }
+                    $('#ddlindustry_code').append(village);
+                    $('#ddlindustry_code').val($('#hfindustry_code').val());
+                    if ($('#hfindustry_code').val()=="0") {
+                        if (service == "M") {
+                            $('#txt_manufacturing').removeClass('hide');
+                            $('#txt_manufacturing').attr("placeholder", "उत्पाद");
+                        }
+                        else if (service == "S") {
+                            $('#txt_manufacturing').removeClass('hide');
+                            $('#txt_manufacturing').attr("placeholder", "सेवा");
+                        }
+                        else {
+                            if ($("#txt_manufacturing").hasClass("hide")) {
+
+                            }
+                            else {
+                                $('#txt_manufacturing').addClass('hide');
+                            }
+                        }
+                    }
+                    
+                }
+            });
+        }
+        $(document).ready(function () {
+            $.ajax({
+                type: "post",
+                url: "/User/GetRelation",
+                data: {},
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    $('#ddlrelation').empty();
+                    var village = "";
+                    for (var i = 0; i < data.length; i++) {
+                        village = village + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                    }
+                    $('#ddlrelation').append(village);
+                }
+            });
+            $.ajax({
+                type: "post",
+                url: "/User/GetEDP",
+                data: {},
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    $('#ddledp').empty();
+                    var district = "";
+                    for (var i = 0; i < data.length; i++) {
+                        district = district + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                    }
+                    $('#ddledp').append(district);
+                    $('#ddledp').val($('#hfedp_training_ins_code').val());
+
+
+                }
+            });
+            $.ajax({
+                type: "post",
+                url: "/User/GetDistricteng",
+                data: { district_code_census: "-1", state_code: "-1" },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    //$('#ddlDistrict').empty();
+                    $('#ddlcDistrict').empty();
+                    $('#ddlproposed_office_district').empty();
+                    var ddlComapnyType = "";
+                    for (var i = 0; i < data.length; i++) {
+                        ddlComapnyType = ddlComapnyType + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                    }
+                    // $('#ddlDistrict').append(ddlComapnyType);
+                    $('#ddlcDistrict').append(ddlComapnyType);
+                    $('#ddlproposed_office_district').append(ddlComapnyType);
+                    //$('#ddlDistrict').val($('#hfDistCode').val());
+                    $('#ddlcDistrict').val($('#hfDistCode').val());
+                    $('#ddlproposed_office_district').val($('#hfproposed_office_district').val());
+
+
+                }
+            });
+            $.ajax({
+                type: "post",
+                url: "/IndustrialAreaMaster/GetTehsil",
+                data: { DistID: $('#hfDistCode').val() },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    $('#ddlTehsil').empty();
+                    var district = "";
+                    //var district = '';
+                    for (var i = 0; i < data.length; i++) {
+                        district = district + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                    }
+                    //district = district + '</select>';
+                    //alert(district);
+                    $('#ddlTehsil').append(district);
+                    $('#ddlTehsil').val($('#hfTehsilCode').val());
+                }
+            });
+            $.ajax({
+                type: "post",
+                url: "/IndustrialAreaMaster/GetTehsil",
+                data: { DistID: $('#hfCDistCode').val() },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+
+                    $('#ddlcTehsil').empty();
+                    var district = "";
+                    //var district = '';
+                    for (var i = 0; i < data.length; i++) {
+                        district = district + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                    }
+                    //district = district + '</select>';
+                    //alert(district);
+
+                    $('#ddlcTehsil').append(district);
+
+                    $('#ddlcTehsil').val($('#hfCTehsilCode').val());
+                }
+            });
+            $.ajax({
+                type: "post",
+                url: "/IndustrialAreaMaster/GetBlock",
+                data: { TehID: $('#hfTehsilCode').val() },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    $('#ddlBlock').empty();
+
+                    var block = '';
+                    // var district = "<select id='ddlTehsil'>";
+                    //var block = '';
+                    for (var i = 0; i < data.length; i++) {
+                        block = block + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                    }
+                    //  district = district + '</select>';
+                    //alert(district);
+                    $('#ddlBlock').append(block);
+
+                    $('#ddlBlock').val($('#hfBlockCode').val());
+
+                }
+            });
+            $.ajax({
+                type: "post",
+                url: "/IndustrialAreaMaster/GetVillage",
+                data: { BlockID: $('#hfBlockCode').val() },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    $('#ddlVillage').empty();
+
+                    var village = "";
+                    //var village = '';
+                    for (var i = 0; i < data.length; i++) {
+                        village = village + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                    }
+                    //  district = district + '</select>';
+                    //alert(district);
+                    $('#ddlVillage').append(village);
+
+                    $('#ddlVillage').val($('#hfVillCode').val());
+
+                }
+            });
+            $.ajax({
+                type: "post",
+                url: "/IndustrialAreaMaster/GetBlock",
+                data: { TehID: $('#hfCTehsilCode').val() },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+
+                    $('#ddlcBlock').empty();
+                    var block = '';
+                    // var district = "<select id='ddlTehsil'>";
+                    //var block = '';
+                    for (var i = 0; i < data.length; i++) {
+                        block = block + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                    }
+                    //  district = district + '</select>';
+                    //alert(district);
+
+                    $('#ddlcBlock').append(block);
+
+                    $('#ddlcBlock').val($('#hfCBlockCode').val());
+                }
+            });
+            $.ajax({
+                type: "post",
+                url: "/IndustrialAreaMaster/GetVillage",
+                data: { BlockID: $('#hfCBlockCode').val() },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+
+                    $('#ddlcVillage').empty();
+                    var village = "";
+                    //var village = '';
+                    for (var i = 0; i < data.length; i++) {
+                        village = village + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                    }
+                    //  district = district + '</select>';
+                    //alert(district);
+
+                    $('#ddlcVillage').append(village);
+
+                    $('#ddlcVillage').val($('#hfCVillCode').val());
+                }
+            });
+            $.ajax({
+                type: "post",
+                url: "/IndustrialAreaMaster/GetTehsil",
+                data: { DistID: $('#hfproposed_office_district').val() },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    $('#ddlproposed_office_Tehsil').empty();
+                    var district = "";
+                    for (var i = 0; i < data.length; i++) {
+                        district = district + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                    }
+                    $('#ddlproposed_office_Tehsil').append(district);
+                    $('#ddlproposed_office_Tehsil').val($('#hfptehsil').val());
+
+
+                }
+            });
+            if (document.getElementById("hfstep").value == "0") {
+                $("#divpross").css('width', '15%');
+                $("#litab1").addClass('active')
+                $("#litab2").removeClass('active')
+                $("#litab3").removeClass('active')
+                $("#litab4").removeClass('active')
+                $("#litab5").removeClass('active')
+                $("#tab1").addClass('active');
+                $("#btnback").addClass('hide');
+            }
+            else if (document.getElementById("hfstep").value == "1") {
+                $("#divpross").css('width', '25%');
+                $("#litab1").addClass('done')
+                $("#litab2").addClass('active')
+                $("#litab3").removeClass('active')
+                $("#litab4").removeClass('active')
+                $("#litab5").removeClass('active')
+                $("#tab2").addClass('active');
+                $("#tab1").removeClass('active');
+                $("#btnback").removeClass('hide');
+            }
+            else if  (document.getElementById("hfstep").value == "2") {
+                $("#divpross").css('width', '55%');
+                $("#litab1").addClass('done')
+                $("#litab2").addClass('done')
+                $("#litab3").addClass('active')
+                $("#litab4").removeClass('active')
+                $("#litab5").removeClass('active')
+                $("#tab3").addClass('active');
+                $("#tab2").removeClass('active');
+                $("#btnback").removeClass('hide');
+            }
+            else if (document.getElementById("hfstep").value == "3") {
+                $("#divpross").css('width', '85%');
+                $("#litab1").addClass('done')
+                $("#litab2").addClass('done')
+                $("#litab3").addClass('done')
+                $("#litab4").addClass('active')
+                $("#litab5").removeClass('active')
+                $("#tab4").addClass('active');
+                $("#tab3").removeClass('active');
+                $("#btnback").removeClass('hide');
+                //$("#btnback").removeClass('hide');
+                $("#btncont").html('Submit');
+            }
+            else if (document.getElementById("hfstep").value == "4") {
+                $("#divpross").css('width', '100%');
+                $("#litab1").addClass('done')
+                $("#litab2").addClass('done')
+                $("#litab3").addClass('done')
+                $("#litab4").addClass('done')
+                $("#litab5").addClass('active')
+                $("#tab5").addClass('active');
+                $("#tab4").removeClass('active');
+                $("#btnback").removeClass('hide');
+                $("#btncont").addClass('hide');
+               // $("#btnback").addClass('hide');
+                $("#btnplant").removeClass('hide');
+                $("#btnUpload").addClass('hide');
+                $("#btnprint").addClass('hide');
+            }
+            else if (document.getElementById("hfstep").value == "5") {
+                $("#divpross").css('width', '100%');
+                $("#litab1").addClass('done')
+                $("#litab2").addClass('done')
+                $("#litab3").addClass('done')
+                $("#litab4").addClass('done')
+                
+                $("#tab5").addClass('active');
+
+                $("#btnback").removeClass('hide');
+                $("#btncont").addClass('hide');
+            //    $("#btnback").addClass('hide');
+
+                $("#btnplant").removeClass('hide');
+                $("#btnUpload").addClass('hide');
+                $("#btnprint").addClass('hide');
+
+            }
+            else if (document.getElementById("hfstep").value == "6") {
+                $("#divpross").css('width', '100%');
+                $("#litab1").addClass('done')
+                $("#litab2").addClass('done')
+                $("#litab3").addClass('done')
+                $("#litab4").addClass('done')
+                // $("#litab5").addClass('done')
+                //  $("#tab5").addClass('done');
+                $("#tab5").addClass('active');
+                $("#btncont").addClass('hide');
+              //  $("#btnback").addClass('hide');
+                $("#btnplant").addClass('hide');
+                $("#btnUpload").removeClass('hide');
+                $("#btnprint").addClass('hide');
+                $("#btnback").removeClass('hide');
+            }
+            else if (document.getElementById("hfstep").value == "7") {
+                $("#divpross").css('width', '100%');
+                $("#litab1").addClass('done')
+                $("#litab2").addClass('done')
+                $("#litab3").addClass('done')
+                $("#litab4").addClass('done')
+                
+                $("#tab5").addClass('active');
+                $("#btncont").addClass('hide');
+                $("#btnback").addClass('hide');
+                $("#btnplant").addClass('hide');
+                $("#btnUpload").addClass('hide');
+                $("#btnprint").removeClass('hide');
+            }
+           
+            if (document.getElementById("hfmanu").value=="M") {
+                $('#rbtmanufacture').attr('checked', 'checked');
+                ddlproductservice("M");
+                $('#lblservice').html('उत्पाद');
+            }
+            else if (document.getElementById("hfmanu").value == "S") {
+                $('#rbtservice').attr('checked', 'checked');
+                ddlproductservice("S");
+                $('#lblservice').html('सेवा');
+
+            }
+
+            if (document.getElementById("hfIs_edp_training").value == "Y") {
+                $('#rbtEDPY').attr('checked', 'checked');
+                document.getElementById("ddledp").disabled = false;
+            }
+            else if (document.getElementById("hfIs_edp_training").value == "N") {
+                $('#rbtEDPN').attr('checked', 'checked');
+                document.getElementById("ddledp").disabled = true;
+            }
+            if (document.getElementById("hfis_address_same").value == "Y") {
+                
+                $('#chksameaddress').prop('checked', true)
+               
+                document.getElementById("txtCurrentAddress").disabled = true;
+                document.getElementById("ddlcDistrict").disabled = true;
+                document.getElementById("ddlcTehsil").disabled = true;
+                document.getElementById("ddlcBlock").disabled = true;
+                document.getElementById("ddlcVillage").disabled = true;
+                if ($('#ddlcVillage').hasClass('select2-hidden-accessible')) {
+                    $('#ddlcVillage').select2('destroy');
+                    $('#ddlcVillage').removeClass('select2');
+                }
+                if ($('#ddlcBlock').hasClass('select2-hidden-accessible')) {
+                    $('#ddlcBlock').select2('destroy');
+
+                    $('#ddlcBlock').removeClass('select2');
+                }
+                if ($('#ddlcTehsil').hasClass('select2-hidden-accessible')) {
+                    $('#ddlcTehsil').select2('destroy');
+
+                    $('#ddlcTehsil').removeClass('select2');
+                }
+                if ($('#ddlcDistrict').hasClass('select2-hidden-accessible')) {
+                    $('#ddlcDistrict').select2('destroy');
+
+                    $('#ddlcDistrict').removeClass('select2');
+                }
+                document.getElementById("txtcurrentpincode").disabled = true;
+                
+            }
+            else {
+                $('#chksameaddress').prop('checked', false)
+                
+                document.getElementById("txtCurrentAddress").disabled = false;
+                document.getElementById("ddlcDistrict").disabled = false;
+                document.getElementById("ddlcTehsil").disabled = false;
+                document.getElementById("ddlcBlock").disabled = false;
+                document.getElementById("ddlcVillage").disabled = false;
+                if ($('#ddlcDistrict').hasClass('select2')) {
+                    
+                }
+                else {
+                    $('#ddlcDistrict').select2();
+                }
+                if ($('#ddlcTehsil').hasClass('select2')) {
+                }
+                else {
+                    $('#ddlcTehsil').select2();
+                }
+                if ($('#ddlcBlock').hasClass('select2')) {
+                }
+                else {
+                    $('#ddlcBlock').select2();
+                }
+                if ($('#ddlcVillage').hasClass('select2')) {
+                }
+                else {
+                    $('#ddlcVillage').select2();
+                }
+                
+                //$('#ddlcTehsil').select2();
+                //$('#ddlcBlock').select2();
+                //$('#ddlcVillage').select2();
+                document.getElementById("txtcurrentpincode").disabled = false;
+            }
+           
+            $.ajax({
+                type: "post",
+                url: "/User/Getbank",
+                data: {},
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    $('#ddl_bankname').empty();
+                    var village = "";
+                    for (var i = 0; i < data.length; i++) {
+                        village = village + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                    }
+                    $('#ddl_bankname').append(village);
+                    $('#ddl_bankname').val($('#hfbankcode').val());
+                }
+            });
+            $.ajax({
+                type: "post",
+                url: "/User/Getbranch",
+                data: {},
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    $('#ddl_branch_name').empty();
+                    var village = "";
+                    for (var i = 0; i < data.length; i++) {
+                        village = village + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                    }
+                    $('#ddl_branch_name').append(village);
+                    $('#ddl_branch_name').val($('#hfbranch_code').val());
+                }
+            });
+            $.ajax({
+                type: "post",
+                url: "/User/Getcategory",
+                data: {},
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    $('#ddlcategory').empty();
+                    var village = "";
+                    for (var i = 0; i < data.length; i++) {
+                        village = village + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                    }
+                    $('#ddlcategory').append(village);
+                    $('#ddlcategory').val($('#hfcategory_suffix').val());
+                }
+            });
+            $.ajax({
+                type: "post",
+                url: "/User/Getsp_category",
+                data: {},
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    $('#ddlspcategory').empty();
+                    var village = "";
+                    for (var i = 0; i < data.length; i++) {
+                        village = village + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                    }
+                    $('#ddlspcategory').append(village);
+                    $('#ddlspcategory').val($('#hfsp_category_suffix').val());
+                }
+            });
+            $.ajax({
+                type: "post",
+                url: "/User/Getgender",
+                data: {},
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    $('#ddlgender').empty();
+                    var village = "";
+                    //var village = '';
+                    for (var i = 0; i < data.length; i++) {
+                        village = village + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                    }
+                    $('#ddlgender').append(village);
+                    $('#ddlgender').val($('#hfgender').val());
+                }
+            });
+            $.ajax({
+                type: "post",
+                url: "/User/Getqualification",
+                data: {},
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    $('#ddlqualification').empty();
+                    var village = "";
+                    for (var i = 0; i < data.length; i++) {
+                        village = village + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                    }
+                    $('#ddlqualification').append(village);
+                    $('#ddlqualification').val($('#hfqualification_code').val());
+                }
+
+            });
+            $.ajax({
+                type: "post",
+                url: "/IndustrialAreaMaster/GetBlock",
+                data: { TehID: $('#hfptehsil').val() },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    $('#ddlproposed_office_Block').empty();
+                    var block = '';
+                    for (var i = 0; i < data.length; i++) {
+                        block = block + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                    }
+                    $('#ddlproposed_office_Block').append(block);
+                    $('#ddlproposed_office_Block').val($('#hfpblock').val());
+                }
+            });
+            $.ajax({
+                type: "post",
+                url: "/IndustrialAreaMaster/GetVillage",
+                data: { BlockID: $('#hfpblock').val() },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    $('#ddlproposed_office_village').empty();
+                    var village = "";
+
+                    for (var i = 0; i < data.length; i++) {
+                        village = village + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                    }
+                    $('#ddlproposed_office_village').append(village);
+                    $('#ddlproposed_office_village').val($('#hfpvillage').val());
+                }
+            });
+            if (document.getElementById("hfIs_village_bank").value == "Y") {
+                Toggle("Y");
+            }
+            else {
+                Toggle("N");
+            }
+            if (document.getElementById('ddlcategory').value == "GEN" && document.getElementById('ddlspcategory').value == "NA") {
+                $('#rbt5').attr('checked', false);
+                $('#rbt10').attr('checked', true);
+                fun10self_share();
+            }
+            else {
+                $('#rbt5').attr('checked', true);
+                $('#rbt10').attr('checked', false);
+                fun5self_share();
+            }
+            //if (document.getElementById('ddlcategory').value == "GEN") {
+            //    if (document.getElementById('ddlspcategory').value == "NA") {
+            //        $('#rbt5').attr('checked', false);
+            //        $('#rbt10').attr('checked', true);
+            //        fun10self_share();
+            //    }
+            //    else {
+            //        $('#rbt5').attr('checked', true);
+            //        $('#rbt10').attr('checked', false);
+            //        fun5self_share();
+            //    }
+            //}
+            //else {
+            //    $('#rbt5').attr('checked', false);
+            //    $('#rbt10').attr('checked', true);
+            //    fun10self_share();
+            //}
+            //if (document.getElementById('hfcategory_suffix').value == "GEN") {
+            //    $('#rbt5').attr('checked', false);
+            //    $('#rbt10').attr('checked', true);
+
+            //    $('#rbt5').attr('checked', 'checked');
+            //    fun5self_share();
+            //}
+            //else {
+            //    $('#rbt10').attr('checked', 'checked');
+            //    fun10self_share();
+            //}
+
+        });
+        function validateEmail(txt) {
+            //var emailText = txt.value;
+            //var pattern = /^[a-zA-Z0-9\-_]+(\.[a-zA-Z0-9\-_]+)*@@[a-z0-9]+(\-[a-z0-9]+)*(\.[a-z0-9]+(\-[a-z0-9]+)*)*\.[a-z]{2,4}$/;
+            //if (pattern.test(emailText)) {
+            //    return true;
+            //} else {
+            //    txt.value = "";
+            //    alert('Bad email address: ' + emailText);
+            //    return false;
+            //}
+            var emailText = txt.value;
+            if (emailText != "") {
+                var pattern = /^[a-zA-Z0-9\-_]+(\.[a-zA-Z0-9\-_]+)*@@[a-z0-9]+(\-[a-z0-9]+)*(\.[a-z0-9]+(\-[a-z0-9]+)*)*\.[a-z]{2,4}$/;
+                if (pattern.test(emailText)) {
+                    return true;
+                } else {
+                    txt.value = "";
+                    alert('Bad email address: ' + emailText);
+                    return false;
+                }
+            }
+        }
+        function sum() {
+            var Mcost = document.getElementById("txt_machinerycost").value == "" ? "0" : document.getElementById("txt_machinerycost").value;
+            var wcost = document.getElementById("txt_workingcapital").value == "" ? "0" : document.getElementById("txt_workingcapital").value;
+            var Total = parseFloat(Mcost) + parseFloat(wcost);
+            document.getElementById("txtprojectcost").value = parseFloat(Total).toFixed(2);
+
+        }
+        function funrbtmanufacture() {
+           
+            
+            var IsShed = $("input[name='rbtmanufacture']:checked").val();
+            if (IsShed=="M") {
+                $('#lblservice').html('उत्पाद');
+            }
+            else {
+                $('#lblservice').html('सेवा');
+            }
+            document.getElementById("hfmanu").value = IsShed;
+            $.ajax({
+                type: "post",
+                url: "/User/Getindustry",
+                data: { Is_service: IsShed },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    $('#ddlindustry_code').empty();
+                    var village = "";
+                    for (var i = 0; i < data.length; i++) {
+                        village = village + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                    }
+                    $('#ddlindustry_code').append(village);
+                    $('#ddlindustry_code').val("-1");
+
+                    
+                        if ($("#txt_manufacturing").hasClass("hide")) {
+
+                        }
+                        else {
+                            $('#txt_manufacturing').addClass('hide');
+                        }
+                    
+
+                }
+
+            });
+        }
+        function funEDPy() {
+            var IsEDP = $('#rbtEDPY').val();  // $('#chkPlotShedOption').bootstrapSwitch('state');
+            if (IsEDP == "Y") {
+                $("#hfIs_edp_training").val('Y');
+                document.getElementById("ddledp").disabled = false;
+                $('#rbtEDPN').attr('checked', false);
+                $('#rbtEDPY').attr('checked', true);
+            }
+        }
+        function funEDPn() {
+            var IsEDP = $('#rbtEDPN').val();  // $('#chkPlotShedOption').bootstrapSwitch('state');
+            if (IsEDP == "N") {
+                $("#hfIs_edp_training").val('N');
+                document.getElementById("ddledp").disabled = true;
+                document.getElementById("ddledp").value = "-1";
+                $('#rbtEDPN').attr('checked',true);
+                $('#rbtEDPY').attr('checked', false);
+            }
+        }
+        function fun5self_share() {
+            var Cost = document.getElementById("txtprojectcost").value;
+
+            var Total = (parseFloat(Cost) * parseFloat("0.05"))
+            document.getElementById("txt_Owndeposit").value = parseFloat(Total).toFixed(2);
+
+        }
+        function fun10self_share() {
+            var Cost = document.getElementById("txtprojectcost").value;
+
+            var Total = (parseFloat(Cost) * parseFloat("0.1"))
+            document.getElementById("txt_Owndeposit").value = parseFloat(Total).toFixed(2);
+        }
+        function funrbtvillage() {
+
+            document.getElementById("hfIs_village_bank").value = "Y";
+
+            $("#lblbranchtype").html("सर्विस शाखा का नाम (ग्रामीण क्षेत्रों हेतु)");
+
+        }
+        function funrbtcity() {
+            document.getElementById("hfIs_village_bank").value = "N";
+            $("#lblbranchtype").html("निकटतम बैक शाखा  का नाम ");
+        }
+       
+    </script>
+    <script>
+        var d = new Date();
+        var year = d.getFullYear() - 18;
+        d.setFullYear(year);
+        function get_age(born, now) {
+            var birthday = new Date(now.getFullYear(), born.getMonth(), born.getDate());
+            if (now >= birthday)
+                return now.getFullYear() - born.getFullYear();
+            else
+                return now.getFullYear() - born.getFullYear() - 1;
+        }
+        $(function () {
+            var P = new Array();
+            $("[id$=txt_IFSCCode]").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: '/user/Getifsc/',
+                        data: "{ 'Prefix': '" + request.term + "','District':'" + document.getElementById('hfDistCode').value.trim() + "','bank_code':'" + document.getElementById('ddl_bankname').value.trim() + "'}",
+                        dataType: "json",
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return { label: item.ifsc_code, value: item.ifsc_code, bank_code: item.bank_code, branch_code: item.branch_code, address: item.address };
+                            }))
+                        },
+                        error: function (response) {
+                            alert(response.responseText);
+                        },
+                        failure: function (response) {
+                            alert(response.responseText);
+                        }
+                    });
+                },
+                select: function (e, i) {
+                    $('#txt_branch_Address').val(i.item.address);
+                    $('#ddl_bankname').val(i.item.bank_code);
+                    $('#ddl_branch_name').val(i.item.branch_code);
+                },
+                minLength: 1
+            });
+        });
+       
+        function openbankmodel()
+        {
+            if (document.getElementById('ddl_bankname').value=="-1") {
+                alert("बैक का नाम ");
+                return;
+            }
+            $.ajax({
+
+                url: '/User/Getbankifsc',
+                data: JSON.stringify({ bank_code: document.getElementById('ddl_bankname').value.trim(), district: document.getElementById('hfDistCode').value.trim() }),
+                type: 'POST',
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    $('#banktabl').html(data);
+                   
+                    $("#bankmodal").css("display", "block");
+                    $("#bankmodal").addClass("in");
+                     L();
+                }
+            });
+            return;
+        }
+        function modalclose2() {
+            $("#bankmodal").css("display", "none");
+            $("#bankmodal").removeClass("in");
+        }
+        function funadd()
+        {
+            if (document.getElementById("txtPermanent_Address").value == "") {
+                document.getElementById("txtPermanent_Address").focus();
+                $('#lblPeradress').css('color', 'red');
+                $('#chksameaddress').prop('checked', false);
+                alert("स्थाई पता");
+                return;
+            }
+            
+            if (document.getElementById("ddlTehsil").value == "-1") {
+                document.getElementById("ddlTehsil").focus();
+                $('#lbltehsil').css('color', 'red');
+                $('#chksameaddress').prop('checked', false);
+                alert("तहसील");
+                return;
+            }
+            if (document.getElementById("txtpermanantpincode").value == "") {
+                document.getElementById("txtpermanantpincode").focus();
+                //$('#lblblock').css('color', 'red');
+                alert("स्थाई पता पिनकोड");
+                $('#chksameaddress').prop('checked', false);
+                return;
+            }
+            if ($('#chksameaddress').prop('checked')) {
+                $('#txtCurrentAddress').val($('#txtPermanent_Address').val());
+                // $('#ddlcDistrict').val($('#hfDistCode').val());
+                document.getElementById("ddlcDistrict").value = $('#hfDistCode').val().trim();
+                $.ajax({
+                    type: "post",
+                    url: "/IndustrialAreaMaster/GetTehsil",
+                    data: { DistID: $('#ddlcDistrict').val() },
+                    datatype: "json",
+                    traditional: true,
+                    success: function (data) {
+                        $('#ddlcTehsil').empty();
+                        var district = "";
+                        for (var i = 0; i < data.length; i++) {
+                            district = district + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                        }
+                        $('#ddlcTehsil').append(district);
+                        $('#ddlcTehsil').val(document.getElementById("ddlTehsil").value);
+                    }
+                });
+                $.ajax({
+                    type: "post",
+                    url: "/IndustrialAreaMaster/GetBlock",
+                    data: { TehID: $('#ddlTehsil').val() },
+                    datatype: "json",
+                    traditional: true,
+                    success: function (data) {
+                        $('#ddlcBlock').empty();
+                        var block = '';
+                        for (var i = 0; i < data.length; i++) {
+                            block = block + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                        }
+                        $('#ddlcBlock').append(block);
+                        $('#ddlcBlock').val(document.getElementById("ddlBlock").value);
+                    }
+                });
+                $.ajax({
+                    type: "post",
+                    url: "/IndustrialAreaMaster/GetVillage",
+                    data: { BlockID: $('#ddlBlock').val() },
+                    datatype: "json",
+                    traditional: true,
+                    success: function (data) {
+                        $('#ddlcVillage').empty();
+                        var village = "";
+                        //var village = '';
+                        for (var i = 0; i < data.length; i++) {
+                            village = village + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                        }
+                        $('#ddlcVillage').append(village); $('#ddlcVillage').val(document.getElementById("ddlVillage").value);//.val($('#ddlVillage').val());
+                    }
+                });
+                document.getElementById("hfis_address_same").value = "Y";
+                document.getElementById("txtCurrentAddress").disabled = true;
+                document.getElementById("ddlcDistrict").disabled = true;
+                document.getElementById("ddlcTehsil").disabled = true;
+                document.getElementById("ddlcBlock").disabled = true;
+                document.getElementById("ddlcVillage").disabled = true;
+
+                if ($('#ddlcVillage').hasClass('select2-hidden-accessible')) {
+                    $('#ddlcVillage').select2('destroy');
+                    $('#ddlcVillage').removeClass('select2');
+                }
+                if ($('#ddlcBlock').hasClass('select2-hidden-accessible')) {
+                    $('#ddlcBlock').select2('destroy');
+
+                    $('#ddlcBlock').removeClass('select2');
+                }
+                if ($('#ddlcTehsil').hasClass('select2-hidden-accessible')) {
+                    $('#ddlcTehsil').select2('destroy');
+
+                    $('#ddlcTehsil').removeClass('select2');
+                }
+                if ($('#ddlcDistrict').hasClass('select2-hidden-accessible')) {
+                    $('#ddlcDistrict').select2('destroy');
+
+                    $('#ddlcDistrict').removeClass('select2');
+                }
+
+
+
+
+                //$('#ddlcDistrict').select2('destroy');
+                //$('#ddlcTehsil').select2('destroy');
+                //$('#ddlcBlock').select2('destroy');
+                //$('#ddlcVillage').select2('destroy');
+                document.getElementById("txtcurrentpincode").disabled = true;
+                document.getElementById("txtcurrentpincode").value = document.getElementById("txtpermanantpincode").value;
+            }
+            else {
+                $('#txtCurrentAddress').val('');
+                $('#ddlcDistrict').val("-1");
+                $('#ddlcTehsil').empty();
+                $('#ddlcTehsil').append("<option value=-1>--चयन करे--</option>");
+                $('#ddlcBlock').empty();
+                $('#ddlcBlock').append("<option value=-1>--चयन करे--</option>");
+                $('#ddlcVillage').empty();
+                $('#ddlcVillage').append("<option value=-1>--चयन करे--</option>");
+                document.getElementById("hfis_address_same").value = "N";
+                document.getElementById("txtCurrentAddress").disabled = false;
+                document.getElementById("ddlcDistrict").disabled = false;
+                document.getElementById("ddlcTehsil").disabled = false;
+                document.getElementById("ddlcBlock").disabled = false
+                document.getElementById("ddlcVillage").disabled = false;
+                document.getElementById("txtcurrentpincode").disabled = false;
+                $("#ddlcDistrict").select2();
+                $("#ddlcTehsil").select2();
+                $("#ddlcBlock").select2();
+                $("#ddlcVillage").select2();
+                $('.select2-container--bootstrap').removeAttr('style');
+                $('.select2-container--bootstrap').css('width', '100%');
+            }
+        }
+    </script>
+    <script>
+    window.onload = L;
+    function L() {
+        //debugger;
+        var table = $('#Datatable');
+        var oTable = table.dataTable({
+            // Internationalisation. For more info refer to http://datatables.net/manual/i18n
+            "language": {
+                "aria": {
+                    "sortAscending": ": activate to sort column ascending",
+                    "sortDescending": ": activate to sort column descending"
+                },
+                "emptyTable": "No data available in table",
+                "info": "Showing _START_ to _END_ of _TOTAL_ entries",
+                "infoEmpty": "No entries found",
+                "infoFiltered": "(filtered1 from _MAX_ total entries)",
+                "lengthMenu": "_MENU_ entries",
+                "search": "Search:",
+                "zeroRecords": "No matching records found"
+            },
+            buttons: [
+                //{ extend: 'print', className: 'btn dark' },
+                //{ extend: 'pdf', className: 'btn purple' },
+                //{ extend: 'excel', className: 'btn yellow ' },
+               // { extend: 'colvis', className: 'btn red', text: 'Columns' }
+            ],
+            // setup responsive extension: http://datatables.net/extensions/responsive/
+            responsive: true,
+            //"ordering": false, disable column ordering
+            //"paging": false, disable pagination
+
+            "order": [
+                [0, 'asc']
+            ],
+
+            "lengthMenu": [
+                [5, 10, 15, 20, -1],
+                [5, 10, 15, 20, "All"] // change per page values here
+            ],
+            // set the initial value
+            "pageLength": 10,
+
+            "dom": "<'row' <'col-md-12'B>><'row'<'col-md-6 col-sm-12'l><'col-md-6 col-sm-12'f>r><'table-scrollable't><'row'<'col-md-5 col-sm-12'i><'col-md-7 col-sm-12'p>>", // horizobtal scrollable datatable
+
+            // Uncomment below line("dom" parameter) to fix the dropdown overflow issue in the datatable cells. The default datatable layout
+            // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js).
+            // So when dropdowns used the scrollable div should be removed.
+            //"dom": "<'row' <'col-md-12'T>><'row'<'col-md-6 col-sm-12'l><'col-md-6 col-sm-12'f>r>t<'row'<'col-md-5 col-sm-12'i><'col-md-7 col-sm-12'p>>",
+        });
+    }
+    </script>
+    <script>
+        function funbifscselect(ifsc, branch_code, address)
+        {
+            $('#ddl_branch_name').val(branch_code.trim());
+            $('#txt_branch_Address').val(address.trim());
+            $('#txt_IFSCCode').val(ifsc.trim());
+            modalclose2()
+        }
+        function Toggle(ctrlId) {
+            if (ctrlId == "N") {
+                document.getElementById("ddlVillage").disabled = true;
+                document.getElementById("ddlproposed_office_village").disabled = true;
+                document.getElementById("hfIs_village_bank").value = "N";
+               // $("#ddlVillage").select2('destroy');
+               // $("#ddlproposed_office_village").select2('destroy');
+                document.getElementById("ddlVillage").value = "-1";
+                document.getElementById("ddlproposed_office_village").value = "-1";
+                if ($('#chksameaddress').prop('checked'))
+                {
+                    document.getElementById("ddlcVillage").value = "-1";
+                }
+                $('#rdA2').prop('checked', false);
+                $('#rdA1').prop('checked', true);
+                if ($('#ddlVillage').hasClass('select2-hidden-accessible')) {
+                    $('#ddlVillage').select2('destroy');
+                    $('#ddlVillage').removeClass('select2');
+                }
+                if ($('#ddlproposed_office_village').hasClass('select2-hidden-accessible')) {
+                    $('#ddlproposed_office_village').select2('destroy');
+                    $('#ddlproposed_office_village').removeClass('select2');
+                }
+                $('#lblblock').html('ब्लॉक');
+                $('#lblvillage').html('ग्राम');
+                $('#lblpblock').html('ब्लॉक');
+                $('#lblpvillage').html('ग्राम');
+            }
+            else if (ctrlId == "Y") {
+                document.getElementById("ddlVillage").disabled = false;
+                document.getElementById("ddlproposed_office_village").disabled = false;
+                $("#ddlproposed_office_village").select2();
+                $("#ddlVillage").select2();
+                document.getElementById("hfIs_village_bank").value = "Y";
+                $('#rdA2').prop('checked', true);
+                $('#rdA1').prop('checked', false);
+                if ($('#chksameaddress').prop('checked')) {
+                    $('#ddlcVillage').val(document.getElementById("ddlVillage").value);
+                }
+                $('.select2-container--bootstrap').removeAttr('style');
+                $('.select2-container--bootstrap').css('width', '100%');
+                $('#lblblock').html('ब्लॉक <span class="Mandatory">*</span>');
+                $('#lblvillage').html('ग्राम <span class="Mandatory">*</span>');
+                $('#lblpblock').html('ब्लॉक <span class="Mandatory">*</span>');
+                $('#lblpvillage').html('ग्राम <span class="Mandatory">*</span>');
+            }
+        }
+        
+        //$(document).ready(function () {
+        //    $(".js-datemask").mask("99/99/9999", {
+        //        placeholder: "dd/mm/yyyy",
+        //        completed: function () {
+        //            //   dateReflection($(this));
+        //        }
+        //    });
+
+
+
+        //});
+        
+    </script>
+    
+}

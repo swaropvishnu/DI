@@ -7,9 +7,14 @@ using DI.Models;
 using DI.BLL;
 using System.Data;
 using System.Text;
+using System.Data.Entity.Infrastructure;
+using DI.Filters;
 
 namespace DI.Controllers
 {
+    [SessionExpireFilter]
+    //[CheckAuthorization]
+    [HandleError(ExceptionType = typeof(DbUpdateException), View = "Error")]
     public class IndustrialAreaMasterController : Controller
     {
         // GET: IndustrialAreaMaster
@@ -59,6 +64,18 @@ namespace DI.Controllers
         {
             List<SelectListItem> distNames = new List<SelectListItem>();
             CMODataEntryBLL.bindDropDownHnGrid("proc_Detail", distNames, "ds", "28", "10");
+            return Json(distNames, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult GetDistricteng(string district_code_census, string state_code)
+        {
+            List<SelectListItem> distNames = new List<SelectListItem>();
+            CMODataEntryBLL.bindDropDownHnGrid("proc_Detail", distNames, "DSE", district_code_census.Trim(), state_code.Trim());
+            return Json(distNames, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult Getschemeeng()
+        {
+            List<SelectListItem> distNames = new List<SelectListItem>();
+            CMODataEntryBLL.bindDropDownHnGrid("proc_Detail", distNames, "ye", "", "");
             return Json(distNames, JsonRequestBehavior.AllowGet);
         }
         public ActionResult addAreaView2()

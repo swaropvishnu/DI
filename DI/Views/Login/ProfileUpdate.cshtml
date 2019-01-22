@@ -11,143 +11,202 @@
     }
 }
 
-
-
-
-
-    <!-- BEGIN SAMPLE FORM PORTLET-->
-    <div class="portlet light ">
-        <div class="portlet-title">
-            <div class="caption font-green">
-                <i class="icon-pin font-green"></i>
-                <span class="caption-subject bold uppercase"> User Profile Updation </span>
-            </div>
-            <div class="actions">
-                <div class="btn-group">
-                    <a class="btn btn-sm default dropdown-toggle" href="javascript:;" data-toggle="dropdown">
-                        Settings
-                        <i class="fa fa-angle-down"></i>
-                    </a>
-                    <ul class="dropdown-menu pull-right">
-                        <li>
-                            <a href="javascript:;">
-                                <i class="fa fa-pencil"></i> Edit
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:;">
-                                <i class="fa fa-trash-o"></i> Delete
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:;">
-                                <i class="fa fa-ban"></i> Ban
-                            </a>
-                        </li>
-                        <li class="divider"> </li>
-                        <li>
-                            <a href="javascript:;"> Make admin </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
         <div class="portlet-body form">
                         @using (Html.BeginForm("ProfileUpdate", "Login",
-                                           //new { ReturnUrl = ViewBag.ReturnUrl },
-                                           FormMethod.Post, new { @class = "" , enctype = "multipart/form-data" }))
+
+                                           FormMethod.Post, new { @class = "", enctype = "multipart/form-data" }))
 
                         {
                 @Html.AntiForgeryToken()
                 <form method="post">
-                    <div class="form-body">
-                        
-                            <div class="row">
-                                <div class="col-md-4 ">
-                                    <div class="form-group form-md-line-input form-md-floating-label has-info">
-                                        @Html.TextBoxFor(m=>m.UserName,new { @class="form-control input-lg",@id="txtname"})
-
-                                        <label for="form_control_1">Name</label>
-
-                                    </div>
-                                </div>
-                                <div class="col-md-4 ">
-                                    <div class="form-group form-md-line-input form-md-floating-label has-info">
-                                        @Html.TextBoxFor(m => m.UserNameHindi, new { @class = "form-control input-lg", @id = "txtnamehindi" })
-                                        <label for="form_control_1">Name (Hindi)</label>
-                                        @*@Html.LabelFor(m => m.UserNameHindi, "", new { @id = "txtnamehindi", @class = "form-control" })*@
-                                    </div>
-                                </div>
-
-                                <div class="col-md-4 ">
-                                    <div class="form-group form-md-line-input form-md-floating-label has-info">
-                                        @Html.TextBoxFor(m => m.UserMobile, new { @class = "form-control input-lg", @id = "mask_phone" })
-                                        <label for="form_control_1">Mobile No.</label>
-                                        @*@Html.LabelFor(m => m.UserMobile, "", new { @id = "txtusermobile", @class = "form-control" })*@
-                                    </div>
-                                </div>
+                    <div class="portlet light ">
+                        <div class="portlet-title">
+                            <div class="caption font-green">
+                                <i class="icon-pin font-green"></i>
+                                <span class="caption-subject bold uppercase"> User Profile</span>
                             </div>
-                            <div class="row">
-                                <div class="col-md-4 ">
-                                    <div class="form-group form-md-line-input form-md-floating-label has-info">
-                                        @*<select class="form-control edited input-lg" id="form_control_1">
-                            <option value=""></option>
-                            <option value="1" selected>Option 1</option>
-                            <option value="2">Option 2</option>
-                            <option value="3">Option 3</option>
-                            <option value="4">Option 4</option>
-                        </select>
-                        <label for="form_control_1">Dropdown sample</label>*@
-                                        <input type="text" class="form-control input-lg" id="form_control_1">
-                                        <label for="form_control_1">Designation</label>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 ">
-                                    <div class="form-group form-md-line-input form-md-floating-label has-info">
-                                        @Html.TextBoxFor(m => m.UserEmail, new { @class = "form-control input-lg", @id = "txtemail" })
-                                        <label for="form_control_1">Official eMail</label>
-                                        @*@Html.LabelFor(m => m.UserEmail, "", new { @id = "txtuseremail", @class = "form-control" })*@
-                                    </div>
-                                </div>
-
-                                <div class="col-md-4 ">
-                                    <div class="form-group form-md-line-input form-md-floating-label has-info">
-                                        @Html.TextBoxFor(m => m.UserAddress, new { @class = "form-control input-lg", @id = "txtaddress" })
-                                        <label for="form_control_1">Office Address</label>
-                                        @*@Html.LabelFor(m => m.UserAddress, "", new { @id = "txtuseraddress", @class = "form-control" })*@
-                                    </div>
-                                </div>
-
-                            </div>
+                        </div>
                         <div class="row">
-                            <div class="col-md-2 ">
+                            <div class="col-md-12">
+                                <div class="portlet light bordered">
+                                    <div class="portlet-title">
+                                        <div class="caption">
+                                            <i class="icon-equalizer font-red-sunglo"></i>
+                                            <span class="caption-subject font-red-sunglo bold uppercase"> User Profile Updation </span>
+                                            <span class="caption-helper">... </span>
+                                        </div>
 
-                                <div class="form-group form-md-line-input form-md-floating-label has-info">
-                                    <label for="form_control_1">Profile Photo</label>
-                                    <img id="blah" class="img-responsive" src="@ViewBag.Base64String" />
-                                    <br />
-                                    <input type="file" class="btn btn-success" name="pimg" id="pimg" accept=".jpg,.jpeg" onchange="validate_fileupload(this);" />
-                              
+                                    </div>
+                                    <div class="portlet-body form">
+                                        <!-- BEGIN FORM-->
+                                        <form action="#" class="form-horizontal">
+                                            <div class="form-body" style="padding: 0px !important">
+
+                                                <div class="row">
+
+                                                    <div class="col-md-4">
+                                                       
+                                                            <div class="form-group">
+                                                                <label for="form_control_1">Profile Photo</label>
+                                                                <br />
+                                                                <img id="blah" class="img-res" src="@ViewBag.Base64String" height="220" width="230"/>
+                                                                <br />
+                                                                <div class="col-md-6">
+                                                                    <input type="file" class="btn btn-success" name="pimg" id="pimg" accept=".jpg,.jpeg" onchange="validate_fileupload(this);" />
+                                                                </div>
+                                                            </div>
+                                                        
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-12 " style="text-align:left" id="lblcomtype">Name</label>
+                                                                <div class="col-md-12">
+                                                                    @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", @id = "txtname" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!--/span-->
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-12" style="text-align:left" id="lblcompname">Name (Hindi)</label>
+                                                                <div class="col-md-12">
+                                                                    @Html.TextBoxFor(m => m.UserNameHindi, new { @class = "form-control", @id = "txtnamehindi" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!--/span-->
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-12" style="text-align:left" id="lblpan">Mobile No </label>
+                                                                <div class="col-md-12">
+                                                                    @Html.TextBoxFor(m => m.UserMobile, new { @class = "form-control", @id = "txtMobile" }) @*, @id = "txt_mask_phone"*@
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!--/span-->
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-12" style="text-align:left" id="lblcin"> Official eMail </label>
+                                                                <div class="col-md-12">
+                                                                    @Html.TextBoxFor(m => m.UserEmail, new { @class = "form-control", @id = "txtemail" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-12 " style="text-align:left" id="lblperson">Office Address</label>
+                                                                <div class="col-md-12">
+                                                                    @Html.TextBoxFor(m => m.UserAddress, new { @class = "form-control", @id = "txtaddress" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-12" style="text-align:left" id="lbldist"> Designation  </label>
+                                                                <div class="col-md-12">
+
+                                                                    @Html.TextBoxFor(m => m.Designation, new { @class = "form-control", @id = "txtDesignation" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                   
+                                                    <!--/span-->
+                                                </div>
+                                                <!--/row-->
+                                                @*<div class="row">
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-12 " style="text-align:left" id="lblperson">Office Address</label>
+                                                            <div class="col-md-12">
+                                                                @Html.TextBoxFor(m => m.UserAddress, new { @class = "form-control", @id = "txtaddress" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!--/span-->
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-12" style="text-align:left" id="lbldist"> Designation  </label>
+                                                            <div class="col-md-12">
+
+                                                                @Html.TextBoxFor(m => m.Designation, new { @class = "form-control", @id = "txtDesignation" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    
+
+                                                    <!--/span-->
+                                                    
+                                                    <!--/span-->
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-12" style="text-align:left"> </label>
+                                                            <div class="col-md-12">
+
+
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-12" style="text-align:left"> </label>
+                                                            <div class="col-md-12">
+
+
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                  
+                                                        <!--/span-->
+                                                    </div>*@
+
+                                                <div class="row">
+                                                    @*<div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label for="form_control_1">Profile Photo</label>
+                                                            <br/>
+                                                            <img id="blah" class="img-res" src="@ViewBag.Base64String" />
+                                                            <br />
+                                                            @*<label class="control-label col-md-12" style="text-align:left" id="lblAddress">पता<span class="Mandatory">*</span></label>
+                                                            <div class="col-md-12">
+                                                                <input type="file" class="btn btn-success" name="pimg" id="pimg" accept=".jpg,.jpeg" onchange="validate_fileupload(this);" />
+                                                            </div>
+                                                        </div>
+                                                    </div>*@
+                                                    </div>
+                                                    <div class="form-actions">
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <div class="row">
+
+                                                                    <div class="col-md-offset-10 col-md-6">
+                                                                        <button type="submit" onclick="valid_form();" class="btn green">Update</button>
+                                                                        @*<button type="reset" class="btn red">Cancel</button>*@
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6"> </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                        </form>
+                                        <!-- END FORM-->
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-5 ">
-                              
-                            </div>
-                            <div class="col-md-5 ">
-                                
-                            </div>
                         </div>
-
-
-                            <div class="form-actions noborder">
-                                <button type="submit" onclick="valid_form();" class="btn blue">Update</button>
-                                <button type="reset" class="btn default">Cancel</button>
-                            </div>
-                        </div>
+                    </div>
                 </form>
             }
         </div>
-    </div>
+
 
     <!-- END SAMPLE FORM PORTLET-->
     <!-- BEGIN SAMPLE FORM PORTLET-->
@@ -179,7 +238,7 @@
                 return valid;
             }
         }
-        alert('Invalid file');
+       // alert('Invalid file');
         event.preventDefault();
         valid = false;
         return valid;
@@ -189,9 +248,10 @@
   
         var txtname = $('#txtname').val();
         var txtnamehindi = $('#txtnamehindi').val();
-        var txtmobile = $('#mask_phone').val();
+        var txtmobile = $('#txtMobile').val();
         var txtemail = $('#txtemail').val();
         var txtaddress = $('#txtaddress').val();
+        var txtDesignation = $('#txtDesignation').val();
 
         if (txtname == "") {
             alert('Please Enter Your Name.');
@@ -220,6 +280,11 @@
             event.preventDefault();
         }
         
+        if (txtDesignation == "") {
+            alert('Please Enter Your Designation.');
+            valid = false;
+            event.preventDefault();
+        }
         else { valid = true; }
         return valid;
     }

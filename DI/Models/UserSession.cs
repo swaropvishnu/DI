@@ -280,6 +280,20 @@ namespace DI.Models
                 LoggedInUser.yojanacode = value;
             }
         }
+
+
+        public static string dist_name
+        {
+            get
+            {
+                return LoggedInUser.dist_name;
+            }
+            set
+            {
+                LoggedInUser.dist_name = value;
+            }
+        }
+
         //public short yojana_code { get; set; }
 
     }

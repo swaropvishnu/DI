@@ -2,188 +2,182 @@
 @{
     ViewBag.Title = "Uploadform";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    if (UserSession.LoggedInUserLevelId == null || UserSession.LoggedInUserLevelId == "30")
+    {
+        Response.Redirect("../Login/login");
+        return;
+    }
 }
-                                                        @*ADMIN*@
+              
+               @*ADMIN*@
 <script>
     function funopen(url) {
         window.open(url, '_blank');
     }
 </script>
 <script>
-    var loadPayFile = function (event, demo, Doc_type, Code, output2) {
-        if (output2 == "output" || output2 == "Img1")
-        {
-            if (typeof ($("#" + demo)[0].files) != "undefined") {
-                var size = parseFloat($("#" + demo)[0].files[0].size / 1024).toFixed(2);
-                if (size > 20)
-                {
-                    alert("size must be below 20kb");
+    var loadPayFile = function (event, demo, Doc_type, Code, output2, sch) {
+
+        if (confirm('Are you sure you want to change existing file ?')) {
+            if (output2 == "output" || output2 == "Img1") {
+                if (typeof ($("#" + demo)[0].files) != "undefined") {
+                    var size = parseFloat($("#" + demo)[0].files[0].size / 1024).toFixed(2);
+                    if (size > 20) {
+                        alert("size must be below 20kb");
+                        $('#' + demo).val('');
+                        return;
+                    }
+                }
+                else {
+                    alert("This browser does not support HTML5.");
+                    $('#' + demo).val('');
                     return;
                 }
             }
             else {
-                alert("This browser does not support HTML5.");
-                return;
-            }
-        }
-        else {
-            if (typeof ($("#" + demo)[0].files) != "undefined") {
-                var size = parseFloat($("#" + demo)[0].files[0].size / 1024).toFixed(2);
-                if (size > 50) {
-                    alert("size must be below 50kb");
+                if (typeof ($("#" + demo)[0].files) != "undefined") {
+                    var size = parseFloat($("#" + demo)[0].files[0].size / 1024).toFixed(2);
+                    if (size > 50) {
+                        alert("size must be below 50kb");
+                        $('#' + demo).val('');
+                        return;
+                    }
+                }
+                else {
+                    alert("This browser does not support HTML5.");
+                    $('#' + demo).val('');
                     return;
                 }
             }
+            if (window.FormData !== undefined) {
+                var fileUpload = $("#" + demo).get(0);
+                var files = fileUpload.files;
+                var fileData = new FormData();
+                for (var i = 0; i < files.length; i++) {
+                    fileData.append(files[i].name, files[i]);
+                }
+                fileData.append('username', 'Manas');
+                if (output2 == "output") {
+                    $.ajax({
+                        url: '/form/Uploadphoto',
+                        type: "POST",
+                        contentType: false, // Not to set any content header
+                        processData: false, // Not to process data { BlockID: $('#ddlBlock').val() },
+                        data: fileData,
+                        success: function (result) {
+                            try {
+                                if (result == "File Uploaded Successfully!") {
+                                    var output = document.getElementById('output');
+                                    output.src = URL.createObjectURL(event.target.files[0]);
+                                    funuploaddone(Doc_type, Code, sch);
+                                }
+                                else {
+                                    alert(result);
+                                    var output = document.getElementById('output');
+                                    output.src = "../no_image.png";
+                                    $('#' + demo).val('');
+                                }
+
+                            } catch (e) {
+                                alert("File Data  is not supported.");
+                                $('#' + demo).val('');
+                            }
+                        },
+                        error: function (err) {
+                            alert(err.statusText);
+                            $('#' + demo).val('');
+                        }
+                    });
+                }
+                else if (output2 == "Img1") {
+                    $.ajax({
+                        url: '/form/Uploadsign',
+                        type: "POST",
+                        contentType: false,
+                        processData: false,
+                        data: fileData,
+                        success: function (result) {
+                            try {
+                                if (result == "File Uploaded Successfully!") {
+                                    var output = document.getElementById('Img1');
+                                    output.src = URL.createObjectURL(event.target.files[0]);
+                                    funuploaddone(Doc_type, Code, sch);
+                                }
+                                else {
+                                    alert(result);
+                                    var output = document.getElementById('Img1');
+                                    output.src = "../no_image.png";
+                                    $('#' + demo).val('');
+                                }
+
+                            } catch (e) {
+                                alert("File Data  is not supported.");
+                                $('#' + demo).val('');
+                            }
+                        },
+                        error: function (err) {
+                            alert(err.statusText);
+                            $('#' + demo).val('');
+                        }
+                    });
+                }
+                else {
+                    $.ajax({
+                        url: '/form/Uploadfile',
+                        type: "POST",
+                        contentType: false,
+                        processData: false,
+                        data: fileData,
+                        success: function (result) {
+                            try {
+                                if (result == "File Uploaded Successfully!") {
+
+                                    funuploaddone(Doc_type, Code, sch);
+                                }
+                                else {
+                                    alert(result);
+                                    $('#' + demo).val('');
+                                }
+
+                            } catch (e) {
+                                alert("File Data  is not supported.");
+                                $('#' + demo).val('');
+                            }
+                        },
+                        error: function (err) {
+                            alert(err.statusText);
+                            $('#' + demo).val('');
+                        }
+                    });
+                }
+            }
             else {
-                alert("This browser does not support HTML5.");
-                return;
-            }
-        }
-        if (window.FormData !== undefined) {
-            var fileUpload = $("#" + demo).get(0);
-            var files = fileUpload.files;
-            var fileData = new FormData();
-            for (var i = 0; i < files.length; i++) {
-                fileData.append(files[i].name, files[i]);
-            }
-            fileData.append('username', 'Manas');
-            if (output2 == "output") {
-                $.ajax({
-                    url: '/User/Uploadphoto',
-                    type: "POST",
-                    contentType: false, // Not to set any content header
-                    processData: false, // Not to process data { BlockID: $('#ddlBlock').val() },
-                    data: fileData,
-                    success: function (result) {
-                        try {
-                            if (result == "File Uploaded Successfully!") {
-                                var output = document.getElementById('output');
-                                output.src = URL.createObjectURL(event.target.files[0]);
-                                funuploaddone(Doc_type, Code);
-                            }
-                            else {
-                                alert(result);
-                                var output = document.getElementById('output');
-                                output.src = "../no_image.png";
-                            }
-
-                        } catch (e) {
-                            alert("File Data  is not supported.");
-                        }
-                    },
-                    error: function (err) {
-                        alert(err.statusText);
-                    }
-                });
-            }
-            else if (output2 == "Img1")
-            {
-                $.ajax({
-                    url: '/User/Uploadsign',
-                    type: "POST",
-                    contentType: false,
-                    processData: false,
-                    data: fileData,
-                    success: function (result) {
-                        try {
-                            if (result == "File Uploaded Successfully!") {
-                                var output = document.getElementById('Img1');
-                                output.src = URL.createObjectURL(event.target.files[0]);
-                                funuploaddone(Doc_type, Code);
-                            }
-                            else {
-                                alert(result);
-                                var output = document.getElementById('Img1');
-                                output.src = "../no_image.png";
-                            }
-
-                        } catch (e) {
-                            alert("File Data  is not supported.");
-                        }
-                    },
-                    error: function (err) {
-                        alert(err.statusText);
-                    }
-                });
-            }
-            else {
-                $.ajax({
-                    url: '/User/Uploadfile',
-                    type: "POST",
-                    contentType: false,
-                    processData: false,
-                    data: fileData,
-                    success: function (result) {
-                        try {
-                            if (result == "File Uploaded Successfully!") {
-
-                                funuploaddone(Doc_type, Code);
-                            }
-                            else {
-                                alert(result);
-                            }
-
-                        } catch (e) {
-                            alert("File Data  is not supported.");
-                        }
-                    },
-                    error: function (err) {
-                        alert(err.statusText);
-                    }
-                });
+                alert("File Data is not supported.");
+                $('#' + demo).val('');
             }
         }
         else {
-            alert("File Data is not supported.");
+            $('#' + demo).val('');
         }
+
+
+        
     };
-    function funuploaddone(Doc_type, Code) {
+   
+
+    function funuploaddone(Doc_type, Code, sch) {
         $.ajax({
-            url: '/User/Uploadfiledone',
-            data: JSON.stringify({ doc_type: Doc_type, applicant_code: Code }),
+            url: '/form/Uploadfiledone',
+            data: JSON.stringify({ doc_type: Doc_type, registration_code: Code, scheme_code: sch }),
             type: 'POST',
             contentType: 'application/json; charset=utf-8',
             success: function (data) {
-                //alert(data);
-                if (data == "File upload") {
-                    alert("File Upload Sucessfully");
-                }
-                else {
-                    alert(data);
-                }
-
+                alert(data);
+                location.reload();
+               
             }
         });
-    }
-
-    function myfunction()
-    {
-        $.ajax({
-
-            url: '/User/InsertUpdatedoc2',
-            data: '',
-            type: 'POST',
-            contentType: 'application/json; charset=utf-8',
-            success: function (data) {
-                if (data.includes("Save")) {
-                    // alert(data);
-                    //$("#divpross").css('width', '100%');
-                    //$("#litab5").removeClass('active');
-                    //$("#litab5").addClass('done');
-                    //$("#tab6").addClass('active');
-                    //$("#tab5").removeClass('active');
-                    //$("#btncont").addClass('hide');
-                    //$("#btnback").addClass('hide');
-                    alert(data);
-                    location.reload();
-                }
-                else {
-                    alert(data);
-                }
-            }
-        });
-        return;
-
     }
     function DownloadFile(name, yojana, id) {
         $("#hfname").val(name);
@@ -200,7 +194,7 @@
     <input type="hidden" id="hfid" name="id" />
 <input type="submit" id="btnDownload" value="Download" style="display:none" />
 }
-
+@*<textarea name="content" class="wysihtml5" rows="10"></textarea>*@
 @Html.Raw(Model.page)
 
 @*<div class="portlet light " id="form_wizard_1">

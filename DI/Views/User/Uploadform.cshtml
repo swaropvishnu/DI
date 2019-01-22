@@ -2,11 +2,20 @@
 @{
     ViewBag.Title = "Uploadform";
     Layout = "~/Views/Shared/UserLayout.cshtml";
+    if (UserSession.LoggedInUserLevelId == null || UserSession.LoggedInUserLevelId != "30")
+    {
+        Response.Redirect("../Login/Registration_Login");
+        return;
+    }
 }
 
 <script>
     function funopen(url) {
         window.open(url, '_blank');
+    }
+    function modalclose() {
+        $("#myModal").css("display", "none");
+        $("#myModal").removeClass("in");
     }
 </script>
 <script>
@@ -18,11 +27,13 @@
                 if (size > 20)
                 {
                     alert("size must be below 20kb");
+                    $('#' + demo).val('');
                     return;
                 }
             }
             else {
                 alert("This browser does not support HTML5.");
+                $('#' + demo).val('');
                 return;
             }
         }
@@ -31,11 +42,13 @@
                 var size = parseFloat($("#" + demo)[0].files[0].size / 1024).toFixed(2);
                 if (size > 50) {
                     alert("size must be below 50kb");
+                    $('#' + demo).val('');
                     return;
                 }
             }
             else {
                 alert("This browser does not support HTML5.");
+                $('#' + demo).val('');
                 return;
             }
         }
@@ -65,14 +78,17 @@
                                 alert(result);
                                 var output = document.getElementById('output');
                                 output.src = "../no_image.png";
+                                $('#' + demo).val('');
                             }
 
                         } catch (e) {
                             alert("File Data  is not supported.");
+                            $('#' + demo).val('');
                         }
                     },
                     error: function (err) {
                         alert(err.statusText);
+                        $('#' + demo).val('');
                     }
                 });
             }
@@ -95,14 +111,17 @@
                                 alert(result);
                                 var output = document.getElementById('Img1');
                                 output.src = "../no_image.png";
+                                $('#' + demo).val('');
                             }
 
                         } catch (e) {
                             alert("File Data  is not supported.");
+                            $('#' + demo).val('');
                         }
                     },
                     error: function (err) {
                         alert(err.statusText);
+                        $('#' + demo).val('');
                     }
                 });
             }
@@ -121,20 +140,24 @@
                             }
                             else {
                                 alert(result);
+                                $('#' + demo).val('');
                             }
 
                         } catch (e) {
                             alert("File Data  is not supported.");
+                            $('#' + demo).val('');
                         }
                     },
                     error: function (err) {
                         alert(err.statusText);
+                        $('#' + demo).val('');
                     }
                 });
             }
         }
         else {
             alert("File Data is not supported.");
+            $('#' + demo).val('');
         }
     };
     function funuploaddone(Doc_type, Code) {
@@ -150,6 +173,7 @@
                 }
                 else {
                     alert(data);
+                   
                 }
 
             }
@@ -186,10 +210,37 @@
 
     }
     
-
+    function popup() {
+        $("#myModal").css("display", "block");
+        $("#myModal").addClass("in");
+    }
 </script>
 @Html.Raw(Model.page)
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
 
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" onclick="modalclose()">&times;</button>
+                <h3><i class="icon-info"></i>&nbsp;&nbsp;&nbsp;<label class=""> महत्वपूर्ण   सूचना   </label>  </h3>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <p class="font-red">
+                        कृपया सबमिट बटन क्लिक कर ने से पूर्व  प्रार्थना पत्र की समस्त प्रविष्टि पूर्णतया जांच ले । इसके पश्चात प्रार्थना पत्र में  संशोधन संभव नहीं है  ।
+                    </p>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="myfunction()">Submit</button>
+                <button type="button" class="btn btn-danger" onclick="modalclose()">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
 @*<div class="portlet light " id="form_wizard_1">
 
     @if (ds.Tables[2] != null)

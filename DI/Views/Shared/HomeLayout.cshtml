@@ -1,11 +1,9 @@
 ﻿<!DOCTYPE html>
-
 <html>
 @*<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>@ViewBag.Title</title>
-</head>*@
-
+        <meta name="viewport" content="width=device-width" />
+        <title>@ViewBag.Title</title>
+    </head>*@
 <head>
     <title> Directorate of Industries</title>
     <meta charset="utf-8" />
@@ -13,7 +11,6 @@
     <link rel="icon" href="../Content/Homepage/image/upgov.png" type="image/png" sizes="16x16">
     <link rel="stylesheet" type="text/css" href="../Content/Homepage/css/vendor.bundle.css">
     <link id="style-css" rel="stylesheet" type="text/css" href="../Content/Homepage/css/style62ea.css?ver=1.2">
-   
     <style type="text/css">
         /* Only Demo Purpose */
         .colorPanel {
@@ -27,28 +24,33 @@
             right: 0;
             top: 33%;
         }
+
             .colorPanel ul {
                 margin: 0px;
                 padding: 0px;
                 list-style: none;
                 display: none;
             }
+
                 .colorPanel ul li {
                     display: block;
                     margin-top: 10px;
                 }
+
                 .colorPanel ul a {
                     display: block;
                     width: 20px;
                     height: 20px;
                     border: #fff 1px solid;
                 }
+
             .colorPanel a.cart {
                 border-bottom: 1px solid rgba(255,255,255,.3);
                 margin-bottom: 6px;
                 padding-bottom: 8px;
                 display: block;
             }
+
         #cpToggle {
             display: block;
             height: 30px;
@@ -56,19 +58,23 @@
             line-height: 30px;
             background-size: cover;
         }
+
         .cp-custom {
             padding: 12px;
         }
+
             .cp-custom #cpToggle {
                 background: none;
             }
+
             .cp-custom i {
                 font-size: 15px;
                 color: #fff;
             }
+
         .section-padfooter {
-                padding-top: 90px;
-    padding-bottom: 90px;
+            padding-top: 90px;
+            padding-bottom: 90px;
         }
     </style>
 </head>
@@ -80,29 +86,29 @@
         <div class="navbar navbar-primary">
             <div class="container">
                 <!-- Logo -->
-                <a class="navbar-brand" href="index.html">
+                <a class="navbar-brand" href="index">
                     <img class="logo" alt="" src="../Content/Homepage/image/logo.png" srcset="image/logo2x.png 2x">
                 </a>
                 <div class="header-top">
                     <ul class="social social-s2">
                         @*<li><a href="#"><em class="fa fa-facebook" aria-hidden="true"></em></a></li>
-                        <li><a href="#"><em class="fa fa-twitter" aria-hidden="true"></em></a></li>
-                        <li><a href="#"><em class="fa fa-linkedin" aria-hidden="true"></em></a></li>*@
+                            <li><a href="#"><em class="fa fa-twitter" aria-hidden="true"></em></a></li>
+                            <li><a href="#"><em class="fa fa-linkedin" aria-hidden="true"></em></a></li>*@
                     </ul>
                     <ul class="top-contact">
                         <li class="t-phone t-phone1">
-                            <em class="fa fa-phone" aria-hidden="true"></em>
-                            <span><a href="#">0512 - 2218401</a></span>
+                            <em class="fa fa-users" aria-hidden="true"></em>
+                            <span><a href="../login/registration_login">Applicant Login</a></span>
                         </li>
-                        <li><em class="fa fa-lock" aria-hidden="true"></em><span><a href="../login/login">Department Login</a> </span> </li>
+                        <li><em class="fa fa-lock" aria-hidden="true"></em><span><a href="../home/dep_type">Department Login</a> </span> </li>
                         @*<li class="btn"><a href="contact.html" class="btn"><em class="fa fa-lock"></em>Department Login</a></li>*@
                         @*<li>
-                            <div class="icon-box size-lg circle"><em class="fa fa-lock"></em></div>
-                        </li>*@
-                            @*<li class="quote-btn"><a href="contact.html" class="btn">Department Login</a></li>*@
+                                <div class="icon-box size-lg circle"><em class="fa fa-lock"></em></div>
+                            </li>*@
+                        @*<li class="quote-btn"><a href="contact.html" class="btn">Department Login</a></li>*@
 
 
-</ul>
+                    </ul>
                 </div>
                 <!-- #end Logo -->
                 <div class="navbar-header">
@@ -113,12 +119,12 @@
                         <span class="icon-bar"></span>
                     </button>
                     <!-- Q-Button for Mobile -->
-                    <div class="quote-btn"><a class="btn" href="get-a-quote.html">Enquire Today</a></div>
+                    <div class="quote-btn"><a class="btn" href="get-a-quote.html">Application Status</a></div>
                 </div>
                 <!-- MainNav -->
                 <nav class="navbar-collapse collapse" id="mainnav">
                     <ul class="nav navbar-nav">
-                        <li class="dropdown megamenu megamenu-short">
+                        @*<li class="dropdown megamenu megamenu-short">
                             <a href="index.html">Home</a>
                             <ul class="dropdown-menu dropdown-megamenu">
                                 <li class="dropdown megamenu-container">
@@ -148,11 +154,17 @@
                                     </div>
                                 </li>
                             </ul>
-                        </li>
+                        </li>*@
+
                         <li class="dropdown">
-                            <a href="#">Pages</a>
+                            <a href="../home/index">
+                                Home
+                            </a>
+                            </li>
+<li class="dropdown">
+                            <a href="#">About Us</a>
                             <ul class="dropdown-menu">
-                                <li class="dropdown">
+                                @*<li class="dropdown">
                                     <a href="#">About Pages</a>
                                     <ul class="dropdown-menu">
                                         <li><a href="about-us.html">About Us</a></li>
@@ -242,33 +254,35 @@
                                         <li><a href="news.html">News/Blog List</a></li>
                                         <li><a href="news-details.html">News Details/Single Post</a></li>
                                     </ul>
-                                </li>
-                                <li><a href="megamenu.html">Megamenu Example <span class="label label-danger">New</span></a></li>
-                                <li><a href="gallery.html">Gallery Page</a></li>
-                                <li><a href="typography.html">Typography</a></li>
+                                </li>*@
+                                <li><a href="megamenu.html">About Directorate of Industries @*<span class="label label-danger">New</span>*@</a></li>
+                                <li><a href="gallery.html">History</a></li>
+                                <li><a href="typography.html">Organisation Structure</a></li>
                             </ul>
                         </li>
-                        <li><a href="about-us.html">About</a></li>
+                       
                         <li class="dropdown">
-                            <a href="solutions.html">Solutions</a>
+                            <a href="solutions.html">Why Invest in UP</a>
                             <ul class="dropdown-menu">
-                                <li><a href="solution-single.html">Solar Power Solutions</a></li>
-                                <li><a href="solution-single-alter.html">Wind Energy Technology</a></li>
-                                <li><a href="solution-single-extend.html">Energy Storage Solutions</a></li>
-                                <li><a href="solution-single.html">Research &amp; Development</a></li>
+                                <li><a href="solution-single.html">Physical Infrastructure</a></li>
+                                <li><a href="solution-single-alter.html">Ease of Doing Business</a></li>
+                                <li><a href="solution-single-extend.html">State Industrial Profile</a></li>
+                                <li><a href="solution-single.html">Crafts Pockets</a></li>
+                                <li><a href="solution-single.html">District Profiles</a></li>
+                                <li><a href="solution-single.html">How to Setup an Enterprises</a></li>
                             </ul>
                         </li>
-                        <li><a href="products.html">Products</a></li>
+                        @*<li><a href="products.html">Products</a></li>
                         <li><a href="projects.html">Projects</a></li>
-                        <li><a href="resources.html">Resources</a></li>
-                        <li class="quote-btn"><a class="btn" href="get-a-quote.html">Enquire Today</a></li>
+                        <li><a href="resources.html">Resources</a></li>*@
+                        <li class="quote-btn"><a class="btn" href="get-a-quote.html">Application Status</a></li>
                     </ul>
                 </nav>
                 <!-- #end MainNav -->
             </div>
         </div>
         <!-- #end Navbar -->
-       
+
     </header>
     <!-- End Header -->
 
@@ -284,9 +298,10 @@
                         <!-- Each Widget  ../Content/Homepage/image/upgov.png-->
                         <div class="wgs wgs-footer wgs-text">
                             <div class="wgs-content">
-                                <p><img src="../Content/Homepage/image/upgov.png" srcset="image/logo-light2x.png 2x" alt=""  align="middle">
-                                    
-                                @*<p>We are one of the first established oil and gas suppliers and contractors in this industry. Ipsum dolor sit amet sed do eiusmod tempor incidi labore.</p>*@
+                                <p>
+                                    <img src="../Content/Homepage/image/upgov.png" srcset="image/logo-light2x.png 2x" alt="" align="middle">
+
+                                    @*<p>We are one of the first established oil and gas suppliers and contractors in this industry. Ipsum dolor sit amet sed do eiusmod tempor incidi labore.</p>*@
                             </div>
                         </div>
                         <!-- End Widget -->
@@ -358,7 +373,7 @@
                 </div>
                 <div class="site-by col-sm-5 al-right">
 
-                  
+
                     <p> <a href="http://up.nic.in/" target="_blank">Powered by NIC.</a></p>
                 </div>
 

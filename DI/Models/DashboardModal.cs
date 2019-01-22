@@ -8,8 +8,10 @@ namespace DI.Models
     public class DashboardModal
     {
     }
-    public class MYSY_Dashboard
-    {
-        public string Dashboard { get; set; }
-    }
+    //public class MYSY_Dashboard
+    //{
+    //    public string Dashboard { get; set; }
+    //}
+
+
 }

@@ -22,11 +22,23 @@ namespace DI.Controllers
     {
         CMYSS_Applicant CM = new CMYSS_Applicant();
         // GET: Login
-        public ActionResult Login()
+        public ActionResult Login(string code)
         {
-
             string salt = CreateSalt(5);
-
+            ViewBag.Logintype = code;
+           // ViewBag.ErrMessage = msg;
+            if (code.ToLower().Trim()=="dic")
+            {
+                ViewBag.heading = "Welcome to DIC Login";
+            }
+            if (code.ToLower().Trim() == "bank")
+            {
+                ViewBag.heading = "Welcome to Bank Login";
+            }
+            if (code.ToLower().Trim() == "dltfc")
+            {
+                ViewBag.heading = "Welcome to DLTFC Login";
+            }
             Session["salt"] = salt.ToString();
             return View();
         }
@@ -34,10 +46,19 @@ namespace DI.Controllers
         {
             return View();
         }
+        public ActionResult GetDistricteng(string district_code_census, string state_code)
+        {
+            List<SelectListItem> distNames = new List<SelectListItem>();
+            CMODataEntryBLL.bindDropDownHnGrid("proc_Detail", distNames, "DSE", district_code_census.Trim(), state_code.Trim());
+            return Json(distNames, JsonRequestBehavior.AllowGet);
+        }
         public ActionResult LogOut()
         {
             try
             {
+               // string code = UserSession.LoggedInUserLevelId;
+
+
                 // First we clean the authentication ticket like always
                 //required NameSpace: using System.Web.Security;
                 FormsAuthentication.SignOut();
@@ -49,7 +70,7 @@ namespace DI.Controllers
                 // Last we redirect to a controller/action that requires authentication to ensure a redirect takes place
                 // this clears the Request.IsAuthenticated flag since this triggers a new request
                 Session.Abandon(); // it will clear the session at the end of request
-                return RedirectToAction("Login", "Login");
+                return RedirectToAction("dep_type", "Home");
             }
             catch
             {
@@ -64,8 +85,15 @@ namespace DI.Controllers
         // POST: /Account/Login
         [HttpPost]
         [AllowAnonymous]
-        public ActionResult Login(LoginModal Model)
+        public JsonResult department_login(LoginModal Model)
         {
+            string[] result = new string[2];
+            if (HttpContext.Session["captchastring"] == null)
+            {
+                result[0] = "Fail";
+                result[1] = "Sorry ,Please Refresh the Page";
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
 
             if (Model.CaptchaText == HttpContext.Session["captchastring"].ToString())
             {
@@ -75,54 +103,139 @@ namespace DI.Controllers
                 string salt = CreateSalt(5);
                 string usrname = Model.UserName;
                 string password = Model.Password;
+                string ltype = Model.login_type;
                 DataSet ds = new DataSet();
                 ds = UserDtl.VerifyUser(usrname);
                 if (ds != null)
                 {
-                    string psw = ds.Tables[0].Rows[0]["Password"].ToString();
+                    
                     if (ds.Tables[0].Rows.Count > 0 && ds.Tables[0].Rows.Count == 1)
                     {
-
+                        string psw = ds.Tables[0].Rows[0]["Password"].ToString();
                         string hashed_pwd = CalculateHash(psw.ToString().ToLower() + Session["salt"].ToString());
                         if (hashed_pwd.ToString().ToLower().Equals(Model.Password.ToLower()))
                         {
-                            if (ds.Tables[0].Rows[0]["UserLevel"].ToString().Trim() == "6" || ds.Tables[0].Rows[0]["UserLevel"].ToString().Trim() == "3" || ds.Tables[0].Rows[0]["UserLevel"].ToString().Trim() == "5")
+                            if (ltype.Trim()=="DIC")
                             {
-                                Session["tbl_Session"] = ds.Tables[0];
-                                FormsAuthentication.SetAuthCookie(usrname, Model.RememberMe);
-                                return RedirectToAction("Index", "Dashboard");
+                                if ( ds.Tables[0].Rows[0]["UserLevel"].ToString().Trim() == "3")
+                                {
+                                    Session["tbl_Session"] = ds.Tables[0];
+                                    FormsAuthentication.SetAuthCookie(usrname, Model.RememberMe);
+                                    result[0] = "Sucess";
+                                    result[1] = "../Dashboard/Index";
+                                    return Json(result, JsonRequestBehavior.AllowGet);
+
+
+                                   // return RedirectToAction("Index", "Dashboard");
+                                }
+                                else if (ds.Tables[0].Rows[0]["UserLevel"].ToString().Trim() == "6" )
+                                {
+                                    Session["tbl_Session"] = ds.Tables[0];
+                                    FormsAuthentication.SetAuthCookie(usrname, Model.RememberMe);
+                                    result[0] = "Sucess";
+                                    result[1] = "../Dashboard/DIC_Dashbord" ;
+                                    return Json(result, JsonRequestBehavior.AllowGet);
+                                    // return RedirectToAction("DIC_Dashbord", "Dashboard");
+                                }
+                                else
+                                {
+                                    result[0] = "Invalid Username or Password.";
+                                    result[1] = "F";
+                                    return Json(result, JsonRequestBehavior.AllowGet);
+                                    //ViewBag.ErrMessage = "Invalid Username or Password.";
+                                    // return RedirectToAction("Login", "Login",new { code= "DIC", msg= "Invalid Username or Password." });
+                                }
+                            }
+                            if (ltype.Trim() == "DLTFC")
+                            {
+                                if (ds.Tables[0].Rows[0]["UserLevel"].ToString().Trim() == "31")
+                                {
+                                    Session["tbl_Session"] = ds.Tables[0];
+                                    FormsAuthentication.SetAuthCookie(usrname, Model.RememberMe);
+
+                                    result[0] = "Sucess";
+                                    result[1] = "../Dashboard/DLTFC_dashbord";
+                                    return Json(result, JsonRequestBehavior.AllowGet);
+                                    // return RedirectToAction("DLTFC_dashbord", "Dashboard");
+                                }
+                                else
+                                {
+                                    result[0] = "Invalid Username or Password.";
+                                    result[1] = "F";
+                                    return Json(result, JsonRequestBehavior.AllowGet);
+                                    //ViewBag.ErrMessage = "Invalid Username or Password.";
+                                    // return RedirectToAction("Login", "Login", new { code = "DLTFC", msg = "Invalid Username or Password." });
+                                }
+                            }
+                            if (ltype.Trim() == "Bank")
+                            {
+                                if (ds.Tables[0].Rows[0]["UserLevel"].ToString().Trim() == "32")
+                                {
+                                    Session["tbl_Session"] = ds.Tables[0];
+                                    FormsAuthentication.SetAuthCookie(usrname, Model.RememberMe);
+                                    result[0] = "Sucess";
+                                    result[1] = "../Dashboard/BankDashbord";
+                                    return Json(result, JsonRequestBehavior.AllowGet);
+                                    // return RedirectToAction("BankDashbord", "Dashboard");
+                                }
+                                else
+                                {
+                                    result[0] = "Invalid Username or Password.";
+                                    result[1] = "F";
+                                    return Json(result, JsonRequestBehavior.AllowGet);
+                                    // ViewBag.ErrMessage = "Invalid Username or Password.";
+                                    /// return RedirectToAction("Login", "Login", new { code = "Bank", msg = "Invalid Username or Password." });
+                                }
                             }
                             else
                             {
-                                ViewBag.ErrMessage = "Invalid Username or Password.";
-                                return RedirectToAction("Login", "Login");
+                                //ViewBag.ErrMessage = "Access Denied! Wrong Credential";
+                                //return RedirectToAction("Login", "Login", new { code = ltype.Trim() ,msg= "Access Denied! Wrong Credential" });
+                                result[0] = "Access Denied! Wrong Credential";
+                                result[1] = "F";
+                                return Json(result, JsonRequestBehavior.AllowGet);
                             }
 
-                        }
+
+                            }
                         else
                         {
-                            //Login Fail
-                            TempData["ErrorMSG"] = "Access Denied! Wrong Credential";
-                            return View(Model);
-                            //return RedirectToAction("Login", "Login");
+                            result[0] = "Access Denied! Wrong Password";
+                            result[1] = "F";
+                            return Json(result, JsonRequestBehavior.AllowGet);
+                            //return RedirectToAction("Login", "Login", new { code = ltype.Trim(), msg = "Access Denied! Wrong Credential" });
+                            ////Login Fail
+                            //TempData["ErrorMSG"] = "Access Denied! Wrong Credential";
+                            //return View(Model);
+                            ////return RedirectToAction("Login", "Login");
                         }
                     }
                     else
                     {
-                        ViewBag.ErrMessage = "Invalid Username or Password.";
-                        return RedirectToAction("Login", "Login");
+                        //ViewBag.ErrMessage = "Invalid Username or Password.";
+                        //return RedirectToAction("Login", "Login", new { code = ltype.Trim() });
+                        // return RedirectToAction("Login", "Login", new { code = ltype.Trim(), msg = "Invalid Username or Password." });
+                        result[0] = "Invalid Username or Password.";
+                        result[1] = "F";
+                        return Json(result, JsonRequestBehavior.AllowGet);
                     }
                 }
                 else
                 {
-                    ViewBag.ErrMessage = "Invalid Username or Password.";
-                    return RedirectToAction("Login", "Login");
+                    result[0] = "Invalid Username or Password.";
+                    result[1] = "F";
+                    return Json(result, JsonRequestBehavior.AllowGet);
+                   // return RedirectToAction("Login", "Login", new { code = ltype.Trim(), msg = "Invalid Username or Password." });
                 }
             }
             else
             {
-                ViewBag.ErrMessage = "Error: captcha is not valid.";
-                return RedirectToAction("Login", "Login");
+                //ViewBag.ErrMessage = "Error: captcha is not valid.";
+                //return RedirectToAction("Login", "Login", new { code = Model.login_type });
+                //return RedirectToAction("Login", "Login", new { code = Model.login_type, msg = "Invalid Username or Password." });
+                result[0] = "Wrong Captcha";
+                result[1] = "F";
+                return Json(result, JsonRequestBehavior.AllowGet);
             }
         }
         public CaptchaImageResult ShowCaptchaImage()
@@ -321,15 +434,41 @@ namespace DI.Controllers
             Byte[] img = null;
             if (pimg != null && pimg.ContentLength > 0)
             {   /*****IMG-DB-CODE******/
-                int FileSize = pimg.ContentLength;
-                img = new Byte[FileSize];
-                pimg.InputStream.Read(img, 0, FileSize);
-                objUserData.UserImage = img;
+                if (pimg.ContentLength> 20480)
+                {
+                    ViewBag.AlertUpdate = "maxsize 20kb";
+                    return Json("maxsize 20kb", JsonRequestBehavior.AllowGet);
+                }
+                 string file= pimg.FileName;
+                string[] ext = file.Split('.');
+
+                if (ext[1].ToString().Trim() == "jpg" || ext[1].ToString().Trim() == "jpeg" || ext[1].ToString().Trim() == "png")
+                {
+
+                    int FileSize = pimg.ContentLength;
+                    img = new Byte[FileSize];
+                    pimg.InputStream.Read(img, 0, FileSize);
+                    objUserData.UserImage = img;
+                }
+                else
+                {
+                    ViewBag.AlertUpdate = "only jpg/png/jpeg file upload";
+                    return Json("only jpg/png/jpeg file upload", JsonRequestBehavior.AllowGet);
+
+                    // return RedirectToAction("ProfileUpdate");
+                }
+
             }
+
+           
             objUserData.UserId = UserSession.LoggedInUserId.ToString();
 
             string A = CommonBL.UpdateUserDetail(objUserData);
-            ViewBag.Base64String = "data:image/png;base64," + Convert.ToBase64String(objUserData.UserImage, 0);
+            if (pimg != null)
+            {
+                ViewBag.Base64String = "data:image/png;base64," + Convert.ToBase64String(objUserData.UserImage, 0);
+            }
+
             if (A == "Success")
             {
                 ViewBag.AlertUpdate = "Update SuccessFully..";
@@ -338,7 +477,7 @@ namespace DI.Controllers
             {
                 ViewBag.AlertUpdate = "Failed To Update Profile..";
             }
-            return View(objUserData);
+            return RedirectToAction("ProfileUpdate");
         }
         public ActionResult Error()
         {
@@ -348,6 +487,7 @@ namespace DI.Controllers
         {
             return View();
         }
+        
         public ActionResult Registration_Login()
         {
             string salt = CreateSalt(5);
@@ -357,6 +497,8 @@ namespace DI.Controllers
             CM.Scheme = Scheme;
             return View(CM);
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public JsonResult InsertUpdateCMYSS_Applicant(CMYSS_Applicant Objform)
         {
             try
@@ -393,6 +535,8 @@ namespace DI.Controllers
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public JsonResult InsertUpdateSPY_Applicant(SPY_Applicant Objform)
         {
             try
@@ -436,6 +580,8 @@ namespace DI.Controllers
             }
 
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public JsonResult InsertUpdateMHPY_Applicant(MHPY_Applicant Objform)
         {
             try
@@ -474,6 +620,8 @@ namespace DI.Controllers
             }
 
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public JsonResult InsertUpdateVHPP_Applicant(vhpp_Applicant Objform)
         {
             try
@@ -516,6 +664,8 @@ namespace DI.Controllers
             }
 
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public JsonResult Applicant_Login(LoginModal Model)
         {
             string[] result = new string[2];
@@ -601,6 +751,8 @@ namespace DI.Controllers
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public JsonResult Getsponsoring_office(int @district_code_census)
         {
             DataTable dt = new DAL.CommonDA().Getsponsoring_office(@district_code_census);
@@ -620,27 +772,12 @@ namespace DI.Controllers
             public int sponsoring_office_code { get; set; }
             public string address { get; set; }
         }
-        //public JsonResult FirstApplicantlogin(string username,short yojana_code)
-        //{
-        //    DataSet ds = new DataSet();
-        //    ds = UserDtl.VerifyApplicant(username, yojana_code);
-        //    if (ds != null)
-        //    {
-        //        if (ds.Tables[0].Rows.Count > 0 && ds.Tables[0].Rows.Count == 1)
-        //        {
-        //            string s1 = "/User/" + ds.Tables[0].Rows[0]["page_name"].ToString();
-        //            return Json(s1, JsonRequestBehavior.AllowGet);
-        //        }
-        //        else
-        //        {
-        //            return Json("/login/Registration_Login", JsonRequestBehavior.AllowGet);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        return Json("/login/Registration_Login", JsonRequestBehavior.AllowGet);
-        //    }  
-        //}
-        
+
+        public ActionResult Getscheme()
+        {
+            List<SelectListItem> distNames = new List<SelectListItem>();
+            CMODataEntryBLL.bindDropDownHnGrid("proc_Detail", distNames, "y", "", "");
+            return Json(distNames, JsonRequestBehavior.AllowGet);
+        }
     }
 }

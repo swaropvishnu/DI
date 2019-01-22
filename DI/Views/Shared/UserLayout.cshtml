@@ -18,6 +18,9 @@
     @Scripts.Render("~/bundles/bootstrapBlank")
     @Scripts.Render("~/bundles/bootstrapDash")
     @Scripts.Render("~/bundles/ReportJs")
+    <link href="~/Content/assets/global/plugins/select2/css/select2.css" rel="stylesheet" />
+    <script src="~/Content/Masking.js"></script>
+    <script src="../Content/assets/global/plugins/select2/js/select2.min.js"></script>
     @*@Scripts.Render("~/bundles/gmap3")*@
     @*@(Html.GoogleMap().ScriptRegistrar())*@
     <script>
@@ -34,6 +37,7 @@
         specialKeys.push(35); //End
         specialKeys.push(37); //Left
         specialKeys.push(39); //Right
+        
         function IsAlphaNumeric(e) {
             var keyCode = e.keyCode == 0 ? e.charCode : e.keyCode;
             if (keyCode == 32) {
@@ -43,26 +47,75 @@
 
             return ret;
         }
+
+        function IsRelaxAlphaNumeric(e) {
+            var keyCode = e.keyCode == 0 ? e.charCode : e.keyCode;
+            if (keyCode == 47 || keyCode== 45 || keyCode== 46) {
+                return true;
+            }
+            if (keyCode == 32) {
+                return true;
+            }
+            var ret = ((keyCode >= 48 && keyCode <= 57) || (keyCode >= 65 && keyCode <= 90) || (keyCode >= 97 && keyCode <= 122) || (specialKeys.indexOf(e.keyCode) != -1 && e.charCode != e.keyCode));
+
+            return ret;
+        }
+    </script>
+
+    <script>
+        
+        function IsNumeric(e, R) {
+            var specialKeys2 = new Array();
+
+            specialKeys2.push(8); //Backspace
+            specialKeys2.push(9); // Tab
+
+            specialKeys2.push(37); // for left Arrow
+            //  specialKeys.push(39); // for Right Arrow
+            if (R=="dob") {
+                specialKeys2.push(47); // for Forward Slash(/)
+            }
+            if (R=="Y") {
+                specialKeys2.push(46); // for .
+            }
+            var keyCode = e.which ? e.which : e.keyCode
+            var ret = ((keyCode >= 48 && keyCode <= 57) || specialKeys2.indexOf(keyCode) != -1); // For Decimal To All Number
+            if (ret == false) {
+                alert("Only numaric value allowed.");
+            }
+            return ret;
+        }
+        $(document).ready(function () {
+            $(".js-datemask").mask("99/99/9999", {
+                placeholder: "dd/mm/yyyy",
+                completed: function () {
+                    //   dateReflection($(this));
+                }
+            });
+
+
+
+        });
     </script>
     <script>
-    //document.onkeypress = function (event) {
-    //    event = (event || window.event);
-    //    if (event.keyCode == 123) {
-    //        return false;
-    //    }
-    //}
-    //document.onmousedown = function (event) {
-    //    event = (event || window.event);
-    //    if (event.keyCode == 123) {
-    //        return false;
-    //    }
-    //}
-    //document.onkeydown = function (event) {
-    //    event = (event || window.event);
-    //    if (event.keyCode == 123) {
-    //        return false;
-    //    }
-    //}
+    document.onkeypress = function (event) {
+        event = (event || window.event);
+        if (event.keyCode == 123) {
+            return false;
+        }
+    }
+    document.onmousedown = function (event) {
+        event = (event || window.event);
+        if (event.keyCode == 123) {
+            return false;
+        }
+    }
+    document.onkeydown = function (event) {
+        event = (event || window.event);
+        if (event.keyCode == 123) {
+            return false;
+        }
+    }
     </script>
     <link href="~/Content/jquery-ui.css" rel="stylesheet" />
     <script src="~/Content/plugins/jquery-ui.js"></script>
@@ -199,7 +252,7 @@
                         <li class="dropdown dropdown-user">
                             <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
                                 <img alt="" class="img-circle" src="@UserSession.ProfilePhoto" />
-                                <span class="username username-hide-on-mobile"> @UserSession.LoggedInName.ToString() </span>
+                                <span class="username username-hide-on-mobile" style="margin-top:-8px"> @UserSession.LoggedInName.ToString()<br />DIC,@UserSession.dist_name.ToString() </span>
                                 <i class="fa fa-angle-down"></i>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-default">
@@ -210,7 +263,11 @@
                                     </li>*@
 
                                 <li class="divider"> </li>
-
+                                <li>
+                                    <a href='@Url.Action("ChangePassword", "User")'>
+                                        <i class="icon-key"></i> Change Password
+                                    </a>
+                                </li>
                                 <li>
                                     <a href='@Url.Action("LogOut", "User")'>
                                         <i class="icon-key"></i> Log Out

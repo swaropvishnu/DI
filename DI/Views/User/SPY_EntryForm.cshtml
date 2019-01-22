@@ -4,6 +4,11 @@
 @{
     ViewBag.Title = "SPY_EntryForm";
     Layout = "~/Views/Shared/UserLayout.cshtml";
+    if (UserSession.LoggedInUserLevelId == null || UserSession.LoggedInUserLevelId != "30")
+    {
+        Response.Redirect("../Login/Registration_Login");
+        return;
+    }
 }
 
 @using (Html.BeginForm("SPY_EntryForm", "User", FormMethod.Post, new { @class = "", enctype = "multipart/form-data" }))
@@ -1198,7 +1203,7 @@
                         source: function (request, response) {
                             $.ajax({
                                 url: '/user/Getifsc/',
-                                data: "{ 'Prefix': '" + request.term + "'}",
+                                data: "{ 'Prefix': '" + request.term + "','District':'" + document.getElementById('hfDistCode').value.trim() + "','bank_code':'" + document.getElementById('ddl_bankname').value.trim() + "'}",
                                 dataType: "json",
                                 type: "POST",
                                 contentType: "application/json; charset=utf-8",

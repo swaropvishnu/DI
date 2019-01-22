@@ -2,6 +2,11 @@
 @{
     ViewBag.Title = "PlotApplicantWizard";
     Layout = "~/Views/Shared/UserLayout.cshtml";
+    if (UserSession.LoggedInUserLevelId == null || UserSession.LoggedInUserLevelId != "30")
+    {
+        Response.Redirect("../Login/Registration_Login");
+        return;
+    }
 }
 <style>
     .disabled {

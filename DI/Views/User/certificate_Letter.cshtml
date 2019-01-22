@@ -1,6 +1,11 @@
 ﻿@{
     ViewBag.Title = "certificate_Letter";
     Layout = "~/Views/Shared/UserLayout.cshtml";
+    if (UserSession.LoggedInUserLevelId == null || UserSession.LoggedInUserLevelId != "30")
+    {
+        Response.Redirect("../Login/Registration_Login");
+        return;
+    }
 }
 @using System.Data;
 @using DI.Models;
@@ -9,13 +14,39 @@
 @{
     DataSet ds = new DataSet();
     ds = new CommonDA().GetApplicantinfo_MYSY(-1, -1, UserSession.LoggedInUserName);
+    //var imag = "";
+    var sing = "";
+    if (ds != null)
+    {
+        if (ds.Tables[3] != null)
+        {
+            if (ds.Tables[3].Rows.Count > 0)
+            {
+
+                //  imag = "<img " + "src='" + "data:image/" + ds.Tables[3].Rows[0]["image_doc_content_type"].ToString().Trim() + ";base64," + Convert.ToBase64String((Byte[])(ds.Tables[3].Rows[0]["image"]), 0) + "' style='width:75px ,height:65px'/>";
+
+
+                sing = "<img " + "src='" + "data:image/" + ds.Tables[3].Rows[0]["sign_doc_content_type"].ToString().Trim() + ";base64," + Convert.ToBase64String((Byte[])(ds.Tables[3].Rows[0]["sign"]), 0) + "' style='width:75px ;height:30px'/>";
+
+
+            }
+        }
+    }
 
 }
 <style>
-    img {
+    .img {
         page-break-inside: avoid;
     }
-
+   /*fos { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size:20px;
+    font-weight:bold;
+    line-height: 18px;
+    width: 238px;
+    height:38px;
+    cursor: pointer;
+word-break:break-all;
+     }*/
     .img-rounded {
         border-radius: 6px;
         Height: 100px;
@@ -37,7 +68,7 @@
         var oldPage = document.body.innerHTML;
         //Reset the page's HTML with div's HTML only
         document.body.innerHTML =
-           "<html><head><title></title><style>.fillinthebank{border-bottom: 4px dotted black;}</style></head><body>" +
+           "<html><head><title></title><style>.fillinthebank{}.fos { font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-size:20px;font-weight:bold;line-height: 18px;width: 238px;height:38px;cursor: pointer;word-break: break-all;/*border:2px solid;*/ }</style></head><body>" +
             "<div >" + divElements + "</div></body>";
         //  window.open()
         //Print Page
@@ -68,36 +99,40 @@
                                     <table class="table-responsive tblcss" id="Letter" border="0" style="width:80%" align="center">
 
                             <tr>
-                                <td style="font-size:20px">
+                                <td style="font-size:20px;word-break:break-all">
                                     <br />
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    प्रमाणित किया जाता हैं कि मेरे द्वारा प्रस्तावित <span class="fillinthebank">@ds.Tables[0].Rows[0]["project_name"].ToString().Trim()</span>   उद्योग / सेवा उद्योग जो  कार्यस्थल  <span class="fillinthebank">
+                                    प्रमाणित किया जाता हैं कि मेरे द्वारा प्रस्तावित <span class="fillinthebank">@ds.Tables[0].Rows[0]["project_name"].ToString().Trim()</span>   उद्योग / सेवा उद्योग का  कार्यस्थल  <span class="fillinthebank">
                                         @ds.Tables[0].Rows[0]["permanent_address"].ToString().Trim()
                                     </span> में  स्थापित किया जाना प्रस्तावित है |
-                                    यह भी किया जाता है कि  उपरोक्त प्रस्तावित  उद्योग / सेवा  उद्योग पूर्ण रुपेण नयी  इकाई होगी | इसे स्थापित कर संचालित किये जाने वाली इकाई से  क्षेत्र में  रोजगार सृजन के अवसर प्राप्त होंगे |
+                                    यह भी प्रमाणित किया जाता है कि  उपरोक्त प्रस्तावित  उद्योग / सेवा  उद्योग पूर्ण रुपेण नयी  इकाई होगी | इसे स्थापित कर संचालित किये जाने वाली इकाई से  क्षेत्र में  रोजगार सृजन के अवसर प्राप्त होंगे |
                                 </td>
                             </tr>
+                                        <tr>
+                                            <td>
+                                                <table id="example1" style="margin-left:70%; text-align:justify" align="left">
+
+                                                    
+                                                    <tr>
+                                                        <td sstyle="padding-left:40px;">@Html.Raw(sing)</td>
+                                                    </tr>
+                                                   
+                                                    <tr><td style="padding-left:40px;font-weight:bold;font-size:15px;">प्रार्थी के हस्ताक्षर -</td> </tr>
+                                                    
+                                                    <tr><td style="padding-left:40px;font-size:15px;font-weight:bold;">नाम -<span class="fillinthebank">@ds.Tables[0].Rows[0]["applicant_name"].ToString().Trim()</span></td></tr>
+                                                    
+                                                    <tr><td style="padding-left:40px;font-size: 15px;font-weight:bold;word-break:break-all;">पिता का नाम   -<span class="fillinthebank">@ds.Tables[0].Rows[0]["father_name"].ToString().Trim()</span></td></tr>
+                                                    <tr><td style="padding-left:40px;font-size: 15px;font-weight:bold;word-break:break-all;">निवास का पता <div class="fos">-<span>@ds.Tables[0].Rows[0]["permanent_address"].ToString().Trim()</span></div></td></tr>
+
+                                                    <tbody>
+                                                        <tr></tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
                         </table>
-                        <br />
-                        <br />
-                        <br />
-                                        <br />
-                                        <br />
-                                        <br />
-                                        <table id="example1" style="width:80%; margin-left:70%; text-align:justify" align="left">
-
-                                            <tr style="background-color:#39b4dd">
-                                            <tr><td style="padding-left:50px;border:none;font-size: 20px;font-weight:bold;">प्रार्थी के हस्ताक्षर -</td> </tr>
-                                            <tr><td style="border: none;"></td></tr>
-                                            <tr><td style="padding-left:50px;height:40px;border:none;font-size:20px;font-weight:bold;">नाम -<span class="fillinthebank">@ds.Tables[0].Rows[0]["applicant_name"].ToString().Trim()</span></td></tr>
-                                            <tr><td style="border: none;"></td></tr>
-                                            <tr><td style="padding-left:50px;height:40px;border: none;font-size: 20px;font-weight:bold;">पिता का नाम   -<span class="fillinthebank">@ds.Tables[0].Rows[0]["father_name"].ToString().Trim()</span></td></tr>
-                                            <tr><td style="padding-left:50px;height:40px;border: none;font-size: 20px;font-weight:bold;">निवास  का  पता  -<span class="fillinthebank">@ds.Tables[0].Rows[0]["permanent_address"].ToString().Trim()</span>3</td></tr>
-
-                                            <tbody>
-                                                <tr></tr>
-                                            </tbody>
-                                        </table>
+                        
+                                        
                                 }
                                 else
                                 {

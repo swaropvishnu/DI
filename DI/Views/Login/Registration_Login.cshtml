@@ -1,23 +1,19 @@
 ﻿@model DI.Models.CMYSS_Applicant
 @{
     Layout = null;
-    
 }
 <!DOCTYPE html>
-@using (Html.BeginForm("Registration_Login", "Login", FormMethod.Post, new { @class = "", enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Registration_Login", "Login", FormMethod.Post, new { @class = "", enctype = "multipart/form-data", id = "__AjaxAntiForgeryForm" }))
 {
     @Html.AntiForgeryToken()
     <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <title></title>
-        @*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-            <!-- jQuery library -->
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-            <!-- Latest compiled JavaScript -->
-            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>*@
         <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
         <script src="~/scripts/jquery-3.2.1.min.js"></script>
         <script src="~/scripts/bootstrap.min.js"></script>
+        <script src="../Content/assets/global/plugins/select2/js/select2.min.js"></script>
+        <script src="~/Content/Masking.js"></script>
         <style>
             .Mandatory {
                 color: red !important;
@@ -27,7 +23,6 @@
                 color: #000;
                 background-color: #fff;
             }
-
             .btn-facebook {
                 color: #ffffff;
                 -webkit-text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
@@ -132,6 +127,10 @@
                     yearRange: '-100:' + year + '',
                     defaultDate: d
                 });
+                $(".select2").select2();
+
+                $('.select2-container--default').removeAttr('style');
+                $('.select2-container--default').css('width', '100%');
             });
             function HashPwdwithSalt() {
                 var salt = '@Session["salt"]';
@@ -155,6 +154,8 @@
                     document.getElementById("txtPassword").value = sha256(document.getElementById("txtPassword").value);
                     document.getElementById("txtPassword").value =
                       sha256(document.getElementById("txtPassword").value + salt);
+                    var form = $('#__AjaxAntiForgeryForm');
+            var token = $('input[name="__RequestVerificationToken"]', form).val();
                     var Objform = {
                         "yojana_code": document.getElementById("ddlScheme1").value,
                         "UserName": document.getElementById("txtUserName").value,
@@ -163,9 +164,8 @@
                     }
                     $.ajax({
                         url: '/Login/Applicant_Login',
-                        data: JSON.stringify({ Model: Objform }),
+                        data: ({ Model: Objform, __RequestVerificationToken: token }),
                         type: 'POST',
-                        contentType: 'application/json; charset=utf-8',
                         success: function (data) {
                             if (data[0] == "Sucess") {
                                 window.open(data[1], "_self");
@@ -179,7 +179,6 @@
                         }
                     });
                 }
-                // return true;
             }
             function ReloadCaptchaCode() {
                 var xmlHTTP = new XMLHttpRequest();
@@ -203,8 +202,6 @@
         </script>
         <link href="~/Content/jquery-ui.css" rel="stylesheet" />
         <script src="~/Content/plugins/jquery-ui.js"></script>
-        @*<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">*@
-        @*<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>*@
         @Styles.Render("~/Content/PublicPage")
         @Styles.Render("~/Content/cssBlank")
     </head>
@@ -212,7 +209,7 @@
         <header class="header-two-bars">
             <div class="header-first-bar">
                 <div class="header-limiter">
-                    <h1><a href="#">Director of Industries<span></span></a></h1>
+                    <h1><a href="../home/index">Director of Industries<span></span></a></h1>
                     <nav></nav>
                 </div>
             </div>
@@ -220,8 +217,6 @@
                 <div class="header-limiter">
                     <h2><a href="#" style="font-family: monospacepace;font-weight: 800 !important;font-size: 18px;"> विभिन्न योजनाओ हेतु प्रार्थना पत्र</a></h2>
                     <nav>
-                        @*<a href="#"><i class="fa fa-file-text"></i> Results </a>
-                            <a href="#"><i class="fa fa-group"></i> Participants </a>*@
                         <a href="#divInst"><i class="fa fa-cogs hide "></i>  </a>
                         <a href="#divdownloads"><i class="fa fa-cloud-download hide"></i>  </a>
                     </nav>
@@ -235,7 +230,6 @@
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <h3 class="panel-title">Login to your account</h3>
-
                             </div>
                             <div class="panel-body">
                                 <form accept-charset="UTF-8" role="form">
@@ -246,9 +240,8 @@
                                             <span> Enter any username and password. </span>
                                         </div>
                                         <div class="form-group">
-
                                             <label class="control-label visible-ie8 visible-ie9">Scheme</label>
-                                            @Html.DropDownListFor(m => m.Scheme, Model.Scheme, new { @id = "ddlScheme1", @class = "form-control" })
+                                          @Html.DropDownListFor(m => m.Scheme, Model.Scheme, new { @id = "ddlScheme1", @class = "form-control" })
                                         </div>
                                         <div class="form-group">
                                             <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
@@ -267,6 +260,10 @@
                                         </div>
                                         <div class="form-group">
                                             <div class="row">
+                                                <div class="col-lg-6">
+                                                    <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="Enter Captcha" name="txtforcapture" id="txtforcapture" maxlength="6">
+                                                </div>
+                                                
                                                 <div class="col-lg-3">
                                                     <label id="lblCaptcha"><img id="image" src="~/Login/ShowCaptchaImage" style="margin-top: 8px;" /></label>
                                                 </div>
@@ -274,9 +271,7 @@
                                                     <a href="#" onclick="javascript:ReloadCaptchaCode();">Refresh</a>
 
                                                 </div>
-                                                <div class="col-lg-6">
-                                                    <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="" name="txtforcapture" id="txtforcapture" maxlength="6">
-                                                </div>
+                                                
                                             </div>
                                         </div>
                                         <div class="form-actions">
@@ -286,23 +281,18 @@
                                             </label>
                                             <button type="button" class="btn green pull-right" onclick="HashPwdwithSalt();"> Login </button>
                                         </div>
-                                        @*<div class="col-md-6">
-                                               <p  style="color:#fff">.</p>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <a href="javascript:;" id="" style="text-align:right; padding-bottom:inherit" >Forgot your password </a>
-                                            </div>*@
+                                        
                                     </fieldset>
                                 </form>
                             </div>
-                            <a href="javascript:;" id="" style="text-align:right; padding-bottom:inherit">Forgot your password </a>
+                            <a onclick="fun_forget()"  style="text-align:right; padding-bottom:inherit ;cursor:pointer">Forgot your password </a>
                             <div class="panel-heading">
                                 <h3 class="panel-title pointer" data-toggle="modal" data-target="#myModal" data-backdrop="static" data-keyboard="false">New User</h3>
-                                @*<button type="button" class="panel-title " data-toggle="modal" data-target="#myModal" data-backdrop="static" data-keyboard="false">New User</button>*@
+                              
                             </div>
                         </div>
-                        <div class="panel panel-default">
-                            <h3><i class="icon-share font-dark"></i> &nbsp;&nbsp;Application Status</h3>
+                        <div class="panel panel-default"  style="border: 1px solid #ddd;box-shadow: 0 0 4px #ddd; border-radius: 6px 6px;">
+                            <h3>&nbsp;&nbsp;&nbsp;&nbsp;<i class="icon-share font-dark"></i> &nbsp;&nbsp;Application Status</h3>
                             <div class="panel-body">
                                 <form accept-charset="UTF-8" role="form">
                                     <fieldset>
@@ -385,28 +375,18 @@
             <div class="modal-dialog">
                 <!-- Modal content-->
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h2><i class="icon-book-open">&nbsp;&nbsp;&nbsp;<label>New Registration </label>  </i></h2>
+                    <div class="modal-header" style="height:40px" >
+                        <div><button type="button" class="close" data-dismiss="modal">&times;</button></div>
+                        <div  style="font-size:24px"><i class="icon-book-open">&nbsp;&nbsp;&nbsp;<label>New Registration </label>  </i></div>
                     </div>
                     <div class="modal-body">
                         <form>
-                            @*<div class="panel-primary">
-                                </div>*@
                             <div class="col-sm-12 panel02">
-                                @*<div class="caption" id="down">
-                                        <i class="icon-cloud-download font-dark"></i>
-                                        <span class="caption-subject font-dark bold uppercase">Registration Form</span>
-                                    </div>*@
+                              
                                 <div class="row">
                                     <div class="col-sm-12 form-group">
                                         <label id="lblscheme">Scheme<span class="Mandatory">*</span></label>
-                                        @*<select id="schema" class="form-control select2-container ">
-                                                <option>Select Schema</option>
-                                                <option value="AK">MYSY</option>
-                                                <option value="HI">MYSY2</option>
-                                            </select>*@
-                                        @Html.DropDownListFor(m => m.Scheme, Model.Scheme, new { @id = "ddlRegScheme", @class = "form-control" })
+                                        @Html.DropDownListFor(m => m.Scheme, new List<SelectListItem> { new SelectListItem { Text = "--चयन करे--", Value = "-1" } }, new { @id = "ddlRegScheme", @class = "form-control" })
                                     </div>
                                 </div>
                                 <div class="row">
@@ -425,7 +405,7 @@
                                     </div>
                                     <div class="col-sm-6 form-group">
                                         <label id="lbldob">Date Of Birth<span class="Mandatory">*</span></label>
-                                        @Html.EditorFor(model => model.inputdob, new { htmlAttributes = new { @class = "form-control", @onkeypress = "return IsNumeric(event);", @Value = "", @placeholder = "dd/mm/yy", @id = "txtDOB", @Maxlength = "10" } })
+                                        @Html.EditorFor(model => model.inputdob, new { htmlAttributes = new { @class = "form-control js-datemask", @onkeypress = "return IsNumeric(event,'dob');", @Value = "", @placeholder = "dd/mm/yyyy", @id = "txtDOB", @Maxlength = "10" } })
                                         @Html.ValidationMessageFor(model => model.dob, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -445,21 +425,19 @@
                                     </div>
                                     <div class="col-sm-6 form-group">
                                         <label id="lbladhar">Aadhaar  No<span class="Mandatory">*</span></label>
-                                        @Html.TextBoxFor(m => m.adhar_no, new { @class = "form-control", @id = "txtAdhar_card_No", @placeholder = "आधार कार्ड नं0 ", @onkeypress = "return IsNumeric(event);", @Maxlength = 12 })
+                                        @Html.TextBoxFor(m => m.adhar_no, new { @class = "form-control", @id = "txtAdhar_card_No", @placeholder = "आधार कार्ड नं0 ", @onkeypress = "return IsNumeric(event,'N');", @Maxlength = 12 })
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-6 form-group">
                                         <label id="lblphone">Phone Number<span class="Mandatory">*</span></label>
-                                        @Html.TextBoxFor(m => m.mobile_no, new { @class = "form-control", @id = "txtMobile_No", @placeholder = "मोबाइल नं0", @onkeypress = "return IsNumeric(event);", @Maxlength = 10 })
+                                        @Html.TextBoxFor(m => m.mobile_no, new { @class = "form-control", @id = "txtMobile_No", @placeholder = "मोबाइल नं0", @onkeypress = "return IsNumeric(event,'N');", @Maxlength = 10 })
                                     </div>
                                     <div class="col-sm-6 form-group">
                                         <label id="lblemail">Email Address</label>
                                         @Html.TextBoxFor(m => m.email, new { @class = "form-control", @id = "txtEmailID", @placeholder = "ई-मेल आई0डी0 (यदि हो तो)", @onblur = "return validateEmail(this)", @Maxlength = "40" })
                                     </div>
                                 </div>
-
-
                                 <div class="row">
                                     <div class="col-sm-6 form-group">
                                         <label id="lblphone">State</label>
@@ -467,14 +445,9 @@
                                     </div>
                                     <div class="col-sm-6 form-group">
                                         <label id="lblDistrict">District<span class="Mandatory">*</span></label>
-
-
-                                        @Html.DropDownListFor(m => m.DistrictNames, new List<SelectListItem> { new SelectListItem { Text = "--चयन करे--", Value = "-1" } }, new { @id = "ddlDistrictNames", @class = "form-control" })
+                                        @Html.DropDownListFor(m => m.DistrictNames, new List<SelectListItem> { new SelectListItem { Text = "--चयन करे--", Value = "-1" } }, new { @id = "ddlDistrictNames", @class = "form-control select2" })
                                     </div>
                                 </div>
-
-
-
                                 <div class="form-group">
                                     <label id="lbladress">Sponsoring Office<span class="Mandatory">*</span></label>
                                     @Html.TextAreaFor(m => m.sponsoring_office, new
@@ -489,69 +462,74 @@
                                })
                                 </div>
                                 @Html.HiddenFor(m => m.sponsoring_office_code, new { @id = "hfsponsoringofficecode", @value = "-1" })
-                                @*<div class="row">
-                                        <div class="col-sm-4 form-group">
-                                            <label>City</label>
-                                            <input type="text" placeholder="Enter City Name Here.." class="form-control">
-                                        </div>
-                                        <div class="col-sm-4 form-group">
-                                            <label>State</label>
-                                            <input type="text" placeholder="Enter State Name Here.." class="form-control">
-                                        </div>
-                                        <div class="col-sm-4 form-group">
-                                            <label>Zip</label>
-                                            <input type="text" placeholder="Enter Zip Code Here.." class="form-control">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Address</label>
-                                        <textarea placeholder="Enter Address Here.." rows="3" class="form-control"></textarea>
-                                    </div>*@
-                                @*<div class="row">
-                                        <div class="col-sm-6 form-group">
-                                            <label>Title</label>
-                                            <input type="text" placeholder="Enter Designation Here.." class="form-control">
-                                        </div>
-                                        <div class="col-sm-6 form-group">
-                                            <label>Company</label>
-                                            <input type="text" placeholder="Enter Company Name Here.." class="form-control">
-                                        </div>
-                                    </div>*@
+                               
                                 <div class="portlet-title">
                                     <div class="caption">
                                         <i class="icon-layers font-red"></i>
                                         <span class="caption-subject font-red bold uppercase">
                                             महत्वपूर्ण
-                                            <span class="step-title"> ध्यान दें </span>
+                                            <span class="step-title"> ध्यान दें । </span>
                                         </span>
+                                        
                                     </div>
-                                </div>
-                                <div class="row ">
-                                    <div class="form-group">
-                                        <div class="col-md-2">
-                                        </div>
-                                        <div class="col-md-10 bold">
-                                            <p class="font-red"><input type="checkbox" id="chkaadhar" />  मुझे अपना आधार नंबर इस योजना में देने में कोई आपत्ति  नहीं है </p>
-                                        </div>
+                                    <div class="col-md-2">
                                     </div>
-                                </div>
-                                <button type="button" class="btn btn-lg btn-info" onclick="Save()">Submit</button>
+                                    <div class="col-md-10 bold"><span class="caption-subject font-red bold uppercase">
+    <input type="checkbox" id="chkaadhar" />  मुझे अपना आधार नंबर इस योजना में देने में कोई आपत्ति  नहीं है।
+</span></div>
+                                        
+                                        @*<p class="font-red"><input type="checkbox" id="chkaadhar" />  मुझे अपना आधार नंबर इस योजना में देने में कोई आपत्ति  नहीं है </p>*@
+                                    </div>
+                                
+                             <button type="button" class="btn btn-lg btn-info" onclick="Save()">Submit</button> 
                             </div>
                         </form>
                     </div>
-                    @*
-                        <div class="modal-body">
-                            <p>Some text in the modal.</p>
-                        </div>*@
+                   
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
         </div>
+
+        <div id="model_forget" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" onclick="funclose()">&times;</button>
+                        <h2><i class="icon-lock">&nbsp;&nbsp;&nbsp;<label>Forgot password  </label>  </i></h2>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+
+                            <div class="row">
+                                <div class="col-sm-12 form-group">
+                                  
+                                    <input type="text" id="txtUsername" class="form-control" value="" placeholder="Username/Registered(email_id/Mobile no.)" />
+                                </div>
+                                <div class="col-sm-8"></div>
+                                <div class="col-sm-4"><button type="button" class="btn btn-lg btn-info" >Submit</button></div>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
     </body>
 </html>
 <script>
+    function fun_forget() {
+        $("#model_forget").css("display", "block");
+        $("#model_forget").addClass("in");
+    }
+    function funclose() {
+        $("#model_forget").css("display", "none");
+        $("#model_forget").removeClass("in");
+    }
     function Save() {
         try {
             $('#lblscheme').removeAttr('style');
@@ -625,12 +603,7 @@
                 }
             }
 
-            //if (document.getElementById("txtCurrentAddress").value == "") {
-            //    document.getElementById("txtCurrentAddress").focus();
-            //    $('#lbladress').css('color', 'red');
-            //    alert("पत्र व्यवहार का पता");
-            //    return;
-            //}
+           
             if (document.getElementById("ddlDistrictNames").value == "-1") {
                 document.getElementById("ddlDistrictNames").focus();
                 $('#lblDistrict').css('color', 'red');
@@ -669,7 +642,8 @@
                     return false;
                 }
             }
-
+            var form = $('#__AjaxAntiForgeryForm');
+            var token = $('input[name="__RequestVerificationToken"]', form).val();
             var Objform = {
                 "applicant_code": "-1",
                 "yojana_code": document.getElementById("ddlRegScheme").value,
@@ -690,9 +664,9 @@
                 $.ajax({
 
                     url: '/Login/InsertUpdateCMYSS_Applicant',
-                    data: JSON.stringify({ Objform: Objform }),
+                    data: ({ Objform: Objform, __RequestVerificationToken: token }),
                     type: 'POST',
-                    contentType: 'application/json; charset=utf-8',
+                   // contentType: 'application/json; charset=utf-8',
                     success: function (data) {
                         alert(data);
                         if (data == "Date of Birth must be dd/mm/yyyy format") {
@@ -727,7 +701,7 @@
                 $.ajax({
 
                     url: '/Login/InsertUpdateSPY_Applicant',
-                    data: JSON.stringify({ Objform: Objform }),
+                    data: ({ Objform: Objform, __RequestVerificationToken: token }),
                     type: 'POST',
                     contentType: 'application/json; charset=utf-8',
                     success: function (data) {
@@ -763,7 +737,7 @@
                 $.ajax({
 
                     url: '/Login/InsertUpdateMHPY_Applicant',
-                    data: JSON.stringify({ Objform: Objform }),
+                    data: ({ Objform: Objform, __RequestVerificationToken: token }),
                     type: 'POST',
                     contentType: 'application/json; charset=utf-8',
                     success: function (data) {
@@ -799,7 +773,7 @@
                 $.ajax({
 
                     url: '/Login/InsertUpdateVHPP_Applicant',
-                    data: JSON.stringify({ Objform: Objform }),
+                    data: ({ Objform: Objform, __RequestVerificationToken: token }),
                     type: 'POST',
                     contentType: 'application/json; charset=utf-8',
                     success: function (data) {
@@ -838,18 +812,24 @@
 
     }
 
-    var specialKeys = new Array();
-    specialKeys.push(47); // for Forward Slash(/)
-    specialKeys.push(8); //Backspace
-    specialKeys.push(9); // Tab
-    specialKeys.push(46); // for .
-    specialKeys.push(37); // for left Arrow
-    //specialKeys.push(39); // for Right Arrow
-    function IsNumeric(e) {
+    var specialKeys2 = new Array();
+
+    specialKeys2.push(8); //Backspace
+    specialKeys2.push(9); // Tab
+
+    specialKeys2.push(37); // for left Arrow
+    //  specialKeys.push(39); // for Right Arrow
+    function IsNumeric(e, R) {
+        if (R == "dob") {
+            specialKeys2.push(47); // for Forward Slash(/)
+        }
+        if (R == "Y") {
+            specialKeys2.push(46); // for .
+        }
         var keyCode = e.which ? e.which : e.keyCode
-        var ret = ((keyCode >= 48 && keyCode <= 57) || specialKeys.indexOf(keyCode) != -1); // For Decimal To All Number
+        var ret = ((keyCode >= 48 && keyCode <= 57) || specialKeys2.indexOf(keyCode) != -1); // For Decimal To All Number
         if (ret == false) {
-            alert("Only numaric value allwed.");
+            alert("Only numaric value allowed.");
         }
         return ret;
     }
@@ -863,15 +843,19 @@
         { }
     });
     function validateEmail(txt) {
+        
         var emailText = txt.value;
-        var pattern = /^[a-zA-Z0-9\-_]+(\.[a-zA-Z0-9\-_]+)*@@[a-z0-9]+(\-[a-z0-9]+)*(\.[a-z0-9]+(\-[a-z0-9]+)*)*\.[a-z]{2,4}$/;
-        if (pattern.test(emailText)) {
-            return true;
-        } else {
-            txt.value = "";
-            alert('Bad email address: ' + emailText);
-            return false;
+        if (emailText!="") {
+            var pattern = /^[a-zA-Z0-9\-_]+(\.[a-zA-Z0-9\-_]+)*@@[a-z0-9]+(\-[a-z0-9]+)*(\.[a-z0-9]+(\-[a-z0-9]+)*)*\.[a-z]{2,4}$/;
+            if (pattern.test(emailText)) {
+                return true;
+            } else {
+                txt.value = "";
+                alert('Bad email address: ' + emailText);
+                return false;
+            }
         }
+        
     }
 </script>
 <script>
@@ -912,17 +896,6 @@
     var d = new Date();
     var year = d.getFullYear() - 18;
     d.setFullYear(year);
-
-    //$("#txtDOB").datepicker({
-    //    dateFormat: "dd/mm/yy",
-    //    changeMonth: true,
-    //    changeYear: true,
-    //    maxDate: year,
-    //    minDate: "-100Y",
-    //    yearRange: '-100:' + year + '',
-    //    defaultDate: d
-    //});
-
     function get_age(born, now) {
         var birthday = new Date(now.getFullYear(), born.getMonth(), born.getDate());
         if (now >= birthday)
@@ -933,12 +906,32 @@
     $(document).ready(function () {
         $.ajax({
             type: "post",
-            url: "/IndustrialAreaMaster/GetDistrict",
-            data: {},
-            datatype: "json",
+            url: "/Login/GetDistricteng",
+           
+            data: { district_code_census: "-1", state_code: "-1" },
+            
             traditional: true,
             success: function (data) {
                 $('#ddlDistrictNames').empty();
+                var ddlComapnyType = "";
+              
+                for (var i = 0; i < data.length; i++) {
+                    ddlComapnyType = ddlComapnyType + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                }
+               
+                $('#ddlDistrictNames').append(ddlComapnyType);
+                
+            }
+        });
+        $.ajax({
+            type: "post",
+            url: "/login/Getscheme",
+            data: {},
+
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+                $('#ddlRegScheme').empty();
                 var ddlComapnyType = "";
                 //var district = '';
                 for (var i = 0; i < data.length; i++) {
@@ -946,83 +939,55 @@
                 }
                 //district = district + '</select>';
                 //alert(district);
-                $('#ddlDistrictNames').append(ddlComapnyType);
-                
+                $('#ddlRegScheme').append(ddlComapnyType);
+
             }
         });
     });
     $('#ddlDistrictNames').change(function () {
+        var form = $('#__AjaxAntiForgeryForm');
+        var token = $('input[name="__RequestVerificationToken"]', form).val();
         $.ajax({
             type: "post",
             url: "/login/Getsponsoring_office",
-            data: { district_code_census: $('#ddlDistrictNames').val() },
-            datatype: "json",
+            data: { district_code_census: $('#ddlDistrictNames').val(), __RequestVerificationToken: token },
+          //  datatype: "json",
             traditional: true,
             success: function (data) {
-               // response($.map(data, function (item) {
-
-                 //   return { label: item.sponsoring_office_code, value: item.address };
                 $('#hfsponsoringofficecode').val(data[0].sponsoring_office_code);
                 $('#txtsponsoring_office').val(data[0].address);
-
-                //}))
             }
         });
 
     });
-
-
 </script>
 <script>
-    //window.console.log = function () {
-    //    console.error('The developer console is temp...');
-    //    window.console.log = function () {
-    //        return false;
-    //    }
-    //}
-
-    //console.log('test');
-    //Object.getOwnPropertyNames(console).filter(function (property) {
-    //    return typeof console[property] == 'function';
-    //}).forEach(function (verb) {
-    //    console[verb] = function () { return 'Sorry, for security reasons...'; };
-    //});
-    //Object.defineProperty(window, "console", {
-    //    value: console,
-    //    writable: false,
-    //    configurable: false
-    //});
-
-    //var i = 0;
-    //function showWarningAndThrow() {
-    //    if (!i) {
-    //        setTimeout(function () {
-    //            console.log("%cWarning message", "font: 2em sans-serif; color: yellow; background-color: red;");
-    //        }, 1);
-    //        i = 1;
-    //    }
-    //    throw "Console is disabled";
-    //}
-
-    //var l, n = {
-    //    set: function (o) {
-    //        l = o;
-    //    },
-    //    get: function () {
-    //        showWarningAndThrow();
-    //        return l;
-    //    }
-    //};
-    //Object.defineProperty(console, "_commandLineAPI", n);
-    //Object.defineProperty(console, "__commandLineAPI", n);
     $('#ddlRegScheme').change(function () {
-
-        // alert("done");
         if (document.getElementById("ddlRegScheme").value == "5") {
             window.open('/User/AllotmentPlot', "_self");
             return;
         }
     });
 
+    $(document).ready(function () {
+        $(".js-datemask").mask("99/99/9999", {
+            placeholder: "dd/mm/yyyy",
+            completed: function () {
+             //   dateReflection($(this));
+            }
+        });
+
+
+
+    });
+
+    //function dateReflection(that) {
+    //    var date = moment(that.val(), 'DD/MM/YYYY');
+    //    var display = date.format('dddd Do MMMM YYYY'); console.log(display)
+    //   // $('.dateDisplay').text(display)
+    //}
+
+
 </script>
+
 }

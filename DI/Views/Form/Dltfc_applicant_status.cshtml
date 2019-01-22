@@ -1,0 +1,411 @@
+﻿@{
+    ViewBag.Title = "Dltfc_applicant_status";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    if (UserSession.LoggedInUserLevelId == null || UserSession.LoggedInUserLevelId == "30")
+    {
+        Response.Redirect("../Login/login");
+        return;
+    }
+}
+@using System.Data;
+@using DI.Models;
+@using DI.DAL;
+@using DI.BLL;
+@{
+    DataTable dt = new DataTable();
+    dt = new CommonDA().GetMYSY_Applicant_DIC("D", "", -1,"");
+}
+@using (Html.BeginForm("DLTFC_Applicant", "form", FormMethod.Post, new { @class = "", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="portlet box green">
+        <div class="portlet-title red">
+            <div class="caption">
+                <i class="fa fa-globe"></i>मुख्यमंत्री युवा स्वरोजगार योजना, उ0प्र0 आवेदको की सूची
+            </div>
+        </div>
+        <div class="portlet-body">
+            <table class="table table-striped table-bordered " id="Datatable">
+                <thead>
+                    <tr>
+                        <th width="3%">क्र० सं०</th>
+                        <th width="10%">पंजीकरण संख्या</th>
+                        <th width="5%">पंजीकरण तारीख</th>
+                        <th width="10%">आवेदक</th>
+                        <th width="10%" class="removesorting" style="cursor:none">आवेदन विवरण</th>
+                        <th width="10%" class="removesorting" style="cursor:none">दस्तावेज़</th>
+                        <th width="10%">बैठक तारीख</th>
+                        <th width="10%">आवेदन स्थिति</th>
+                        <th width="10%"></th>
+                        <th width="10%" class="removesorting" style="cursor:none">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (dt != null)
+                    {
+                        if (dt.Rows.Count > 0)
+                        {
+                            int K = 0;
+                            for (int i = 0; i < dt.Rows.Count; i++)
+                            {
+
+                                if (dt.Rows[i]["meetingStatus"].ToString().Trim()=="D" && dt.Rows[i]["meeting_id"].ToString().Trim()!="-1")
+                                {
+                                    K = K + 1;
+
+                                    <tr role="row" class="filter">
+
+
+                                        <td>@(K)</td>
+                                        <td>@dt.Rows[i]["user_name"].ToString().Trim() </td>
+                                        <td>@dt.Rows[i]["entrydate"].ToString().Trim()</td>
+                                        <td>@dt.Rows[i]["applicant_name"].ToString().Trim()</td>
+                                        <td><a href="@Url.Action("MYSY_Application_Print","Form", new {Name =  new  DI.Crypto().Encrypt(dt.Rows[i]["user_name"].ToString().Trim()) })"><i class="icon-printer"></i></a>    </td>
+                                        <td><a href="@Url.Action("Uploadform","Form", new {Name =  new  DI.Crypto().Encrypt(dt.Rows[i]["user_name"].ToString().Trim()) , yojana=new  DI.Crypto().Encrypt(dt.Rows[i]["scheme_code"].ToString().Trim()),type="V" })"><i class="icon-docs"></i></a>   </td>
+                                        <td>@dt.Rows[i]["meeting_date"].ToString().Trim()</td>
+                                        <td>@dt.Rows[i]["application_status"].ToString().Trim()</td>
+
+
+                                        @if (dt.Rows[i]["app_status"].ToString().Trim() == "D" || dt.Rows[i]["app_status"].ToString().Trim() == "UD")
+                                        {
+                                            /*app_status*/
+                                            <td><a style="cursor:pointer" onclick="modal3('@dt.Rows[i]["user_name"].ToString().Trim()','@dt.Rows[i]["applicant_name"].ToString().Trim()','@dt.Rows[i]["entrydate"].ToString().Trim()','@dt.Rows[i]["email"].ToString().Trim()','@dt.Rows[i]["mobile"].ToString().Trim()','@dt.Rows[i]["registration_code"].ToString().Trim()','@dt.Rows[i]["scheme_code"].ToString().Trim()','@dt.Rows[i]["Project_cost"].ToString().Trim()')">Action</a></td>
+                                        }
+                                        else
+                                        {
+                                            <td><a style="cursor:pointer" onclick="modal4('@dt.Rows[i]["registration_code"].ToString().Trim()','D')">View</a></td>
+                                        }
+                                    </tr>
+                                }
+
+                            }
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="myModal3" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" onclick="modal3close()">&times;</button>
+                    <h3><i class="icon-paper-clip"></i>&nbsp;&nbsp;&nbsp;<label class=""> आवेदन स्थिति  </label>  </h3>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12" id="lblname">पंजीकरण संख्या</label>
+                                    <div class="col-md-12">
+                                        <span id="sp_app_id1" class="form-control"></span>
+                                        <input type="hidden" id="hf_reg_code" value="-1" />
+                                        <input type="hidden" id="hf_sch_code" value="-1" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12" id="lblname">आवेदक</label>
+                                    <div class="col-md-12">
+                                        <span id="sp_app_name1" class="form-control"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12" id="lblname">पंजीकरण तारीख</label>
+                                    <div class="col-md-12">
+                                        <span id="sp_app_date1" class="form-control"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12" id="lblname">ई-मेल आई0डी0</label>
+                                    <div class="col-md-12">
+                                        <span id="sp_app_email1" class="form-control"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12" id="lblname">मोबाइल नं0</label>
+                                    <div class="col-md-12">
+                                        <span id="sp_app_mobile1" class="form-control"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12" id="lblname"> स्थिति <span class="Mandatory">*</span></label>
+                                    <div class="col-md-12">
+                                        <select id="ddlStatus" class="form-control">
+                                            <option value="-1">Select</option>
+                                            @*<option value="UD">Under Process</option>*@
+                                            <option value="RD">Reject by DLTFC</option>
+                                            <option value="AD">Approved By DLTFC</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12" id="lblname">अनुमोदित परियोजना लागत <span class="Mandatory">*</span></label>
+                                    <div class="col-md-12">
+                                        <input id="txtapprovedprojectcost" class="form-control" type="text" value="0" onkeypress = "return IsNumeric(event);" />
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="control-label col-md-12" id="lblname">टिप्पणी</label>
+                                    <div class="col-md-12">
+                                        <textarea id="txtagnRemark" cols="10" rows="6" class="tinymcetab" maxlength="650"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="Savestatus(document.getElementById('hf_reg_code').value,document.getElementById('hf_sch_code').value,'1')">Submit</button>
+                    <button type="button" class="btn btn-primary" onclick="modal4(document.getElementById('hf_reg_code').value,'D')">View</button>
+                    <button type="button" class="btn btn-danger" onclick="modal3close()">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="myModal4" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content" id="divstatus">
+                
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function modal3(username, name, date, email, mobile, hf_reg_code, hf_sch_code, Project_cost) {
+            $("#myModal3").css("display", "block");
+            $("#myModal3").addClass("in");
+            $("#sp_app_id1").html(username);
+            $("#sp_app_name1").html(name);
+            $("#sp_app_date1").html(date);
+            $("#sp_app_email1").html(email);
+            $("#sp_app_mobile1").html(mobile);
+            $("#hf_reg_code").val(hf_reg_code);
+            $("#hf_sch_code").val(hf_sch_code);
+            $("#txtapprovedprojectcost").val(Project_cost);
+
+
+        }
+        function modal4close() {
+            $("#myModal4").css("display", "none");
+            $("#myModal4").removeClass("in");
+        }
+        function modal3close() {
+            $("#myModal3").css("display", "none");
+            $("#myModal3").removeClass("in");
+        }
+        function modal4(registration_code, authority_level) {
+            $("#myModal4").css("display", "block");
+            $("#myModal4").addClass("in");
+
+
+            $.ajax({
+                url: '/form/Getapplication_status',
+                data: JSON.stringify({ registration_code: registration_code, authority_level: authority_level }),
+                type: 'POST',
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    $("#divstatus").html(data);
+
+                }
+            });
+
+
+
+
+
+        }
+
+        function Savestatus(registration_code, scheme_code, sptype) {
+            var remark = window.parent.tinymce.get('txtagnRemark').getContent();
+            if (document.getElementById("ddlStatus").value == "-1") {
+                alert("select status");
+                document.getElementById("ddlStatus").focus();
+                return;
+            } 
+            if (document.getElementById("ddlStatus").value == "RA") {
+
+                if (remark == null || remark == "") {
+                    alert("enter remarks");
+                    window.parent.tinymce.get('txtagnRemark').focus();
+                    return;
+                }
+
+            }
+            if (document.getElementById("ddlStatus").value == "B") {
+
+                if (document.getElementById("txtapprovedprojectcost").value == "") {
+                    alert("enter project cost");
+                    document.getElementById("txtapprovedprojectcost").focus();
+                    return;
+                }
+                if (parseFloat(document.getElementById("txtapprovedprojectcost").value)<=0) {
+                    alert("project cost should be greater than zero");
+                    document.getElementById("txtapprovedprojectcost").focus();
+                    return;
+                }
+
+            }
+
+            var mysy = {
+                "registration_code": registration_code,
+                "scheme_code": scheme_code,
+                "status": document.getElementById('ddlStatus').value,
+                "remark": remark == "" ? " " : remark,
+                "dltfc_approved_projectcost": document.getElementById('txtapprovedprojectcost').value
+            }
+            $.ajax({
+                url: '/form/InsertUpdate_mysy_status',
+                data: JSON.stringify({ mysy: mysy, sptype: sptype, authority: 'D' }),
+                type: 'POST',
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+
+                    alert(data);
+                    if (data == "Record Save..") {
+                        location.reload();
+                    }
+                   
+                }
+            });
+        }
+
+
+
+
+
+        window.onload = L;
+        function L() {
+            debugger;
+            var table = $('#Datatable');
+            var oTable = table.dataTable({
+                // Internationalisation. For more info refer to http://datatables.net/manual/i18n
+                "language": {
+                    "aria": {
+                        "sortAscending": ": activate to sort column ascending",
+                        "sortDescending": ": activate to sort column descending"
+                    },
+                    "emptyTable": "No data available in table",
+                    "info": "Showing _START_ to _END_ of _TOTAL_ entries",
+                    "infoEmpty": "No entries found",
+                    "infoFiltered": "(filtered1 from _MAX_ total entries)",
+                    "lengthMenu": "_MENU_ entries",
+                    "search": "Search:",
+                    "zeroRecords": "No matching records found"
+                },
+                // Or you can use remote translation file
+                //"language": {
+                //   url: '//cdn.datatables.net/plug-ins/3cfcc339e89/i18n/Portuguese.json'
+                //},
+                buttons: [
+                    //{ extend: 'print', className: 'btn dark' },
+                    //{ extend: 'pdf', className: 'btn purple' },
+                    //{ extend: 'excel', className: 'btn yellow ' },
+                    //{ extend: 'colvis', className: 'btn red', text: 'Columns' }
+                ],
+                // setup responsive extension: http://datatables.net/extensions/responsive/
+                responsive: true,
+                //"ordering": false, disable column ordering
+                //"paging": false, disable pagination
+                "order": [
+                    [0, 'asc']
+                ],
+                "lengthMenu": [
+                    [5, 10, 15, 20, -1],
+                    [5, 10, 15, 20, "All"] // change per page values here
+                ],
+                // set the initial value
+                "pageLength": 10,
+
+                "dom": "<'row' <'col-md-12'B>><'row'<'col-md-6 col-sm-12'l><'col-md-6 col-sm-12'f>r><'table-scrollable't><'row'<'col-md-5 col-sm-12'i><'col-md-7 col-sm-12'p>>", // horizobtal scrollable datatable
+
+                // Uncomment below line("dom" parameter) to fix the dropdown overflow issue in the datatable cells. The default datatable layout
+                // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js).
+                // So when dropdowns used the scrollable div should be removed.
+                //"dom": "<'row' <'col-md-12'T>><'row'<'col-md-6 col-sm-12'l><'col-md-6 col-sm-12'f>r>t<'row'<'col-md-5 col-sm-12'i><'col-md-7 col-sm-12'p>>",
+            });
+            $('.removesorting').removeClass('sorting');
+            $('.removesorting').removeClass('sorting_asc');
+           // removesorting sorting_asc
+        }
+    </script>
+    <script src="~/Content/tinymce/jquery.tinymce.min.js"></script>
+    <script src="~/Content/tinymce/tinymce.min.js"></script>
+    <script>
+        
+        $(document).ready(function () {
+            $(".tinymcetab").tinymce({
+                theme: "modern",
+                element_format: "html",
+                entity_encoding: "raw",
+                //plugins: ['advlist autolink lists link image charmap print preview hr anchor pagebreak', 'searchreplace wordcount visualblocks visualchars code fullscreen', 'insertdatetime media nonbreaking save table contextmenu directionality', 'emoticons template paste textcolor colorpicker textpattern imagetools codesample toc'],
+                //toolbar1: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+                //toolbar2: 'print preview media | forecolor backcolor emoticons | codesample',
+                plugins: ['advlist lists preview', 'code fullscreen', 'paste textpattern codesample toc'],
+                toolbar1: 'undo redo | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | preview | codesample',
+                schema: "html5",
+                valid_children: "+a[div]"
+            });
+        });
+        //var specialKeys = new Array();
+        //specialKeys.push(47); // for Forward Slash(/)
+        //specialKeys.push(8); //Backspace
+        //specialKeys.push(9); // Tab
+        //specialKeys.push(46); // for .
+        //specialKeys.push(37); // for left Arrow
+        ////specialKeys.push(39); // for Right Arrow
+        //function IsNumeric(e) {
+        //    var keyCode = e.which ? e.which : e.keyCode
+        //    var ret = ((keyCode >= 48 && keyCode <= 57) || specialKeys.indexOf(keyCode) != -1); // For Decimal To All Number
+        //    if (ret == false) {
+        //        alert("Only numaric value allwed.");
+        //    }
+        //    return ret;
+        //}
+        $(document).ready(function () {
+
+            $("#txtdate").datepicker({
+
+                dateFormat: "dd/mm/yy",
+                changeMonth: true,
+                changeYear: true
+            });
+        });
+
+      
+       
+    </script>
+}
+
+
